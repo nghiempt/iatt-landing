@@ -8,12 +8,13 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel"
-import { other_services, products } from "@/utils/constant"
+import { categories, other_services, products } from "@/utils/constant"
 import { Card } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Footer } from "@/layout/footer";
+import { useState } from "react";
 
 interface Product {
   row: number;
@@ -31,6 +32,8 @@ interface Service {
 }
 
 export default function HomePage() {
+  const [hoveredIndex, setHoveredIndex] = useState(null);
+
   return (
     <div className="flex flex-col justify-center">
       <div>
@@ -38,12 +41,12 @@ export default function HomePage() {
         <div className="w-full flex justify-center">
           <div className="flex flex-col w-5/6 justify-center">
             <div className="flex flex-row gap-4 justify-between my-3">
-              <a href="/" className="text-[#6B1346] font-normal text-md p-2 border-b-2 border-white hover:border-[#6B1346]">IN ẢNH PLASTIC</a>
-              <a href="/" className="text-[#6B1346] font-normal text-md p-2 border-b-2 border-white hover:border-[#6B1346]">ẢNH ĐỂ BÀN</a>
-              <a href="/" className="text-[#6B1346] font-normal text-md p-2 border-b-2 border-white hover:border-[#6B1346]">ẢNH TREO TƯỜNG</a>
-              <a href="/" className="text-[#6B1346] font-normal text-md p-2 border-b-2 border-white hover:border-[#6B1346]">PHOTO BOOK</a>
-              <a href="/" className="text-[#6B1346] font-normal text-md p-2 border-b-2 border-white hover:border-[#6B1346]">BÌA ALBUM</a>
-              <a href="/" className="text-[#6B1346] font-normal text-md p-2 border-b-2 border-white hover:border-[#6B1346]">EVENT</a>
+              <Link href="/in-anh-plastic" className="text-[#6B1346] font-normal text-md p-2 border-b-2 border-white hover:border-[#6B1346]">IN ẢNH PLASTIC</Link>
+              <Link href="/anh-de-ban" className="text-[#6B1346] font-normal text-md p-2 border-b-2 border-white hover:border-[#6B1346]">ẢNH ĐỂ BÀN</Link>
+              <Link href="/anh-treo-tuong" className="text-[#6B1346] font-normal text-md p-2 border-b-2 border-white hover:border-[#6B1346]">ẢNH TREO TƯỜNG</Link>
+              <Link href="/photo-book" className="text-[#6B1346] font-normal text-md p-2 border-b-2 border-white hover:border-[#6B1346]">PHOTO BOOK</Link>
+              <Link href="/bia-album" className="text-[#6B1346] font-normal text-md p-2 border-b-2 border-white hover:border-[#6B1346]">BÌA ALBUM</Link>
+              <Link href="/event" className="text-[#6B1346] font-normal text-md p-2 border-b-2 border-white hover:border-[#6B1346]">EVENT</Link>
             </div>
             <div className="flex justify-center w-full relative">
               <Carousel className="w-full h-[400px]">
@@ -133,7 +136,7 @@ export default function HomePage() {
             <div className="w-full justify-center mb-10">
               <div className="py-5 text-center text-2xl font-semibold text-[#6B1346]">SẢN PHẨM YÊU THÍCH</div>
               <div className="grid grid-cols-4 gap-10 mt-5">
-                {products?.map((product: Product, index: any) => (
+                {products.slice(0, 8)?.map((product: Product, index: any) => (
                   <Link href='#' key={index} className='relative group cursor-pointer rounded-lg'>
                     <Card className="rounded-lg flex flex-col border-none">
                       <div className='relative w-full h-[280px] rounded-lg'>
