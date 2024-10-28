@@ -6,7 +6,7 @@ const nextConfig = {
                 protocol: 'https',
                 hostname: 'cdn-icons-png.flaticon.com',
                 port: '',
-                pathname: '/128/**',
+                pathname: '/**',
             },
             {
                 protocol: 'https',
@@ -16,7 +16,7 @@ const nextConfig = {
             },
             {
                 protocol: 'https',
-                hostname: 'inanhvietnam.com',
+                hostname: 'upload.wikimedia.org',
                 port: '',
                 pathname: '/**',
             },
