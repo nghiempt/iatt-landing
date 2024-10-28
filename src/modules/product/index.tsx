@@ -31,15 +31,15 @@ interface Service {
 
 export default function ProductPage() {
 
-  const searchParams = useSearchParams();
-  const id = searchParams.get('id');
+  // const searchParams = useSearchParams();
+  // const id = searchParams.get('id');
 
   const [product, setProduct] = useState<Product>(
     {
       id: 1,
-      name: "...",
-      description: "...",
-      price: 0,
+      name: "In ảnh có khung 3D 4K",
+      description: "In ảnh có khung 3D 4K",
+      price: 100000,
       category: "...",
       rating: 5.0,
       status: "Đang bán",
@@ -47,7 +47,10 @@ export default function ProductPage() {
       colors: ["Đen", "Trắng", "Silver", "Gold"],
       material: ["Bìa Gói", "Bìa Kính", "Bìa Da"],
       images: [
-        ""
+        "https://res.cloudinary.com/farmcode/image/upload/v1728996855/iatt/IMG_7669_mbjo7j.jpg",
+        "https://res.cloudinary.com/farmcode/image/upload/v1728996916/iatt/IMG_7668_tevby4.jpg",
+        "https://res.cloudinary.com/farmcode/image/upload/v1728996939/iatt/IMG_7667_fxwd5h.jpg",
+        "https://res.cloudinary.com/farmcode/image/upload/v1728996961/iatt/IMG_7665_iolfrr.jpg",
       ],
     }
   );
@@ -55,12 +58,12 @@ export default function ProductPage() {
   const [selectedMaterial, setSelectedMaterial] = useState("");
   const [selectedImage, setSelectedImage] = useState(0);
 
-  useEffect(() => {
-    const product = products.find((product: Product) => product.id === parseInt(id || ''));
-    if (product) {
-      setProduct(product);
-    }
-  }, [id]);
+  // useEffect(() => {
+  //   const product = products.find((product: Product) => product.id === parseInt(id || ''));
+  //   if (product) {
+  //     setProduct(product);
+  //   }
+  // }, [id]);
 
   return (
     <div className="w-full flex flex-col justify-center">
