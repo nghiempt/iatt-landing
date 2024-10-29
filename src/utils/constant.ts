@@ -350,12 +350,12 @@ export const categories = [
         items: ["Frame Để Bàn", "Khung Gỗ", "Khung Đen"],
     },
     {
-        name: "ẢNH TREO TƯỜNG",
-        items: ["Khung Treo", "Khung Canvas", "Khung Kim Loại"],
-    },
-    {
         name: "PHOTOBOOK",
         items: ["Photo Book Mini", "Photo Book Classic"],
+    },
+    {
+        name: "ẢNH TREO TƯỜNG",
+        items: ["Khung Treo", "Khung Canvas", "Khung Kim Loại"],
     },
     {
         name: "BÌA ALBUM",

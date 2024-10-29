@@ -38,13 +38,13 @@ export default function HomePage() {
         <Header />
         <div className="w-full flex justify-center">
           <div className="flex flex-col w-5/6 justify-center">
-            <div className="grid grid-cols-3 lg:grid-cols-6 text-center gap-4 justify-between my-3">
-              <Link href="/in-anh-plastic" className="text-[#173B45] font-normal text-md py-2 border-b-2 border-white hover:border-[#173B45]">IN ẢNH PLASTIC</Link>
-              <Link href="/anh-de-ban" className="text-[#173B45] font-normal text-md py-2 border-b-2 border-white hover:border-[#173B45]">ẢNH ĐỂ BÀN</Link>
-              <Link href="/anh-treo-tuong" className="text-[#173B45] font-normal text-md py-2 border-b-2 border-white hover:border-[#173B45]">ẢNH TREO TƯỜNG</Link>
-              <Link href="/photo-book" className="text-[#173B45] font-normal text-md py-2 border-b-2 border-white hover:border-[#173B45]">PHOTO BOOK</Link>
-              <Link href="/bia-album" className="text-[#173B45] font-normal text-md py-2 border-b-2 border-white hover:border-[#173B45]">BÌA ALBUM</Link>
-              <Link href="/event" className="text-[#173B45] font-normal text-md py-2 border-b-2 border-white hover:border-[#173B45]">EVENT</Link>
+            <div className="bg-[#4158A6] grid grid-cols-3 lg:grid-cols-6 text-center gap-4 justify-between">
+              <Link href="/in-anh-plastic" className="text-[#fff] font-semibold text-md py-5 hover:bg-[#FF8343]">IN ẢNH PLASTIC</Link>
+              <Link href="/anh-de-ban" className="text-[#fff] font-semibold text-md py-5 hover:bg-[#FF8343]">ẢNH ĐỂ BÀN</Link>
+              <Link href="/photo-book" className="text-[#fff] font-semibold text-md py-5 hover:bg-[#FF8343]">PHOTO BOOK</Link>
+              <Link href="/anh-treo-tuong" className="text-[#fff] font-semibold text-md py-5 hover:bg-[#FF8343]">ẢNH TREO TƯỜNG</Link>
+              <Link href="/bia-album" className="text-[#fff] font-semibold text-md py-5 hover:bg-[#FF8343]">BÌA ALBUM</Link>
+              <Link href="/event" className="text-[#fff] font-semibold text-md py-5 hover:bg-[#FF8343]">EVENT</Link>
             </div>
             <div className="flex justify-center w-full relative">
               <Carousel className="w-full h-[400px]">
@@ -79,7 +79,7 @@ export default function HomePage() {
                 {Array.from({ length: 10 }).map((_, index) => (
                   <div
                     key={`item-${index}`}
-                    className="bg-[#173B45] text-white text-center py-3 px-6 rounded-full inline-block"
+                    className="bg-[#4158A6] text-white text-center py-3 px-6 rounded-full inline-block"
                   >
                     In ảnh chất lượng cao
                   </div>
@@ -87,7 +87,7 @@ export default function HomePage() {
                 {Array.from({ length: 10 }).map((_, index) => (
                   <div
                     key={`item-duplicate-${index}`}
-                    className="bg-[#173B45] text-white text-center py-3 px-6 rounded-full inline-block"
+                    className="bg-[#4158A6] text-white text-center py-3 px-6 rounded-full inline-block"
                   >
                     In ảnh chất lượng cao
                   </div>
@@ -97,7 +97,7 @@ export default function HomePage() {
                 {Array.from({ length: 10 }).map((_, index) => (
                   <div
                     key={`item-reverse-${index}`}
-                    className="bg-[#F28123] text-white text-center py-3 px-6 rounded-full inline-block"
+                    className="bg-[#FF8343] text-white text-center py-3 px-6 rounded-full inline-block"
                   >
                     In ảnh chất lượng cao
                   </div>
@@ -105,7 +105,7 @@ export default function HomePage() {
                 {Array.from({ length: 10 }).map((_, index) => (
                   <div
                     key={`item-reverse-duplicate-${index}`}
-                    className="bg-[#F28123] text-white text-center py-3 px-6 rounded-full inline-block"
+                    className="bg-[#FF8343] text-white text-center py-3 px-6 rounded-full inline-block"
                   >
                     In ảnh chất lượng cao
                   </div>
@@ -113,10 +113,10 @@ export default function HomePage() {
               </div>
             </div>
             <div className="w-full justify-center mb-10 mt-6">
-              <div className="py-5 text-center text-2xl font-semibold text-[#173B45]">SẢN PHẨM YÊU THÍCH</div>
+              <div className="py-5 text-center text-2xl font-semibold text-[#000]">SẢN PHẨM YÊU THÍCH</div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mt-5">
                 {products.slice(0, 8)?.map((product: Product, index: any) => (
-                  <Link href={`/product?id=${product.id}`} key={index} className='relative group cursor-pointer rounded-lg'>
+                  <Link href={`/san-pham/${product.id}`} key={index} className='relative group cursor-pointer rounded-lg'>
                     <Card className="rounded-lg flex flex-col !border-none !outline-none shadow-[rgba(50,_50,_105,_0.15)_0px_2px_5px_0px,_rgba(0,_0,_0,_0.05)_0px_1px_1px_0px]">
                       <div className='absolute top-2 left-2 bg-blue-100 text-blue-600 text-xs px-2 py-1 rounded-full'>
                         Up to 35% off
@@ -128,7 +128,7 @@ export default function HomePage() {
                           fill
                           style={{ objectFit: 'cover' }}
                           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                          className='rounded-t-lg hover:scale-105 transition-transform duration-500 ease-in-out hover:shadow-lg'
+                          className='rounded-t-lg hover:scale-100 transition-transform duration-500 ease-in-out'
                         />
                       </div>
                       <div className='flex flex-col justify-center py-4 px-3 text-start'>
@@ -137,7 +137,7 @@ export default function HomePage() {
                         </div>
                         <div className='flex items-center mb-2'>
                           <div className='flex items-center space-x-1 text-yellow-500'>
-                            <span>⭐️⭐️⭐️⭐️⭐️</span>
+                            <span>⭐️ ⭐️ ⭐️ ⭐️ ⭐️</span>
                           </div>
                           <p className='text-sm text-gray-500 ml-2'>
                             20 đánh giá
@@ -156,7 +156,7 @@ export default function HomePage() {
                         </div>
                       </div>
                       <div className='flex justify-center items-center px-3 pb-3'>
-                        <button className='w-full bg-[#B43F3F] text-white text-sm py-2 rounded-md transition-colors'>
+                        <button className='w-full bg-[#fff] text-[#FF8343] border border-[#FF8343] text-sm py-2 rounded-md transition-colors'>
                           Đặt hàng ngay
                         </button>
                       </div>
@@ -165,13 +165,14 @@ export default function HomePage() {
                 ))}
               </div>
               <div className="w-full flex justify-center mt-10">
-                <Button className="bg-white p-5 border-[1px] border-black text-black text-md font-light rounded-full hover:bg-[#B43F3F] hover:text-white hover:border-[#B43F3F]">
+                <Button className="bg-white p-5 border-[1px] border-black text-black text-md font-light rounded-full hover:bg-[#FF8343] hover:text-white hover:border-[#FF8343]">
                   XEM TẤT CẢ SẢN PHẨM
                 </Button>
               </div>
             </div>
             <div className="w-full justify-center mb-10">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10 mt-5">
+              <div className="py-5 text-center text-2xl font-semibold text-[#000]">DANH MỤC NỔI BẬT</div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mt-5">
                 {otherServices?.map((service: Service, index: any) => (
                   <Link href='#' key={index} className='relative group cursor-pointer rounded-lg'>
                     <Card className="rounded-sm flex flex-col border-none">
@@ -182,17 +183,30 @@ export default function HomePage() {
                           fill
                           style={{ objectFit: 'cover' }}
                           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                          className='rounded-sm hover:scale-105 transition-transform duration-500 ease-in-out hover:shadow-lg'
+                          className='rounded-sm hover:scale-100 transition-transform duration-500 ease-in-out'
                         />
                       </div>
-                      <div className='flex flex-col justify-center pt-6 text-start'>
-                        <div className="text-lg font-semibold text-[#173B45] mb-3 max-h-[28px] truncate">
+                      <div className='absolute top-2 left-2 flex flex-col justify-center text-center bg-black opacity-50 text-white px-2 py-1 rounded-lg'>
+                        <div className="text-lg font-semibold max-h-[28px] truncate">
                           {service?.title}
                         </div>
                       </div>
                     </Card>
                   </Link>
                 ))}
+              </div>
+            </div>
+            <div className="w-full justify-center mb-10">
+              <div className="pt-5 text-center text-2xl font-semibold text-[#000]">TRANG TRÍ NHÀ CỬA</div>
+              <div className="w-full ">
+                <Image
+                  src="/banner-bottom.png"
+                  alt="logo"
+                  width={0}
+                  height={0}
+                  style={{ width: '100%', height: '720px' }}
+                  sizes="100vw"
+                />
               </div>
             </div>
           </div>

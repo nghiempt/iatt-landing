@@ -1,7 +1,7 @@
-import InANhPlasticPage from "@/modules/in-anh-plastic";
+import InAnhPlasticPage from "@/modules/in-anh-plastic";
 
-export default function InANhPlastic() {
+export default function InAnhPlastic() {
   return (
-    <InANhPlasticPage />
+    <InAnhPlasticPage />
   );
 }
