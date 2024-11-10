@@ -4,9 +4,7 @@ import { Header } from "@/layout/header"
 import Link from "next/link";
 import { Footer } from "@/layout/footer";
 import React, { useEffect, useState } from "react";
-import { otherServices, products } from "@/utils/constant";
 import Image from "next/image";
-import { Card } from "@/components/ui/card";
 import { usePathname } from "next/navigation";
 import {
   Breadcrumb,
@@ -16,6 +14,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
 import { Slash } from "lucide-react";
+import { getAll } from "@/utils/apis";
 
 interface Product {
   id: number;
@@ -38,6 +37,13 @@ interface Service {
 }
 
 export default function SanPhamPage() {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const apiUrl = "https://n8n.khiemfle.com/webhook/4b9e3022-2e51-4650-8431-11501cfee90c";
+
+  const colors = ["Đen", "Trắng", "Silver", "Gold"];
+  const material = ["Bìa Gói", "Bìa Kính", "Bìa Da"];
 
   const pathname = usePathname()
 
@@ -61,12 +67,84 @@ export default function SanPhamPage() {
   const [selectedImage, setSelectedImage] = useState(0);
 
   useEffect(() => {
-    const id = pathname.split('/').pop();
-    const product = products.find((product: Product) => product.id === parseInt(id || ''));
-    if (product) {
-      setProduct(product);
-    }
+    const fetchData = async () => {
+      setIsLoading(true);
+      try {
+        const data = await getAll(apiUrl);
+        const transformedProducts: Product[] = data.map((item: any) => ({
+          row: item.row_number,
+          id: item.id,
+          name: item.name,
+          category: item.category,
+          price: item.price,
+          description: item.description,
+          images: [
+            item.i_one,
+            item.i_two,
+            item.i_three,
+            item.i_four,
+            item.i_five,
+            item.i_six,
+          ].filter((url) => url !== ""),
+        }));
+
+        setProducts(transformedProducts.sort((a, b) => b.id - a.id));
+        console.log("Products fetched:", transformedProducts);
+
+        const id = pathname.split('/').pop();
+        console.log("ID:", id);
+        const product = transformedProducts.find((product: Product) => product.id === parseInt(id || ''));
+        console.log("Product:", product);
+
+        if (product) {
+          setProduct(product);
+        }
+      } catch (err) {
+        console.log("Error fetching products:", err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
   }, [pathname]);
+
+
+  const SkeletonProduct = () => {
+    return (
+      <div className="flex flex-col animate-pulse bg-white p-4 rounded-lg shadow-md">
+        <div className="w-full h-[400px] bg-gray-300 rounded mb-4"></div>
+        <div className="h-6 bg-gray-300 rounded mb-2"></div>
+        <div className="h-4 bg-gray-300 rounded w-1/3 mb-4"></div>
+        <div className="h-8 bg-gray-300 rounded w-1/2 mb-4"></div>
+        <div className="flex items-center gap-2 mb-4">
+          <div className="flex items-center gap-1">
+            {[...Array(5)].map((_, index) => (
+              <div key={index} className="w-4 h-4 bg-gray-300 rounded-full"></div>
+            ))}
+          </div>
+          <div className="h-4 bg-gray-300 rounded w-1/4"></div>
+          <div className="h-4 bg-gray-300 rounded w-1/4"></div>
+        </div>
+        <div className="h-4 bg-gray-300 rounded w-1/3 mb-2"></div>
+        <div className="flex gap-2 mt-2">
+          {[...Array(4)].map((_, index) => (
+            <div key={index} className="w-8 h-8 bg-gray-300 rounded-full"></div>
+          ))}
+        </div>
+        <div className="h-4 bg-gray-300 rounded w-1/3 mt-4 mb-2"></div>
+        <div className="flex gap-2 mt-2">
+          {[...Array(3)].map((_, index) => (
+            <div key={index} className="px-3 py-1.5 bg-gray-300 rounded-lg"></div>
+          ))}
+        </div>
+        <div className="flex gap-4 mt-6">
+          <div className="w-1/2 h-10 bg-gray-300 rounded-lg"></div>
+          <div className="w-1/2 h-10 bg-gray-300 rounded-lg"></div>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <div className="w-full flex flex-col justify-center">
@@ -104,160 +182,164 @@ export default function SanPhamPage() {
               </Breadcrumb>
               <div className="w-full flex flex-col justify-center items-center">
                 <section className="w-full py-6 bg-white dark:bg-gray-900 antialiased">
-                  <div className="w-full">
-                    <div className="w-full lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-16">
-                      <div className="shrink-0">
-                        <Image
-                          className="w-full h-[400px] dark:hidden rounded"
-                          src={product.images[selectedImage]}
-                          alt=""
-                          width={400}
-                          height={400}
-                        />
-                        <Image
-                          className="w-full h-[400px] hidden dark:block rounded"
-                          src={product.images[selectedImage]}
-                          alt=""
-                          width={400}
-                          height={400}
-                        />
-                        <div className="flex gap-2 mt-4 justify-center">
-                          {
-                            product.images.map((image, index) => (
-                              image !== "" && (
-                                <div key={index} className={`border-2 ${selectedImage === index ? "border-blue-500" : "border-gray-200"} rounded p-1 cursor-pointer`} onClick={() => setSelectedImage(index)}>
-                                  <Image width={100} height={50} className="rounded" src={image} alt="img" />
-                                </div>
-                              )
-                            ))
-                          }
+                  {isLoading ? (
+                    <SkeletonProduct />
+                  ) : (
+                    <div className="w-full">
+                      <div className="w-full lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-16">
+                        <div className="shrink-0">
+                          <Image
+                            className="w-full h-[400px] dark:hidden rounded"
+                            src={product.images[selectedImage]}
+                            alt=""
+                            width={400}
+                            height={400}
+                          />
+                          <Image
+                            className="w-full h-[400px] hidden dark:block rounded"
+                            src={product.images[selectedImage]}
+                            alt=""
+                            width={400}
+                            height={400}
+                          />
+                          <div className="flex gap-2 mt-4 justify-center">
+                            {
+                              product.images.map((image, index) => (
+                                image !== "" && (
+                                  <div key={index} className={`border-2 ${selectedImage === index ? "border-blue-500" : "border-gray-200"} rounded p-1 cursor-pointer`} onClick={() => setSelectedImage(index)}>
+                                    <Image width={100} height={50} className="rounded" src={image} alt="img" />
+                                  </div>
+                                )
+                              ))
+                            }
+                          </div>
                         </div>
-                      </div>
-                      <div className="mt-6 sm:mt-8 lg:mt-0">
-                        <h1 className="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">
-                          {product.name}
-                        </h1>
-                        <div className="mt-2">
-                          <span className="text-sm font-medium text-[#FF8225]">
-                            Đang bán
-                          </span>
-                        </div>
-                        <div className="mt-4 sm:items-center sm:gap-4 sm:flex">
-                          <p className="text-2xl font-extrabold text-gray-900 sm:text-3xl dark:text-white">
-                            {Intl.NumberFormat('de-DE').format(product?.price)} VNĐ
-                          </p>
-                          <div className="flex items-center gap-2 mt-2 sm:mt-0">
-                            <div className="flex items-center gap-1">
-                              {[...Array(5)].map((_, index) => (
-                                <svg
-                                  key={index}
-                                  className="w-4 h-4 text-yellow-300"
-                                  aria-hidden="true"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  fill="currentColor"
-                                  viewBox="0 0 24 24"
+                        <div className="mt-6 sm:mt-8 lg:mt-0">
+                          <h1 className="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">
+                            {product.name}
+                          </h1>
+                          <div className="mt-2">
+                            <span className="text-sm font-medium text-[#FF8225]">
+                              Đang bán
+                            </span>
+                          </div>
+                          <div className="mt-4 sm:items-center sm:gap-4 sm:flex">
+                            <p className="text-2xl font-extrabold text-gray-900 sm:text-3xl dark:text-white">
+                              {Intl.NumberFormat('de-DE').format(product?.price)} VNĐ
+                            </p>
+                            <div className="flex items-center gap-2 mt-2 sm:mt-0">
+                              <div className="flex items-center gap-1">
+                                {[...Array(5)].map((_, index) => (
+                                  <svg
+                                    key={index}
+                                    className="w-4 h-4 text-yellow-300"
+                                    aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="currentColor"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
+                                  </svg>
+                                ))}
+                              </div>
+                              <p className="text-sm font-medium text-gray-500 dark:text-gray-400">(5.0)</p>
+                              <a
+                                href="#"
+                                className="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white"
+                              >
+                                {product.reviews} đánh giá
+                              </a>
+                            </div>
+                          </div>
+                          <div className="mt-6">
+                            <h3 className="text-sm font-semibold text-gray-900 dark:text-white">Màu sắc</h3>
+                            <div className="flex gap-2 mt-2">
+                              {colors.map((color) => (
+                                <button
+                                  key={color}
+                                  onClick={() => setSelectedColor(color)}
+                                  className={`px-3 py-1.5 rounded-lg border ${selectedColor === color
+                                    ? "border-blue-500"
+                                    : "border-gray-200"
+                                    }`}
                                 >
-                                  <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
-                                </svg>
+                                  {color}
+                                </button>
                               ))}
                             </div>
-                            <p className="text-sm font-medium text-gray-500 dark:text-gray-400">(5.0)</p>
+                          </div>
+                          <div className="mt-6">
+                            <h3 className="text-sm font-semibold text-gray-900 dark:text-white">Chất liệu</h3>
+                            <div className="flex gap-2 mt-2">
+                              {material.map((material) => (
+                                <button
+                                  key={material}
+                                  onClick={() => setSelectedMaterial(material)}
+                                  className={`px-3 py-1.5 rounded-lg border ${selectedMaterial === material
+                                    ? "border-blue-500"
+                                    : "border-gray-200"
+                                    }`}
+                                >
+                                  {material}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                          <div className="mt-6 sm:gap-4 sm:items-center sm:flex sm:mt-8">
                             <a
                               href="#"
-                              className="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white"
+                              className="flex items-center justify-center py-2.5 px-5 text-sm font-medium bg-[#FF8225] text-[#fff] focus:outline-none rounded-lg focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
                             >
-                              {product.reviews} đánh giá
+                              <svg
+                                className="w-5 h-5 -ms-2 me-2"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  stroke="currentColor"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth="2"
+                                  d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"
+                                />
+                              </svg>
+                              Yêu thích
+                            </a>
+                            <div className="flex md:hidden lg:hidden w-full h-[12px]"></div>
+                            <a
+                              href="#"
+                              className="flex items-center justify-center py-2.5 px-5 text-sm font-medium bg-[#173B45] text-[#fff] focus:outline-none rounded-lg focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                            >
+                              <svg
+                                className="w-5 h-5 -ms-2 me-2"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  stroke="currentColor"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth="2"
+                                  d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6"
+                                />
+                              </svg>
+                              Đặt hàng ngay
                             </a>
                           </div>
                         </div>
-                        <div className="mt-6">
-                          <h3 className="text-sm font-semibold text-gray-900 dark:text-white">Màu sắc</h3>
-                          <div className="flex gap-2 mt-2">
-                            {product.colors.map((color) => (
-                              <button
-                                key={color}
-                                onClick={() => setSelectedColor(color)}
-                                className={`px-3 py-1.5 rounded-lg border ${selectedColor === color
-                                  ? "border-blue-500"
-                                  : "border-gray-200"
-                                  }`}
-                              >
-                                {color}
-                              </button>
-                            ))}
-                          </div>
-                        </div>
-                        <div className="mt-6">
-                          <h3 className="text-sm font-semibold text-gray-900 dark:text-white">Chất liệu</h3>
-                          <div className="flex gap-2 mt-2">
-                            {product.material.map((material) => (
-                              <button
-                                key={material}
-                                onClick={() => setSelectedMaterial(material)}
-                                className={`px-3 py-1.5 rounded-lg border ${selectedMaterial === material
-                                  ? "border-blue-500"
-                                  : "border-gray-200"
-                                  }`}
-                              >
-                                {material}
-                              </button>
-                            ))}
-                          </div>
-                        </div>
-                        <div className="mt-6 sm:gap-4 sm:items-center sm:flex sm:mt-8">
-                          <a
-                            href="#"
-                            className="flex items-center justify-center py-2.5 px-5 text-sm font-medium bg-[#FF8225] text-[#fff] focus:outline-none rounded-lg focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-                          >
-                            <svg
-                              className="w-5 h-5 -ms-2 me-2"
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                stroke="currentColor"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"
-                              />
-                            </svg>
-                            Yêu thích
-                          </a>
-                          <div className="flex md:hidden lg:hidden w-full h-[12px]"></div>
-                          <a
-                            href="#"
-                            className="flex items-center justify-center py-2.5 px-5 text-sm font-medium bg-[#173B45] text-[#fff] focus:outline-none rounded-lg focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-                          >
-                            <svg
-                              className="w-5 h-5 -ms-2 me-2"
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                stroke="currentColor"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6"
-                              />
-                            </svg>
-                            Đặt hàng ngay
-                          </a>
-                        </div>
+                      </div>
+                      <div className="w-full mt-8">
+                        <section className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg">
+                          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Mô tả sản phẩm</h2>
+                          <p className="text-gray-700 dark:text-gray-300">
+                            {product.description}
+                          </p>
+                        </section>
                       </div>
                     </div>
-                    <div className="w-full mt-8">
-                      <section className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg">
-                        <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Mô tả sản phẩm</h2>
-                        <p className="text-gray-700 dark:text-gray-300">
-                          {product.description}
-                        </p>
-                      </section>
-                    </div>
-                  </div>
+                  )}
                 </section>
               </div>
             </div>

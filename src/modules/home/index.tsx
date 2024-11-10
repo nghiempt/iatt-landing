@@ -8,13 +8,14 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel"
-import { otherServices, products } from "@/utils/constant"
+import { otherServices } from "@/utils/constant"
 import { Card } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Footer } from "@/layout/footer";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { getAll } from "@/utils/apis";
 
 interface Product {
   row: number;
@@ -32,6 +33,71 @@ interface Service {
 }
 
 export default function HomePage() {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const apiUrl = "https://n8n.khiemfle.com/webhook/4b9e3022-2e51-4650-8431-11501cfee90c";
+
+
+  const fetchProducts = async () => {
+    try {
+      const data = await getAll(apiUrl);
+      const transformedProducts: Product[] = data.map((item: any) => ({
+        row: item.row_number,
+        id: item.id,
+        name: item.name,
+        category: item.category,
+        price: item.price,
+        description: item.description,
+        images: [
+          item.i_one,
+          item.i_two,
+          item.i_three,
+          item.i_four,
+          item.i_five,
+          item.i_six,
+        ].filter((url) => url !== ""),
+      }));
+      setProducts(transformedProducts.sort((a, b) => b.id - a.id));
+      console.log("Products fetched:", transformedProducts);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const SkeletonProduct = () => {
+    return (
+      <div className="relative group cursor-pointer rounded-lg animate-pulse">
+        <div className="rounded-lg flex flex-col !border-none !outline-none shadow-[rgba(50,_50,_105,_0.15)_0px_2px_5px_0px,_rgba(0,_0,_0,_0.05)_0px_1px_1px_0px]">
+          <div className="absolute top-2 left-2 bg-gray-300 text-transparent text-xs px-2 py-1 rounded-full w-20 h-5"></div>
+          <div className='relative w-full h-[280px] rounded-t-lg bg-gray-300 flex items-center justify-center'></div>
+          <div className='flex flex-col justify-center py-4 px-3 text-start'>
+            <div className="h-5 bg-gray-300 rounded-md mb-2"></div>
+            <div className='flex items-center mb-2'>
+              <div className='h-4 w-24 bg-gray-300 rounded-md'></div>
+              <p className='h-4 w-10 bg-gray-300 rounded-md ml-2'></p>
+            </div>
+            <div className='flex justify-between items-center'>
+              <div className='flex items-center space-x-2'>
+                <div className='h-4 w-24 bg-gray-300 rounded-md'></div>
+              </div>
+              <div className='h-6 w-16 bg-gray-300 rounded-md'></div>
+            </div>
+          </div>
+          <div className='flex justify-center items-center px-3 pb-3'>
+            <div className='w-full h-10 bg-gray-300 rounded-md'></div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="w-full flex flex-col justify-center">
       <div className="w-full">
@@ -115,54 +181,60 @@ export default function HomePage() {
             <div className="w-full justify-center mb-10 mt-6 px-4 md:px-0 lg:px-0">
               <div className="py-5 text-center text-2xl font-semibold text-[#000]">SẢN PHẨM YÊU THÍCH</div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mt-5">
-                {products.slice(0, 8)?.map((product: Product, index: any) => (
-                  <Link href={`/san-pham/${product.id}`} key={index} className='relative group cursor-pointer rounded-lg'>
-                    <Card className="rounded-lg flex flex-col !border-none !outline-none shadow-[rgba(50,_50,_105,_0.15)_0px_2px_5px_0px,_rgba(0,_0,_0,_0.05)_0px_1px_1px_0px]">
-                      <div className='absolute top-2 left-2 bg-blue-100 text-blue-600 text-xs px-2 py-1 rounded-full'>
-                        Up to 35% off
-                      </div>
-                      <div className='relative w-full h-[280px] rounded-t-lg bg-gray-100 flex items-center justify-center'>
-                        <Image
-                          src={product?.images[0]}
-                          alt={product?.name + ' image'}
-                          fill
-                          style={{ objectFit: 'cover' }}
-                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                          className='rounded-t-lg hover:scale-100 transition-transform duration-500 ease-in-out'
-                        />
-                      </div>
-                      <div className='flex flex-col justify-center py-4 px-3 text-start'>
-                        <div className="text-md font-medium mb-1 max-h-[28px] truncate">
-                          {product?.name}
+                {isLoading ? (
+                  Array.from({ length: 4 }).map((_, index) => (
+                    <SkeletonProduct key={index} />
+                  ))
+                ) : (
+                  products.slice(0, 8)?.map((product: Product, index: any) => (
+                    <Link href={`/san-pham/${product.id}`} key={index} className='relative group cursor-pointer rounded-lg'>
+                      <Card className="rounded-lg flex flex-col !border-none !outline-none shadow-[rgba(50,_50,_105,_0.15)_0px_2px_5px_0px,_rgba(0,_0,_0,_0.05)_0px_1px_1px_0px]">
+                        <div className='absolute top-2 left-2 bg-blue-100 text-blue-600 text-xs px-2 py-1 rounded-full'>
+                          Up to 35% off
                         </div>
-                        <div className='flex items-center mb-2'>
-                          <div className='flex items-center space-x-1 text-yellow-500'>
-                            <span>⭐️ ⭐️ ⭐️ ⭐️ ⭐️</span>
+                        <div className='relative w-full h-[280px] rounded-t-lg bg-gray-100 flex items-center justify-center'>
+                          <Image
+                            src={product?.images[0]}
+                            alt={product?.name + ' image'}
+                            fill
+                            style={{ objectFit: 'cover' }}
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            className='rounded-t-lg hover:scale-100 transition-transform duration-500 ease-in-out'
+                          />
+                        </div>
+                        <div className='flex flex-col justify-center py-4 px-3 text-start'>
+                          <div className="text-md font-medium mb-1 max-h-[28px] truncate">
+                            {product?.name}
                           </div>
-                          <p className='text-sm text-gray-500 ml-2'>
-                            20 đánh giá
-                          </p>
-                        </div>
-                        <div className='flex justify-between items-center'>
-                          <div className='flex items-center space-x-2 text-sm text-gray-500'>
-                            <span className='flex items-center space-x-1'>
-                              <span>🚚</span>
-                              <span>Giao hàng nhanh</span>
-                            </span>
+                          <div className='flex items-center mb-2'>
+                            <div className='flex items-center space-x-1 text-yellow-500'>
+                              <span>⭐️ ⭐️ ⭐️ ⭐️ ⭐️</span>
+                            </div>
+                            <p className='text-sm text-gray-500 ml-2'>
+                              20 đánh giá
+                            </p>
                           </div>
-                          <p className="text-lg font-semibold text-black">
-                            {Intl.NumberFormat('de-DE').format(product?.price)} VNĐ
-                          </p>
+                          <div className='flex justify-between items-center'>
+                            <div className='flex items-center space-x-2 text-sm text-gray-500'>
+                              <span className='flex items-center space-x-1'>
+                                <span>🚚</span>
+                                <span>Giao hàng nhanh</span>
+                              </span>
+                            </div>
+                            <p className="text-lg font-semibold text-black">
+                              {Intl.NumberFormat('de-DE').format(product?.price)} VNĐ
+                            </p>
+                          </div>
                         </div>
-                      </div>
-                      <div className='flex justify-center items-center px-3 pb-3'>
-                        <button className='w-full bg-[#fff] text-[#FF8343] border border-[#FF8343] text-sm py-2 rounded-md transition-colors'>
-                          Đặt hàng ngay
-                        </button>
-                      </div>
-                    </Card>
-                  </Link>
-                ))}
+                        <div className='flex justify-center items-center px-3 pb-3'>
+                          <button className='w-full bg-[#fff] text-[#FF8343] border border-[#FF8343] text-sm py-2 rounded-md transition-colors'>
+                            Đặt hàng ngay
+                          </button>
+                        </div>
+                      </Card>
+                    </Link>
+                  ))
+                )}
               </div>
               <div className="w-full flex justify-center mt-10">
                 <Button className="bg-white p-5 border-[1px] border-black text-black text-md font-light rounded-full hover:bg-[#FF8343] hover:text-white hover:border-[#FF8343]">
