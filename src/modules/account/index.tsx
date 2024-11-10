@@ -1,12 +1,9 @@
 "use client"
 
 import { Header } from "@/layout/header"
-import { products } from "@/utils/constant"
-import { Card } from "@/components/ui/card";
-import Image from "next/image";
 import Link from "next/link";
 import { Footer } from "@/layout/footer";
-import React from "react";
+import React, { useState } from "react";
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -15,19 +12,14 @@ import {
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
 import { Slash } from "lucide-react";
+import AccountTab from "./account";
+import ProcessTab from "./process";
+import OrderTab from "./order";
 
+export default function AccountPage() {
 
-interface Product {
-    row: number;
-    id: number;
-    name: string;
-    category: string;
-    price: number;
-    description: string;
-    images: string[];
-}
+    const [tab, setTab] = useState(0)
 
-export default function EventPage() {
     return (
         <div className="w-full flex flex-col justify-center">
             <div className="w-full">
@@ -52,36 +44,30 @@ export default function EventPage() {
                                         <Slash />
                                     </BreadcrumbSeparator>
                                     <BreadcrumbItem>
-                                        <BreadcrumbLink href="#">Event</BreadcrumbLink>
+                                        <BreadcrumbLink href="#">Tài khoản</BreadcrumbLink>
                                     </BreadcrumbItem>
                                 </BreadcrumbList>
                             </Breadcrumb>
-                            <div className="text-center text-xl font-semibold my-5 text-[#FF8343]">Đang phát triển chức năng</div>
-                        </div>
-                    </div>
-                </div>
-                <div className="w-full flex flex-col justify-center items-center mb-10">
-                    <div className="w-5/6">
-                        <div className="pt-5 text-center text-2xl font-semibold text-[#000] mb-6 md:mb-0 lg:mb-0">TRANG TRÍ NHÀ CỬA</div>
-                        <div className="w-full md:hidden lg:hidden">
-                            <Image
-                                src="/banner-bottom.png"
-                                alt="logo"
-                                width={0}
-                                height={0}
-                                style={{ width: '100%', height: '260px' }}
-                                sizes="100vw"
-                            />
-                        </div>
-                        <div className="w-full hidden md:flex lg:flex">
-                            <Image
-                                src="/banner-bottom.png"
-                                alt="logo"
-                                width={0}
-                                height={0}
-                                style={{ width: '100%', height: '720px' }}
-                                sizes="100vw"
-                            />
+                            <div className="w-full mt-4 flex gap-4">
+                                <div className="w-1/5 flex flex-col gap-4">
+                                    <button onClick={() => setTab(0)} className={`${tab === 0 ? 'bg-[#FF8343] text-white' : 'bg-gray-100 text-gray-700'} w-full text-left p-2 rounded-lg`}>Hồ sơ cá nhân</button>
+                                    <button onClick={() => setTab(1)} className={`${tab === 1 ? 'bg-[#FF8343] text-white' : 'bg-gray-100 text-gray-700'} w-full text-left p-2 rounded-lg`}>Tạo đơn hàng</button>
+                                    <button onClick={() => setTab(2)} className={`${tab === 2 ? 'bg-[#FF8343] text-white' : 'bg-gray-100 text-gray-700'} w-full text-left p-2 rounded-lg`}>Lịch sử mua hàng</button>
+                                </div>
+                                <div className="w-4/5 min-h-[500px] border border-gray-200 rounded-lg">
+                                    {
+                                        tab === 0
+                                            ?
+                                            <AccountTab />
+                                            :
+                                            tab === 1
+                                                ?
+                                                <ProcessTab />
+                                                :
+                                                <OrderTab />
+                                    }
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

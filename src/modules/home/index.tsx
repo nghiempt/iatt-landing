@@ -37,11 +37,11 @@ export default function HomePage() {
       <div className="w-full">
         <Header />
         <div className="w-full flex justify-center">
-          <div className="flex flex-col w-5/6 justify-center">
+          <div className="flex flex-col w-full md:w-5/6 lg:w-5/6 justify-center">
             <div className="bg-[#4158A6] grid grid-cols-3 lg:grid-cols-6 text-center gap-4 justify-between">
               <Link href="/in-anh-plastic" className="text-[#fff] font-semibold text-md py-5 hover:bg-[#FF8343]">IN ẢNH PLASTIC</Link>
               <Link href="/anh-de-ban" className="text-[#fff] font-semibold text-md py-5 hover:bg-[#FF8343]">ẢNH ĐỂ BÀN</Link>
-              <Link href="/photo-book" className="text-[#fff] font-semibold text-md py-5 hover:bg-[#FF8343]">PHOTO BOOK</Link>
+              <Link href="/photo-book" className="text-[#fff] font-semibold text-md py-5 hover:bg-[#FF8343]">PHOTOBOOK</Link>
               <Link href="/anh-treo-tuong" className="text-[#fff] font-semibold text-md py-5 hover:bg-[#FF8343]">ẢNH TREO TƯỜNG</Link>
               <Link href="/bia-album" className="text-[#fff] font-semibold text-md py-5 hover:bg-[#FF8343]">BÌA ALBUM</Link>
               <Link href="/event" className="text-[#fff] font-semibold text-md py-5 hover:bg-[#FF8343]">EVENT</Link>
@@ -112,7 +112,7 @@ export default function HomePage() {
                 ))}
               </div>
             </div>
-            <div className="w-full justify-center mb-10 mt-6">
+            <div className="w-full justify-center mb-10 mt-6 px-4 md:px-0 lg:px-0">
               <div className="py-5 text-center text-2xl font-semibold text-[#000]">SẢN PHẨM YÊU THÍCH</div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mt-5">
                 {products.slice(0, 8)?.map((product: Product, index: any) => (
@@ -170,7 +170,7 @@ export default function HomePage() {
                 </Button>
               </div>
             </div>
-            <div className="w-full justify-center mb-10">
+            <div className="w-full justify-center mb-10 px-4 md:px-0 lg:px-0">
               <div className="py-5 text-center text-2xl font-semibold text-[#000]">DANH MỤC NỔI BẬT</div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mt-5">
                 {otherServices?.map((service: Service, index: any) => (
@@ -197,8 +197,18 @@ export default function HomePage() {
               </div>
             </div>
             <div className="w-full justify-center mb-10">
-              <div className="pt-5 text-center text-2xl font-semibold text-[#000]">TRANG TRÍ NHÀ CỬA</div>
-              <div className="w-full ">
+              <div className="pt-5 text-center text-2xl font-semibold text-[#000] mb-6 md:mb-0 lg:mb-0">TRANG TRÍ NHÀ CỬA</div>
+              <div className="w-full md:hidden lg:hidden">
+                <Image
+                  src="/banner-bottom.png"
+                  alt="logo"
+                  width={0}
+                  height={0}
+                  style={{ width: '100%', height: '260px' }}
+                  sizes="100vw"
+                />
+              </div>
+              <div className="w-full hidden md:flex lg:flex">
                 <Image
                   src="/banner-bottom.png"
                   alt="logo"

@@ -43,7 +43,7 @@ export const Header = () => {
                         </a>
                     </div>
                     <div className="flex items-center lg:order-2 gap-4">
-                        <a href="#" className="hidden md:block lg:block text-[#000] font-medium rounded-lg text-[14px]">ĐĂNG NHẬP</a>
+                        <a href="/tai-khoan" className="hidden md:block lg:block text-[#000] font-medium rounded-lg text-[14px]">ĐĂNG NHẬP</a>
                         <svg className="hidden md:block lg:block" width="24px" height="24px" viewBox="0 -4 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g clipPath="url(#clip0_503_2795)">
                                 <rect width="28" height="20" rx="2" fill="white" />
