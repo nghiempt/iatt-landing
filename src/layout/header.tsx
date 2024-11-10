@@ -1,7 +1,9 @@
-import { Mail, Phone, MapPinned } from "lucide-react"
 import Image from "next/image"
+import { useState } from "react";
 
 export const Header = () => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const toggleModal = () => setIsModalOpen(!isModalOpen);
     return (
         <header>
             <nav className="bg-[#FF8343] border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
@@ -43,7 +45,12 @@ export const Header = () => {
                         </a>
                     </div>
                     <div className="flex items-center lg:order-2 gap-4">
-                        <a href="/tai-khoan" className="hidden md:block lg:block text-[#000] font-medium rounded-lg text-[14px]">ĐĂNG NHẬP</a>
+                        <button
+                            onClick={toggleModal}
+                            className="hidden md:block lg:block text-[#000] font-medium rounded-lg text-[14px]"
+                        >
+                            ĐĂNG NHẬP
+                        </button>
                         <svg className="hidden md:block lg:block" width="24px" height="24px" viewBox="0 -4 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g clipPath="url(#clip0_503_2795)">
                                 <rect width="28" height="20" rx="2" fill="white" />
@@ -67,6 +74,39 @@ export const Header = () => {
                     </div>
                 </div>
             </nav >
+            {/* Modal */}
+            {isModalOpen && (
+                <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center z-50">
+                    <div className="bg-white p-8 rounded-lg shadow-lg w-96 flex flex-col justify-center">
+                        <h2 className="text-xl font-semibold mb-4">Đăng nhập</h2>
+                        <form>
+                            <label className="block mb-2">
+                                Tài khoản:
+                                <input
+                                    type="text"
+                                    className="w-full mt-1 px-4 py-2 border rounded-lg"
+                                />
+                            </label>
+                            <label className="block mb-4">
+                                Mật khẩu:
+                                <input
+                                    type="password"
+                                    className="w-full mt-1 px-4 py-2 border rounded-lg"
+                                />
+                            </label>
+                            <a href="/tai-khoan" className="flex justify-center items-center w-full bg-[#FF8343] text-white py-2 rounded-lg">
+                                Đăng nhập
+                            </a>
+                            <a href="http://localhost:9000/api/auth/google" className="flex justify-center items-center w-full bg-[#fff] text-[#FF8343] border border-[#FF8343] py-2 rounded-lg mt-2">
+                                Đăng nhập với Google
+                            </a>
+                        </form>
+                        <button onClick={toggleModal} className="mt-4 text-[#333]">
+                            Đóng
+                        </button>
+                    </div>
+                </div>
+            )}
         </header >
     )
 }

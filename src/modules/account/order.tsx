@@ -8,8 +8,9 @@ type Order = {
     total: number;
     items: {
         name: string;
-        quantity: number;
-        price: number;
+        material: string;
+        color: string;
+        size: string;
     }[];
 };
 
@@ -17,23 +18,66 @@ const sampleOrders: Order[] = [
     {
         id: "ORD12345",
         date: "2024-11-01",
-        status: "Delivered",
+        status: "Đang đợi",
         total: 250000,
         items: [
-            { name: "Product A", quantity: 2, price: 100000 },
-            { name: "Product B", quantity: 1, price: 50000 },
+            { name: "Khung Titan A1", material: "Titan", color: "Bạc", size: "15 x 21" },
         ],
     },
     {
         id: "ORD12346",
         date: "2024-10-25",
-        status: "Pending",
+        status: "Đã giao hàng",
         total: 150000,
         items: [
-            { name: "Product C", quantity: 1, price: 150000 },
+            { name: "Product C", material: "Nhôm", color: "Xanh", size: "20 x 30" },
+        ],
+    },
+    {
+        id: "ORD12345",
+        date: "2024-11-01",
+        status: "Đã giao hàng",
+        total: 250000,
+        items: [
+            { name: "Product A", material: "Sắt", color: "Đỏ", size: "20 x 30" },
+        ],
+    },
+    {
+        id: "ORD12346",
+        date: "2024-10-25",
+        status: "Đã nhận hàng",
+        total: 150000,
+        items: [
+            { name: "Product C", material: "Gỗ", color: "Vàng", size: "20 x 30" },
+        ],
+    },
+    {
+        id: "ORD12345",
+        date: "2024-11-01",
+        status: "Đã nhận hàng",
+        total: 250000,
+        items: [
+            { name: "Product A", material: "Kim loại", color: "Đen", size: "40 x 60" },
+        ],
+    },
+    {
+        id: "ORD12346",
+        date: "2024-10-25",
+        status: "Đã huỷ đơn",
+        total: 150000,
+        items: [
+            { name: "Product C", material: "Nhựa", color: "Trắng", size: "40 x 60" },
         ],
     },
 ];
+
+// Status colors based on the status of each order
+const statusColors: { [key: string]: string } = {
+    "Đang đợi": "text-yellow-500",
+    "Đã giao hàng": "text-green-500",
+    "Đã nhận hàng": "text-blue-500",
+    "Đã huỷ đơn": "text-red-500",
+};
 
 export default function OrderTab() {
     const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
@@ -66,7 +110,9 @@ export default function OrderTab() {
                                 <tr key={order.id} className="text-center">
                                     <td className="border-b p-2">{order.id}</td>
                                     <td className="border-b p-2">{order.date}</td>
-                                    <td className="border-b p-2">{order.status}</td>
+                                    <td className={`border-b p-2 ${statusColors[order.status]}`}>
+                                        {order.status}
+                                    </td>
                                     <td className="border-b p-2">{order.total.toLocaleString()} VND</td>
                                     <td className="border-b p-2">
                                         <button
@@ -96,16 +142,18 @@ export default function OrderTab() {
                         <thead>
                             <tr>
                                 <th className="border-b p-2">Sản phẩm</th>
-                                <th className="border-b p-2">Số lượng</th>
-                                <th className="border-b p-2">Giá</th>
+                                <th className="border-b p-2">Chất liệu</th>
+                                <th className="border-b p-2">Màu sắc</th>
+                                <th className="border-b p-2">Kích thước</th>
                             </tr>
                         </thead>
                         <tbody>
                             {selectedOrder.items.map((item, index) => (
                                 <tr key={index} className="text-center">
                                     <td className="border-b p-2">{item.name}</td>
-                                    <td className="border-b p-2">{item.quantity}</td>
-                                    <td className="border-b p-2">{item.price.toLocaleString()} VND</td>
+                                    <td className="border-b p-2">{item.material}</td>
+                                    <td className="border-b p-2">{item.color}</td>
+                                    <td className="border-b p-2">{item.size}</td>
                                 </tr>
                             ))}
                         </tbody>

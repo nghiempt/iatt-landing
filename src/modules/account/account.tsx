@@ -17,7 +17,7 @@ export default function AccountTab() {
     const [isEditing, setIsEditing] = useState(false);
     const [accountData, setAccountData] = useState<AccountData>({
         name: "Pham Thanh Nghiem",
-        birthdate: "20/01/2002",
+        birthdate: "2002-01-20",
         address: {
             details: "332 Phan Van Tri",
             district: "Binh Thanh",
@@ -49,6 +49,8 @@ export default function AccountTab() {
     const handleEdit = () => setIsEditing(true);
 
     const handleSave = () => {
+        console.log(accountData);
+        
         setIsEditing(false);
     };
 
@@ -120,20 +122,6 @@ export default function AccountTab() {
                     className={`w-full p-2 border rounded ${isEditing ? "border-gray-300" : "border-transparent"}`}
                 />
             </div>
-            <div className="mb-4">
-                <label className="block font-semibold">Quận / Huyện</label>
-                <select
-                    name="address.district"
-                    value={accountData.address.district}
-                    onChange={handleChange}
-                    disabled={!isEditing}
-                    className={`w-full p-2 border rounded ${isEditing ? "border-gray-300" : "border-transparent"}`}
-                >
-                    <option value="">Chọn Quận/Huyện</option>
-                    <option value="district1">Quận 1</option>
-                    <option value="district2">Quận 2</option>
-                </select>
-            </div>
             <div className="">
                 <label className="block font-semibold">TP / Tỉnh</label>
                 <select
@@ -146,6 +134,20 @@ export default function AccountTab() {
                     <option value="">Chọn Thành phố/Tỉnh</option>
                     <option value="hcm">TP. Hồ Chí Minh</option>
                     <option value="hn">Hà Nội</option>
+                </select>
+            </div>
+            <div className="mb-4">
+                <label className="block font-semibold">Quận / Huyện</label>
+                <select
+                    name="address.district"
+                    value={accountData.address.district}
+                    onChange={handleChange}
+                    disabled={!isEditing}
+                    className={`w-full p-2 border rounded ${isEditing ? "border-gray-300" : "border-transparent"}`}
+                >
+                    <option value="">Chọn Quận/Huyện</option>
+                    <option value="district1">Quận 1</option>
+                    <option value="district2">Quận 2</option>
                 </select>
             </div>
         </div>

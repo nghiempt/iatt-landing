@@ -1,39 +1,61 @@
 "use client";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 type Option = {
     label: string;
     value: string;
     priceModifier: number;
-    imageUrl: string;
+};
+
+type ProductType = {
+    label: string;
+    value: string;
+    url: string;
 };
 
 const materials: Option[] = [
-    { label: "Giấy", value: "paper", priceModifier: 50000, imageUrl: "/images/material-paper.jpg" },
-    { label: "Nhựa", value: "plastic", priceModifier: 100000, imageUrl: "/images/material-plastic.jpg" },
+    { label: "Gỗ", value: "paper", priceModifier: 50000 },
+    { label: "Tráng gương", value: "plastic", priceModifier: 100000 },
+    { label: "Titan A1", value: "plastic2", priceModifier: 100000 },
+    { label: "Titan A2", value: "plastic3", priceModifier: 100000 },
 ];
 
 const colors: Option[] = [
-    { label: "Đen", value: "black", priceModifier: 20000, imageUrl: "/images/color-black.jpg" },
-    { label: "Trắng", value: "white", priceModifier: 15000, imageUrl: "/images/color-white.jpg" },
+    { label: "Đen", value: "black", priceModifier: 20000 },
+    { label: "Trắng", value: "white", priceModifier: 15000 },
+    { label: "Bạc", value: "gray", priceModifier: 15000 },
+    { label: "Vàng", value: "yellow", priceModifier: 15000 },
 ];
 
 const sizes: Option[] = [
-    { label: "Nhỏ", value: "small", priceModifier: 30000, imageUrl: "/images/size-small.jpg" },
-    { label: "Lớn", value: "large", priceModifier: 60000, imageUrl: "/images/size-large.jpg" },
+    { label: "15 x 21", value: "small", priceModifier: 30000 },
+    { label: "20 x 30", value: "large", priceModifier: 60000 },
+    { label: "40 x 60", value: "large", priceModifier: 60000 },
+];
+
+// Danh sách các loại sản phẩm
+const productTypes: ProductType[] = [
+    { label: "Khung Ảnh Nhựa Cao Cấp Bền Bỉ", value: "product1", url: "/san-pham/1" },
+    { label: "Khung Ảnh 3D Chất Lượng Cao 4K Siêu Nét", value: "product2", url: "/san-pham/2" },
+    // Thêm các sản phẩm khác ở đây...
 ];
 
 export default function ProcessTab() {
+    const router = useRouter();
+
     const [file, setFile] = useState<File | null>(null);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const [material, setMaterial] = useState<Option | null>(null);
     const [color, setColor] = useState<Option | null>(null);
     const [size, setSize] = useState<Option | null>(null);
+    const [productType, setProductType] = useState<ProductType | null>(null);
     const [price, setPrice] = useState(0);
     const [address, setAddress] = useState("");
     const [distance, setDistance] = useState<number | null>(null);
     const [shippingCost, setShippingCost] = useState(0);
     const [paymentMethod, setPaymentMethod] = useState("");
+    const [showQRCode, setShowQRCode] = useState(true);
 
     const basePrice = 200000;
 
@@ -50,7 +72,7 @@ export default function ProcessTab() {
         if (material) totalPrice += material.priceModifier;
         if (color) totalPrice += color.priceModifier;
         if (size) totalPrice += size.priceModifier;
-        setPrice(totalPrice);
+        setPrice(totalPrice + shippingCost);
     };
 
     const handleOptionChange = (setter: React.Dispatch<React.SetStateAction<Option | null>>, option: Option) => {
@@ -58,19 +80,40 @@ export default function ProcessTab() {
         calculatePrice();
     };
 
+    const handleProductTypeChange = (value: string) => {
+        const selectedType = productTypes.find((pt) => pt.value === value);
+        if (selectedType) {
+            setProductType(selectedType);
+        }
+    };
+
     const calculateDistance = async () => {
         const calculatedDistance = Math.random() * 20 + 5;
         setDistance(calculatedDistance);
-        setShippingCost(calculatedDistance * 5000);
+        const calculatedShippingCost = calculatedDistance * 5000;
+        setShippingCost(calculatedShippingCost);
+        setPrice(price + calculatedShippingCost);
     };
 
     const handlePayment = () => {
         if (paymentMethod === "COD") {
-            alert("Bạn đã chọn thanh toán khi nhận hàng.");
+            router.push("/tai-khoan");
         } else if (paymentMethod === "QR") {
-            alert("Hiện mã QR để thanh toán.");
+            setShowQRCode(true);
+            router.push("/tai-khoan");
         } else if (paymentMethod === "Momo") {
-            alert("Kết nối thanh toán với Momo.");
+            const requestOptions: any = {
+                method: "POST",
+                redirect: "follow"
+            };
+
+            fetch("http://localhost:3003/payment", requestOptions)
+                .then((response) => response.json())
+                .then((result: any) => {
+                    console.log(result?.payUrl);
+                    router.push(result?.payUrl);
+                })
+                .catch((error) => console.error(error));
         }
     };
 
@@ -91,52 +134,60 @@ export default function ProcessTab() {
             </div>
 
             {/* Tùy chọn sản phẩm */}
-            <div className="mb-4">
-                <label className="block font-semibold">Chất liệu</label>
-                <select onChange={(e) => handleOptionChange(setMaterial, materials.find(m => m.value === e.target.value)!)} className="mt-2">
-                    <option value="">Chọn chất liệu</option>
-                    {materials.map((m) => (
-                        <option key={m.value} value={m.value}>{m.label}</option>
-                    ))}
-                </select>
-                {material && (
-                    <div className="mt-2">
-                        <p>Chất liệu:</p>
-                        <img src={material.imageUrl} alt={material.label} className="w-40 h-40 object-cover border" />
-                    </div>
-                )}
-            </div>
+            <div className="grid grid-cols-3 gap-10">
+                <div className="mb-4">
+                    <label className="block font-semibold">Loại sản phẩm</label>
+                    <select onChange={(e) => handleProductTypeChange(e.target.value)} className="mt-2">
+                        <option value="">Chọn loại sản phẩm</option>
+                        {productTypes.map((pt) => (
+                            <option key={pt.value} value={pt.value}>{pt.label}</option>
+                        ))}
+                    </select>
+                    {productType && (
+                        <p className="mt-2 text-blue-500">
+                            <a href={productType.url} target="_blank" rel="noopener noreferrer">Link sản phẩm</a>
+                        </p>
+                    )}
+                </div>
 
-            <div className="mb-4">
-                <label className="block font-semibold">Màu sắc</label>
-                <select onChange={(e) => handleOptionChange(setColor, colors.find(c => c.value === e.target.value)!)} className="mt-2">
-                    <option value="">Chọn màu sắc</option>
-                    {colors.map((c) => (
-                        <option key={c.value} value={c.value}>{c.label}</option>
-                    ))}
-                </select>
-                {color && (
-                    <div className="mt-2">
-                        <p>Màu sắc:</p>
-                        <img src={color.imageUrl} alt={color.label} className="w-40 h-40 object-cover border" />
-                    </div>
-                )}
-            </div>
+                <div className="mb-4">
+                    <label className="block font-semibold">Chất liệu</label>
+                    <select onChange={(e) => handleOptionChange(setMaterial, materials.find(m => m.value === e.target.value)!)} className="mt-2">
+                        <option value="">Chọn chất liệu</option>
+                        {materials.map((m) => (
+                            <option key={m.value} value={m.value}>{m.label}</option>
+                        ))}
+                    </select>
+                </div>
 
-            <div className="mb-4">
-                <label className="block font-semibold">Kích thước</label>
-                <select onChange={(e) => handleOptionChange(setSize, sizes.find(s => s.value === e.target.value)!)} className="mt-2">
-                    <option value="">Chọn kích thước</option>
-                    {sizes.map((s) => (
-                        <option key={s.value} value={s.value}>{s.label}</option>
-                    ))}
-                </select>
-                {size && (
-                    <div className="mt-2">
-                        <p>Kích thước:</p>
-                        <img src={size.imageUrl} alt={size.label} className="w-40 h-40 object-cover border" />
+                <div className="mb-4">
+                    <label className="block font-semibold">Màu sắc</label>
+                    <div className="flex gap-4 mt-2">
+                        {colors.map((c) => (
+                            <div
+                                key={c.value}
+                                onClick={() => handleOptionChange(setColor, c)}
+                                className={`w-8 h-8 border rounded cursor-pointer ${color?.value === c.value ? 'border-blue-500' : 'border-gray-300'}`}
+                                style={{ backgroundColor: c.value }}
+                            ></div>
+                        ))}
                     </div>
-                )}
+                </div>
+
+                <div className="mb-4">
+                    <label className="block font-semibold">Kích thước</label>
+                    <div className="flex gap-4 mt-2">
+                        {sizes.map((s) => (
+                            <button
+                                key={s.value}
+                                onClick={() => handleOptionChange(setSize, s)}
+                                className={`px-4 py-2 border rounded ${size?.value === s.value ? 'border-blue-500' : 'border-gray-300'}`}
+                            >
+                                {s.label}
+                            </button>
+                        ))}
+                    </div>
+                </div>
             </div>
 
             {/* Hiển thị giá */}
@@ -149,7 +200,7 @@ export default function ProcessTab() {
                 <label className="block font-semibold">Địa chỉ của bạn</label>
                 <input
                     type="text"
-                    value={address}
+                    value={"332 Phan Van Tri, Bình Thạnh, HCM"}
                     onChange={(e) => setAddress(e.target.value)}
                     className="w-full p-2 border border-gray-300 rounded mt-2"
                 />
@@ -166,15 +217,56 @@ export default function ProcessTab() {
             {/* Lựa chọn phương thức thanh toán */}
             <div className="mb-4">
                 <label className="block font-semibold">Phương thức thanh toán</label>
-                <select onChange={(e) => setPaymentMethod(e.target.value)} className="mt-2">
-                    <option value="">Chọn phương thức thanh toán</option>
-                    <option value="COD">Thanh toán khi nhận hàng (COD)</option>
-                    <option value="QR">Thanh toán qua mã QR</option>
-                    <option value="Momo">Thanh toán qua Momo</option>
-                </select>
+                <div className="flex flex-col gap-2 mt-2">
+                    <label>
+                        <input
+                            type="radio"
+                            name="paymentMethod"
+                            value="COD"
+                            checked={paymentMethod === "COD"}
+                            onChange={(e) => setPaymentMethod(e.target.value)}
+                        />
+                        Thanh toán khi nhận hàng (COD)
+                    </label>
+                    <label>
+                        <input
+                            type="radio"
+                            name="paymentMethod"
+                            value="QR"
+                            checked={paymentMethod === "QR"}
+                            onChange={(e) => setPaymentMethod(e.target.value)}
+                        />
+                        Thanh toán qua mã QR
+                    </label>
+                    <label>
+                        <input
+                            type="radio"
+                            name="paymentMethod"
+                            value="Momo"
+                            checked={paymentMethod === "Momo"}
+                            onChange={(e) => setPaymentMethod(e.target.value)}
+                        />
+                        Thanh toán qua Momo
+                    </label>
+                </div>
             </div>
 
-            <button onClick={handlePayment} className="mt-4 px-4 py-2 bg-green-500 text-white rounded">
+            {/* Tổng tiền cuối cùng */}
+            <div className="mt-6">
+                <p className="text-2xl font-bold text-center">
+                    Tổng số tiền: {(price + shippingCost).toLocaleString()} VND
+                </p>
+            </div>
+
+            {/* Hiển thị mã QR khi chọn phương thức QR */}
+            {showQRCode && paymentMethod === "QR" && (
+                <div className="mt-6 text-center">
+                    <p className="font-semibold">Quét mã QR để thanh toán:</p>
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6MSeP9-tHEBAiDsSyaqUdrCj6Nb3FrmCxOQ&s" alt="QR Code" className="w-40 h-40 mx-auto mt-2" />
+                </div>
+            )}
+
+            <button onClick={handlePayment} className="mt-4 px-4 py-2 bg-green-500 text-white rounded w-full">
                 Thanh toán
             </button>
         </div>
