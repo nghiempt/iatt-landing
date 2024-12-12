@@ -1,7 +1,7 @@
-import AccountPage from "@/modules/account";
+import AccountClient from "@/modules/account";
 
 export default function Account() {
   return (
-    <AccountPage />
+    <AccountClient />
   );
 }

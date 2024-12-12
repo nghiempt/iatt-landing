@@ -1,7 +1,7 @@
-import SanPhamPage from "@/modules/san-pham";
+import ProductDetailClient from "@/modules/product/[id]";
 
-export default function SanPham() {
+export default function ProductDetail() {
   return (
-    <SanPhamPage />
+    <ProductDetailClient />
   );
 }

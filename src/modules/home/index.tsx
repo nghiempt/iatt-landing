@@ -1,228 +1,386 @@
-"use client"
+'use client'
+import Header from '@/layout/header';
+import Footer from '@/layout/footer';
+import React, { useState } from 'react';
+import { Card } from '@/components/ui/card';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import Image from 'next/image';
+import { IMAGES } from '@/utils/image';
+import { Star } from 'lucide-react';
+import { Users2 } from 'lucide-react';
+import { Calendar, User } from 'lucide-react';
+import { DATA } from '@/utils/data';
+import "swiper/css";
+import { Swiper, SwiperSlide } from "swiper/react";
+import Link from 'next/link';
+import { ROUTES } from '@/utils/route';
 
-import { Header } from "@/layout/header"
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel"
-import { otherServices, products } from "@/utils/constant"
-import { Card } from "@/components/ui/card";
-import Image from "next/image";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Footer } from "@/layout/footer";
-import React from "react";
-
-interface Product {
-  row: number;
-  id: number;
-  name: string;
-  category: string;
-  price: number;
-  description: string;
-  images: string[];
-}
-
-interface Service {
+interface NewsItemProps {
   image: string;
   title: string;
+  excerpt: string;
+  date: string;
+  author: string;
+  isMain?: boolean;
 }
 
-export default function HomePage() {
+const NewsItem = ({ image, title, excerpt, date, author, isMain = false }: NewsItemProps) => (
+  <Card className={`overflow-hidden ${isMain ? 'mb-6' : 'flex items-center gap-4'}`}>
+    <div className={`${isMain ? 'w-full' : 'w-24 h-28 flex-shrink-0'}`}>
+      <Image
+        src={image}
+        alt={title}
+        className={`w-full ${isMain ? 'h-48' : 'h-28'} object-cover`}
+        width={200}
+        height={200}
+      />
+    </div>
+    <div className={`${isMain ? 'p-4' : 'py-2 pr-4'}`}>
+      <h3 className={`font-bold line-clamp-2 text-navy-900 ${isMain ? 'text-xl mb-2' : 'text-sm mb-1'}`}>
+        {title}
+      </h3>
+      <p className="text-gray-600 text-xs mb-2 line-clamp-2">{excerpt}</p>
+      <div className="flex items-center text-sm text-gray-500 gap-4">
+        <div className="flex items-center gap-1">
+          <Calendar className="w-4 h-4" />
+          <span>{date}</span>
+        </div>
+        <div className="flex items-center gap-1">
+          <User className="w-4 h-4" />
+          <span>{author}</span>
+        </div>
+      </div>
+    </div>
+  </Card>
+);
+
+interface ProductCardProps {
+  image: string;
+  title: string;
+  price: string;
+  originalPrice?: string;
+  discount?: string;
+  rating: number;
+  reviews: number;
+  soldAmount: string;
+}
+
+const ProductCard = ({
+  image,
+  title,
+  price,
+  originalPrice,
+  discount,
+  rating,
+  reviews,
+  soldAmount,
+}: ProductCardProps) => (
+  <Card className="bg-white h-full rounded-lg overflow-hidden">
+    <div className="relative">
+      {discount && (
+        <div className="absolute top-2 left-2 bg-[rgb(var(--primary-rgb))] text-white px-2 py-1 rounded-md text-sm">
+          {discount}
+        </div>
+      )}
+      <Image src={image} alt={title} className="w-full h-48 object-cover" width={200} height={200} />
+    </div>
+    <div className="flex flex-col justify-between p-4">
+      <div className="flex items-center space-x-2">
+        <span className="text-xs font-bold text-black">{price}đ</span>
+        {discount && (
+          <span className="text-xs text-black line-through">{originalPrice}đ</span>
+        )}
+      </div>
+      <h3 className="text-xs font-medium text-gray-900 line-clamp-2 mt-2">{title}</h3>
+      <div className="flex items-center mt-2">
+        {[...Array(5)].map((_, i) => (
+          <Star
+            key={i}
+            className={`w-3 h-3 ${i < rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`}
+          />
+        ))}
+        <span className="text-xs text-gray-500 ml-2">{soldAmount}</span>
+      </div>
+    </div>
+  </Card>
+);
+
+interface CategoryCardProps {
+  title: string;
+  icon?: React.ReactNode;
+}
+
+const CategoryCard = ({ title, icon }: CategoryCardProps) => (
+  <div className="w-28 flex-1 border border-dashed rounded-lg p-4 flex flex-col items-center justify-center space-y-2">
+    {icon}
+    <span className="text-xs">{title}</span>
+  </div>
+);
+
+interface Products {
+  id: number;
+  cate: number;
+  title: string;
+  image: {
+    id: number;
+    img: string;
+    color: string;
+    colorLabel: string;
+  }[];
+  price: string;
+  rating: number;
+  review: number;
+  description: string;
+  discount: string;
+  soldAmount: string;
+}
+
+interface CustomerReview {
+  id: number,
+  name: string,
+  review:
+  string,
+  role: string,
+}
+
+interface BlogPost {
+  id: number;
+  image: string;
+  title: string;
+  excerpt: string;
+  date: string;
+  author: string;
+  slug: string;
+  content: string;
+}
+
+const posts = DATA.POSTS as BlogPost[]
+const products = DATA.PRODUCTS as Products[]
+const customerRV = DATA.CUSTOMERREVIEW as CustomerReview[]
+
+export default function HomeClient() {
+  const [selectedCate, setSelectedCate] = useState<number>(1);
+  const [swiperInstance, setSwiperInstance] = useState<any>(null);
+  const filteredData = products.filter(item => item.cate === selectedCate);
+
+  const handleSwiper = (swiper: any) => {
+    setSwiperInstance(swiper);
+  };
+
   return (
-    <div className="w-full flex flex-col justify-center">
-      <div className="w-full">
-        <Header />
-        <div className="w-full flex justify-center">
-          <div className="flex flex-col w-full md:w-5/6 lg:w-5/6 justify-center">
-            <div className="bg-[#4158A6] grid grid-cols-3 lg:grid-cols-6 text-center gap-4 justify-between">
-              <Link href="/in-anh-plastic" className="text-[#fff] font-semibold text-md py-5 hover:bg-[#FF8343]">IN ẢNH PLASTIC</Link>
-              <Link href="/anh-de-ban" className="text-[#fff] font-semibold text-md py-5 hover:bg-[#FF8343]">ẢNH ĐỂ BÀN</Link>
-              <Link href="/photo-book" className="text-[#fff] font-semibold text-md py-5 hover:bg-[#FF8343]">PHOTOBOOK</Link>
-              <Link href="/anh-treo-tuong" className="text-[#fff] font-semibold text-md py-5 hover:bg-[#FF8343]">ẢNH TREO TƯỜNG</Link>
-              <Link href="/bia-album" className="text-[#fff] font-semibold text-md py-5 hover:bg-[#FF8343]">BÌA ALBUM</Link>
-              <Link href="/event" className="text-[#fff] font-semibold text-md py-5 hover:bg-[#FF8343]">EVENT</Link>
+    <div className="w-full">
+      <Header />
+      <div>
+        <main id="body" className="space-y-6">
+          <Card className="relative overflow-hidden rounded-none shadow-none">
+            <Image
+              src={IMAGES.BLOG}
+              alt="logo"
+              className="w-full h-96 object-cover"
+              width={1920}
+              height={1080}
+            />
+            <div className="absolute inset-0 bg-black/30 flex flex-col items-center justify-center text-white">
+              <h2 className="text-4xl font-bold mb-2">KHUNG ẢNH</h2>
+              <h3 className="text-3xl font-light">ALBUM</h3>
             </div>
-            <div className="flex justify-center w-full relative">
-              <Carousel className="w-full h-[400px]">
-                <CarouselContent className="flex min-h-full">
-                  <CarouselItem className="flex-shrink-0 w-full h-full">
-                    <div
-                      className="w-full min-h-[400px] h-full bg-cover bg-center"
-                      style={{ backgroundImage: "url(/banner-01.jpg)" }}
-                    ></div>
-                  </CarouselItem>
-                  <CarouselItem className="flex-shrink-0 w-full h-full">
-                    <div
-                      className="w-full min-h-[400px] h-full bg-cover bg-center"
-                      style={{ backgroundImage: "url(/banner-02.jpg)" }}
-                    ></div>
-                  </CarouselItem>
-                </CarouselContent>
-                <CarouselPrevious className="hidden" />
-                <CarouselNext className="hidden" />
-              </Carousel>
-              <div className="absolute w-full flex gap-[2px] bottom-0 text-white">
-                <div className="bg-black opacity-50 p-1 w-full text-center cursor-pointer">
-                  IN KHUNG ẢNH
-                </div>
-                <div className="bg-black opacity-50 p-1 w-full text-center cursor-pointer">
-                  IN PHOTOBOOK
-                </div>
-              </div>
+          </Card>
+          <div className="mt-4 text-center px-4">
+            <h3 className="text-lg font-bold text-navy-blue mb-4">DANH MỤC SẢN PHẨM</h3>
+            <div className="flex justify-center space-x-4">
+              <Link href={`${ROUTES.PRODUCT}`}>
+                <CategoryCard
+                  title="Ép Plastic"
+                  icon={<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-hard-drive"><line x1="22" x2="2" y1="12" y2="12" /><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z" /><line x1="6" x2="6.01" y1="16" y2="16" /><line x1="10" x2="10.01" y1="16" y2="16" /></svg>}
+                />
+              </Link>
+              <Link href={`${ROUTES.PRODUCT}`}>
+                <CategoryCard
+                  title="Khung ảnh"
+                  icon={<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-frame"><line x1="22" x2="2" y1="6" y2="6" /><line x1="22" x2="2" y1="18" y2="18" /><line x1="6" x2="6" y1="2" y2="22" /><line x1="18" x2="18" y1="2" y2="22" /></svg>}
+                />
+              </Link>
+              <Link href={`${ROUTES.PRODUCT}`}>
+                <CategoryCard
+                  title="Album"
+                  icon={<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-images"><path d="M18 22H4a2 2 0 0 1-2-2V6" /><path d="m22 13-1.296-1.296a2.41 2.41 0 0 0-3.408 0L11 18" /><circle cx="12" cy="8" r="2" /><rect width="16" height="16" x="6" y="2" rx="2" /></svg>}
+                />
+              </Link>
             </div>
-            <div className="mt-12 overflow-hidden">
-              <div className="flex animate-marquee gap-2 whitespace-nowrap">
-                {Array.from({ length: 10 }).map((_, index) => (
-                  <div
-                    key={`item-${index}`}
-                    className="bg-[#4158A6] text-white text-center py-3 px-6 rounded-full inline-block"
-                  >
-                    In ảnh chất lượng cao
-                  </div>
-                ))}
-                {Array.from({ length: 10 }).map((_, index) => (
-                  <div
-                    key={`item-duplicate-${index}`}
-                    className="bg-[#4158A6] text-white text-center py-3 px-6 rounded-full inline-block"
-                  >
-                    In ảnh chất lượng cao
-                  </div>
-                ))}
-              </div>
-              <div className="flex animate-marquee2 gap-2 whitespace-nowrap mt-3">
-                {Array.from({ length: 10 }).map((_, index) => (
-                  <div
-                    key={`item-reverse-${index}`}
-                    className="bg-[#FF8343] text-white text-center py-3 px-6 rounded-full inline-block"
-                  >
-                    In ảnh chất lượng cao
-                  </div>
-                ))}
-                {Array.from({ length: 10 }).map((_, index) => (
-                  <div
-                    key={`item-reverse-duplicate-${index}`}
-                    className="bg-[#FF8343] text-white text-center py-3 px-6 rounded-full inline-block"
-                  >
-                    In ảnh chất lượng cao
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="w-full justify-center mb-10 mt-6 px-4 md:px-0 lg:px-0">
-              <div className="py-5 text-center text-2xl font-semibold text-[#000]">SẢN PHẨM YÊU THÍCH</div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mt-5">
-                {products.slice(0, 8)?.map((product: Product, index: any) => (
-                  <Link href={`/san-pham/${product.id}`} key={index} className='relative group cursor-pointer rounded-lg'>
-                    <Card className="rounded-lg flex flex-col !border-none !outline-none shadow-[rgba(50,_50,_105,_0.15)_0px_2px_5px_0px,_rgba(0,_0,_0,_0.05)_0px_1px_1px_0px]">
-                      <div className='absolute top-2 left-2 bg-blue-100 text-blue-600 text-xs px-2 py-1 rounded-full'>
-                        Up to 35% off
-                      </div>
-                      <div className='relative w-full h-[280px] rounded-t-lg bg-gray-100 flex items-center justify-center'>
-                        <Image
-                          src={product?.images[0]}
-                          alt={product?.name + ' image'}
-                          fill
-                          style={{ objectFit: 'cover' }}
-                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                          className='rounded-t-lg hover:scale-100 transition-transform duration-500 ease-in-out'
-                        />
-                      </div>
-                      <div className='flex flex-col justify-center py-4 px-3 text-start'>
-                        <div className="text-md font-medium mb-1 max-h-[28px] truncate">
-                          {product?.name}
-                        </div>
-                        <div className='flex items-center mb-2'>
-                          <div className='flex items-center space-x-1 text-yellow-500'>
-                            <span>⭐️ ⭐️ ⭐️ ⭐️ ⭐️</span>
-                          </div>
-                          <p className='text-sm text-gray-500 ml-2'>
-                            20 đánh giá
-                          </p>
-                        </div>
-                        <div className='flex justify-between items-center'>
-                          <div className='flex items-center space-x-2 text-sm text-gray-500'>
-                            <span className='flex items-center space-x-1'>
-                              <span>🚚</span>
-                              <span>Giao hàng nhanh</span>
-                            </span>
-                          </div>
-                          <p className="text-lg font-semibold text-black">
-                            {Intl.NumberFormat('de-DE').format(product?.price)} VNĐ
-                          </p>
-                        </div>
-                      </div>
-                      <div className='flex justify-center items-center px-3 pb-3'>
-                        <button className='w-full bg-[#fff] text-[#FF8343] border border-[#FF8343] text-sm py-2 rounded-md transition-colors'>
-                          Đặt hàng ngay
-                        </button>
-                      </div>
-                    </Card>
-                  </Link>
-                ))}
-              </div>
-              <div className="w-full flex justify-center mt-10">
-                <Button className="bg-white p-5 border-[1px] border-black text-black text-md font-light rounded-full hover:bg-[#FF8343] hover:text-white hover:border-[#FF8343]">
-                  XEM TẤT CẢ SẢN PHẨM
+          </div>
+          <div className="p-4 space-y-8">
+            <div className="rounded-lg overflow-hidden border border-dashed border-orange-200 p-4">
+              <Image
+                src={IMAGES.BLOG}
+                alt="alt"
+                className="w-full h-48 object-cover rounded-lg"
+                width={200}
+                height={200}
+              />
+              <div className="text-center mt-4 space-y-2">
+                <p className="text-gray-600">Khuyến mãi cho người mới</p>
+                <h2 className="text-xl font-bold text-black">Khung ảnh hoa văn đặc biệt</h2>
+                <Button
+                  className="bg-[rgb(var(--primary-rgb))] hover:bg-[#6B3410] text-white px-8"
+                >
+                  Mua ngay
                 </Button>
               </div>
             </div>
-            <div className="w-full justify-center mb-10 px-4 md:px-0 lg:px-0">
-              <div className="py-5 text-center text-2xl font-semibold text-[#000]">DANH MỤC NỔI BẬT</div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mt-5">
-                {otherServices?.map((service: Service, index: any) => (
-                  <Link href='#' key={index} className='relative group cursor-pointer rounded-lg'>
-                    <Card className="rounded-sm flex flex-col border-none">
-                      <div className='relative w-full h-[300px] rounded-lg'>
-                        <Image
-                          src={service?.image}
-                          alt={service?.title + ' image'}
-                          fill
-                          style={{ objectFit: 'cover' }}
-                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                          className='rounded-sm hover:scale-100 transition-transform duration-500 ease-in-out'
-                        />
-                      </div>
-                      <div className='absolute top-2 left-2 flex flex-col justify-center text-center bg-black opacity-50 text-white px-2 py-1 rounded-lg'>
-                        <div className="text-lg font-semibold max-h-[28px] truncate">
-                          {service?.title}
-                        </div>
-                      </div>
-                    </Card>
-                  </Link>
+            <div>
+              <h2 className="text-lg font-bold text-black mb-4">SẢN PHẨM NỔI BẬT</h2>
+              <div className="grid grid-cols-2 gap-4">
+                {products?.slice(0, 2)?.map((pro, index) => (
+                  <div key={index}>
+                    <Link href={`${ROUTES.PRODUCT}/${pro?.id}`}>
+                      <ProductCard
+                        image={pro?.image[0]?.img}
+                        title={pro?.title}
+                        price={pro?.price}
+                        rating={pro?.rating}
+                        reviews={pro?.review}
+                        discount={pro?.discount}
+                        originalPrice={pro?.price}
+                        soldAmount={pro?.soldAmount}
+                      />
+                    </Link>
+                  </div>
                 ))}
               </div>
             </div>
-            <div className="w-full justify-center mb-10">
-              <div className="pt-5 text-center text-2xl font-semibold text-[#000] mb-6 md:mb-0 lg:mb-0">TRANG TRÍ NHÀ CỬA</div>
-              <div className="w-full md:hidden lg:hidden">
+          </div>
+          <div className="p-4 space-y-4 pt-0">
+            <div className="text-center space-y-2">
+              <h2 className="text-xl font-bold text-navy-900">TOP BÁN CHẠY</h2>
+            </div>
+            <div className="bg-[rgb(var(--quaternary-rgb))] rounded-lg p-4 space-y-3">
+              {[
+                { label: "ẢNH PLASTIC", cate: 1 },
+                { label: "KHUNG ẢNH", cate: 2 },
+                { label: "ALBUM", cate: 3 },
+              ].map(({ label, cate }) => (
+                selectedCate === cate ? (
+                  <div key={cate} className="bg-[rgb(var(--primary-rgb))] text-white py-3 px-4 rounded-lg flex items-center">
+                    <div className="w-2 h-2 bg-white rounded-full mr-2"></div>
+                    <span className='text-sm font-bold'>{label}</span>
+                  </div>
+                ) : (
+                  <button
+                    key={cate}
+                    onClick={() => setSelectedCate(cate)}
+                    className="text-black font-medium w-full text-left py-2"
+                  >
+                    <span className='text-sm font-bold'>{label}</span>
+                  </button>
+                )
+              ))}
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              {filteredData?.slice(0, 4)?.map((filPro, index) => (
+                <div key={index}>
+                  <Link href={`${ROUTES.PRODUCT}/${filPro?.id}`}>
+                    <ProductCard
+                      image={filPro?.image[0]?.img}
+                      title={filPro?.title}
+                      price={filPro?.price}
+                      originalPrice={filPro?.price}
+                      discount={filPro?.discount}
+                      rating={filPro?.rating}
+                      reviews={filPro?.review}
+                      soldAmount={filPro?.soldAmount}
+                    />
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="p-4 space-y-8 pt-0">
+            <div className="space-y-4">
+              <h2 className="text-2xl font-bold text-center text-navy-900">
+                KHÁCH HÀNG NÓI GÌ?
+              </h2>
+              <Swiper
+                onSwiper={handleSwiper}
+                slidesPerView={1}
+                spaceBetween={10}
+                navigation={false}
+                autoplay={{ delay: 5000 }}
+                speed={800}
+              >
+                {customerRV?.map((cusRV, index) => (
+                  <SwiperSlide key={index}>
+                    <Card className="border-2 border-dashed border-blue-100 p-6 relative">
+                      <div className="flex justify-center mb-4">
+                        <div className="bg-blue-50 p-4 rounded-full">
+                          <Users2 className="w-8 h-8 text-black" />
+                        </div>
+                      </div>
+                      <p className="text-center text-gray-700 text-lg mb-4">
+                        {cusRV?.review}
+                      </p>
+                      <div className="text-center">
+                        <h3 className="font-bold text-lg text-black">{cusRV?.name}</h3>
+                        <p className="text-gray-500">{cusRV?.role}</p>
+                      </div>
+                    </Card>
+
+                  </SwiperSlide>
+                ))}
+                <button
+                  onClick={() => swiperInstance?.slidePrev()}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 z-10">
+                  <ChevronLeft className="w-6 h-6" />
+                </button>
+                <button
+                  onClick={() => swiperInstance?.slideNext()}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 z-10">
+                  <ChevronRight className="w-6 h-6" />
+                </button>
+              </Swiper>
+            </div>
+            <div className="space-y-4">
+              <div className="relative">
                 <Image
-                  src="/banner-bottom.png"
-                  alt="logo"
-                  width={0}
-                  height={0}
-                  style={{ width: '100%', height: '260px' }}
-                  sizes="100vw"
+                  src={IMAGES.PRODUCT}
+                  alt="alt"
+                  className="w-full rounded-lg"
+                  width={200}
+                  height={200}
                 />
               </div>
-              <div className="w-full hidden md:flex lg:flex">
-                <Image
-                  src="/banner-bottom.png"
-                  alt="logo"
-                  width={0}
-                  height={0}
-                  style={{ width: '100%', height: '720px' }}
-                  sizes="100vw"
-                />
+              <div className="space-y-4">
+                <h2 className="text-2xl font-bold text-navy-900">
+                  XU HƯỚNG HIỆN ĐẠI
+                </h2>
+                <p className="text-gray-700 leading-relaxed">
+                  Mặc dù mùa xuân và mùa hè thường gắn liền với thời tiết ấm hơn, nhưng không phải lúc nào mọi chuyện cũng bắt đầu như vậy. Các nhà thiết kế đã trang bị cho bạn những chiếc áo khoác ngoài sang trọng để tăng thêm phong cách cho phong cách của bạn trong giai đoạn chuyển tiếp từ nhiệt độ lạnh hơn sang những buổi chiều ấm áp và đầy nắng. Ngay cả khi thời tiết ấm áp hơn vào mùa xuân tới, hãy thêm một chiếc áo blazer oversized kiểu dáng đẹp vào diện mạo nếu bạn muốn tạo điểm nhấn táo bạo cho phong cách của mình.
+                </p>
               </div>
             </div>
           </div>
-        </div>
-        <Footer />
+          <div className="p-4 space-y-6">
+            <h2 className="text-2xl font-bold text-center text-navy-900">TIN TỨC</h2>
+            <div className="space-y-4">
+              {posts?.slice(0, 3)?.map((pot, index) => (
+                <div key={index}>
+                  <Link href={`${ROUTES.BLOG}/${pot.id}`}>
+                    <NewsItem
+                      image={pot.image}
+                      title={pot.title}
+                      excerpt={pot.excerpt}
+                      date={pot.date}
+                      author={pot.author}
+                      isMain={index === 0}
+                    />
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </div>
+        </main>
       </div>
+      <Footer />
     </div>
-  )
+  );
 }
