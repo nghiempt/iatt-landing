@@ -10,7 +10,7 @@ export default function PrivacyPoicyClient() {
   return (
     <div className="w-full">
       <Header />
-      <div id="body" className="max-w-4xl mx-auto px-4 py-6">
+      <div id="body" className="max-w-4xl mx-auto px-4 py-4">
         <nav className="flex items-center gap-2 text-sm text-gray-600 mb-6">
           <Link href={`${ROUTES.HOME}`} className="hover:text-black">Trang chủ</Link>
           <ChevronRight className="w-4 h-4" />
@@ -51,26 +51,6 @@ export default function PrivacyPoicyClient() {
                 <span className="font-medium">Dịch vụ hỗ trợ</span>.
               </p>
             </div>
-          </div>
-          <div className="space-y-4">
-            <h2 className="text-xl font-bold text-navy-900">Chính sách</h2>
-            <ul className="space-y-2 bg-[rgb(var(--quaternary-rgb))] p-6 rounded-lg">
-              <li>
-                <Link href={`${ROUTES.RETURN_POLICY}`} className="text-gray-700 hover:text-black">
-                  Chính sách đổi trả
-                </Link>
-              </li>
-              <li>
-                <Link href={`${ROUTES.TERMS_OF_SERVICE}`} className="text-gray-700 hover:text-black">
-                  Điều khoản dịch vụ
-                </Link>
-              </li>
-              <li>
-                <Link href={`${ROUTES.BUYING_GUIDE}`} className="text-gray-700 hover:text-black">
-                  Hướng dẫn mua hàng ở website
-                </Link>
-              </li>
-            </ul>
           </div>
         </div>
       </div>

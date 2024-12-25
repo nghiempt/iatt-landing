@@ -6,7 +6,7 @@ import { Toaster } from "@/components/ui/toaster"
 const font = Montserrat({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "In Ảnh Trực Tuyến",
+  title: "IN ẢNH TRỰC TUYẾN",
   description: "In Ảnh Trực Tuyến chỉnh sửa hoàn toàn Miễn phí. In Ảnh Trực Tuyến quá dễ dàng. Chọn những tấm ảnh yêu thích & tải lên trình chỉnh sửa trực tuyến."
 };
 

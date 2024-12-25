@@ -3,7 +3,7 @@ import Header from '@/layout/header';
 import Footer from '@/layout/footer';
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, UserRound } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { IMAGES } from '@/utils/image';
@@ -26,7 +26,7 @@ interface NewsItemProps {
 }
 
 const NewsItem = ({ image, title, excerpt, date, author, isMain = false }: NewsItemProps) => (
-  <Card className={`overflow-hidden ${isMain ? 'mb-6' : 'flex items-center gap-4'}`}>
+  <Card className={`overflow-hidden ${isMain ? 'mb-4' : 'flex items-center gap-4 mb-4'}`}>
     <div className={`${isMain ? 'w-full' : 'w-24 h-28 flex-shrink-0'}`}>
       <Image
         src={image}
@@ -37,7 +37,7 @@ const NewsItem = ({ image, title, excerpt, date, author, isMain = false }: NewsI
       />
     </div>
     <div className={`${isMain ? 'p-4' : 'py-2 pr-4'}`}>
-      <h3 className={`font-bold line-clamp-2 text-navy-900 ${isMain ? 'text-xl mb-2' : 'text-sm mb-1'}`}>
+      <h3 className={`font-bold line-clamp-2 text-navy-900 ${isMain ? 'text-xl mb-2' : 'text-sm mb-2'}`}>
         {title}
       </h3>
       <p className="text-gray-600 text-xs mb-2 line-clamp-2">{excerpt}</p>
@@ -47,7 +47,7 @@ const NewsItem = ({ image, title, excerpt, date, author, isMain = false }: NewsI
           <span>{date}</span>
         </div>
         <div className="flex items-center gap-1">
-          <User className="w-4 h-4" />
+          <UserRound className="w-4 h-4" />
           <span>{author}</span>
         </div>
       </div>
@@ -112,7 +112,7 @@ interface CategoryCardProps {
 }
 
 const CategoryCard = ({ title, icon }: CategoryCardProps) => (
-  <div className="w-28 flex-1 border border-dashed rounded-lg p-4 flex flex-col items-center justify-center space-y-2">
+  <div className="w-28 flex-1 border border-gray-300 border-dashed rounded-lg p-4 flex flex-col items-center justify-center space-y-2">
     {icon}
     <span className="text-xs">{title}</span>
   </div>
@@ -175,7 +175,7 @@ export default function HomeClient() {
         <main id="body" className="space-y-6">
           <Card className="relative overflow-hidden rounded-none shadow-none">
             <Image
-              src={IMAGES.BLOG}
+              src={"https://img.freepik.com/free-photo/white-blank-background-texture-design-element_53876-132773.jpg?semt=ais_hybrid"}
               alt="logo"
               className="w-full h-96 object-cover"
               width={1920}
@@ -210,7 +210,7 @@ export default function HomeClient() {
             </div>
           </div>
           <div className="p-4 space-y-8">
-            <div className="rounded-lg overflow-hidden border border-dashed border-orange-200 p-4">
+            <div className="rounded-lg overflow-hidden border border-dashed border-[rgb(var(--primary-rgb))] p-4">
               <Image
                 src={IMAGES.BLOG}
                 alt="alt"
@@ -218,11 +218,11 @@ export default function HomeClient() {
                 width={200}
                 height={200}
               />
-              <div className="text-center mt-4 space-y-2">
+              <div className="text-center mt-4">
                 <p className="text-gray-600">Khuyến mãi cho người mới</p>
-                <h2 className="text-xl font-bold text-black">Khung ảnh hoa văn đặc biệt</h2>
+                <h2 className="text-xl font-semibold text-black">Khung ảnh hoa văn đặc biệt</h2>
                 <Button
-                  className="bg-[rgb(var(--primary-rgb))] hover:bg-[#6B3410] text-white px-8"
+                  className="w-full bg-[rgb(var(--primary-rgb))] hover:bg-[#6B3410] text-white px-8 mt-4"
                 >
                   Mua ngay
                 </Button>
@@ -252,7 +252,7 @@ export default function HomeClient() {
           </div>
           <div className="p-4 space-y-4 pt-0">
             <div className="text-center space-y-2">
-              <h2 className="text-xl font-bold text-navy-900">TOP BÁN CHẠY</h2>
+              <h2 className="text-lg font-bold text-navy-900">TOP BÁN CHẠY</h2>
             </div>
             <div className="bg-[rgb(var(--quaternary-rgb))] rounded-lg p-4 space-y-3">
               {[
@@ -295,7 +295,7 @@ export default function HomeClient() {
               ))}
             </div>
           </div>
-          <div className="p-4 space-y-8 pt-0">
+          <div className="p-4 space-y-10 pt-0">
             <div className="space-y-4">
               <h2 className="text-2xl font-bold text-center text-navy-900">
                 KHÁCH HÀNG NÓI GÌ?
@@ -310,9 +310,9 @@ export default function HomeClient() {
               >
                 {customerRV?.map((cusRV, index) => (
                   <SwiperSlide key={index}>
-                    <Card className="border-2 border-dashed border-blue-100 p-6 relative">
+                    <Card className="border-2 border-dashed border-gray-300 py-6 px-8 relative">
                       <div className="flex justify-center mb-4">
-                        <div className="bg-blue-50 p-4 rounded-full">
+                        <div className="bg-[rgb(var(--quaternary-rgb))] p-4 rounded-full">
                           <Users2 className="w-8 h-8 text-black" />
                         </div>
                       </div>
@@ -329,17 +329,20 @@ export default function HomeClient() {
                 ))}
                 <button
                   onClick={() => swiperInstance?.slidePrev()}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 z-10">
+                  className="absolute left-2 top-1/2 -translate-y-1/2 z-10">
                   <ChevronLeft className="w-6 h-6" />
                 </button>
                 <button
                   onClick={() => swiperInstance?.slideNext()}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 z-10">
+                  className="absolute right-2 top-1/2 -translate-y-1/2 z-10">
                   <ChevronRight className="w-6 h-6" />
                 </button>
               </Swiper>
             </div>
             <div className="space-y-4">
+              <h2 className="text-2xl font-bold text-navy-900 text-center">
+                XU HƯỚNG HIỆN ĐẠI
+              </h2>
               <div className="relative">
                 <Image
                   src={IMAGES.PRODUCT}
@@ -350,18 +353,15 @@ export default function HomeClient() {
                 />
               </div>
               <div className="space-y-4">
-                <h2 className="text-2xl font-bold text-navy-900">
-                  XU HƯỚNG HIỆN ĐẠI
-                </h2>
                 <p className="text-gray-700 leading-relaxed">
                   Mặc dù mùa xuân và mùa hè thường gắn liền với thời tiết ấm hơn, nhưng không phải lúc nào mọi chuyện cũng bắt đầu như vậy. Các nhà thiết kế đã trang bị cho bạn những chiếc áo khoác ngoài sang trọng để tăng thêm phong cách cho phong cách của bạn trong giai đoạn chuyển tiếp từ nhiệt độ lạnh hơn sang những buổi chiều ấm áp và đầy nắng. Ngay cả khi thời tiết ấm áp hơn vào mùa xuân tới, hãy thêm một chiếc áo blazer oversized kiểu dáng đẹp vào diện mạo nếu bạn muốn tạo điểm nhấn táo bạo cho phong cách của mình.
                 </p>
               </div>
             </div>
           </div>
-          <div className="p-4 space-y-6">
+          <div className="p-4 space-y-4">
             <h2 className="text-2xl font-bold text-center text-navy-900">TIN TỨC</h2>
-            <div className="space-y-4">
+            <div className="space-y-2">
               {posts?.slice(0, 3)?.map((pot, index) => (
                 <div key={index}>
                   <Link href={`${ROUTES.BLOG}/${pot.id}`}>

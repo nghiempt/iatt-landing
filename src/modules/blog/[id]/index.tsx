@@ -72,7 +72,7 @@ export default function BlogDetailClient() {
         <div className="mb-3">
           <p>Đăng bởi: {currentData?.author} - {currentData?.date}</p>
         </div>
-        <div className="h-full bg-pink-50 rounded-md mb-6">
+        <div className="h-full bg-pink-50 rounded-md mb-4">
           <Image
             src={currentData?.image || ""}
             alt="Products Banner"
@@ -81,9 +81,9 @@ export default function BlogDetailClient() {
             height={0}
           />
         </div>
-        <div className="w-full border-dashed border border-gray-500 bg-[rgb(var(--tertiary-rgb))] rounded-lg pt-1 pb-3 px-4 z-10">
+        <div className="w-full border-dashed border border-gray-500 bg-[rgb(var(--tertiary-rgb))] rounded-lg py-2 px-4 z-10">
           <div className="flex flex-row gap-2">
-            <p className="font-semibold">Nội dung bài viết </p>
+            <p className="font-semibold">Tóm tắt bài viết </p>
             <div className="text-sm" onClick={toggleContent}>
               {isExpanded ? '[Ẩn]' : '[Hiện]'}
             </div>
@@ -99,17 +99,17 @@ export default function BlogDetailClient() {
             {isExpanded && currentData?.content}
           </div>
         </div>
-        <div className="w-full bg-[rgb(var(--tertiary-rgb))] rounded-lg mt-5 pt-3 pb-3 px-4 z-10">
+        <div className="w-full bg-[rgb(var(--tertiary-rgb))] rounded-lg mt-4 pt-3 pb-3 px-4 z-10">
           <p>{currentData?.content}</p>
         </div>
-        <div className="w-full bg-[rgb(var(--tertiary-rgb))] rounded-lg mt-5 pt-3 pb-3 px-4 z-10">
-          <div className="font-semibold text-sm mb-5">Cùng chủ đề</div>
-          <div className="grid grid-cols-2 gap-3">
+        <div className="w-full bg-white rounded-lg mt-4 py-4 z-10">
+          <div className="font-semibold text-md mb-4">BÀI VIẾT LIÊN QUAN</div>
+          <div className="grid grid-cols-2 gap-4">
             {posts?.slice(0, 2)?.map((pot, index) => (
               <div key={index}>
                 <Link href={`${ROUTES.BLOG}/${pot?.id}`}>
                   <div>
-                    <Image className="h-20 object-cover rounded-lg" src={pot?.image || ""} alt="image" width={1000} height={1000} />
+                    <Image className="h-28 object-cover rounded-lg" src={pot?.image || ""} alt="image" width={1000} height={1000} />
                   </div>
                   <div className="my-2">
                     <p className="font-bold text-[15px] leading-5 line-clamp-2">{pot?.title}</p>
@@ -122,32 +122,6 @@ export default function BlogDetailClient() {
               </div>
             ))}
           </div>
-        </div>
-        <div className="w-full bg-[rgb(var(--tertiary-rgb))] rounded-lg mt-5 pt-3 pb-3 px-4 z-10">
-          <div className="font-semibold text-sm mb-5">Dành riêng cho bạn</div>
-          {products?.slice(0, 2)?.map((pro, index) => (
-            <div key={index}>
-              <Link href={`${ROUTES.PRODUCT}/${pro.id}`}>
-                <div className="grid grid-cols-12 gap-3 mb-5">
-                  <div className="col-span-4 flex justify-center">
-                    <Image className="w-20 h-20 object-cover" src={pro?.image[0]?.img} alt="relevant img" width={1000} height={1000} />
-                  </div>
-                  <div className="col-span-8">
-                    <div className="flex items-center mb-1">
-                      {[1, 2, 3, 4, 5]?.map((star) => (
-                        <svg key={star} className="w-4 h-4 text-orange-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-                        </svg>
-                      ))}
-                      <span className="text-sm text-gray-500">(0 đánh giá)</span>
-                    </div>
-                    <div className="text-sm mb-1">{pro?.title}</div>
-                    <div className="font-semibold text-sm mb-1">{pro?.price} đ</div>
-                  </div>
-                </div>
-              </Link>
-            </div>
-          ))}
         </div>
       </div>
       <Footer />

@@ -150,7 +150,7 @@ export default function ProductClient() {
   return (
     <div className="w-full">
       <Header />
-      <div id="body" className="max-w-4xl mx-auto px-4 py-6">
+      <div id="body" className="max-w-4xl mx-auto px-4 py-4">
         <nav className="flex items-center gap-2 text-sm text-gray-600 mb-6">
           <Link href={`${ROUTES.HOME}`} className="hover:text-black">Trang chủ</Link>
           <ChevronRight className="w-4 h-4" />
@@ -158,7 +158,7 @@ export default function ProductClient() {
         </nav>
         <div className="h-32 bg-pink-50 rounded-lg mb-6">
           <Image
-            src={IMAGES.BLOG}
+            src="/product.png"
             alt="Products Banner"
             className="w-full h-full object-cover rounded-lg"
             width={400}
@@ -170,12 +170,12 @@ export default function ProductClient() {
           <div className='relative' ref={filterRef}>
             <Button
               onClick={() => setOpenFilter(!openFilter)}
-              variant="outline" className="border-dashed flex items-center gap-2">
+              variant="outline" className="border-dashed border-gray-300 flex items-center gap-2">
               <Filter className="w-4 h-4" />
               Bộ lọc
             </Button>
             {openFilter && (
-              <div className={`absolute top-12 left-0 right-0 w-44 bg-white shadow-[rgba(17,_17,_26,_0.2)_0px_0px_20px] z-10 transition-all duration-700 ease-in-out transform `}>
+              <div className={`absolute top-12 rounded-md left-0 right-0 w-44 bg-white shadow-[rgba(17,_17,_26,_0.2)_0px_0px_20px] z-10 transition-all duration-700 ease-in-out transform `}>
                 <div className="flex flex-col space-y-2 py-5 px-5">
                   {categories.map((cate, index) => (
                     selectedCate === cate.id ? (
@@ -199,12 +199,12 @@ export default function ProductClient() {
           <div className='relative flex justify-end' ref={sortRef}>
             <Button
               onClick={() => setOpenSort(!openSort)}
-              variant="outline" className="border-dashed flex items-center gap-2">
+              variant="outline" className="border-dashed border-gray-300 flex items-center gap-2">
               Sắp xếp
               <ChevronDown className="w-4 h-4" />
             </Button>
             {openSort && (
-              <div className="absolute top-12 -left-24 w-52 bg-white shadow-[rgba(17,_17,_26,_0.2)_0px_0px_20px] z-10 transition-all duration-700 ease-in-out transform">
+              <div className="absolute top-12 rounded-md -left-24 w-52 bg-white shadow-[rgba(17,_17,_26,_0.2)_0px_0px_20px] z-10 transition-all duration-700 ease-in-out transform">
                 <div className="flex flex-col space-y-2 py-5 px-5">
                   {[
                     { labels: "MẶC ĐỊNH", sort: 0 },

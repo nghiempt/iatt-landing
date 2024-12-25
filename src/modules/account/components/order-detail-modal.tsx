@@ -88,15 +88,14 @@ const OrderDetailModal = ({ orderId, date, total, status, products }: OrderDetai
                             </span>
                         </div>
                     </div>
-                    <div className="mb-6">
-                        <h4 className="mb-4 text-base font-semibold text-gray-900">Sản phẩm đã mua</h4>
+                    <div className="mb-4">
                         <div className="divide-y divide-gray-200">
                             {products.map((product, index) => (
                                 <div key={index} className="py-4">
                                     <div className="grid grid-cols-2 gap-4">
-                                        <div>
+                                        <div className='w-full'>
                                             <p className="text-sm font-semibold text-gray-900">{product.name}</p>
-                                            <div className="mt-1 flex items-center gap-4">
+                                            <div className="w-full mt-1 flex flex-col justify-center items-start gap-1">
                                                 <p className="text-sm text-gray-500">Màu khung: <span className="font-medium">{product.color}</span></p>
                                                 <p className="text-sm text-gray-500">Kích thước: <span className="font-medium">{product.size}</span></p>
                                             </div>

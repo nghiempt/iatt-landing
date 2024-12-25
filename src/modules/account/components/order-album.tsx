@@ -12,13 +12,13 @@ import ImageUploadAlbum from './image-upload-album';
 export default function OrderAlbumCreate() {
 
   const [uploadedFile, setUploadedFile] = React.useState<File | null>(null);
-  const [isPaper, setIsPaper] = React.useState(false);
+  const [isPaper, setIsPaper] = React.useState(true);
   const [paperType, setPaperType] = React.useState(1);
 
   return (
     <div className="w-full">
       <Header />
-      <div className="max-w-4xl mx-auto px-4 py-6">
+      <div className="max-w-4xl mx-auto px-4 py-4">
         <nav className="flex items-center gap-2 text-sm text-gray-600 mb-6">
           <Link href={`${ROUTES.HOME}`} className="hover:text-black">Trang chủ</Link>
           <ChevronRight className="w-4 h-4" />
@@ -49,11 +49,10 @@ export default function OrderAlbumCreate() {
                       <span>Tổng số trang: <strong>10</strong></span>
                     </div>
                     <div className='w-full flex flex-col justify-center items-center gap-4'>
-                      <select onChange={() => setIsPaper(!isPaper)} id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                        <option>Loại album</option>
-                        <option>Có hình ở bìa</option>
-                        <option>Không hình ở bìa</option>
-                      </select>
+                      <div className='w-full grid grid-cols-2 justify-center items-center gap-4'>
+                        <div onClick={() => { setPaperType(1); setIsPaper(true) }} className={`${paperType === 1 ? 'border-orange-600 text-orange-600 font-bold bg-orange-50' : ''} border rounded-md py-4 flex justify-center items-center`}>Bìa gói</div>
+                        <div onClick={() => { setPaperType(2); setIsPaper(false) }} className={`${paperType === 2 ? 'border-orange-600 text-orange-600 font-bold bg-orange-50' : ''} border rounded-md py-4 flex justify-center items-center`}>Bìa da</div>
+                      </div>
                       {
                         isPaper && (
                           <div className="w-full">
@@ -63,10 +62,11 @@ export default function OrderAlbumCreate() {
                           </div>
                         )
                       }
-                      <div className='w-full grid grid-cols-2 justify-center items-center gap-4'>
-                        <div onClick={() => setPaperType(1)} className={`${paperType === 1 ? 'border-orange-600 text-orange-600 font-bold bg-orange-50' : ''} border rounded-md py-4 flex justify-center items-center`}>Bìa gói</div>
-                        <div onClick={() => setPaperType(2)} className={`${paperType === 2 ? 'border-orange-600 text-orange-600 font-bold bg-orange-50' : ''} border rounded-md py-4 flex justify-center items-center`}>Bìa da</div>
-                      </div>
+                      <select id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                        <option>Ruột cán màng</option>
+                        <option>Ruột không cán màng</option>
+                        <option>Ruột tráng gương</option>
+                      </select>
                     </div>
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                       <h3 className="mt-4 text-xl font-semibold text-gray-900 dark:text-white">Thông tin cá nhân</h3>
@@ -86,7 +86,7 @@ export default function OrderAlbumCreate() {
                   </div>
                   <div className="space-y-4">
                     <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Thanh toán</h3>
-                    <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                    <div className="grid grid-cols-1 gap-4">
                       <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
                         <div className="flex items-start">
                           <div className="flex h-5 items-center">
@@ -132,9 +132,9 @@ export default function OrderAlbumCreate() {
                             height={100}
                           />
                           <div className='flex flex-col gap-1'>
-                            <strong>NGUYEN HOAI PHONG</strong>
-                            <span>VCB BANK</span>
-                            <span>11229998883</span>
+                            <strong>NGUYEN VAN A</strong>
+                            <span>ABC BANK</span>
+                            <span>11223344556677</span>
                           </div>
                         </div>
                       </div>
@@ -186,7 +186,7 @@ export default function OrderAlbumCreate() {
                     </div>
                   </div>
                   <div className="space-y-3">
-                    <button type="submit" className="flex w-full items-center justify-center rounded-lg bg-orange-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4  focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Xác nhận đặt hàng</button>
+                    <button type="submit" className="flex w-full font-bold items-center justify-center rounded-lg bg-[rgb(var(--quaternary-rgb))] border border-[rgb(var(--primary-rgb))] px-5 py-4 text-sm text-[rgb(var(--primary-rgb))] focus:outline-none focus:ring-4  focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">ĐẶT HÀNG NGAY</button>
                     <p className="text-sm font-normal text-gray-500 dark:text-gray-400">Bạn đã chấp nhận các điều khoản và chính sách của chúng tôi. <a href="#" title="" className="font-medium text-primary-700 underline hover:no-underline dark:text-primary-500">Chính sách bảo mật</a></p>
                   </div>
                 </div>

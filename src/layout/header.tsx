@@ -64,21 +64,21 @@ export default function Header() {
                     </button>
                 </div>
                 <div className="flex items-center">
-                    <Image
+                    {/* <Image
                         src={IMAGES.LOGO}
                         alt="logo"
                         width={32}
                         height={32}
-                    />
-                    <span className="ml-2 text-lg font-semibold">IN ẢNH TRỰC TUYẾN</span>
+                    /> */}
+                    <span className="text-lg font-semibold">IN ẢNH TRỰC TUYẾN</span>
                 </div>
                 <div
                     onClick={() => scrollToSection('body')}
-                    className="flex items-center space-x-4">
+                    className="flex items-center">
                     <button onClick={() => setOpenLogin(!openLogin)}>
                         <Image
-                            src={"https://cdn-icons-png.flaticon.com/128/1999/1999625.png"}
-                            alt="user"
+                            src={IMAGES.LOGO}
+                            alt="logo"
                             width={32}
                             height={32}
                         />
@@ -109,7 +109,7 @@ export default function Header() {
                             </li>
                             <li className='font-bold '>
                                 <a href={`${ROUTES.ACCOUNT}?tab=profile`} className="text-gray-700 hover:text-black">
-                                    Hồ sơ
+                                    Hồ sơ cá nhân
                                 </a>
                             </li>
                             <li className='font-bold '>

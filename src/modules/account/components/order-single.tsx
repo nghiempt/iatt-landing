@@ -79,7 +79,7 @@ export default function OrderSingleCreate() {
   return (
     <div className="w-full">
       <Header />
-      <div className="max-w-4xl mx-auto px-4 py-6">
+      <div className="max-w-4xl mx-auto px-4 py-4">
         <nav className="flex items-center gap-2 text-sm text-gray-600 mb-6">
           <Link href={`${ROUTES.HOME}`} className="hover:text-black">Trang chủ</Link>
           <ChevronRight className="w-4 h-4" />
@@ -142,7 +142,7 @@ export default function OrderSingleCreate() {
                               'w-10 h-10 rounded-full border-2 transition-all',
                               color.bgColor,
                               color.borderColor,
-                              selectedColor === color.id ? 'ring-2 ring-offset-2 ring-orange-600' : ''
+                              selectedColor === color.id ? 'ring-2 ring-offset-2 ring-orange-700' : ''
                             )}
                           />
                         ))}
@@ -227,9 +227,9 @@ export default function OrderSingleCreate() {
                             height={100}
                           />
                           <div className='flex flex-col gap-1'>
-                            <strong>NGUYEN HOAI PHONG</strong>
-                            <span>VCB BANK</span>
-                            <span>11229998883</span>
+                            <strong>NGUYEN VAN A</strong>
+                            <span>ABC BANK</span>
+                            <span>11223344556677</span>
                           </div>
                         </div>
                       </div>
@@ -281,7 +281,7 @@ export default function OrderSingleCreate() {
                     </div>
                   </div>
                   <div className="space-y-3">
-                    <button onClick={() => window.location.reload()} className="flex w-full items-center justify-center rounded-lg bg-orange-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4  focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Xác nhận đặt hàng</button>
+                    <button onClick={() => window.location.reload()} className="flex w-full items-center justify-center rounded-lg bg-[rgb(var(--quaternary-rgb))] border border-[rgb(var(--primary-rgb))] px-5 py-4 text-sm font-bold text-[rgb(var(--primary-rgb))] hover:bg-primary-800 focus:outline-none focus:ring-4  focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">ĐẶT HÀNG NGAY</button>
                     <p className="text-sm font-normal text-gray-500 dark:text-gray-400">Bạn đã chấp nhận các điều khoản và chính sách của chúng tôi. <a href="#" title="" className="font-medium text-primary-700 underline hover:no-underline dark:text-primary-500">Chính sách bảo mật</a></p>
                   </div>
                 </div>

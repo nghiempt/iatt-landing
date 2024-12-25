@@ -132,7 +132,7 @@ export default function ProductDetailClient() {
                 <Swiper
                   onSwiper={setThumbnailSwiperInstance}
                   slidesPerView={3}
-                  spaceBetween={10}
+                  spaceBetween={16}
                   navigation={false}
                   centeredSlides={false}
                   onSlideChange={handleThumbnailSlideChange}
@@ -141,7 +141,7 @@ export default function ProductDetailClient() {
                     <SwiperSlide key={index}>
                       <div
                         key={index}
-                        className={`w-28 h-28 rounded-sm overflow-hidden cursor-pointer relative transition-all duration-300 ${activeSlide === index ? 'border-[#6B3410]  border-4' : 'border-transparent'}`}
+                        className={`w-full h-28 rounded-sm overflow-hidden cursor-pointer relative transition-all duration-300 ${activeSlide === index ? 'border-[#6B3410]  border-2' : 'border-transparent'}`}
                         onClick={() => handleThumbnailClick(index)}
                       >
                         <Image
@@ -166,30 +166,22 @@ export default function ProductDetailClient() {
             </div>
           </div>
         </div>
-        <div className="space-y-6 p-6 bg-[rgb(var(--tertiary-rgb))] mt-4">
+        <div className="space-y-4 rounded-md p-6 bg-[rgb(var(--tertiary-rgb))] mt-4">
           <div className="flex justify-between items-start">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1">
               {[1, 2, 3, 4, 5].map((star) => (
-                <svg key={star} className="w-5 h-5 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg key={star} className="w-5 h-5 text-yellow-500" fill="#FFFF00FF" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
                 </svg>
               ))}
-              <span className="text-sm text-gray-500">(0 đánh giá)</span>
+              <span className="text-sm text-gray-500">(238 đã bán)</span>
             </div>
-            <Button variant="ghost" size="icon" className="border border-dashed border-primary">
-              <Heart className="h-5 w-5" />
-            </Button>
           </div>
           <h1 className="text-2xl font-bold text-navy-700">{currentData?.title}</h1>
           <div className="flex flex-col gap-2">
-            <div className="flex gap-8">
-              <span>Tình trạng: <strong>Còn hàng</strong></span>
-              <span>Thương hiệu: <strong>Lullaby</strong></span>
-            </div>
             <span>Dòng sản phẩm: <strong>{categories?.find((category) => category.id === currentData?.cate)?.name}</strong></span>
           </div>
           <div className="text-3xl font-bold text-brown-700">{currentData?.price} đ</div>
-
           <div className="space-y-2">
             <div className="flex items-center gap-2">
               <span>Màu sắc:</span>
@@ -229,9 +221,8 @@ export default function ProductDetailClient() {
               ))}
             </div>
           </div>
-
         </div>
-        <div className="p-6 bg-[rgb(var(--tertiary-rgb))] space-y-4">
+        <div className="px-6 pb-6 bg-[rgb(var(--tertiary-rgb))] space-y-4">
           <h2 className="text-xl font-bold text-navy-700">Mô tả sản phẩm</h2>
           <div className="space-y-4">
             <p className={`text-gray-500 leading-relaxed ${!isExpanded && 'line-clamp-2'}`}>

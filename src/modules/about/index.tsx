@@ -9,13 +9,13 @@ export default function AboutClient() {
   return (
     <div className="w-full">
       <Header />
-      <div id="body" className="max-w-4xl mx-auto px-4 py-6">
+      <div id="body" className="max-w-4xl mx-auto px-4 py-4">
         <nav className="flex items-center gap-2 text-sm text-gray-600 mb-6">
           <Link href={`${ROUTES.HOME}`} className="hover:text-black">Trang chủ</Link>
           <ChevronRight className="w-4 h-4" />
           <Link href={`${ROUTES.ABOUT}`} className="hover:text-black">Giới thiệu</Link>
         </nav>
-        <div className="space-y-8">
+        <div className="space-y-4">
           <div className="space-y-4">
             <h1 className="text-3xl font-bold text-navy-900">GIỚI THIỆU</h1>
             <div className="bg-[rgb(var(--quaternary-rgb))] p-6 rounded-lg space-y-4">
@@ -44,14 +44,14 @@ export default function AboutClient() {
             </div>
           </div>
           <div className="space-y-4">
-            <h2 className="text-xl font-bold text-navy-900">Chính sách</h2>
+            {/* <h2 className="text-xl font-bold text-navy-900">Chính sách</h2> */}
             <ul className="space-y-2 bg-[rgb(var(--quaternary-rgb))] p-6 rounded-lg">
               <li>
-                <Link href={`${ROUTES.PRIVACY_POLICY}`} className="text-gray-700 hover:text-black">
-                  Chính sách bảo mật
+                <Link href={`${ROUTES.PRIVACY_POLICY}`} className="font-semibold text-gray-700 hover:text-black">
+                  CHÍNH SÁCH BẢO MẬT
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link href={`${ROUTES.RETURN_POLICY}`} className="text-gray-700 hover:text-black">
                   Chính sách đổi trả
                 </Link>
@@ -60,10 +60,10 @@ export default function AboutClient() {
                 <Link href={`${ROUTES.TERMS_OF_SERVICE}`} className="text-gray-700 hover:text-black">
                   Điều khoản dịch vụ
                 </Link>
-              </li>
+              </li> */}
               <li>
-                <Link href={`${ROUTES.BUYING_GUIDE}`} className="text-gray-700 hover:text-black">
-                  Hướng dẫn mua hàng ở website
+                <Link href={`${ROUTES.BUYING_GUIDE}`} className="font-semibold text-gray-700 hover:text-black">
+                  HƯỚNG DẪN MUA HÀNG
                 </Link>
               </li>
             </ul>

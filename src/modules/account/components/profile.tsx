@@ -24,6 +24,15 @@ export interface District {
   division_type: string;
   name: string;
   short_codename: string;
+  wards: Ward[];
+}
+
+export interface Ward {
+  code: string;
+  codename: string;
+  division_type: string;
+  name: string;
+  short_codename: string;
 }
 
 export interface UserData {
@@ -31,29 +40,54 @@ export interface UserData {
   email: string;
   phone: string;
   address: string;
+  ward?: string;
   district?: string;
   province?: string;
 }
 
 export interface FormData extends UserData {
+  ward: string;
   district: string;
   province: string;
 }
 
 export default function AccountProfile() {
-  const userData: UserData = {
+  const [provinces, setProvinces] = React.useState<Province[]>([]);
+  const [userData, setUserData] = React.useState<UserData>({
     name: "Phạm Thanh Nghiêm",
     email: "nghiempt@gmail.com",
     phone: "+84 911 558 539",
-    address: "332/8 Phan Văn Trị, P11, ",
-    district: "Bình Thạnh",
-    province: "Hồ Chí Minh"
+    address: "332/8 Phan Văn Trị",
+    ward: "26908",
+    district: "765",
+    province: "79"
+  });
+
+  React.useEffect(() => {
+    const fetchProvinces = async () => {
+      try {
+        const response = await fetch('https://provinces.open-api.vn/api/?depth=3');
+        const data = await response.json();
+        setProvinces(data);
+      } catch (error) {
+        console.error('Error fetching provinces:', error);
+      }
+    };
+    fetchProvinces();
+  }, []);
+
+  const getFullAddressName = () => {
+    if (!provinces.length) return '';
+    const provinceObj = provinces.find(p => p.code.toString() === userData.province);
+    const districtObj = provinceObj?.districts.find(d => d.code.toString() === userData.district);
+    const wardObj = districtObj?.wards.find(w => w.code.toString() === userData.ward);
+    return `${userData.address}, ${wardObj?.name}, ${districtObj?.name}, ${provinceObj?.name}`;
   };
 
   return (
     <div className="w-full">
       <Header />
-      <div className="max-w-4xl mx-auto px-4 py-6">
+      <div className="max-w-4xl mx-auto px-4 pt-4 pb-20">
         <nav className="flex items-center gap-2 text-sm text-gray-600 mb-6">
           <Link href={`${ROUTES.HOME}`} className="hover:text-black">Trang chủ</Link>
           <ChevronRight className="w-4 h-4" />
@@ -90,7 +124,7 @@ export default function AccountProfile() {
                     <dl>
                       <dt className="font-semibold text-gray-900 dark:text-white">Địa chỉ giao hàng</dt>
                       <dd className="flex items-center gap-1 text-gray-500 dark:text-gray-400">
-                        {userData.address}{userData.district}, {userData.province}
+                        {getFullAddressName()}
                       </dd>
                     </dl>
                   </div>

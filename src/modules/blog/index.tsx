@@ -67,14 +67,14 @@ export default function BlogClient() {
   return (
     <div className="w-full">
       <Header />
-      <div id="body" className="max-w-4xl mx-auto px-4 py-6">
+      <div id="body" className="max-w-4xl mx-auto px-4 py-4">
         <nav className="flex items-center gap-2 text-sm text-gray-600 mb-6">
           <Link href={`${ROUTES.HOME}`} className="hover:text-black">Trang chủ</Link>
           <ChevronRight className="w-4 h-4" />
           <Link href={`${ROUTES.BLOG}`} className="hover:text-black">Tin tức</Link>
         </nav>
-        <h1 className="text-3xl font-bold text-navy-900 mb-6">TIN TỨC</h1>
-        <div className="flex flex-wrap gap-3 mb-8">
+        <h1 className="text-3xl font-bold text-navy-900 mb-4">TIN TỨC</h1>
+        {/* <div className="flex flex-wrap gap-3 mb-8">
           {categories.map((category) => (
             selectedCate === category.cate ? (
               <div key={category.cate}>
@@ -95,7 +95,7 @@ export default function BlogClient() {
               </div>
             )
           ))}
-        </div>
+        </div> */}
         <div className="grid gap-6">
           {posts.map((post) => (
             <BlogPostCard key={post.slug} post={post} />
