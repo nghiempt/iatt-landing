@@ -114,12 +114,6 @@ const ImageUpload = ({ onImageChange, selectedColor, selectedSize, className }: 
                             className="absolute top-0 left-0 w-full h-full object-cover"
                         />
                     </div>
-                    <div
-                        className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
-                        onClick={handleClick}
-                    >
-                        <span className="text-white text-sm">Thay đổi hình ảnh</span>
-                    </div>
                 </div>
             )}
         </div>

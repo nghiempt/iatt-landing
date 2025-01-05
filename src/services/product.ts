@@ -12,7 +12,13 @@ const getAll = async () => {
             throw new Error(`Failed - Status: ${response.status}`);
         }
         const data = await response.json();
-        return data;
+        let tmp: any = []
+        data.data?.forEach((item: any) => {
+            if (!item?.deleted_at) {
+                tmp.push(item)
+            }
+        })
+        return { data: tmp };
     } catch (error: any) {
         console.error('========= Error Get All Products:', error);
         return false;

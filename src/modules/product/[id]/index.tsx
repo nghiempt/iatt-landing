@@ -227,7 +227,12 @@ export default function ProductDetailClient() {
         </div>
       </div>
       <div className='relative'>
-        <div className='fixed bottom-0 left-0 right-0 h-20 bg-white  shadow-[0px_0px_20px_10px_rgba(0,0,0,0.1)]'>
+        <div
+          onClick={() => {
+            window.location.href = `http://localhost:3000/tai-khoan?tab=order-single&product=${currentData?._id}`
+          }}
+          className='fixed bottom-0 left-0 right-0 h-20 bg-white  shadow-[0px_0px_20px_10px_rgba(0,0,0,0.1)]'
+        >
           <div className='h-full flex justify-center items-center'>
             <div className='bg-[rgb(var(--tertiary-rgb))] px-12 py-2 border-2 font-semibold rounded-lg'>
               TẠO ĐƠN HÀNG

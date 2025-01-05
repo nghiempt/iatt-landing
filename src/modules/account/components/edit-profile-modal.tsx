@@ -18,6 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { AccountService } from "@/services/account";
 
 export interface Province {
     code: string;
@@ -48,6 +49,7 @@ export interface Ward {
 export interface UserData {
     name: string;
     email: string;
+    avatar: string;
     phone: string;
     address: string;
     ward?: string;
@@ -61,7 +63,7 @@ export interface FormData extends UserData {
     province: string;
 }
 
-const EditProfileModal = ({ user }: { user: UserData }) => {
+const EditProfileModal = ({ user }: { user: any }) => {
     const [provinces, setProvinces] = React.useState<Province[]>([]);
     const [districts, setDistricts] = React.useState<District[]>([]);
     const [wards, setWards] = React.useState<Ward[]>([]);
@@ -69,6 +71,7 @@ const EditProfileModal = ({ user }: { user: UserData }) => {
     const [formData, setFormData] = React.useState<FormData>({
         name: user?.name || "",
         email: user?.email || "",
+        avatar: user?.avatar || "",
         phone: user?.phone || "",
         address: user?.address || "",
         ward: user?.ward || "",
@@ -76,7 +79,6 @@ const EditProfileModal = ({ user }: { user: UserData }) => {
         province: user?.province || "",
     });
 
-    // Fetch provinces on component mount
     React.useEffect(() => {
         const fetchProvinces = async () => {
             try {
@@ -105,7 +107,6 @@ const EditProfileModal = ({ user }: { user: UserData }) => {
         fetchProvinces();
     }, []);
 
-    // Update districts and wards when province or district changes
     React.useEffect(() => {
         if (formData.province) {
             const selectedProvince = provinces.find(p => p.code === formData.province);
@@ -120,7 +121,6 @@ const EditProfileModal = ({ user }: { user: UserData }) => {
         }
     }, [formData.province, formData.district, provinces]);
 
-    // Handle province change
     const handleProvinceChange = (provinceCode: string) => {
         const selectedProvince = provinces.find(p => p.code === provinceCode);
         if (selectedProvince) {
@@ -138,7 +138,6 @@ const EditProfileModal = ({ user }: { user: UserData }) => {
         }
     };
 
-    // Handle district change
     const handleDistrictChange = (districtCode: string) => {
         const selectedDistrict = districts.find(d => d.code === districtCode);
         if (selectedDistrict) {
@@ -153,7 +152,6 @@ const EditProfileModal = ({ user }: { user: UserData }) => {
         }
     };
 
-    // Handle ward change
     const handleWardChange = (wardCode: string) => {
         setFormData(prev => ({
             ...prev,
@@ -161,7 +159,6 @@ const EditProfileModal = ({ user }: { user: UserData }) => {
         }));
     };
 
-    // Handle input change
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData(prev => ({
@@ -170,7 +167,6 @@ const EditProfileModal = ({ user }: { user: UserData }) => {
         }));
     };
 
-    // Handle form submission
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         console.log(formData);
@@ -184,11 +180,30 @@ const EditProfileModal = ({ user }: { user: UserData }) => {
             wardName: selectedWard?.name,
         };
         console.log("Formatted data:", formattedData);
+        await AccountService.updateAccount(user?._id, formattedData)
+        window.location.href = 'http://localhost:3000/tai-khoan?tab=profile'
     };
+
+    const updateDOM = () => {
+        if (user) {
+            setFormData(
+                {
+                    name: user?.name || "",
+                    email: user?.email || "",
+                    avatar: user?.avatar || "",
+                    phone: user?.phone || "",
+                    address: user?.address || "",
+                    ward: user?.ward || "",
+                    district: user?.district || "",
+                    province: user?.province || "",
+                }
+            )
+        }
+    }
 
     return (
         <Dialog>
-            <DialogTrigger asChild>
+            <DialogTrigger asChild onClick={updateDOM}>
                 <Button className="inline-flex w-1/2 items-center justify-center rounded-lg bg-white border border-[rgb(var(--primary-rgb))] px-5 py-2.5 text-sm font-medium text-[rgb(var(--primary-rgb))] sm:w-auto">
                     <svg
                         className="-ms-0.5 me-1.5 h-4 w-4"
@@ -210,7 +225,7 @@ const EditProfileModal = ({ user }: { user: UserData }) => {
                     Chỉnh sửa thông tin
                 </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-[425px]" onOpenAutoFocus={(e) => e.preventDefault()}>
                 <DialogHeader>
                     <DialogTitle>CHỈNH SỬA THÔNG TIN</DialogTitle>
                 </DialogHeader>

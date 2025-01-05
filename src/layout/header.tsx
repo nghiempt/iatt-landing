@@ -25,8 +25,8 @@ export default function Header() {
             return <Image
                 src={IMAGES.USER}
                 alt="logo"
-                width={40}
-                height={40}
+                width={36}
+                height={36}
                 priority
                 className="rounded-full"
             />

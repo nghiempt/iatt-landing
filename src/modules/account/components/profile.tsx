@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client"
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '@/layout/header';
 import Footer from '@/layout/footer';
 import Link from 'next/link';
@@ -8,6 +9,8 @@ import { ChevronRight } from 'lucide-react';
 import { ROUTES } from '@/utils/route';
 import Image from 'next/image';
 import EditProfileModal from './edit-profile-modal';
+import { AccountService } from '@/services/account';
+import Cookies from "js-cookie";
 
 export interface Province {
   code: string;
@@ -37,6 +40,7 @@ export interface Ward {
 
 export interface UserData {
   name: string;
+  avatar: string;
   email: string;
   phone: string;
   address: string;
@@ -52,15 +56,19 @@ export interface FormData extends UserData {
 }
 
 export default function AccountProfile() {
+
+  const emailCookie = Cookies.get("email")
+
   const [provinces, setProvinces] = React.useState<Province[]>([]);
   const [userData, setUserData] = React.useState<UserData>({
-    name: "Phạm Thanh Nghiêm",
-    email: "nghiempt@gmail.com",
-    phone: "+84 911 558 539",
-    address: "332/8 Phan Văn Trị",
-    ward: "26908",
-    district: "765",
-    province: "79"
+    name: "",
+    email: "",
+    avatar: "",
+    phone: "",
+    address: "",
+    ward: "",
+    district: "",
+    province: "",
   });
 
   React.useEffect(() => {
@@ -84,6 +92,20 @@ export default function AccountProfile() {
     return `${userData.address}, ${wardObj?.name}, ${districtObj?.name}, ${provinceObj?.name}`;
   };
 
+  const init = async (emailCookie: any) => {
+    const res = await AccountService.getAll()
+    if (res && res.data.length > 0) {
+      const acc = res.data?.find((account: any) => account.email === emailCookie);
+      setUserData(acc)
+    }
+  }
+
+  useEffect(() => {
+    if (emailCookie) {
+      init(emailCookie)
+    }
+  }, [])
+
   return (
     <div className="w-full">
       <Header />
@@ -103,9 +125,10 @@ export default function AccountProfile() {
                   <div className="space-y-4">
                     <div className="flex space-x-4">
                       <Image
-                        src="https://cdn-icons-png.flaticon.com/128/1999/1999625.png"
+                        src={userData.avatar}
                         width={50}
                         height={50}
+                        className="rounded-md"
                         alt="avatar"
                       />
                       <div>

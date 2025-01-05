@@ -35,7 +35,7 @@ export default function OrderAlbumCreate() {
                   Hình đơn
                 </Link>
                 <Link href={"/tai-khoan?tab=order-album"} className="text-white font-semibold py-2 rounded-md flex justify-center items-center bg-gradient-to-r from-pink-500 to-orange-400 after:mx-2 after:text-gray-200 dark:after:text-gray-500 sm:after:hidden">
-                  <Images width={16} height={16} className='mr-2' priority />
+                  <Images width={16} height={16} className='mr-2' />
                   Album
                 </Link>
               </div>

@@ -1,16 +1,22 @@
 "use client"
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '@/layout/header';
 import Footer from '@/layout/footer';
 import Link from 'next/link';
-import { ChevronRight, Frame, Images } from 'lucide-react';
+import { ChevronRight, Frame, Images, Loader } from 'lucide-react';
 import { ROUTES } from '@/utils/route';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import ImageUpload from './image-upload';
 import { useToast } from '@/hooks/use-toast';
+import { OrderService } from '@/services/order';
+import Cookies from "js-cookie";
+import { UploadService } from '@/services/upload';
+import { AccountService } from '@/services/account';
+import { ProductService } from '@/services/product';
+import { HELPER } from '@/utils/helper';
 
 interface ColorOption {
   id: string;
@@ -32,11 +38,26 @@ export default function OrderSingleCreate() {
 
   const { toast } = useToast()
 
+  const emailCookie = Cookies.get("email")
   const param = useSearchParams();
+  const [products, setProducts] = useState([] as any)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [currentImage, setCurrentImage] = React.useState('');
   const [selectedColor, setSelectedColor] = React.useState<string>('white');
   const [selectedSize, setSelectedSize] = React.useState<string>('15x21');
+  const [selectedPayment, setSelectedPayment] = React.useState<string>('cash');
+  const [selectedProduct, setSelectedProduct] = React.useState<any>(null);
   const [uploadedFile, setUploadedFile] = React.useState<File | null>(null);
+  const [userData, setUserData] = React.useState<any>({
+    name: "",
+    email: "",
+    avatar: "",
+    phone: "",
+    address: "",
+    ward: "",
+    district: "",
+    province: "",
+  });
 
   const colorOptions: ColorOption[] = [
     { id: 'white', name: 'Trắng', bgColor: 'bg-white', borderColor: 'border-gray-300' },
@@ -52,6 +73,7 @@ export default function OrderSingleCreate() {
 
   useEffect(() => {
     setCurrentImage(param.get('source') || 'tab');
+    setSelectedProduct(param.get('product') || '6778b702de4214f1277c438d')
   }, [param]);
 
   const getImageContainerStyle = () => {
@@ -75,6 +97,55 @@ export default function OrderSingleCreate() {
       window.open('https://play.google.com/store/apps/details?id=com.google.android.apps.photos')
     }, 1000)
   }
+
+  const handleSubmit = async () => {
+    setIsLoading(true)
+    const upload: any = await UploadService.uploadToCloudinary([uploadedFile])
+    var currentdate = new Date();
+    var datetime = currentdate.getDate() + "/"
+      + (currentdate.getMonth() + 1) + "/"
+      + currentdate.getFullYear() + " @ "
+      + currentdate.getHours() + ":"
+      + currentdate.getMinutes() + ":"
+      + currentdate.getSeconds();
+    const body = {
+      "product_id": selectedProduct,
+      "account_email": emailCookie,
+      "image": upload[0]?.url,
+      "color": selectedColor,
+      "size": selectedSize,
+      "address": userData.address,
+      "payment_method": selectedPayment,
+      "status": "waiting",
+      "total": products.find((pro: any) => pro._id.toString() === selectedProduct)?.price,
+      "date_create": datetime,
+      "date_completed": "",
+    }
+    await OrderService.createOrder(body)
+    setIsLoading(false)
+  }
+
+  const renderProduct = async () => {
+    const res = await ProductService.getAll()
+    if (res && res.data.length > 0) {
+      setProducts(res.data)
+    }
+  }
+
+  const init = async (emailCookie: any) => {
+    const res = await AccountService.getAll()
+    if (res && res.data.length > 0) {
+      const acc = res.data?.find((account: any) => account.email === emailCookie);
+      setUserData(acc)
+    }
+    renderProduct()
+  }
+
+  useEffect(() => {
+    if (emailCookie) {
+      init(emailCookie)
+    }
+  }, [])
 
   return (
     <div className="w-full">
@@ -126,11 +197,23 @@ export default function OrderSingleCreate() {
                           </div>
                         )}
                       </div>
-                      <select className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                        <option>Loại sản phẩm</option>
-                        <option>Khung ảnh titan A1</option>
-                        <option>Khung ảnh titan A2</option>
-                        <option>Khung ảnh viền hoa văn</option>
+                      <select defaultValue={selectedProduct} onChange={(e) => setSelectedProduct(e.target.value)} className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                        <option>
+                          {
+                            selectedProduct === '6778b702de4214f1277c438d'
+                              ?
+                              "Khung ảnh hoa văn 4k Ruột Sắc Nét"
+                              :
+                              'Loại sản phẩm'
+                          }
+                        </option>
+                        {
+                          products?.map((item: any, index: any) => {
+                            return (
+                              <option key={index} value={item?._id}>{item?.name}</option>
+                            )
+                          })
+                        }
                       </select>
                       <div className='w-full flex justify-center items-center gap-6 py-4'>
                         {colorOptions.map((color) => (
@@ -167,25 +250,30 @@ export default function OrderSingleCreate() {
                       <h3 className="mt-4 text-xl font-semibold text-gray-900 dark:text-white">Thông tin cá nhân</h3>
                       <div>
                         <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Tên*</label>
-                        <input type="text" value="Phạm Thanh Nghiêm" className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500" placeholder="" />
+                        <input disabled type="text" value={userData.name} className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500" placeholder="" />
                       </div>
                       <div>
                         <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Địa chỉ*</label>
-                        <input type="email" value="332/8 Phan Văn Trị, P11, Bình Thạnh, HCM" className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500" placeholder="" />
+                        <textarea
+                          disabled
+                          value={`${userData.address}, ${userData?.wardName}, ${userData?.districtName}, ${userData?.provinceName}`}
+                          className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500" placeholder="" />
                       </div>
                       <div>
                         <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Số điện thoại* </label>
-                        <input type="text" value="0911558539" className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500" placeholder="" />
+                        <input disabled type="text" value={userData.phone} className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500" placeholder="" />
                       </div>
                     </div>
                   </div>
                   <div className="space-y-4">
                     <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Thanh toán</h3>
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-                      <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
+                      <div onClick={() => setSelectedPayment('cash')} className="rounded-lg border border-gray-200 bg-gray-50 p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
                         <div className="flex items-start">
                           <div className="flex h-5 items-center">
-                            <input type="radio" name="payment-method" value="" className="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600" checked />
+                            <input type="radio" name="payment-method" value="" className="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600"
+                              checked={selectedPayment === 'cash'}
+                            />
                           </div>
                           <div className="ms-4 text-sm">
                             <label className="font-medium leading-none text-gray-900 dark:text-white flex justify-start items-center gap-2">
@@ -201,10 +289,12 @@ export default function OrderSingleCreate() {
                           </div>
                         </div>
                       </div>
-                      <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
+                      <div onClick={() => setSelectedPayment('bank')} className="rounded-lg border border-gray-200 bg-gray-50 p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
                         <div className="flex items-start">
                           <div className="flex h-5 items-center">
-                            <input type="radio" name="payment-method" value="" className="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600" checked />
+                            <input type="radio" name="payment-method" value="" className="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600"
+                              checked={selectedPayment === 'bank'}
+                            />
                           </div>
                           <div className="ms-4 text-sm">
                             <label className="font-medium leading-none text-gray-900 dark:text-white flex justify-start items-center gap-2">
@@ -219,24 +309,32 @@ export default function OrderSingleCreate() {
                             <p className="mt-1 text-xs font-normal text-gray-500 dark:text-gray-400">Quét QR để thanh toán</p>
                           </div>
                         </div>
-                        <div className='w-full flex justify-center items-center gap-4 mt-4'>
-                          <Image
-                            src="https://docs.lightburnsoftware.com/legacy/img/QRCode/ExampleCode.png"
-                            alt="QR code"
-                            width={100}
-                            height={100}
-                          />
-                          <div className='flex flex-col gap-1'>
-                            <strong>NGUYEN VAN A</strong>
-                            <span>ABC BANK</span>
-                            <span>11223344556677</span>
-                          </div>
-                        </div>
+                        {
+                          selectedPayment === 'bank'
+                          &&
+                          (
+                            <div className='w-full flex justify-center items-center gap-4 mt-4'>
+                              <Image
+                                src="https://docs.lightburnsoftware.com/legacy/img/QRCode/ExampleCode.png"
+                                alt="QR code"
+                                width={100}
+                                height={100}
+                              />
+                              <div className='flex flex-col gap-1'>
+                                <strong>NGUYEN VAN A</strong>
+                                <span>ABC BANK</span>
+                                <span>11223344556677</span>
+                              </div>
+                            </div>
+                          )
+                        }
                       </div>
-                      <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
+                      {/* <div onClick={() => setSelectedPayment('momo')} className="rounded-lg border border-gray-200 bg-gray-50 p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
                         <div className="flex items-start">
                           <div className="flex h-5 items-center">
-                            <input type="radio" name="payment-method" value="" className="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600" checked />
+                            <input type="radio" name="payment-method" value="" className="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600"
+                              checked={selectedPayment === 'momo'}
+                            />
                           </div>
                           <div className="ms-4 text-sm">
                             <label className="font-medium leading-none text-gray-900 dark:text-white flex justify-start items-center gap-2">
@@ -251,7 +349,7 @@ export default function OrderSingleCreate() {
                             <p className="mt-1 text-xs font-normal text-gray-500 dark:text-gray-400">Thanh toán qua app Momo</p>
                           </div>
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>
@@ -260,7 +358,12 @@ export default function OrderSingleCreate() {
                     <div className="-my-3 divide-y divide-gray-200 dark:divide-gray-800">
                       <dl className="flex items-center justify-between gap-4 py-3">
                         <dt className="text-base font-normal text-gray-500 dark:text-gray-400">Giá sản phẩm</dt>
-                        <dd className="text-base font-medium text-gray-900 dark:text-white">129.000 VND</dd>
+                        <dd className="text-base font-medium text-gray-900 dark:text-white">
+                          {
+                            selectedProduct &&
+                            HELPER.formatVND(products.find((pro: any) => pro._id.toString() === selectedProduct)?.price)
+                          }
+                        </dd>
                       </dl>
                       <dl className="flex items-center justify-between gap-4 py-3">
                         <dt className="text-base font-normal text-gray-500 dark:text-gray-400">Khuyến mãi</dt>
@@ -276,12 +379,24 @@ export default function OrderSingleCreate() {
                       </dl>
                       <dl className="flex items-center justify-between gap-4 py-3">
                         <dt className="text-base font-bold text-gray-900 dark:text-white">Tổng</dt>
-                        <dd className="text-base font-bold text-gray-900 dark:text-white">129.000 VND</dd>
+                        <dd className="text-base font-bold text-gray-900 dark:text-white">
+                          {
+                            selectedProduct &&
+                            HELPER.formatVND(products.find((pro: any) => pro._id.toString() === selectedProduct)?.price)
+                          }
+                        </dd>
                       </dl>
                     </div>
                   </div>
                   <div className="space-y-3">
-                    <button onClick={() => window.location.reload()} className="flex w-full items-center justify-center rounded-lg bg-[rgb(var(--quaternary-rgb))] border border-[rgb(var(--primary-rgb))] px-5 py-4 text-sm font-bold text-[rgb(var(--primary-rgb))] hover:bg-primary-800 focus:outline-none focus:ring-4  focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">ĐẶT HÀNG NGAY</button>
+                    <div onClick={() => handleSubmit()} className="flex w-full items-center justify-center rounded-lg bg-[rgb(var(--quaternary-rgb))] border border-[rgb(var(--primary-rgb))] px-5 py-4 text-sm font-bold text-[rgb(var(--primary-rgb))] hover:bg-primary-800 focus:outline-none focus:ring-4  focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                      ĐẶT HÀNG NGAY
+                      {
+                        isLoading && (
+                          <Loader className="animate-spin ml-4" size={24} />
+                        )
+                      }
+                    </div>
                     <p className="text-sm font-normal text-gray-500 dark:text-gray-400">Bạn đã chấp nhận các điều khoản và chính sách của chúng tôi. <a href="#" title="" className="font-medium text-primary-700 underline hover:no-underline dark:text-primary-500">Chính sách bảo mật</a></p>
                   </div>
                 </div>

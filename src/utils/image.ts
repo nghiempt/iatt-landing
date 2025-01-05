@@ -6,5 +6,5 @@ export const IMAGES = {
     PRODUCT: '/product.png',
     BANNER: 'https://res.cloudinary.com/farmcode/image/upload/v1736052642/iatt/ptoxsan81xczduuzr1p2.jpg',
     SUB_BANNER: 'https://res.cloudinary.com/farmcode/image/upload/v1736052642/iatt/fucual3cehvo2oz28bde.jpg',
-    USER: 'https://lh3.googleusercontent.com/a/ACg8ocJwfc6rNVS3KKZXiPsf-rfH2EjdbdldaR3kKVGE3yhcpfDStwAA=s96-c'
+    USER: 'https://cdn-icons-png.flaticon.com/128/727/727399.png'
 }

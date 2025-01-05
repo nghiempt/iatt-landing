@@ -202,7 +202,7 @@ export default function HomeClient() {
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
                 {products?.slice(0, 2)?.map((pro: any, index: any) => (
                   <div key={index}>
-                    <Link href={`${ROUTES.PRODUCT}/${pro?.id}`}>
+                    <Link href={`${ROUTES.PRODUCT}/${pro?._id}`}>
                       <ProductCard
                         image={pro?.thumbnail}
                         title={pro?.name}
@@ -248,7 +248,7 @@ export default function HomeClient() {
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {filteredData?.slice(0, 4)?.map((filPro: any, index: any) => (
                 <div key={index}>
-                  <Link href={`${ROUTES.PRODUCT}/${filPro?.id}`}>
+                  <Link href={`${ROUTES.PRODUCT}/${filPro?._id}`}>
                     <ProductCard
                       image={filPro?.thumbnail}
                       title={filPro?.name}
@@ -334,7 +334,7 @@ export default function HomeClient() {
             <div className="space-y-2">
               {posts?.slice(0, 3)?.map((pot: any, index: any) => (
                 <div key={index}>
-                  <Link href={`${ROUTES.BLOG}/${pot.id}`}>
+                  <Link href={`${ROUTES.BLOG}/${pot._id}`}>
                     <NewsItem
                       image={pot?.thumbnail}
                       title={pot?.title}

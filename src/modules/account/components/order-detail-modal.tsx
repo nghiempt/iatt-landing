@@ -6,39 +6,17 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
+import { HELPER } from '@/utils/helper';
 
-export interface OrderProduct {
-    name: string;
-    color: string;
-    size: string;
-    price: number;
-    quantity: number;
-}
+const OrderDetailModal = ({ order }: any) => {
 
-export interface Order {
-    id: string;
-    date: string;
-    total: number;
-    status: 'completed' | 'cancelled' | 'shipping';
-    products: OrderProduct[];
-}
-
-interface OrderDetailModalProps {
-    orderId: string;
-    date: string;
-    total: number;
-    status: 'completed' | 'cancelled' | 'shipping';
-    products: OrderProduct[];
-}
-
-const OrderDetailModal = ({ orderId, date, total, status, products }: OrderDetailModalProps) => {
     const getStatusColor = (status: string) => {
         switch (status) {
             case 'completed':
                 return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300';
             case 'cancelled':
                 return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300';
-            case 'shipping':
+            case 'waiting':
                 return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300';
             default:
                 return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300';
@@ -51,7 +29,7 @@ const OrderDetailModal = ({ orderId, date, total, status, products }: OrderDetai
                 return 'Hoàn thành';
             case 'cancelled':
                 return 'Đã hủy';
-            case 'shipping':
+            case 'waiting':
                 return 'Đang giao';
             default:
                 return status;
@@ -73,23 +51,23 @@ const OrderDetailModal = ({ orderId, date, total, status, products }: OrderDetai
             </DialogTrigger>
             <DialogContent className="sm:max-w-[600px]">
                 <DialogHeader>
-                    <DialogTitle>Chi tiết đơn hàng #{orderId}</DialogTitle>
+                    <DialogTitle>Chi tiết đơn hàng #{order?._id}</DialogTitle>
                 </DialogHeader>
                 <div className="mt-4">
                     <div className="mb-6 grid grid-cols-2 gap-4">
                         <div>
                             <p className="text-sm font-medium text-gray-500">Ngày đặt hàng</p>
-                            <p className="text-sm font-semibold text-gray-900">{date}</p>
+                            <p className="text-sm font-semibold text-gray-900">{order?.date_create}</p>
                         </div>
                         <div>
                             <p className="text-sm font-medium text-gray-500">Trạng thái</p>
                             <span className={`inline-flex items-center rounded px-2.5 py-0.5 text-xs font-medium ${getStatusColor(status)}`}>
-                                {getStatusText(status)}
+                                {getStatusText(order?.status)}
                             </span>
                         </div>
                     </div>
                     <div className="mb-4">
-                        <div className="divide-y divide-gray-200">
+                        {/* <div className="divide-y divide-gray-200">
                             {products.map((product, index) => (
                                 <div key={index} className="py-4">
                                     <div className="grid grid-cols-2 gap-4">
@@ -107,12 +85,12 @@ const OrderDetailModal = ({ orderId, date, total, status, products }: OrderDetai
                                     </div>
                                 </div>
                             ))}
-                        </div>
+                        </div> */}
                     </div>
                     <div className="border-t border-gray-200 pt-4">
                         <div className="flex justify-between">
                             <p className="text-base font-semibold text-gray-900">Tổng tiền</p>
-                            <p className="text-base font-semibold text-gray-900">{total.toLocaleString('vi-VN')} VND</p>
+                            <p className="text-base font-semibold text-gray-900">{HELPER.formatVND(order?.total)}</p>
                         </div>
                     </div>
                 </div>

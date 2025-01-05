@@ -87,7 +87,7 @@ export default function BlogDetailClient() {
           <div className="grid grid-cols-2 gap-4">
             {posts?.slice(0, 2)?.map((pot: any, index: any) => (
               <div key={index}>
-                <Link href={`${ROUTES.BLOG}/${pot?.id}`}>
+                <Link href={`${ROUTES.BLOG}/${pot?._id}`}>
                   <div>
                     <Image className="h-28 object-cover rounded-lg" src={pot?.thumbnail || ""} alt="image" width={1000} height={1000} />
                   </div>
