@@ -61,11 +61,11 @@ export default function AboutClient() {
                   Điều khoản dịch vụ
                 </Link>
               </li> */}
-              <li>
+              {/* <li>
                 <Link href={`${ROUTES.BUYING_GUIDE}`} className="font-semibold text-gray-700 hover:text-black">
                   HƯỚNG DẪN MUA HÀNG
                 </Link>
-              </li>
+              </li> */}
             </ul>
           </div>
         </div>

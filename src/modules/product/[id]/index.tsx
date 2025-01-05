@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client"
 
 import Header from '@/layout/header';
@@ -6,56 +7,36 @@ import React, { useEffect, useState } from 'react';
 import { Card } from '@/components/ui/card';
 import Image from 'next/image';
 import { ChevronRight, ChevronDown, ChevronLeft } from 'lucide-react';
-import { Heart } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { DATA } from '@/utils/data';
 import { useParams } from 'next/navigation';
 import "swiper/css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { ROUTES } from '@/utils/route';
-
-interface Products {
-  id: number;
-  cate: number;
-  title: string;
-  image: {
-    id: number;
-    img: string;
-    color: string;
-    colorLabel: string;
-  }[];
-  price: string;
-  rating: number;
-  review: number;
-  description: string;
-  discount: string;
-}
-
-interface Category {
-  id: number,
-  name: string,
-}
-
-const products = DATA.PRODUCTS as Products[]
-const categories = DATA.CATEGORIES as Category[]
+import { ProductService } from '@/services/product';
+import { HELPER } from '@/utils/helper';
 
 export default function ProductDetailClient() {
 
   const { id } = useParams();
-  const [selectedColor, setSelectedColor] = useState<number>(1);
-  const [currentData, setCurrentData] = useState<Products | null>(null);
+  // const [selectedColor, setSelectedColor] = useState<number>(1);
+  const [currentData, setCurrentData] = useState<any | null>(null);
   const [activeSlide, setActiveSlide] = useState<number>(0);
   const [thumbnailSwiperInstance, setThumbnailSwiperInstance] = useState<any>(null);
   const [swiperInstance, setSwiperInstance] = useState<any>(null);
   const [isExpanded, setIsExpanded] = useState(false);
 
-  useEffect(() => {
-    if (id) {
-      const product = products.find((pro) => pro.id.toString() === id);
+  const init = async () => {
+    const res = await ProductService.getAll()
+    if (res && res.data.length > 0) {
+      const product = res.data?.find((pro: any) => pro._id.toString() === id);
+      console.log(product);
       setCurrentData(product || null);
     }
-  }, [id])
+  }
+
+  useEffect(() => {
+    init()
+  }, [])
 
   const handleSwiper = (swiper: any) => {
     setSwiperInstance(swiper);
@@ -86,7 +67,7 @@ export default function ProductDetailClient() {
           <ChevronRight className="w-4 h-4" />
           <Link href={`${ROUTES.PRODUCT}`} className="hover:text-black">Sản phẩm</Link>
           <ChevronRight className="w-4 h-4" />
-          <p className="hover:text-black truncate">{currentData?.title?.slice(0, 14)}...</p>
+          <p className="hover:text-black truncate">{currentData?.name?.slice(0, 14)}...</p>
         </nav>
         <div className="">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -98,11 +79,18 @@ export default function ProductDetailClient() {
                 spaceBetween={10}
                 navigation={false}
               >
-                {currentData?.image?.map((proImg, index) => (
+                <Image
+                  src={currentData?.thumbnail}
+                  alt="Product Image"
+                  className="object-cover rounded-sm"
+                  fill
+                  priority
+                />
+                {currentData?.images?.map((proImg: any, index: any) => (
                   <SwiperSlide key={index}>
                     <div className="aspect-square w-full relative bg-gray-50">
                       <Image
-                        src={proImg.img || ""}
+                        src={proImg}
                         alt="Product Image"
                         className="object-cover rounded-sm"
                         fill
@@ -119,7 +107,7 @@ export default function ProductDetailClient() {
                     <ChevronLeft className="w-6 h-6" />
                   </button>
                 )}
-                {activeSlide !== (currentData?.image?.length ?? 0) - 1 && (
+                {activeSlide !== (currentData?.images?.length ?? 0) - 1 && (
                   <button
                     onClick={() => swiperInstance?.slideNext()}
                     className="absolute right-4 top-1/2 -translate-y-1/2 z-10"
@@ -137,7 +125,7 @@ export default function ProductDetailClient() {
                   centeredSlides={false}
                   onSlideChange={handleThumbnailSlideChange}
                 >
-                  {currentData?.image?.map((proImg, index) => (
+                  {currentData?.images?.map((proImg: any, index: any) => (
                     <SwiperSlide key={index}>
                       <div
                         key={index}
@@ -145,7 +133,7 @@ export default function ProductDetailClient() {
                         onClick={() => handleThumbnailClick(index)}
                       >
                         <Image
-                          src={proImg.img}
+                          src={proImg}
                           alt={`variant ${index + 1}`}
                           className="object-cover"
                           layout="fill"
@@ -166,7 +154,7 @@ export default function ProductDetailClient() {
             </div>
           </div>
         </div>
-        <div className="space-y-4 rounded-md p-6 bg-[rgb(var(--tertiary-rgb))] mt-4">
+        <div className="w-full space-y-4 rounded-md p-6 bg-[rgb(var(--tertiary-rgb))] mt-4">
           <div className="flex justify-between items-start">
             <div className="flex items-center gap-1">
               {[1, 2, 3, 4, 5].map((star) => (
@@ -174,15 +162,15 @@ export default function ProductDetailClient() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
                 </svg>
               ))}
-              <span className="text-sm text-gray-500">(238 đã bán)</span>
+              <span className="text-sm text-gray-500">({currentData?.sold} đã bán)</span>
             </div>
           </div>
-          <h1 className="text-2xl font-bold text-navy-700">{currentData?.title}</h1>
+          <h1 className="text-2xl font-bold text-navy-700">{currentData?.name}</h1>
           <div className="flex flex-col gap-2">
-            <span>Dòng sản phẩm: <strong>{categories?.find((category) => category.id === currentData?.cate)?.name}</strong></span>
+            <span>Dòng sản phẩm: <strong>{HELPER.renderCategory(currentData?.category)}</strong></span>
           </div>
-          <div className="text-3xl font-bold text-brown-700">{currentData?.price} đ</div>
-          <div className="space-y-2">
+          <div className="text-3xl font-bold text-brown-700">{HELPER.formatVND(currentData?.price)}</div>
+          {/* <div className="space-y-2">
             <div className="flex items-center gap-2">
               <span>Màu sắc:</span>
               <strong>
@@ -190,7 +178,7 @@ export default function ProductDetailClient() {
               </strong>
             </div>
             <div className='flex gap-2'>
-              {currentData?.image?.map((color, index) => (
+              {currentData?.image?.map((color: any, index: any) => (
                 color.color && color.color.trim() !== "" && (
                   <div
                     key={index}
@@ -220,9 +208,9 @@ export default function ProductDetailClient() {
                 )
               ))}
             </div>
-          </div>
+          </div> */}
         </div>
-        <div className="px-6 pb-6 bg-[rgb(var(--tertiary-rgb))] space-y-4">
+        <div className="w-full px-6 py-6 mt-4 bg-[rgb(var(--tertiary-rgb))] space-y-4">
           <h2 className="text-xl font-bold text-navy-700">Mô tả sản phẩm</h2>
           <div className="space-y-4">
             <p className={`text-gray-500 leading-relaxed ${!isExpanded && 'line-clamp-2'}`}>
@@ -239,10 +227,10 @@ export default function ProductDetailClient() {
         </div>
       </div>
       <div className='relative'>
-        <div className='fixed -bottom-1 left-0 right-0 h-16 bg-white  shadow-[0px_0px_20px_10px_rgba(0,0,0,0.1)]'>
+        <div className='fixed bottom-0 left-0 right-0 h-20 bg-white  shadow-[0px_0px_20px_10px_rgba(0,0,0,0.1)]'>
           <div className='h-full flex justify-center items-center'>
-            <div className='bg-[rgb(var(--tertiary-rgb))] px-12 py-2 border-2 rounded-lg'>
-              THÊM VÀO GIỎ
+            <div className='bg-[rgb(var(--tertiary-rgb))] px-12 py-2 border-2 font-semibold rounded-lg'>
+              TẠO ĐƠN HÀNG
             </div>
           </div>
         </div>

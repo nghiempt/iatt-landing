@@ -1,8 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client'
 
 import Footer from "@/layout/footer"
 import Header from "@/layout/header"
-import { DATA } from "@/utils/data"
+import { BlogService } from "@/services/blog"
 import { ROUTES } from "@/utils/route"
 import { ChevronRight } from "lucide-react"
 import Image from "next/image"
@@ -10,52 +11,31 @@ import Link from "next/link"
 import { useParams } from "next/navigation"
 import { useEffect, useState } from "react"
 
-interface BlogPost {
-  id: number;
-  image: string;
-  title: string;
-  excerpt: string;
-  date: string;
-  author: string;
-  slug: string;
-  content: string;
-}
-
-interface Products {
-  id: number;
-  cate: number;
-  title: string;
-  image: {
-    id: number;
-    img: string;
-    color: string;
-    colorLabel: string;
-  }[];
-  price: string;
-  rating: number;
-  review: number;
-  description: string;
-  discount: string;
-}
-
-const products = DATA.PRODUCTS as Products[]
-const posts = DATA.POSTS as BlogPost[]
-
 export default function BlogDetailClient() {
-  const [currentData, setCurrentData] = useState<BlogPost | null>(null);
-  const { id } = useParams();
-  const [isExpanded, setIsExpanded] = useState(false);
 
-  useEffect(() => {
-    if (id) {
-      const product = posts.find((pot) => pot.id.toString() === id);
-      setCurrentData(product || null);
-    }
-  }, [id])
+  const { id } = useParams();
+  const [posts, setPosts] = useState([] as any)
+  // const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [currentData, setCurrentData] = useState<any | null>(null);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const toggleContent = () => {
     setIsExpanded((prev) => !prev);
   };
+
+  const init = async () => {
+    const res = await BlogService.getAll()
+    if (res && res.data.length > 0) {
+      setPosts(res.data)
+      const post = res.data.find((pot: any) => pot._id === id);
+      setCurrentData(post || null);
+      // setIsLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    init()
+  }, [])
 
   return (
     <div className="w-full">
@@ -74,7 +54,7 @@ export default function BlogDetailClient() {
         </div>
         <div className="h-full bg-pink-50 rounded-md mb-4">
           <Image
-            src={currentData?.image || ""}
+            src={currentData?.thumbnail || ""}
             alt="Products Banner"
             className="w-full h-full object-cover rounded-md"
             width={400}
@@ -105,11 +85,11 @@ export default function BlogDetailClient() {
         <div className="w-full bg-white rounded-lg mt-4 py-4 z-10">
           <div className="font-semibold text-md mb-4">BÀI VIẾT LIÊN QUAN</div>
           <div className="grid grid-cols-2 gap-4">
-            {posts?.slice(0, 2)?.map((pot, index) => (
+            {posts?.slice(0, 2)?.map((pot: any, index: any) => (
               <div key={index}>
                 <Link href={`${ROUTES.BLOG}/${pot?.id}`}>
                   <div>
-                    <Image className="h-28 object-cover rounded-lg" src={pot?.image || ""} alt="image" width={1000} height={1000} />
+                    <Image className="h-28 object-cover rounded-lg" src={pot?.thumbnail || ""} alt="image" width={1000} height={1000} />
                   </div>
                   <div className="my-2">
                     <p className="font-bold text-[15px] leading-5 line-clamp-2">{pot?.title}</p>

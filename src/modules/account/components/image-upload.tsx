@@ -110,6 +110,7 @@ const ImageUpload = ({ onImageChange, selectedColor, selectedSize, className }: 
                             src={preview}
                             alt="Preview"
                             fill
+                            priority
                             className="absolute top-0 left-0 w-full h-full object-cover"
                         />
                     </div>

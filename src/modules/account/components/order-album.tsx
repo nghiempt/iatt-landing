@@ -35,7 +35,7 @@ export default function OrderAlbumCreate() {
                   Hình đơn
                 </Link>
                 <Link href={"/tai-khoan?tab=order-album"} className="text-white font-semibold py-2 rounded-md flex justify-center items-center bg-gradient-to-r from-pink-500 to-orange-400 after:mx-2 after:text-gray-200 dark:after:text-gray-500 sm:after:hidden">
-                  <Images width={16} height={16} className='mr-2' />
+                  <Images width={16} height={16} className='mr-2' priority />
                   Album
                 </Link>
               </div>
@@ -99,6 +99,7 @@ export default function OrderAlbumCreate() {
                                 alt="money"
                                 width={20}
                                 height={20}
+                                priority
                               />
                               Tiền mặt (COD)
                             </label>
@@ -118,6 +119,7 @@ export default function OrderAlbumCreate() {
                                 alt="money"
                                 width={20}
                                 height={20}
+                                priority
                               />
                               Ngân hàng
                             </label>
@@ -130,6 +132,7 @@ export default function OrderAlbumCreate() {
                             alt="QR code"
                             width={100}
                             height={100}
+                            priority
                           />
                           <div className='flex flex-col gap-1'>
                             <strong>NGUYEN VAN A</strong>
@@ -150,6 +153,7 @@ export default function OrderAlbumCreate() {
                                 alt="money"
                                 width={18}
                                 height={18}
+                                priority
                               />
                               Momo
                             </label>

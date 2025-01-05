@@ -15,6 +15,7 @@ const Footer = () => {
                         alt="logo"
                         width={32}
                         height={32}
+                        priority
                     />
                     <span className="ml-2 text-xl font-semibold">IN ẢNH TRỰC TUYẾN</span>
                 </div>

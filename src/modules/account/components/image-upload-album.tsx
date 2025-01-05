@@ -92,6 +92,7 @@ const ImageUploadAlbum = ({ onImageChange, className }: ImageUploadAlbumProps) =
                         src={preview}
                         alt="Preview"
                         fill
+                        priority
                         className="rounded-lg object-cover"
                     />
                 </div>

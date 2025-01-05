@@ -1,29 +1,17 @@
 'use client'
 import Header from '@/layout/header';
 import Footer from '@/layout/footer';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Card } from "@/components/ui/card";
-import { ChevronRight, ChevronDown, Star, Filter } from 'lucide-react';
+import { ChevronRight, ChevronDown, Star, Filter, Loader } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import Image from 'next/image';
-import { IMAGES } from '@/utils/image';
 import { DATA } from '@/utils/data';
 import { ROUTES } from '@/utils/route';
 import { useOnClickOutside } from 'usehooks-ts';
-
-interface ProductCardProps {
-  image: string;
-  title: string;
-  price: string;
-  originalPrice?: string;
-  rating: number;
-  reviews: number;
-  discount?: string;
-  soldOut?: boolean;
-  hasGift?: boolean;
-  soldAmount: string;
-}
+import { ProductService } from '@/services/product';
+import { HELPER } from '@/utils/helper';
 
 const ProductCard = ({
   image,
@@ -36,7 +24,7 @@ const ProductCard = ({
   soldOut,
   hasGift,
   soldAmount
-}: ProductCardProps) => (
+}: any) => (
   <Card className="bg-white h-full overflow-hidden">
     <div className="relative">
       <Image src={image} alt={title} className="w-full h-48 object-cover" width={200} height={200} />
@@ -60,9 +48,9 @@ const ProductCard = ({
     </div>
     <div className="p-4">
       <div className="flex items-center space-x-2 mb-2">
-        <span className="text-xs font-bold text-black">{price}đ</span>
+        <span className="text-xs font-bold text-black">{HELPER.formatVND(price)}</span>
         {discount && (
-          <span className="text-xs text-black line-through">{originalPrice}đ</span>
+          <span className="text-xs text-black line-through">{HELPER.formatVND(originalPrice)}</span>
         )}
       </div>
       <h3 className="text-xs font-medium text-gray-900 mb-2 line-clamp-2">
@@ -75,43 +63,19 @@ const ProductCard = ({
             className={`w-3 h-3 ${i < rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`}
           />
         ))}
-        <span className="text-xs text-gray-500 ml-2">{soldAmount}</span>
+        <span className="text-xs text-gray-500 ml-2">({soldAmount})</span>
       </div>
     </div>
   </Card>
 );
 
-interface Category {
-  id: number,
-  name: string,
-}
-
-interface Products {
-  id: number;
-  cate: number;
-  title: string;
-  image: {
-    id: number;
-    img: string;
-    color: string;
-    colorLabel: string;
-  }[];
-  price: string;
-  rating: number;
-  review: number;
-  description: string;
-  discount: string;
-  hasGift: boolean;
-  soldAmount: string;
-}
-
-const products = DATA.PRODUCTS as Products[]
-const categories = DATA.CATEGORIES as Category[]
-
 export default function ProductClient() {
+
+  const categories = DATA.CATEGORIES as any
+  const [products, setProducts] = useState([] as any);
   const [openFilter, setOpenFilter] = useState(false);
   const [openSort, setOpenSort] = useState(false);
-  const [selectedCate, setSelectedCate] = useState<number>(0);
+  const [selectedCate, setSelectedCate] = useState<string>('all');
   const [selectedSort, setSelectedSort] = useState<number>(0);
   const filterRef = useRef(null);
   const sortRef = useRef(null);
@@ -119,9 +83,9 @@ export default function ProductClient() {
   useOnClickOutside(filterRef, () => setOpenFilter(false));
   useOnClickOutside(sortRef, () => setOpenSort(false));
 
-  const filteredData = selectedCate === 0
+  const filteredData = selectedCate === 'all'
     ? products
-    : products.filter(item => item.cate === selectedCate);
+    : products.filter((item: any) => item.category === selectedCate);
 
   const filteredDataSort = filteredData.sort((a: any, b: any) => {
     const priceA = parseInt(a.price.replace(/[^0-9]+/g, ""));
@@ -137,7 +101,7 @@ export default function ProductClient() {
     return 0;
   });
 
-  const handleSelectCategory = (cate: number) => {
+  const handleSelectCategory = (cate: string) => {
     setSelectedCate(cate);
     setOpenFilter(false);
   };
@@ -146,6 +110,17 @@ export default function ProductClient() {
     setSelectedSort(sort);
     setOpenSort(false);
   };
+
+  const init = async () => {
+    const res = await ProductService.getAll()
+    if (res && res.data.length > 0) {
+      setProducts(res.data)
+    }
+  }
+
+  useEffect(() => {
+    init()
+  }, [])
 
   return (
     <div className="w-full">
@@ -177,7 +152,7 @@ export default function ProductClient() {
             {openFilter && (
               <div className={`absolute top-12 rounded-md left-0 right-0 w-44 bg-white shadow-[rgba(17,_17,_26,_0.2)_0px_0px_20px] z-10 transition-all duration-700 ease-in-out transform `}>
                 <div className="flex flex-col space-y-2 py-5 px-5">
-                  {categories.map((cate, index) => (
+                  {categories.map((cate: any, index: any) => (
                     selectedCate === cate.id ? (
                       <div key={index} className="text-[rgb(var(--primary-rgb))] font-bold py-1 rounded-lg flex items-center">
                         <span>{cate.name}</span>
@@ -185,7 +160,7 @@ export default function ProductClient() {
                     ) : (
                       <button
                         key={index}
-                        onClick={() => handleSelectCategory(cate.id)}
+                        onClick={() => handleSelectCategory(cate.tag)}
                         className="text-black font-medium w-full text-left py-1"
                       >
                         {cate.name}
@@ -231,28 +206,27 @@ export default function ProductClient() {
             )}
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {filteredDataSort && filteredDataSort.length > 0 ? (
-            filteredDataSort?.map((data, index) => (
+            filteredDataSort?.map((data: any, index: any) => (
               <div key={index}>
-                <Link href={`${ROUTES.PRODUCT}/${data?.id}`}>
+                <Link href={`${ROUTES.PRODUCT}/${data?._id}`}>
                   <ProductCard
-                    image={data?.image[0]?.img}
-                    title={data?.title}
+                    image={data?.thumbnail}
+                    title={data?.name}
                     price={data?.price}
+                    rating={5}
+                    reviews={99}
+                    discount={99}
                     originalPrice={data?.price}
-                    rating={data?.rating}
-                    reviews={data?.review}
-                    discount={data?.discount}
-                    hasGift={data?.hasGift}
-                    soldAmount={data?.soldAmount}
+                    soldAmount={data?.sold}
                   />
                 </Link>
               </div>
             ))
           ) : (
-            <div className="col-span-2 text-center text-gray-500">
-              Không có sản phẩm.
+            <div className="col-span-2 text-center text-gray-500 w-full flex justify-center items-center py-20">
+              <Loader className="animate-spin" size={32} />
             </div>
           )}
         </div>
