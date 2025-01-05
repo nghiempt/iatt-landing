@@ -1,7 +1,10 @@
 import AboutClient from "@/modules/about";
+import React, { Suspense } from 'react';
 
 export default function About() {
   return (
-    <AboutClient />
+    <Suspense fallback={<div>...</div>}>
+      <AboutClient />
+    </Suspense>
   );
 }

@@ -1,7 +1,10 @@
 import ProductClient from "@/modules/product";
+import React, { Suspense } from 'react';
 
 export default function Product() {
   return (
-    <ProductClient />
+    <Suspense fallback={<div>...</div>}>
+      <ProductClient />
+    </Suspense>
   );
 }

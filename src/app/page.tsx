@@ -3,19 +3,22 @@
 import HomeClient from "@/modules/home";
 import { useSearchParams } from "next/navigation";
 import Cookies from "js-cookie";
+import React, { Suspense } from 'react';
 
 export default function Home() {
 
-  const param = useSearchParams()
+  // const param = useSearchParams()
 
-  if (param.get('email')) {
-    Cookies.set("isLogin", "true", { expires: 7 })
-    Cookies.set("email", param.get('email')?.toString() || '', { expires: 7 })
-  }
+  // if (param.get('email')) {
+  //   Cookies.set("isLogin", "true", { expires: 7 })
+  //   Cookies.set("email", param.get('email')?.toString() || '', { expires: 7 })
+  // }
 
   return (
     <div className="w-full flex flex-col justify-center items-center">
-      <HomeClient />
+      <Suspense fallback={<div>...</div>}>
+        <HomeClient />
+      </Suspense>
     </div>
   );
 }
