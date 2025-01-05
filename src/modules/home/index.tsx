@@ -19,6 +19,8 @@ import { ROUTES } from '@/utils/route';
 import { ProductService } from '@/services/product';
 import { HELPER } from '@/utils/helper';
 import { BlogService } from '@/services/blog';
+import { useSearchParams } from "next/navigation";
+import Cookies from "js-cookie";
 
 const NewsItem = ({ image, title, excerpt, date, author, isMain = false }: any) => (
   <Card className={`overflow-hidden ${isMain ? 'mb-4' : 'flex items-center gap-4 mb-4'}`}>
@@ -100,6 +102,8 @@ const CategoryCard = ({ title, icon }: any) => (
 
 export default function HomeClient() {
 
+  const param = useSearchParams()
+
   let customerRV = DATA.REVIEWS as any
   const [products, setProducts] = useState([] as any)
   const [posts, setPosts] = useState([] as any)
@@ -129,6 +133,10 @@ export default function HomeClient() {
   const init = async () => {
     renderProduct()
     renderBlog()
+    if (param.get('email')) {
+      Cookies.set("isLogin", "true", { expires: 7 })
+      Cookies.set("email", param.get('email')?.toString() || '', { expires: 7 })
+    }
   }
 
   useEffect(() => {
