@@ -1,13 +1,15 @@
+import { CONSTANT } from "@/utils/constant";
+
 const uploadToCloudinary = async (files: any) => {
     const results = [];
     try {
         for (const file of files) {
             const formData = new FormData();
             formData.append('file', file);
-            formData.append('upload_preset', 'portal');
-            formData.append('folder', 'iatt');
+            formData.append('upload_preset', CONSTANT.CLOUDINARY.CLOUDINARY_UPLOAD_PRESET);
+            formData.append('folder', CONSTANT.CLOUDINARY.CLOUDINARY_FOLDER);
             const response = await fetch(
-                'https://api.cloudinary.com/v1_1/farmcode/image/upload',
+                CONSTANT.CLOUDINARY.CLOUDINARY_API,
                 {
                     method: 'POST',
                     body: formData,

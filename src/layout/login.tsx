@@ -34,7 +34,7 @@ export function LoginModal() {
                 </button>
             </DialogTrigger>
             <DialogContent
-                className="sm:max-w-[825px]"
+                className="w-full"
                 onOpenAutoFocus={(e) => e.preventDefault()}
             >
                 <div>

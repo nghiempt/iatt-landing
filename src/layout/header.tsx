@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client'
 
 import { IMAGES } from '@/utils/image';
@@ -6,11 +7,13 @@ import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { LoginModal } from './login';
 import Cookies from "js-cookie";
+import { FolderPlus, Gift, History, House, Info, LogOut, NotepadText, UserRound } from 'lucide-react';
 
 export default function Header() {
 
     const isLogin = Cookies.get("isLogin")
     const [logined, setLogined] = useState(false);
+    const [open, setOpen] = useState(false);
 
     useEffect(() => {
         if (isLogin) {
@@ -18,18 +21,15 @@ export default function Header() {
         }
     }, [])
 
-    const [open, setOpen] = useState(false);
-
     const renderLogin = (isLogin: any) => {
         if (isLogin) {
             return <Image
-                src={IMAGES.USER}
+                src={IMAGES.LOGO}
                 alt="logo"
-                width={36}
-                height={36}
+                width={32}
+                height={32}
                 priority
-                className="rounded-full"
-            />
+                className="rounded-full" />
         } else {
             return <LoginModal />
         }
@@ -45,10 +45,9 @@ export default function Header() {
             <header className="relative bg-[rgb(var(--quaternary-rgb))] p-4 flex items-center justify-between">
                 <div className="flex flex-col justify-center">
                     <button
-                        className="text-gray-500 w-10 h-10 relative focus:outline-none"
+                        className="text-gray-800 w-10 h-10 relative focus:outline-none"
                         onClick={() => setOpen(!open)}
                     >
-                        <span className="sr-only">Open main menu</span>
                         <div className="block w-5 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
                             <span
                                 aria-hidden="true"
@@ -68,33 +67,33 @@ export default function Header() {
                         </div>
                     </button>
                 </div>
-                <div className="flex items-center">
-                    <span className="text-lg font-semibold">IN ẢNH TRỰC TUYẾN</span>
+                <div className="flex items-center justify-center">
+                    <span className="flex items-center justify-center mt-1 text-lg font-bold">IN ẢNH TRỰC TUYẾN</span>
                 </div>
                 {
                     renderLogin(logined)
                 }
                 {open && (
-                    <div className="absolute top-16 left-0 h-[830px] w-full bg-white shadow-md z-20">
+                    <div className="absolute mt-2 top-16 left-0 h-[1000px] w-full bg-white shadow-md z-20">
                         <ul className="flex flex-col space-y-10 py-10 px-5">
                             <li className='font-bold '>
-                                <a href={`${ROUTES.HOME}`} className="text-gray-700 hover:text-black">
-                                    Trang chủ
+                                <a href={`${ROUTES.HOME}`} className="flex items-center justify-start gap-4 text-gray-700 hover:text-black">
+                                    <House size={18} /> Trang chủ
                                 </a>
                             </li>
                             <li className='font-bold '>
-                                <a href={`${ROUTES.ABOUT}`} className="text-gray-700 hover:text-black">
-                                    Giới thiệu
+                                <a href={`${ROUTES.ABOUT}`} className="flex items-center justify-start gap-4 text-gray-700 hover:text-black">
+                                    <Info size={18} /> Giới thiệu
                                 </a>
                             </li>
                             <li className='font-bold '>
-                                <a href={`${ROUTES.PRODUCT}`} className="text-gray-700 hover:text-black">
-                                    Sản phẩm
+                                <a href={`${ROUTES.PRODUCT}`} className="flex items-center justify-start gap-4 text-gray-700 hover:text-black">
+                                    <Gift size={18} /> Sản phẩm
                                 </a>
                             </li>
                             <li className='font-bold '>
-                                <a href={`${ROUTES.BLOG}`} className="text-gray-700 hover:text-black">
-                                    Tin tức
+                                <a href={`${ROUTES.BLOG}`} className="flex items-center justify-start gap-4 text-gray-700 hover:text-black">
+                                    <NotepadText size={18} /> Tin tức
                                 </a>
                             </li>
                             {
@@ -102,8 +101,8 @@ export default function Header() {
                                 &&
                                 (
                                     <li className='font-bold '>
-                                        <a href={`${ROUTES.ACCOUNT}?tab=profile`} className="text-gray-700 hover:text-black">
-                                            Hồ sơ cá nhân
+                                        <a href={`${ROUTES.ACCOUNT}?tab=profile`} className="flex items-center justify-start gap-4 text-gray-700 hover:text-black">
+                                            <UserRound size={18} /> Hồ sơ cá nhân
                                         </a>
                                     </li>
                                 )
@@ -113,8 +112,8 @@ export default function Header() {
                                 &&
                                 (
                                     <li className='font-bold '>
-                                        <a href={`${ROUTES.ACCOUNT}?tab=history`} className="text-gray-700 hover:text-black">
-                                            Lịch sử mua hàng
+                                        <a href={`${ROUTES.ACCOUNT}?tab=history`} className="flex items-center justify-start gap-4 text-gray-700 hover:text-black">
+                                            <History size={18} /> Lịch sử mua hàng
                                         </a>
                                     </li>
                                 )
@@ -124,8 +123,8 @@ export default function Header() {
                                 &&
                                 (
                                     <li className='font-bold '>
-                                        <a href={`${ROUTES.ACCOUNT}?tab=order-single`} className="text-gray-700 hover:text-black">
-                                            Tạo đơn hàng mới
+                                        <a href={`${ROUTES.ACCOUNT}?tab=order-single`} className="flex items-center justify-start gap-4 text-gray-700 hover:text-black">
+                                            <FolderPlus size={18} /> Tạo đơn hàng mới
                                         </a>
                                     </li>
                                 )
@@ -135,8 +134,8 @@ export default function Header() {
                                 &&
                                 (
                                     <li className='font-bold '>
-                                        <button onClick={handleLogOut} className="w-1/2 flex items-center justify-center px-4 py-2 text-md font-medium text-white rounded-lg bg-orange-700">
-                                            Đăng xuất
+                                        <button onClick={handleLogOut} className="flex items-center justify-start gap-4 text-orange-700 hover:text-black">
+                                            <LogOut size={18} />  Đăng xuất
                                         </button>
                                     </li>
                                 )

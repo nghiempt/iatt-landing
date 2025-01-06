@@ -17,7 +17,7 @@ const Footer = () => {
                         height={32}
                         priority
                     />
-                    <span className="ml-2 text-xl font-semibold">IN ẢNH TRỰC TUYẾN</span>
+                    <span className="ml-2 text-xl font-bold">IN ẢNH TRỰC TUYẾN</span>
                 </div>
                 <p className="text-gray-700">
                     Chuyên cung cấp các sản phẩm khung ảnh và album ảnh chất lượng cao, uy tín.
@@ -37,7 +37,7 @@ const Footer = () => {
                     Đăng ký
                 </Button>
             </div>
-            <div className="px-4 space-y-6">
+            <div className="px-4 space-y-4">
                 <h3 className="text-xl font-bold text-navy-900">Thông tin liên hệ</h3>
                 <div className="space-y-4">
                     <div className="flex items-start gap-3">
@@ -61,7 +61,7 @@ const Footer = () => {
                 </div>
             </div>
             <div className="text-center text-gray-600 py-4 bg-white">
-                Copyright © 2024 In Ảnh Trực Tuyến.
+                Copyright © 2025 In Ảnh Trực Tuyến.
             </div>
         </footer>
     );

@@ -1,5 +1,5 @@
-// const BASE_URL = 'https://api.inanhtructuyen.com/api/v1';
-const BASE_URL = 'http://localhost:8000/api/v1';
+const BASE_URL = 'https://api.inanhtructuyen.com/api/v1';
+// const BASE_URL = 'http://localhost:8000/api/v1';
 
 const AUTH = {
     LOGIN_WITH_GOOGLE: `${BASE_URL}/auth/google`,
