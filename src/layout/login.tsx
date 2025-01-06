@@ -28,7 +28,7 @@ export function LoginModal() {
             <DialogTrigger asChild>
                 <button
                     type="button"
-                    className="flex items-center justify-center px-4 py-2 text-sm font-medium text-white rounded-lg bg-orange-700"
+                    className="flex items-center justify-center px-4 lg:px-8 py-2 text-sm lg:text-[16px] font-medium text-white rounded-lg bg-orange-700"
                 >
                     Đăng nhập
                 </button>
@@ -40,7 +40,7 @@ export function LoginModal() {
                 <div>
                     <div className='w-full'>
                         <div
-                            className="flex flex-col items-center justify-center mx-auto md:h-screen lg:py-0">
+                            className="flex flex-col items-center justify-center mx-auto lg:py-0">
                             <div className="w-full bg-white dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                                 <div className="space-y-4">
                                     <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">

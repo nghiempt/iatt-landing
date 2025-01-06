@@ -42,8 +42,8 @@ export default function Header() {
 
     return (
         <div>
-            <header className="relative bg-[rgb(var(--quaternary-rgb))] p-4 flex items-center justify-between">
-                <div className="flex flex-col justify-center">
+            <header className="relative bg-[rgb(var(--quaternary-rgb))] lg:bg-white p-4 lg:px-0 lg:py-6 flex items-center justify-between">
+                <div className="lg:hidden flex flex-col justify-center">
                     <button
                         className="text-gray-800 w-10 h-10 relative focus:outline-none"
                         onClick={() => setOpen(!open)}
@@ -67,7 +67,15 @@ export default function Header() {
                         </div>
                     </button>
                 </div>
-                <div className="flex items-center justify-center">
+                <div className="flex items-center justify-center gap-4 cursor-pointer">
+                    <Image
+                        src={IMAGES.LOGO}
+                        alt="logo"
+                        width={32}
+                        height={32}
+                        priority
+                        className="hidden lg:flex rounded-full"
+                    />
                     <span className="flex items-center justify-center mt-1 text-lg font-bold">IN ẢNH TRỰC TUYẾN</span>
                 </div>
                 {
@@ -144,6 +152,12 @@ export default function Header() {
                     </div>
                 )}
             </header>
+            <div className='w-full hidden lg:flex justify-center items-center gap-28 border-t-2 border-dashed border-gray-300 py-6'>
+                <span className='font-semibold'>TRANG CHỦ</span>
+                <span className='font-semibold'>VỀ CHÚNG TÔI</span>
+                <span className='font-semibold'>SẢN PHẨM</span>
+                <span className='font-semibold'>TIN TỨC</span>
+            </div>
         </div>
     );
 }

@@ -81,9 +81,9 @@ const ProductCard = (
 );
 
 const CategoryCard = ({ title, icon }: any) => (
-  <div className="w-28 flex-1 border border-gray-300 border-dashed rounded-lg p-4 flex flex-col items-center justify-center space-y-2">
+  <div className="w-28 lg:w-60 flex-1 border border-gray-300 border-dashed rounded-lg p-4 flex flex-col items-center justify-center space-y-2">
     {icon}
-    <span className="text-xs">{title}</span>
+    <span className="text-xs lg:text-lg">{title}</span>
   </div>
 );
 

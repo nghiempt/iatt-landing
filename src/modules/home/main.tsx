@@ -58,16 +58,16 @@ export default function HomeContent() {
     <main id="body" className="space-y-6">
       <Card className="relative overflow-hidden rounded-none shadow-none">
         <Image
-          src={IMAGES.BANNER}
+          src={IMAGES.SUB_BANNER}
           alt="logo"
-          className="w-full object-cover"
+          className="w-full lg:h-[480px] lg:rounded-md object-cover"
           width={1920}
           height={0}
           priority
         />
       </Card>
-      <div className="mt-4 text-center px-4">
-        <h3 className="text-lg font-bold text-navy-blue mb-4">DANH MỤC SẢN PHẨM</h3>
+      <div className="mt-4 text-center px-4 lg:py-8">
+        <h3 className="text-lg lg:text-2xl font-bold text-navy-blue mb-4 lg:mb-8">DANH MỤC SẢN PHẨM</h3>
         <div className="flex justify-center space-x-4">
           <Link href={`${ROUTES.PRODUCT}`}>
             <HomeComponent.CategoryCard
@@ -90,29 +90,50 @@ export default function HomeContent() {
         </div>
       </div>
       <div className="p-4 md:p-0 lg:p-0 space-y-8">
-        <div className="rounded-lg overflow-hidden border border-dashed border-[rgb(var(--primary-rgb))] p-4">
-          <Image
-            src={IMAGES.SUB_BANNER}
-            alt="alt"
-            className="w-full h-48 object-cover rounded-lg"
-            width={200}
-            height={200}
-            priority
-          />
-          <div className="text-center mt-4">
-            <p className="text-gray-600">Khuyến mãi cho người mới</p>
-            <h2 className="text-xl font-semibold text-black">Thiết kế gia công sản phẩm</h2>
-            <Button
-              className="w-full md:w/1-3 lg:w-1/4 bg-[rgb(var(--primary-rgb))] hover:bg-[#6B3410] text-white px-8 mt-4"
-            >
-              Liên hệ ngay
-            </Button>
+        <div className='w-full grid grid-cols-1 lg:grid-cols-2 gap-4'>
+          <div className="rounded-lg overflow-hidden border border-dashed border-[rgb(var(--primary-rgb))] p-4">
+            <Image
+              src={IMAGES.SUB_BANNER}
+              alt="alt"
+              className="w-full h-48 object-cover rounded-lg"
+              width={200}
+              height={200}
+              priority
+            />
+            <div className="text-center mt-4">
+              <p className="text-gray-600">Khuyến mãi cho người mới</p>
+              <h2 className="text-xl font-semibold text-black">Thiết kế gia công sản phẩm</h2>
+              <Button
+                className="w-full md:w/1-3 lg:w-1/4 bg-[rgb(var(--primary-rgb))] hover:bg-[#6B3410] text-white px-8 mt-4"
+              >
+                Liên hệ ngay
+              </Button>
+            </div>
+          </div>
+          <div className="hidden lg:flex flex-col rounded-lg overflow-hidden border border-dashed border-[rgb(var(--primary-rgb))] p-4">
+            <Image
+              src={IMAGES.SUB_BANNER}
+              alt="alt"
+              className="w-full h-48 object-cover rounded-lg"
+              width={200}
+              height={200}
+              priority
+            />
+            <div className="text-center mt-4">
+              <p className="text-gray-600">Khuyến mãi cho người mới</p>
+              <h2 className="text-xl font-semibold text-black">Thiết kế gia công sản phẩm</h2>
+              <Button
+                className="w-full md:w/1-3 lg:w-1/4 bg-[rgb(var(--primary-rgb))] hover:bg-[#6B3410] text-white px-8 mt-4"
+              >
+                Liên hệ ngay
+              </Button>
+            </div>
           </div>
         </div>
-        <div>
-          <h2 className="text-lg font-bold text-black mb-4">SẢN PHẨM NỔI BẬT</h2>
+        <div className='lg:py-6'>
+          <h2 className="text-lg lg:text-2xl font-bold text-black mb-4 lg:mb-8">SẢN PHẨM NỔI BẬT</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
-            {products?.slice(0, 2)?.map((product: any, index: any) => (
+            {products?.slice(0, 6)?.map((product: any, index: any) => (
               <div key={index}>
                 <Link href={`${ROUTES.PRODUCT}/${product?._id}`}>
                   <HomeComponent.ProductCard
@@ -130,11 +151,11 @@ export default function HomeContent() {
           </div>
         </div>
       </div>
-      <div className="p-4 md:p-0 lg:p-0 space-y-4 pt-0">
+      <div className="md:hidden lg:hidden flex flex-col p-4 md:p-0 lg:p-0 space-y-4 pt-0">
         <div className="text-center space-y-2">
           <h2 className="text-lg md:text-xl lg:text-2xl font-bold text-navy-900">TOP BÁN CHẠY</h2>
         </div>
-        <div className="md:hidden lg:hidden flex flex-col bg-[rgb(var(--quaternary-rgb))] rounded-lg p-4 space-y-3">
+        <div className="flex flex-col bg-[rgb(var(--quaternary-rgb))] rounded-lg p-4 space-y-3">
           {[
             { label: "ẢNH PLASTIC", cate: 'plastic' },
             { label: "KHUNG ẢNH", cate: 'frame' },
@@ -217,7 +238,7 @@ export default function HomeContent() {
             </button>
           </Swiper>
         </div>
-        <div className="space-y-4">
+        <div className="space-y-4 lg:py-10">
           <h2 className="text-2xl font-bold text-navy-900 text-center">
             XU HƯỚNG HIỆN ĐẠI
           </h2>
@@ -231,7 +252,7 @@ export default function HomeContent() {
               priority
             />
           </div>
-          <div className="space-y-4">
+          <div className="space-y-4 lg:text-center">
             <p className="text-gray-700 leading-relaxed">
               Mặc dù mùa xuân và mùa hè thường gắn liền với thời tiết ấm hơn, nhưng không phải lúc nào mọi chuyện cũng bắt đầu như vậy. Các nhà thiết kế đã trang bị cho bạn những chiếc áo khoác ngoài sang trọng để tăng thêm phong cách cho phong cách của bạn trong giai đoạn chuyển tiếp từ nhiệt độ lạnh hơn sang những buổi chiều ấm áp và đầy nắng. Ngay cả khi thời tiết ấm áp hơn vào mùa xuân tới, hãy thêm một chiếc áo blazer oversized kiểu dáng đẹp vào diện mạo nếu bạn muốn tạo điểm nhấn táo bạo cho phong cách của mình.
             </p>
@@ -240,7 +261,7 @@ export default function HomeContent() {
       </div>
       <div className="p-4 md:p-0 lg:p-0 space-y-4">
         <h2 className="text-2xl font-bold text-center text-navy-900">TIN TỨC</h2>
-        <div className="space-y-2">
+        <div className="space-y-2 lg:hidden flex flex-col">
           {blogs?.slice(0, 3)?.map((blog: any, index: any) => (
             <div key={index}>
               <Link href={`${ROUTES.BLOG}/${blog._id}`}>
@@ -251,6 +272,22 @@ export default function HomeContent() {
                   date={blog?.date}
                   author={blog?.author}
                   isMain={index === 0}
+                />
+              </Link>
+            </div>
+          ))}
+        </div>
+        <div className="space-y-2 hidden lg:flex lg:grid-cols-3 lg:gap-4">
+          {blogs?.slice(0, 3)?.map((blog: any, index: any) => (
+            <div key={index}>
+              <Link href={`${ROUTES.BLOG}/${blog._id}`}>
+                <HomeComponent.BlogCard
+                  image={blog?.thumbnail}
+                  title={blog?.title}
+                  excerpt={blog?.excerpt}
+                  date={blog?.date}
+                  author={blog?.author}
+                  isMain={true}
                 />
               </Link>
             </div>
