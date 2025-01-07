@@ -8,12 +8,23 @@ import React, { useEffect, useState } from 'react';
 import { LoginModal } from './login';
 import Cookies from "js-cookie";
 import { FolderPlus, Gift, History, House, Info, LogOut, NotepadText, PhoneCall, UserRound } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 
 export default function Header() {
 
     const isLogin = Cookies.get("isLogin")
     const [logined, setLogined] = useState(false);
     const [open, setOpen] = useState(false);
+
+    const pathname = usePathname()
+
+    const checkTabEnable = (tab: string, pathname: any) => {
+        if (pathname === tab) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     useEffect(() => {
         if (isLogin) {
@@ -159,13 +170,13 @@ export default function Header() {
             </header>
             <div className='w-full bg-orange-700 hidden lg:flex justify-center items-center'>
                 <div className='w-3/4 text-white flex justify-between items-center py-5'>
-                    <a href={`${ROUTES.HOME}`} className='font-semibold'>TRANG CHỦ</a>
-                    <a href={`${ROUTES.ABOUT}`} className='font-semibold border px-3 py-1 rounded-md'>VỀ CHÚNG TÔI</a>
-                    <a href={`${ROUTES.PRODUCT}`} className='font-semibold'>ÉP PLASTIC</a>
-                    <a href={`${ROUTES.PRODUCT}`} className='font-semibold'>ẢNH KHUNG VIỀN</a>
-                    <a href={`${ROUTES.PRODUCT}`} className='font-semibold'>PHOTOBOOK</a>
-                    <a href={`${ROUTES.PRODUCT}`} className='font-semibold'>BẢNG GIÁ</a>
-                    <a href={`${ROUTES.BLOG}`} className='font-semibold'>TIN TỨC</a>
+                    <a href={`${ROUTES.HOME}`} className={`${checkTabEnable(ROUTES.HOME, pathname) ? 'border px-3 py-1 rounded-md' : ''} font-semibold`}>TRANG CHỦ</a>
+                    <a href={`${ROUTES.ABOUT}`} className={`${checkTabEnable(ROUTES.ABOUT, pathname) ? 'border px-3 py-1 rounded-md' : ''} font-semibold`}>VỀ CHÚNG TÔI</a>
+                    <a href={`${ROUTES.PRODUCT}`} className={`${checkTabEnable(ROUTES.PRODUCT, pathname) ? 'border px-3 py-1 rounded-md' : ''} font-semibold`}>ÉP PLASTIC</a>
+                    <a href={`${ROUTES.PRODUCT}`} className={`${checkTabEnable(ROUTES.PRODUCT, pathname) ? 'border px-3 py-1 rounded-md' : ''} font-semibold`}>ẢNH KHUNG VIỀN</a>
+                    <a href={`${ROUTES.PRODUCT}`} className={`${checkTabEnable(ROUTES.PRODUCT, pathname) ? 'border px-3 py-1 rounded-md' : ''} font-semibold`}>PHOTOBOOK</a>
+                    <a href={`${ROUTES.PRODUCT}`} className={`${checkTabEnable(ROUTES.PRODUCT, pathname) ? 'border px-3 py-1 rounded-md' : ''} font-semibold`}>BẢNG GIÁ</a>
+                    <a href={`${ROUTES.BLOG}`} className={`${checkTabEnable(ROUTES.BLOG, pathname) ? 'border px-3 py-1 rounded-md' : ''} font-semibold`}>TIN TỨC</a>
                 </div>
             </div>
         </div>

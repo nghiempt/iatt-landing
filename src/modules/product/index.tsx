@@ -3,71 +3,14 @@ import Header from '@/layout/header';
 import Footer from '@/layout/footer';
 import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { Card } from "@/components/ui/card";
-import { ChevronRight, ChevronDown, Star, Filter, Loader } from 'lucide-react';
+import { ChevronRight, ChevronDown, Filter, Loader } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import Image from 'next/image';
 import { DATA } from '@/utils/data';
 import { ROUTES } from '@/utils/route';
 import { useOnClickOutside } from 'usehooks-ts';
 import { ProductService } from '@/services/product';
-import { HELPER } from '@/utils/helper';
-
-const ProductCard = ({
-  image,
-  title,
-  price,
-  originalPrice,
-  rating,
-  reviews,
-  discount,
-  soldOut,
-  hasGift,
-  soldAmount
-}: any) => (
-  <Card className="bg-white h-full overflow-hidden">
-    <div className="relative">
-      <Image src={image} alt={title} className="w-full h-48 object-cover" width={200} height={200} />
-      <div className="absolute top-2 left-2 flex flex-col gap-2">
-        {discount && (
-          <span className="bg-[rgb(var(--primary-rgb))] text-white px-2 py-1 text-sm rounded">
-            {discount}
-          </span>
-        )}
-        {soldOut && (
-          <span className="bg-red-700 text-white px-2 py-1 text-sm rounded">
-            Hết Hàng
-          </span>
-        )}
-      </div>
-      {hasGift && (
-        <div className="absolute top-2 right-2">
-          <span className="text-2xl">🎁</span>
-        </div>
-      )}
-    </div>
-    <div className="p-4">
-      <div className="flex items-center space-x-2 mb-2">
-        <span className="text-xs font-bold text-black">{HELPER.formatVND(price)}</span>
-        {discount && (
-          <span className="text-xs text-black line-through">{HELPER.formatVND(originalPrice)}</span>
-        )}
-      </div>
-      <h3 className="text-xs font-medium text-gray-900 mb-2 line-clamp-2">
-        {title}
-      </h3>
-      <div className="flex items-center">
-        {[...Array(5)].map((_, i) => (
-          <Star
-            key={i}
-            className={`w-3 h-3 ${i < rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`}
-          />
-        ))}
-        <span className="text-xs text-gray-500 ml-2">({soldAmount})</span>
-      </div>
-    </div>
-  </Card>
-);
+import { GlobalComponent } from '@/components/global';
 
 export default function ProductClient() {
 
@@ -207,30 +150,31 @@ export default function ProductClient() {
               )}
             </div>
           </div>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            {filteredDataSort && filteredDataSort.length > 0 ? (
-              filteredDataSort?.map((data: any, index: any) => (
-                <div key={index}>
-                  <Link href={`${ROUTES.PRODUCT}/${data?._id}`}>
-                    <ProductCard
-                      image={data?.thumbnail}
-                      title={data?.name}
-                      price={data?.price}
-                      rating={5}
-                      reviews={99}
-                      discount={99}
-                      originalPrice={data?.price}
-                      soldAmount={data?.sold}
-                    />
-                  </Link>
-                </div>
-              ))
-            ) : (
-              <div className="col-span-2 text-center text-gray-500 w-full flex justify-center items-center py-20">
+          {
+            filteredDataSort && filteredDataSort.length > 0
+              ?
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                {
+                  filteredDataSort?.map((data: any, index: any) => (
+                    <div key={index}>
+                      <Link href={`${ROUTES.PRODUCT}/${data?._id}`}>
+                        <GlobalComponent.ProductCard
+                          image={data?.thumbnail}
+                          title={data?.name}
+                          price={data?.price}
+                          hot={true}
+                          sold={data?.sold}
+                        />
+                      </Link>
+                    </div>
+                  ))
+                }
+              </div>
+              :
+              <div className="col-span-2 text-center w-full flex justify-center items-center py-40">
                 <Loader className="animate-spin" size={32} />
               </div>
-            )}
-          </div>
+          }
         </div>
       </div>
       <Footer />

@@ -4,7 +4,6 @@
 import Header from '@/layout/header';
 import Footer from '@/layout/footer';
 import React, { useEffect, useState } from 'react';
-import { Card } from '@/components/ui/card';
 import Image from 'next/image';
 import { ChevronRight, ChevronDown, ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
@@ -14,6 +13,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { ROUTES } from '@/utils/route';
 import { ProductService } from '@/services/product';
 import { HELPER } from '@/utils/helper';
+import { GlobalComponent } from '@/components/global';
 
 export default function ProductDetailClient() {
 
@@ -144,7 +144,7 @@ export default function ProductDetailClient() {
                   </Swiper>
                 </div>
               </div>
-              <div className="space-y-4">
+              <div className="">
                 <div className="hideen lg:flex flex-col w-full space-y-4 rounded-md p-6 bg-[rgb(var(--tertiary-rgb))]">
                   <div className="flex justify-between items-start">
                     <div className="flex items-center gap-1">
@@ -162,13 +162,22 @@ export default function ProductDetailClient() {
                   </div>
                   <div className="text-3xl font-bold text-brown-700">{HELPER.formatVND(currentData?.price)}</div>
                 </div>
-                <Card className="p-6">
-                  <h2 className="text-xl font-semibold mb-4">Đặc điểm nổi bật</h2>
-                  <p>
-                    {currentData?.description}
-                  </p>
-                </Card>
-                <div className="hideen lg:flex flex-col w-full rounded-md px-6 py-6 mt-4 bg-[rgb(var(--tertiary-rgb))] space-y-4">
+                <div className="hideen lg:flex flex-col w-full rounded-md px-6 py-6 space-y-4 mt-6">
+                  <h2 className="text-xl font-bold text-navy-700">Đặc điểm nổi bật</h2>
+                  <div className="space-y-4">
+                    <p className={`text-gray-500 leading-relaxed ${!isExpanded && 'line-clamp-2'}`}>
+                      {currentData?.description}
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setIsExpanded(!isExpanded)}
+                    className="flex items-center gap-2 text-brown-700 hover:text-brown-800"
+                  >
+                    Xem thêm
+                    <ChevronDown className={`h-4 w-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
+                  </button>
+                </div>
+                <div className="hideen lg:flex flex-col w-full rounded-md px-6 py-6 space-y-4">
                   <h2 className="text-xl font-bold text-navy-700">Mô tả sản phẩm</h2>
                   <div className="space-y-4">
                     <p className={`text-gray-500 leading-relaxed ${!isExpanded && 'line-clamp-2'}`}>
@@ -186,6 +195,24 @@ export default function ProductDetailClient() {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+      <div className='w-full px-4 lg:px-0 lg:w-3/4 flex flex-col justify-center items-start pb-4 lg:py-10'>
+        <h2 className="text-lg lg:text-2xl font-bold text-black mb-4">SẢN PHẨM LIÊN QUAN</h2>
+        <div className="w-full grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4">
+          {[1, 2, 3, 4]?.map((product: any, index: any) => (
+            <div key={index}>
+              <Link href={`${ROUTES.PRODUCT}/${product?._id}`}>
+                <GlobalComponent.ProductCard
+                  image={product?.thumbnail}
+                  title={product?.name}
+                  price={product?.price}
+                  hot={true}
+                  sold={product?.sold}
+                />
+              </Link>
+            </div>
+          ))}
         </div>
       </div>
       <div

@@ -14,8 +14,7 @@ import { useEffect, useState } from "react"
 export default function BlogDetailClient() {
 
   const { id } = useParams();
-  const [posts, setPosts] = useState([] as any)
-  // const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [blogs, setBlogs] = useState([] as any)
   const [currentData, setCurrentData] = useState<any | null>(null);
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -26,10 +25,9 @@ export default function BlogDetailClient() {
   const init = async () => {
     const res = await BlogService.getAll()
     if (res && res.data.length > 0) {
-      setPosts(res.data)
-      const post = res.data.find((pot: any) => pot._id === id);
-      setCurrentData(post || null);
-      // setIsLoading(false)
+      setBlogs(res.data)
+      const blog = res.data.find((bg: any) => bg._id === id);
+      setCurrentData(blog || null);
     }
   }
 
@@ -86,18 +84,18 @@ export default function BlogDetailClient() {
           <div className="w-full bg-white rounded-lg mt-4 py-4 z-10">
             <div className="font-semibold text-md mb-4">BÀI VIẾT LIÊN QUAN</div>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-              {posts?.slice(0, 2)?.map((pot: any, index: any) => (
+              {blogs?.slice(0, 2)?.map((blogs: any, index: any) => (
                 <div key={index}>
-                  <Link href={`${ROUTES.BLOG}/${pot?._id}`}>
+                  <Link href={`${ROUTES.BLOG}/${blogs?._id}`}>
                     <div>
-                      <Image className="h-28 object-cover rounded-lg" src={pot?.thumbnail || ""} alt="image" width={1000} height={1000} />
+                      <Image className="h-28 object-cover rounded-lg" src={blogs?.thumbnail || ""} alt="image" width={1000} height={1000} />
                     </div>
                     <div className="my-2">
-                      <p className="font-bold text-[15px] leading-5 line-clamp-2">{pot?.title}</p>
+                      <p className="font-bold text-[15px] leading-5 line-clamp-2">{blogs?.title}</p>
                     </div>
 
                     <div className="line-clamp-3 text-xs">
-                      {pot?.content}
+                      {blogs?.content}
                     </div>
                   </Link>
                 </div>

@@ -15,7 +15,7 @@ import Link from 'next/link';
 import { ROUTES } from '@/utils/route';
 import { ProductService } from '@/services/product';
 import { BlogService } from '@/services/blog';
-import { HomeComponent } from './components';
+import { GlobalComponent } from '@/components/global';
 
 export default function HomeContent() {
 
@@ -70,19 +70,19 @@ export default function HomeContent() {
         <h3 className="text-lg lg:text-2xl font-bold text-navy-blue mb-4 lg:mb-8">DANH MỤC SẢN PHẨM</h3>
         <div className="flex justify-center space-x-4">
           <Link href={`${ROUTES.PRODUCT}`}>
-            <HomeComponent.CategoryCard
+            <GlobalComponent.CategoryCard
               title="Ép Plastic"
               icon={<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-hard-drive"><line x1="22" x2="2" y1="12" y2="12" /><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z" /><line x1="6" x2="6.01" y1="16" y2="16" /><line x1="10" x2="10.01" y1="16" y2="16" /></svg>}
             />
           </Link>
           <Link href={`${ROUTES.PRODUCT}`}>
-            <HomeComponent.CategoryCard
+            <GlobalComponent.CategoryCard
               title="Khung ảnh"
               icon={<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-frame"><line x1="22" x2="2" y1="6" y2="6" /><line x1="22" x2="2" y1="18" y2="18" /><line x1="6" x2="6" y1="2" y2="22" /><line x1="18" x2="18" y1="2" y2="22" /></svg>}
             />
           </Link>
           <Link href={`${ROUTES.PRODUCT}`}>
-            <HomeComponent.CategoryCard
+            <GlobalComponent.CategoryCard
               title="Album"
               icon={<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-images"><path d="M18 22H4a2 2 0 0 1-2-2V6" /><path d="m22 13-1.296-1.296a2.41 2.41 0 0 0-3.408 0L11 18" /><circle cx="12" cy="8" r="2" /><rect width="16" height="16" x="6" y="2" rx="2" /></svg>}
             />
@@ -136,14 +136,12 @@ export default function HomeContent() {
             {products?.slice(0, 6)?.map((product: any, index: any) => (
               <div key={index}>
                 <Link href={`${ROUTES.PRODUCT}/${product?._id}`}>
-                  <HomeComponent.ProductCard
+                  <GlobalComponent.ProductCard
                     image={product?.thumbnail}
                     title={product?.name}
                     price={product?.price}
-                    rating={5}
-                    discount={99}
-                    originalPrice={product?.price}
-                    soldAmount={product?.sold}
+                    hot={true}
+                    sold={product?.sold}
                   />
                 </Link>
               </div>
@@ -181,14 +179,12 @@ export default function HomeContent() {
           {filteredData?.slice(0, 4)?.map((product: any, index: any) => (
             <div key={index}>
               <Link href={`${ROUTES.PRODUCT}/${product?._id}`}>
-                <HomeComponent.ProductCard
+                <GlobalComponent.ProductCard
                   image={product?.thumbnail}
                   title={product?.name}
                   price={product?.price}
-                  rating={5}
-                  discount={99}
-                  originalPrice={product?.price}
-                  soldAmount={product?.sold}
+                  hot={true}
+                  sold={product?.sold}
                 />
               </Link>
             </div>
@@ -196,7 +192,7 @@ export default function HomeContent() {
         </div>
       </div>
       <div className="p-4 md:p-0 lg:p-0 space-y-10 pt-0">
-        <div className="space-y-4">
+        <div className="space-y-4 lg:px-40">
           <h2 className="text-2xl font-bold text-center text-navy-900">
             KHÁCH HÀNG NÓI GÌ?
           </h2>
@@ -252,7 +248,7 @@ export default function HomeContent() {
               priority
             />
           </div>
-          <div className="space-y-4 lg:text-center">
+          <div className="space-y-4 lg:text-center lg:px-20">
             <p className="text-gray-700 leading-relaxed">
               Mặc dù mùa xuân và mùa hè thường gắn liền với thời tiết ấm hơn, nhưng không phải lúc nào mọi chuyện cũng bắt đầu như vậy. Các nhà thiết kế đã trang bị cho bạn những chiếc áo khoác ngoài sang trọng để tăng thêm phong cách cho phong cách của bạn trong giai đoạn chuyển tiếp từ nhiệt độ lạnh hơn sang những buổi chiều ấm áp và đầy nắng. Ngay cả khi thời tiết ấm áp hơn vào mùa xuân tới, hãy thêm một chiếc áo blazer oversized kiểu dáng đẹp vào diện mạo nếu bạn muốn tạo điểm nhấn táo bạo cho phong cách của mình.
             </p>
@@ -265,7 +261,8 @@ export default function HomeContent() {
           {blogs?.slice(0, 3)?.map((blog: any, index: any) => (
             <div key={index}>
               <Link href={`${ROUTES.BLOG}/${blog._id}`}>
-                <HomeComponent.BlogCard
+                <GlobalComponent.BlogCard
+                  id={blog?._id}
                   image={blog?.thumbnail}
                   title={blog?.title}
                   excerpt={blog?.excerpt}
@@ -277,21 +274,21 @@ export default function HomeContent() {
             </div>
           ))}
         </div>
-        <div className="space-y-2 hidden lg:flex lg:grid-cols-3 lg:gap-4">
-          {blogs?.slice(0, 3)?.map((blog: any, index: any) => (
-            <div key={index}>
-              <Link href={`${ROUTES.BLOG}/${blog._id}`}>
-                <HomeComponent.BlogCard
-                  image={blog?.thumbnail}
-                  title={blog?.title}
-                  excerpt={blog?.excerpt}
-                  date={blog?.date}
-                  author={blog?.author}
-                  isMain={true}
-                />
-              </Link>
-            </div>
-          ))}
+        <div className="hidden lg:grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {
+            blogs?.map((blog: any, index: any) => (
+              <GlobalComponent.BlogCard
+                key={index}
+                id={blog?._id}
+                image={blog?.thumbnail}
+                title={blog?.title}
+                excerpt={blog?.excerpt}
+                date={blog?.date}
+                author={blog?.author}
+                isMain={true}
+              />
+            ))
+          }
         </div>
       </div>
     </main>
