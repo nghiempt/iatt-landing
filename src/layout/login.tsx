@@ -14,13 +14,13 @@ import { API } from "@/utils/api";
 export function LoginModal() {
 
     const handleSubmit = async () => {
-        Cookies.set("isLogin", "true", { expires: 7 })
-        window.location.href = ROUTES.HOME
+        // Cookies.set("isLogin", "true", { expires: 7 })
+        // window.location.href = ROUTES.HOME
     }
 
     const handleSubmitWithGoogle = async (e: any) => {
         e.preventDefault()
-        window.location.href = API.AUTH.LOGIN_WITH_GOOGLE
+        // window.location.href = API.AUTH.LOGIN_WITH_GOOGLE
     }
 
     return (
@@ -28,7 +28,7 @@ export function LoginModal() {
             <DialogTrigger asChild>
                 <button
                     type="button"
-                    className="flex items-center justify-center px-4 lg:px-8 py-2 text-sm lg:text-[16px] font-medium text-white rounded-lg bg-orange-700"
+                    className="flex items-center justify-center px-4 lg:px-8 py-2 text-sm lg:text-[16px] font-medium text-white rounded-lg bg-orange-700 lg:bg-white lg:text-orange-700 lg:border lg:border-orange-700"
                 >
                     Đăng nhập
                 </button>

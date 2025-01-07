@@ -7,7 +7,7 @@ import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { LoginModal } from './login';
 import Cookies from "js-cookie";
-import { FolderPlus, Gift, History, House, Info, LogOut, NotepadText, UserRound } from 'lucide-react';
+import { FolderPlus, Gift, History, House, Info, LogOut, NotepadText, PhoneCall, UserRound } from 'lucide-react';
 
 export default function Header() {
 
@@ -41,8 +41,8 @@ export default function Header() {
     }
 
     return (
-        <div>
-            <header className="relative bg-[rgb(var(--quaternary-rgb))] lg:bg-white p-4 lg:px-0 lg:py-6 flex items-center justify-between">
+        <div className='w-full flex flex-col justify-center items-center'>
+            <header className="w-full lg:w-3/4 relative bg-[rgb(var(--quaternary-rgb))] lg:bg-white p-4 lg:px-0 lg:py-6 flex items-center justify-between">
                 <div className="lg:hidden flex flex-col justify-center">
                     <button
                         className="text-gray-800 w-10 h-10 relative focus:outline-none"
@@ -78,9 +78,14 @@ export default function Header() {
                     />
                     <span className="flex items-center justify-center mt-1 text-lg font-bold">IN ẢNH TRỰC TUYẾN</span>
                 </div>
-                {
-                    renderLogin(logined)
-                }
+                <div className='flex justify-center items-center gap-4'>
+                    <div className='hidden border border-gray-400 rounded-full px-6 py-1 lg:flex justify-center items-center gap-2'>
+                        <PhoneCall size={15} /> Hotline: 0939.468.252
+                    </div>
+                    {
+                        renderLogin(logined)
+                    }
+                </div>
                 {open && (
                     <div className="absolute mt-2 top-16 left-0 h-[1000px] w-full bg-white shadow-md z-20">
                         <ul className="flex flex-col space-y-10 py-10 px-5">
@@ -152,11 +157,16 @@ export default function Header() {
                     </div>
                 )}
             </header>
-            <div className='w-full hidden lg:flex justify-center items-center gap-28 border-t-2 border-dashed border-gray-300 py-6'>
-                <span className='font-semibold'>TRANG CHỦ</span>
-                <span className='font-semibold'>VỀ CHÚNG TÔI</span>
-                <span className='font-semibold'>SẢN PHẨM</span>
-                <span className='font-semibold'>TIN TỨC</span>
+            <div className='w-full bg-orange-700 hidden lg:flex justify-center items-center'>
+                <div className='w-3/4 text-white flex justify-between items-center py-5'>
+                    <a href={`${ROUTES.HOME}`} className='font-semibold'>TRANG CHỦ</a>
+                    <a href={`${ROUTES.ABOUT}`} className='font-semibold border px-3 py-1 rounded-md'>VỀ CHÚNG TÔI</a>
+                    <a href={`${ROUTES.PRODUCT}`} className='font-semibold'>ÉP PLASTIC</a>
+                    <a href={`${ROUTES.PRODUCT}`} className='font-semibold'>ẢNH KHUNG VIỀN</a>
+                    <a href={`${ROUTES.PRODUCT}`} className='font-semibold'>PHOTOBOOK</a>
+                    <a href={`${ROUTES.PRODUCT}`} className='font-semibold'>BẢNG GIÁ</a>
+                    <a href={`${ROUTES.BLOG}`} className='font-semibold'>TIN TỨC</a>
+                </div>
             </div>
         </div>
     );

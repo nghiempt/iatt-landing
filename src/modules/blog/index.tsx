@@ -65,26 +65,28 @@ export default function BlogClient() {
   }, [])
 
   return (
-    <div className="w-full">
+    <div className="w-full flex flex-col justify-center items-center">
       <Header />
-      <div id="body" className="max-w-4xl mx-auto px-4 py-4">
-        <nav className="flex items-center gap-2 text-sm text-gray-600 mb-6">
-          <Link href={`${ROUTES.HOME}`} className="hover:text-black">Trang chủ</Link>
-          <ChevronRight className="w-4 h-4" />
-          <Link href={`${ROUTES.BLOG}`} className="hover:text-black">Tin tức</Link>
-        </nav>
-        <h1 className="text-3xl font-bold text-navy-900 mb-4">TIN TỨC</h1>
-        <div className="grid gap-6">
-          {
-            isLoading
-              ?
-              <div className="w-full flex justify-center items-center py-20">
-                <Loader className="animate-spin" size={32} />
-              </div>
-              :
-              posts?.map((post: any, index: any) => (
-                <BlogPostCard key={index} post={post} />
-              ))}
+      <div className="w-full md:w-3/4 lg:w-3/4 lg:mt-4">
+        <div className="px-4 py-4 lg:px-0">
+          <nav className="flex items-center gap-2 text-sm text-gray-600 mb-6">
+            <Link href={`${ROUTES.HOME}`} className="hover:text-black">Trang chủ</Link>
+            <ChevronRight className="w-4 h-4" />
+            <Link href={`${ROUTES.BLOG}`} className="hover:text-black">Tin tức</Link>
+          </nav>
+          <h1 className="text-3xl font-bold text-navy-900 mb-4">TIN TỨC</h1>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {
+              isLoading
+                ?
+                <div className="w-full flex justify-center items-center py-20">
+                  <Loader className="animate-spin" size={32} />
+                </div>
+                :
+                posts?.map((post: any, index: any) => (
+                  <BlogPostCard key={index} post={post} />
+                ))}
+          </div>
         </div>
       </div>
       <Footer />

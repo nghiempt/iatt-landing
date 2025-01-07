@@ -123,112 +123,114 @@ export default function ProductClient() {
   }, [])
 
   return (
-    <div className="w-full">
+    <div className="w-full flex flex-col justify-center items-center">
       <Header />
-      <div id="body" className="max-w-4xl mx-auto px-4 py-4">
-        <nav className="flex items-center gap-2 text-sm text-gray-600 mb-6">
-          <Link href={`${ROUTES.HOME}`} className="hover:text-black">Trang chủ</Link>
-          <ChevronRight className="w-4 h-4" />
-          <Link href={`${ROUTES.PRODUCT}`} className="hover:text-black">Tất cả sản phẩm</Link>
-        </nav>
-        <div className="h-32 bg-pink-50 rounded-lg mb-6">
-          <Image
-            src="/product.png"
-            alt="Products Banner"
-            className="w-full h-full object-cover rounded-lg"
-            width={400}
-            height={0}
-          />
-        </div>
-        <h1 className="text-3xl font-bold text-navy-900 mb-6">TẤT CẢ SẢN PHẨM</h1>
-        <div className="flex justify-between gap-4 mb-6">
-          <div className='relative' ref={filterRef}>
-            <Button
-              onClick={() => setOpenFilter(!openFilter)}
-              variant="outline" className="border-dashed border-gray-300 flex items-center gap-2">
-              <Filter className="w-4 h-4" />
-              Bộ lọc
-            </Button>
-            {openFilter && (
-              <div className={`absolute top-12 rounded-md left-0 right-0 w-44 bg-white shadow-[rgba(17,_17,_26,_0.2)_0px_0px_20px] z-10 transition-all duration-700 ease-in-out transform `}>
-                <div className="flex flex-col space-y-2 py-5 px-5">
-                  {categories.map((cate: any, index: any) => (
-                    selectedCate === cate.id ? (
-                      <div key={index} className="text-[rgb(var(--primary-rgb))] font-bold py-1 rounded-lg flex items-center">
-                        <span>{cate.name}</span>
-                      </div>
-                    ) : (
-                      <button
-                        key={index}
-                        onClick={() => handleSelectCategory(cate.tag)}
-                        className="text-black font-medium w-full text-left py-1"
-                      >
-                        {cate.name}
-                      </button>
-                    )
-                  ))}
-                </div>
-              </div>
-            )}
+      <div className="w-full md:w-3/4 lg:w-3/4 lg:mt-4">
+        <div className="px-4 py-4 lg:px-0">
+          <nav className="flex items-center gap-2 text-sm text-gray-600 mb-6">
+            <Link href={`${ROUTES.HOME}`} className="hover:text-black">Trang chủ</Link>
+            <ChevronRight className="w-4 h-4" />
+            <Link href={`${ROUTES.PRODUCT}`} className="hover:text-black">Tất cả sản phẩm</Link>
+          </nav>
+          <div className="h-32 bg-pink-50 rounded-lg mb-8">
+            <Image
+              src="/product.png"
+              alt="Products Banner"
+              className="w-full h-full object-cover rounded-lg"
+              width={400}
+              height={0}
+            />
           </div>
-          <div className='relative flex justify-end' ref={sortRef}>
-            <Button
-              onClick={() => setOpenSort(!openSort)}
-              variant="outline" className="border-dashed border-gray-300 flex items-center gap-2">
-              Sắp xếp
-              <ChevronDown className="w-4 h-4" />
-            </Button>
-            {openSort && (
-              <div className="absolute top-12 rounded-md -left-24 w-52 bg-white shadow-[rgba(17,_17,_26,_0.2)_0px_0px_20px] z-10 transition-all duration-700 ease-in-out transform">
-                <div className="flex flex-col space-y-2 py-5 px-5">
-                  {[
-                    { labels: "MẶC ĐỊNH", sort: 0 },
-                    { labels: "GIÁ THẤP ĐẾN CAO", sort: 1 },
-                    { labels: "GIÁ CAO ĐẾN THẤP", sort: 2 }
-                  ]
-                    .map(({ labels, sort }) => (
-                      selectedSort === sort ? (
-                        <div key={sort} className="text-[rgb(var(--primary-rgb))] font-bold py-1 rounded-lg flex items-center">
-                          <span>{labels}</span>
+          <h1 className="text-3xl font-bold text-navy-900 mb-6">TẤT CẢ SẢN PHẨM</h1>
+          <div className="flex justify-between gap-4 mb-6">
+            <div className='relative' ref={filterRef}>
+              <Button
+                onClick={() => setOpenFilter(!openFilter)}
+                variant="outline" className="border-dashed border-gray-300 flex items-center gap-2">
+                <Filter className="w-4 h-4" />
+                Bộ lọc
+              </Button>
+              {openFilter && (
+                <div className={`absolute top-12 rounded-md left-0 right-0 w-44 bg-white shadow-[rgba(17,_17,_26,_0.2)_0px_0px_20px] z-10 transition-all duration-700 ease-in-out transform `}>
+                  <div className="flex flex-col space-y-2 py-5 px-5">
+                    {categories.map((cate: any, index: any) => (
+                      selectedCate === cate.id ? (
+                        <div key={index} className="text-[rgb(var(--primary-rgb))] font-bold py-1 rounded-lg flex items-center">
+                          <span>{cate.name}</span>
                         </div>
                       ) : (
                         <button
-                          key={sort}
-                          onClick={() => handleSelectSort(sort)}
+                          key={index}
+                          onClick={() => handleSelectCategory(cate.tag)}
                           className="text-black font-medium w-full text-left py-1"
                         >
-                          {labels}
+                          {cate.name}
                         </button>
                       )
                     ))}
+                  </div>
                 </div>
+              )}
+            </div>
+            <div className='relative flex justify-end' ref={sortRef}>
+              <Button
+                onClick={() => setOpenSort(!openSort)}
+                variant="outline" className="border-dashed border-gray-300 flex items-center gap-2">
+                Sắp xếp
+                <ChevronDown className="w-4 h-4" />
+              </Button>
+              {openSort && (
+                <div className="absolute top-12 rounded-md -left-24 w-52 bg-white shadow-[rgba(17,_17,_26,_0.2)_0px_0px_20px] z-10 transition-all duration-700 ease-in-out transform">
+                  <div className="flex flex-col space-y-2 py-5 px-5">
+                    {[
+                      { labels: "MẶC ĐỊNH", sort: 0 },
+                      { labels: "GIÁ THẤP ĐẾN CAO", sort: 1 },
+                      { labels: "GIÁ CAO ĐẾN THẤP", sort: 2 }
+                    ]
+                      .map(({ labels, sort }) => (
+                        selectedSort === sort ? (
+                          <div key={sort} className="text-[rgb(var(--primary-rgb))] font-bold py-1 rounded-lg flex items-center">
+                            <span>{labels}</span>
+                          </div>
+                        ) : (
+                          <button
+                            key={sort}
+                            onClick={() => handleSelectSort(sort)}
+                            className="text-black font-medium w-full text-left py-1"
+                          >
+                            {labels}
+                          </button>
+                        )
+                      ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            {filteredDataSort && filteredDataSort.length > 0 ? (
+              filteredDataSort?.map((data: any, index: any) => (
+                <div key={index}>
+                  <Link href={`${ROUTES.PRODUCT}/${data?._id}`}>
+                    <ProductCard
+                      image={data?.thumbnail}
+                      title={data?.name}
+                      price={data?.price}
+                      rating={5}
+                      reviews={99}
+                      discount={99}
+                      originalPrice={data?.price}
+                      soldAmount={data?.sold}
+                    />
+                  </Link>
+                </div>
+              ))
+            ) : (
+              <div className="col-span-2 text-center text-gray-500 w-full flex justify-center items-center py-20">
+                <Loader className="animate-spin" size={32} />
               </div>
             )}
           </div>
-        </div>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          {filteredDataSort && filteredDataSort.length > 0 ? (
-            filteredDataSort?.map((data: any, index: any) => (
-              <div key={index}>
-                <Link href={`${ROUTES.PRODUCT}/${data?._id}`}>
-                  <ProductCard
-                    image={data?.thumbnail}
-                    title={data?.name}
-                    price={data?.price}
-                    rating={5}
-                    reviews={99}
-                    discount={99}
-                    originalPrice={data?.price}
-                    soldAmount={data?.sold}
-                  />
-                </Link>
-              </div>
-            ))
-          ) : (
-            <div className="col-span-2 text-center text-gray-500 w-full flex justify-center items-center py-20">
-              <Loader className="animate-spin" size={32} />
-            </div>
-          )}
         </div>
       </div>
       <Footer />
