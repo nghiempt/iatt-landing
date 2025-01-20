@@ -77,7 +77,7 @@ export default function ProductClient() {
           </nav>
           <div className="h-32 bg-pink-50 rounded-lg mb-8">
             <Image
-              src="/product.png"
+              src="https://res.cloudinary.com/farmcode/image/upload/v1737356240/iatt/don9ysfefs3j3frnos2i.png"
               alt="Products Banner"
               className="w-full h-full object-cover rounded-lg"
               width={400}

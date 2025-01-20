@@ -1,4 +1,5 @@
 'use client'
+
 import React from 'react';
 import Header from '@/layout/header';
 import Footer from '@/layout/footer';
@@ -6,7 +7,7 @@ import Link from 'next/link';
 import { ChevronRight } from 'lucide-react';
 import { ROUTES } from '@/utils/route';
 
-export default function PrivacyPoicyClient() {
+export default function PrivacyPolicyClient() {
   return (
     <div className="w-full flex flex-col justify-center items-center">
       <Header />
@@ -24,33 +25,83 @@ export default function PrivacyPoicyClient() {
               <h1 className="text-3xl font-bold text-navy-900">CHÍNH SÁCH BẢO MẬT</h1>
               <div className="bg-[rgb(var(--quaternary-rgb))] p-6 rounded-lg space-y-4">
                 <p className="text-gray-700 leading-relaxed">
-                  Chúng tôi cung cấp dịch vụ hỗ trợ khách hàng tận tâm, luôn sẵn sàng giải đáp mọi thắc mắc của Quý khách. Qua việc sử dụng dịch vụ hỗ trợ của chúng tôi, Quý khách có thể dễ dàng liên lạc với đội ngũ chăm sóc khách hàng để nhận sự trợ giúp nhanh chóng và hiệu quả.
+                  Khi truy cập website INANHTRUCTUYEN.COM, quý khách đồng ý chấp nhận thực hiện những mô tả trong Chính sách bảo mật thông tin.
+                  Nếu quý khách không đồng ý với các điều khoản của Chính sách này, vui lòng không sử dụng website của chúng tôi.
+                  Chính sách này được đưa ra nhằm bảo vệ quyền lợi của quý khách khi sử dụng dịch vụ và mua hàng.
                 </p>
-                <p className="text-gray-700 leading-relaxed">
-                  Mục tiêu của chúng tôi là cung cấp những giải pháp hỗ trợ tối ưu, giúp Quý khách giải quyết các vấn đề liên quan đến sản phẩm và dịch vụ của chúng tôi, đồng thời mang lại trải nghiệm người dùng tuyệt vời nhất.
-                </p>
-                <p className="text-gray-700 leading-relaxed">
-                  Tất cả các yêu cầu và thông tin từ Quý khách sẽ được xử lý nhanh chóng và bảo mật tuyệt đối. Chúng tôi cam kết cung cấp dịch vụ hỗ trợ hiệu quả trong mọi tình huống.
-                </p>
-                <p className="text-gray-700 leading-relaxed">
-                  Để yêu cầu hỗ trợ, Quý khách có thể liên hệ trực tiếp với chúng tôi qua các kênh liên lạc hoặc gửi yêu cầu hỗ trợ thông qua hệ thống trên website.
-                </p>
-                <div className="space-y-2">
-                  <p className="font-medium">Một vài gợi ý cho nội dung chính sách bảo mật:</p>
-                  <ul className="space-y-2 ml-5">
-                    <li className="list-disc">Cách thức thu thập thông tin cá nhân</li>
-                    <li className="list-disc">Mục đích sử dụng thông tin cá nhân</li>
-                    <li className="list-disc">Phương thức bảo mật thông tin</li>
-                    <li className="list-disc">Chính sách bảo mật giao dịch</li>
-                    <li className="list-disc">Cơ sở pháp lý bảo mật thông tin</li>
+                <div>
+                  <h2 className="text-xl font-semibold">1. Mục đích và phạm vi thu thập thông tin</h2>
+                  <p className="text-gray-700 leading-relaxed">
+                    Việc thu thập dữ liệu trên website INANHTRUCTUYEN.COM bao gồm:
+                  </p>
+                  <ul className="list-disc list-inside text-gray-700 leading-relaxed">
+                    <li>Email</li>
+                    <li>Số điện thoại</li>
+                    <li>Địa chỉ khách hàng</li>
+                    <li>Hình ảnh khách hàng</li>
+                    <li>Thông tin thanh toán</li>
+                  </ul>
+                  <p className="text-gray-700 leading-relaxed">
+                    Đây là các thông tin bắt buộc quý khách cần cung cấp khi sử dụng dịch vụ để chúng tôi thiết kế,
+                    in ấn và liên hệ xác nhận, đảm bảo quyền lợi và hoàn thiện đơn hàng.
+                  </p>
+                </div>
+                <div>
+                  <h2 className="text-xl font-semibold">2. Phạm vi sử dụng thông tin</h2>
+                  <p className="text-gray-700 leading-relaxed">
+                    Chúng tôi sử dụng thông tin quý khách cung cấp để:
+                  </p>
+                  <ul className="list-disc list-inside text-gray-700 leading-relaxed">
+                    <li>Cung cấp hình ảnh cho công cụ AI để thực hiện chỉnh sửa.</li>
+                    <li>Giao hàng tới địa chỉ do quý khách cung cấp.</li>
+                    <li>Liên lạc và giải quyết trong những trường hợp đặc biệt.</li>
+                    <li>Cung cấp thông tin cho các đơn vị vận chuyển nhằm giao nhận hàng hóa.</li>
+                    <li>Khi cơ quan tư pháp có yêu cầu hợp pháp bao gồm: Viện kiểm sát, tòa án, công an điều tra.</li>
                   </ul>
                 </div>
-                <p className="text-gray-700">
-                  Quý khách có thể thay đổi hoặc cập nhật thông tin yêu cầu hỗ trợ của mình tại{' '}
-                  <Link href="#" className="text-blue-600 hover:underline">đây</Link>
-                  {' '}hoặc thêm các yêu cầu mới trong phần quản lý{' '}
-                  <span className="font-medium">Dịch vụ hỗ trợ</span>.
-                </p>
+
+                <div>
+                  <h2 className="text-xl font-semibold">3. Cam kết bảo mật thông tin cá nhân khách hàng</h2>
+                  <ul className="list-disc list-inside text-gray-700 leading-relaxed">
+                    <li>
+                      Thông tin cá nhân của quý khách được chúng tôi cam kết bảo mật tuyệt đối,
+                      không sử dụng hoặc cung cấp cho bên thứ 3 nếu không có sự đồng ý từ quý khách.
+                    </li>
+                    <li>
+                      Thông tin có thể được cung cấp cho bên vận chuyển nhằm giao nhận hàng hóa
+                      gồm: tên, địa chỉ, số điện thoại.
+                    </li>
+                  </ul>
+                </div>
+                <div>
+                  <h2 className="text-xl font-semibold">4. Thời gian lưu trữ thông tin</h2>
+                  <p className="text-gray-700 leading-relaxed">
+                    Chúng tôi sẽ lưu trữ thông tin cá nhân của quý khách trong suốt quá trình cung cấp dịch vụ
+                    hoặc cho đến khi quý khách yêu cầu hủy bỏ.
+                  </p>
+                </div>
+                <div>
+                  <h2 className="text-xl font-semibold">5. Địa chỉ đơn vị thu thập và quản lý thông tin cá nhân</h2>
+                  <p className="text-gray-700 leading-relaxed">
+                    Cơ sở kinh doanh IN ẢNH TRỰC TUYẾN
+                  </p>
+                  <p className="text-gray-700 leading-relaxed">
+                    <strong>Địa chỉ:</strong> [Địa chỉ cụ thể] <br />
+                    <strong>Điện thoại:</strong> [Số điện thoại liên hệ]
+                  </p>
+                </div>
+                <div>
+                  <h2 className="text-xl font-semibold">6. Phương tiện và công cụ để người dùng tiếp cận và chỉnh sửa dữ liệu cá nhân</h2>
+                  <p className="text-gray-700 leading-relaxed">
+                    Quý khách có thể thực hiện quyền kiểm tra, cập nhật, chỉnh sửa hoặc hủy bỏ thông tin cá nhân bằng cách:
+                  </p>
+                  <ul className="list-disc list-inside text-gray-700 leading-relaxed">
+                    <li>Truy cập website INANHTRUCTUYEN.COM.</li>
+                    <li>
+                      Liên hệ qua email hoặc địa chỉ liên lạc công bố trên website.
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>

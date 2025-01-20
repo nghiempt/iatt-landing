@@ -103,7 +103,7 @@ const ImageUpload = ({ onImageChange, selectedColor, selectedSize, className }: 
                 <div className="relative group" style={getContainerStyle()}>
                     <div className={cn(
                         "relative w-full overflow-hidden rounded-md",
-                        `border-8 border-${selectedColor === 'white' ? 'gray-200' : selectedColor === 'black' ? 'black' : 'yellow-700'}`
+                        `border-8 border-${selectedColor === 'white' ? 'gray-200' : selectedColor === 'black' ? 'black' : '[#ff0000]'}`
                     )}>
                         <div style={{ paddingBottom: `${(sizeMap[selectedSize as keyof typeof sizeMap].height / sizeMap[selectedSize as keyof typeof sizeMap].width) * 100}%` }} />
                         <Image

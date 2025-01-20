@@ -1,6 +1,6 @@
 "use client"
 
-import Dev from "@/modules/dev";
+// import Dev from "@/modules/dev";
 import HomeClient from "@/modules/home";
 import { Loader } from "lucide-react";
 import React, { Suspense } from 'react';
@@ -16,8 +16,8 @@ export default function Home() {
           </div>
         }
       >
-        {/* <HomeClient /> */}
-        <Dev />
+        <HomeClient />
+        {/* <Dev /> */}
       </Suspense>
     </div>
   );

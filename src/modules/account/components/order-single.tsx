@@ -62,7 +62,7 @@ export default function OrderSingleCreate() {
   const colorOptions: ColorOption[] = [
     { id: 'white', name: 'Trắng', bgColor: 'bg-white', borderColor: 'border-gray-300' },
     { id: 'black', name: 'Đen', bgColor: 'bg-black', borderColor: 'border-black' },
-    { id: 'gold', name: 'Vàng', bgColor: 'bg-yellow-600', borderColor: 'border-yellow-600' },
+    // { id: 'gold', name: 'Vàng', bgColor: 'bg-yellow-600', borderColor: 'border-yellow-600' },
   ];
 
   const sizeOptions: SizeOption[] = [
@@ -127,6 +127,7 @@ export default function OrderSingleCreate() {
 
   const renderProduct = async () => {
     const res = await ProductService.getAll()
+    console.log(res);
     if (res && res.data.length > 0) {
       setProducts(res.data)
     }
@@ -144,6 +145,8 @@ export default function OrderSingleCreate() {
   useEffect(() => {
     if (emailCookie) {
       init(emailCookie)
+    } else {
+      init("")
     }
   }, [])
 
@@ -161,7 +164,7 @@ export default function OrderSingleCreate() {
         <div className="">
           <section className="bg-white antialiased">
             <form action="#" className="">
-              <div className='w-full grid grid-cols-2 gap-4 justify-center items-center'>
+              {/* <div className='w-full grid grid-cols-2 gap-4 justify-center items-center'>
                 <Link href={"/tai-khoan?tab=order-single"} className="text-white font-semibold py-2 rounded-md flex justify-center items-center bg-gradient-to-br from-purple-600 to-orange-600 after:mx-2 after:text-gray-200 dark:after:text-gray-500 sm:after:hidden">
                   <Frame width={16} height={16} className='mr-2' />
                   Hình đơn
@@ -170,7 +173,7 @@ export default function OrderSingleCreate() {
                   <Images width={16} height={16} className='mr-2' />
                   Album
                 </div>
-              </div>
+              </div> */}
               <div className="mt-6 sm:mt-8 lg:flex lg:items-start lg:gap-12 xl:gap-16">
                 <div className="min-w-0 flex-1 space-y-8">
                   <div className="space-y-4">
@@ -197,24 +200,21 @@ export default function OrderSingleCreate() {
                           </div>
                         )}
                       </div>
-                      <select defaultValue={selectedProduct} onChange={(e) => setSelectedProduct(e.target.value)} className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                        <option>
-                          {
-                            selectedProduct === '6778b702de4214f1277c438d'
-                              ?
-                              "Khung ảnh hoa văn 4k Ruột Sắc Nét"
-                              :
-                              'Loại sản phẩm'
-                          }
-                        </option>
-                        {
-                          products?.map((item: any, index: any) => {
-                            return (
-                              <option key={index} value={item?._id}>{item?.name}</option>
-                            )
-                          })
-                        }
-                      </select>
+                      {
+                        products?.length > 0
+                        &&
+                        (
+                          <select defaultValue={selectedProduct} onChange={(e) => setSelectedProduct(e.target.value)} className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                            {
+                              products?.map((item: any, index: any) => {
+                                return (
+                                  <option key={index} value={item?._id}>{item?.name}</option>
+                                )
+                              })
+                            }
+                          </select>
+                        )
+                      }
                       <div className='w-full flex justify-center items-center gap-6 py-4'>
                         {colorOptions.map((color) => (
                           <button
@@ -249,19 +249,17 @@ export default function OrderSingleCreate() {
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                       <h3 className="mt-4 text-xl font-semibold text-gray-900 dark:text-white">Thông tin cá nhân</h3>
                       <div>
-                        <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Tên*</label>
-                        <input disabled type="text" value={userData.name} className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500" placeholder="" />
+                        <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Tên *</label>
+                        <input type="text" className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500" placeholder="" />
                       </div>
                       <div>
-                        <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Địa chỉ*</label>
+                        <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Địa chỉ *</label>
                         <textarea
-                          disabled
-                          value={`${userData.address}, ${userData?.wardName}, ${userData?.districtName}, ${userData?.provinceName}`}
                           className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500" placeholder="" />
                       </div>
                       <div>
-                        <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Số điện thoại* </label>
-                        <input disabled type="text" value={userData.phone} className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500" placeholder="" />
+                        <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Số điện thoại *</label>
+                        <input type="number" className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500" placeholder="" />
                       </div>
                     </div>
                   </div>
@@ -367,15 +365,15 @@ export default function OrderSingleCreate() {
                       </dl>
                       <dl className="flex items-center justify-between gap-4 py-3">
                         <dt className="text-base font-normal text-gray-500 dark:text-gray-400">Khuyến mãi</dt>
-                        <dd className="text-base font-medium text-green-500">0 VND</dd>
+                        <dd className="text-base font-medium text-green-500">{HELPER.formatVND("0")}</dd>
                       </dl>
                       <dl className="flex items-center justify-between gap-4 py-3">
                         <dt className="text-base font-normal text-gray-500 dark:text-gray-400">Thuế VAT</dt>
-                        <dd className="text-base font-medium text-gray-900 dark:text-white">0 VND</dd>
+                        <dd className="text-base font-medium text-gray-900 dark:text-white">{HELPER.formatVND("0")}</dd>
                       </dl>
                       <dl className="flex items-center justify-between gap-4 py-3">
                         <dt className="text-base font-normal text-gray-500 dark:text-gray-400">Vận chuyển</dt>
-                        <dd className="text-base font-medium text-gray-900 dark:text-white">0 VND</dd>
+                        <dd className="text-base font-medium text-gray-900 dark:text-white">{HELPER.formatVND("30000")}</dd>
                       </dl>
                       <dl className="flex items-center justify-between gap-4 py-3">
                         <dt className="text-base font-bold text-gray-900 dark:text-white">Tổng</dt>

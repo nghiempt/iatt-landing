@@ -93,7 +93,7 @@ export default function HomeContent() {
         <div className='w-full grid grid-cols-1 lg:grid-cols-2 gap-4'>
           <div className="rounded-lg overflow-hidden border border-dashed border-[rgb(var(--primary-rgb))] p-4">
             <Image
-              src={IMAGES.SUB_BANNER}
+              src="https://res.cloudinary.com/farmcode/image/upload/v1737355998/iatt/j8arjpmms7r5w2vlu78w.png"
               alt="alt"
               className="w-full h-48 object-cover rounded-lg"
               width={200}
@@ -150,31 +150,30 @@ export default function HomeContent() {
         </div>
       </div>
       <div className="md:hidden lg:hidden flex flex-col p-4 md:p-0 lg:p-0 space-y-4 pt-0">
-        <div className="text-center space-y-2">
-          <h2 className="text-lg md:text-xl lg:text-2xl font-bold text-navy-900">TOP BÁN CHẠY</h2>
-        </div>
-        <div className="flex flex-col bg-[rgb(var(--quaternary-rgb))] rounded-lg p-4 space-y-3">
-          {[
-            { label: "ẢNH PLASTIC", cate: 'plastic' },
-            { label: "KHUNG ẢNH", cate: 'frame' },
-            { label: "ALBUM", cate: 'album' },
-          ].map(({ label, cate }) => (
-            selectedCategory === cate ? (
-              <div key={cate} className="bg-[rgb(var(--primary-rgb))] text-white py-3 px-4 rounded-lg flex items-center">
-                <div className="w-2 h-2 bg-white rounded-full mr-2"></div>
-                <span className='text-sm font-bold'>{label}</span>
-              </div>
-            ) : (
-              <button
-                key={cate}
-                onClick={() => setSelectedCategory(cate)}
-                className="text-black font-medium w-full text-left py-2"
-              >
-                <span className='text-sm font-bold'>{label}</span>
-              </button>
-            )
-          ))}
-        </div>
+        <Image
+          src="https://res.cloudinary.com/farmcode/image/upload/v1737356622/iatt/z4xbel6agaeprit6iffe.png"
+          alt="alt"
+          className="w-full rounded-lg"
+          width={200}
+          height={0}
+          priority
+        />
+        <Image
+          src="https://res.cloudinary.com/farmcode/image/upload/v1737356705/iatt/ryuyf5j3kg5d02hlm1lc.png"
+          alt="alt"
+          className="w-full rounded-lg"
+          width={200}
+          height={0}
+          priority
+        />
+        <Image
+          src="https://res.cloudinary.com/farmcode/image/upload/v1737356742/iatt/gy4oh4p6qi2lxgolzabl.png"
+          alt="alt"
+          className="w-full rounded-lg"
+          width={200}
+          height={0}
+          priority
+        />
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {filteredData?.slice(0, 4)?.map((product: any, index: any) => (
             <div key={index}>
@@ -240,7 +239,7 @@ export default function HomeContent() {
           </h2>
           <div className="relative flex md:hidden lg:hidden">
             <Image
-              src={IMAGES.BANNER}
+              src="https://res.cloudinary.com/farmcode/image/upload/v1737356089/iatt/zuycr0ucepn49ro0qwyz.png"
               alt="alt"
               className="w-full rounded-lg"
               width={200}

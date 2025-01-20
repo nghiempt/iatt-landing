@@ -4,5 +4,6 @@ export const ROUTES = {
   PRODUCT: "/san-pham",
   ABOUT: "/gioi-thieu",
   PRIVACY_POLICY: "/chinh-sach-bao-mat",
+  PAYMENT: "/chinh-sach-giao-hang",
   ACCOUNT: "/tai-khoan",
 };
