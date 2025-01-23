@@ -9,9 +9,8 @@ import { Calendar } from 'lucide-react';
 import "swiper/css";
 import { HELPER } from '@/utils/helper';
 import { ROUTES } from '@/utils/route';
-
 const BlogCard = ({ id, image, title, excerpt, date, author, isMain = false }: any) => (
-  <Card onClick={() => window.location.href = `${ROUTES.BLOG}/${id}`} className={`cursor-pointer overflow-hidden ${isMain ? 'mb-4' : 'flex items-center gap-4 mb-4'}`}>
+  <Card onClick={() => window.location.href = `${ROUTES.BLOG}/${HELPER.getLastFourChars(id)}?b=${HELPER.convertSpacesToDash(title)}`} className={`cursor-pointer overflow-hidden ${isMain ? 'mb-4' : 'flex items-center gap-4 mb-4'}`}>
     <div className={`${isMain ? 'w-full' : 'w-24 h-28 flex-shrink-0'}`}>
       <Image
         src={image}
@@ -56,7 +55,7 @@ const ProductCard = (
           Bán chạy
         </div>
       )}
-      <Image src={image} alt={title} className="w-full h-48 object-cover" width={200} height={200} priority />
+      <Image src={image} alt={title} className="w-full h-48 lg:h-80 object-cover" width={200} height={200} priority />
     </div>
     <div className="flex flex-col justify-between p-4">
       <div className="flex items-center space-x-2">

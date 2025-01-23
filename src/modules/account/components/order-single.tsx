@@ -17,6 +17,18 @@ import { UploadService } from '@/services/upload';
 import { AccountService } from '@/services/account';
 import { ProductService } from '@/services/product';
 import { HELPER } from '@/utils/helper';
+import { Button } from "@/components/ui/button"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 
 interface ColorOption {
   id: string;
@@ -42,6 +54,7 @@ export default function OrderSingleCreate() {
   const param = useSearchParams();
   const [products, setProducts] = useState([] as any)
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [voucher, setVoucher] = useState<any>(null as any)
   const [currentImage, setCurrentImage] = React.useState('');
   const [selectedColor, setSelectedColor] = React.useState<string>('white');
   const [selectedSize, setSelectedSize] = React.useState<string>('15x21');
@@ -365,11 +378,30 @@ export default function OrderSingleCreate() {
                       </dl>
                       <dl className="flex items-center justify-between gap-4 py-3">
                         <dt className="text-base font-normal text-gray-500 dark:text-gray-400">Khuyến mãi</dt>
-                        <dd className="text-base font-medium text-green-500">{HELPER.formatVND("0")}</dd>
-                      </dl>
-                      <dl className="flex items-center justify-between gap-4 py-3">
-                        <dt className="text-base font-normal text-gray-500 dark:text-gray-400">Thuế VAT</dt>
-                        <dd className="text-base font-medium text-gray-900 dark:text-white">{HELPER.formatVND("0")}</dd>
+                        {
+                          voucher
+                            ?
+                            <dd className="text-base font-medium text-green-500">{HELPER.formatVND(voucher?.value)}</dd>
+                            :
+                            <Dialog>
+                              <DialogTrigger asChild>
+                                <Button variant="outline">Nhập mã khuyến mãi</Button>
+                              </DialogTrigger>
+                              <DialogContent className="sm:max-w-[425px]">
+                                <DialogHeader>
+                                  <DialogTitle>Nhập mã khuyến mãi</DialogTitle>
+                                </DialogHeader>
+                                <div className="grid gap-4 py-4">
+                                  <div className="grid grid-cols-4 items-center gap-4">
+                                    <Input id="name" className="col-span-4" />
+                                  </div>
+                                </div>
+                                <DialogFooter>
+                                  <Button onClick={() => setVoucher({ value: 10000 })}>Áp dụng</Button>
+                                </DialogFooter>
+                              </DialogContent>
+                            </Dialog>
+                        }
                       </dl>
                       <dl className="flex items-center justify-between gap-4 py-3">
                         <dt className="text-base font-normal text-gray-500 dark:text-gray-400">Vận chuyển</dt>
@@ -380,7 +412,7 @@ export default function OrderSingleCreate() {
                         <dd className="text-base font-bold text-gray-900 dark:text-white">
                           {
                             selectedProduct &&
-                            HELPER.formatVND(products.find((pro: any) => pro._id.toString() === selectedProduct)?.price)
+                            HELPER.calculateTotal(products.find((pro: any) => pro._id.toString() === selectedProduct)?.price, voucher?.value?.toString())
                           }
                         </dd>
                       </dl>

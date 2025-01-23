@@ -11,6 +11,7 @@ import { ROUTES } from '@/utils/route';
 import { useOnClickOutside } from 'usehooks-ts';
 import { ProductService } from '@/services/product';
 import { GlobalComponent } from '@/components/global';
+import { HELPER } from '@/utils/helper';
 
 export default function ProductClient() {
 
@@ -157,7 +158,7 @@ export default function ProductClient() {
                 {
                   filteredDataSort?.map((data: any, index: any) => (
                     <div key={index}>
-                      <Link href={`${ROUTES.PRODUCT}/${data?._id}`}>
+                      <Link href={`${ROUTES.PRODUCT}/${HELPER.getLastFourChars(data?._id)}?sp=${HELPER.convertSpacesToDash(data?.name)}`}>
                         <GlobalComponent.ProductCard
                           image={data?.thumbnail}
                           title={data?.name}

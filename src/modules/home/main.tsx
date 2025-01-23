@@ -16,6 +16,7 @@ import { ROUTES } from '@/utils/route';
 import { ProductService } from '@/services/product';
 import { BlogService } from '@/services/blog';
 import { GlobalComponent } from '@/components/global';
+import BannerSlider from './slider';
 
 export default function HomeContent() {
 
@@ -56,16 +57,7 @@ export default function HomeContent() {
 
   return (
     <main id="body" className="space-y-6">
-      <Card className="relative overflow-hidden rounded-none shadow-none">
-        <Image
-          src={IMAGES.SUB_BANNER}
-          alt="logo"
-          className="w-full lg:h-[480px] lg:rounded-md object-cover"
-          width={1920}
-          height={0}
-          priority
-        />
-      </Card>
+      <BannerSlider />
       <div className="mt-4 text-center px-4 lg:py-8">
         <h3 className="text-lg lg:text-2xl font-bold text-navy-blue mb-4 lg:mb-8">DANH MỤC SẢN PHẨM</h3>
         <div className="flex justify-center space-x-4">

@@ -27,7 +27,7 @@ export default function ProductDetailClient() {
   const init = async () => {
     const res = await ProductService.getAll()
     if (res && res.data.length > 0) {
-      const product = res.data?.find((pro: any) => pro._id.toString() === id);
+      const product = res.data?.find((pro: any) => HELPER.getLastFourChars(pro._id).toString() === id);
       console.log(product);
       setCurrentData(product || null);
     }

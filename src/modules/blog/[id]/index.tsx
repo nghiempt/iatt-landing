@@ -4,6 +4,7 @@
 import Footer from "@/layout/footer"
 import Header from "@/layout/header"
 import { BlogService } from "@/services/blog"
+import { HELPER } from "@/utils/helper"
 import { ROUTES } from "@/utils/route"
 import { ChevronRight } from "lucide-react"
 import Image from "next/image"
@@ -26,7 +27,7 @@ export default function BlogDetailClient() {
     const res = await BlogService.getAll()
     if (res && res.data.length > 0) {
       setBlogs(res.data)
-      const blog = res.data.find((bg: any) => bg._id === id);
+      const blog = res.data.find((bg: any) => HELPER.getLastFourChars(bg._id) === id);
       setCurrentData(blog || null);
     }
   }
