@@ -76,7 +76,7 @@ export default function ProductClient() {
             <ChevronRight className="w-4 h-4" />
             <Link href={`${ROUTES.PRODUCT}`} className="hover:text-black">Tất cả sản phẩm</Link>
           </nav>
-          <div className="h-32 bg-pink-50 rounded-lg mb-8">
+          <div className="h-32 lg:h-64 bg-pink-50 rounded-lg mb-8">
             <Image
               src="https://res.cloudinary.com/farmcode/image/upload/v1737356240/iatt/don9ysfefs3j3frnos2i.png"
               alt="Products Banner"

@@ -172,10 +172,10 @@ export default function Header() {
                 <div className='w-3/4 text-white flex justify-between items-center py-5'>
                     <a href={`${ROUTES.HOME}`} className={`${checkTabEnable(ROUTES.HOME, pathname) ? 'border px-3 py-1 rounded-md' : ''} font-semibold`}>TRANG CHỦ</a>
                     <a href={`${ROUTES.ABOUT}`} className={`${checkTabEnable(ROUTES.ABOUT, pathname) ? 'border px-3 py-1 rounded-md' : ''} font-semibold`}>VỀ CHÚNG TÔI</a>
-                    <a href={`${ROUTES.PRODUCT}`} className={`${checkTabEnable(ROUTES.PRODUCT, pathname) ? 'border px-3 py-1 rounded-md' : ''} font-semibold`}>ÉP PLASTIC</a>
-                    <a href={`${ROUTES.PRODUCT}`} className={`${checkTabEnable(ROUTES.PRODUCT, pathname) ? 'border px-3 py-1 rounded-md' : ''} font-semibold`}>SẢN PHẨM</a>
-                    <a href={`${ROUTES.PRODUCT}`} className={`${checkTabEnable(ROUTES.PRODUCT, pathname) ? 'border px-3 py-1 rounded-md' : ''} font-semibold`}>PHOTOBOOK</a>
-                    <a href={`${ROUTES.PRODUCT}`} className={`${checkTabEnable(ROUTES.PRODUCT, pathname) ? 'border px-3 py-1 rounded-md' : ''} font-semibold`}>BẢNG GIÁ</a>
+                    <a href={`${ROUTES.PLASTIC}`} className={`${checkTabEnable(ROUTES.PLASTIC, pathname) ? 'border px-3 py-1 rounded-md' : ''} font-semibold`}>ÉP PLASTIC</a>
+                    <a href={`${ROUTES.FRAME}`} className={`${checkTabEnable(ROUTES.FRAME, pathname) ? 'border px-3 py-1 rounded-md' : ''} font-semibold`}>KHUNG ẢNH</a>
+                    <a href={`${ROUTES.ALBUM}`} className={`${checkTabEnable(ROUTES.ALBUM, pathname) ? 'border px-3 py-1 rounded-md' : ''} font-semibold`}>PHOTOBOOK</a>
+                    <a href={`${ROUTES.PRICE}`} className={`${checkTabEnable(ROUTES.PRICE, pathname) ? 'border px-3 py-1 rounded-md' : ''} font-semibold`}>BẢNG GIÁ</a>
                     <a href={`${ROUTES.BLOG}`} className={`${checkTabEnable(ROUTES.BLOG, pathname) ? 'border px-3 py-1 rounded-md' : ''} font-semibold`}>TIN TỨC</a>
                 </div>
             </div>

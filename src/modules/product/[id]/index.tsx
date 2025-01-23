@@ -175,7 +175,7 @@ export default function ProductDetailClient() {
           </div>
         </div>
       </div>
-      <div className="w-full lg:w-3/4 rounded-md py-6 space-y-4">
+      <div className="w-full lg:w-3/4 rounded-md py-6 space-y-4 px-8 lg:px-0">
         <h2 className="text-2xl font-bold text-navy-700">GIỚI THIỆU SẢN PHẨM</h2>
         <div className="space-y-4">
           <p className={`text-gray-500 leading-relaxed`}>

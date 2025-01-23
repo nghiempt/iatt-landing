@@ -23,7 +23,7 @@ export default function HomeClient() {
   return (
     <div className="w-full flex flex-col justify-center items-center">
       <Header />
-      <BannerSlider />
+      <div className='hidden lg:block'><BannerSlider /></div>
       <div className="w-full md:w-3/4 lg:w-3/4 mb-4 lg:mb-10 lg:mt-4">
         <HomeContent />
       </div>

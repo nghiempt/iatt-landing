@@ -164,47 +164,6 @@ export default function HomeContent() {
           </div>
         </div>
       </div>
-      <div className="md:hidden lg:hidden flex flex-col p-4 md:p-0 lg:p-0 space-y-4 pt-0">
-        <Image
-          src="https://res.cloudinary.com/farmcode/image/upload/v1737356622/iatt/z4xbel6agaeprit6iffe.png"
-          alt="alt"
-          className="w-full rounded-lg"
-          width={200}
-          height={0}
-          priority
-        />
-        <Image
-          src="https://res.cloudinary.com/farmcode/image/upload/v1737356705/iatt/ryuyf5j3kg5d02hlm1lc.png"
-          alt="alt"
-          className="w-full rounded-lg"
-          width={200}
-          height={0}
-          priority
-        />
-        <Image
-          src="https://res.cloudinary.com/farmcode/image/upload/v1737356742/iatt/gy4oh4p6qi2lxgolzabl.png"
-          alt="alt"
-          className="w-full rounded-lg"
-          width={200}
-          height={0}
-          priority
-        />
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {filteredData?.slice(0, 4)?.map((product: any, index: any) => (
-            <div key={index}>
-              <Link href={`${ROUTES.PRODUCT}/${product?._id}`}>
-                <GlobalComponent.ProductCard
-                  image={product?.thumbnail}
-                  title={product?.name}
-                  price={product?.price}
-                  hot={true}
-                  sold={product?.sold}
-                />
-              </Link>
-            </div>
-          ))}
-        </div>
-      </div>
       <div className="p-4 md:p-0 lg:p-0 space-y-10 pt-0">
         <div className="block lg:hidden space-y-4 lg:px-40">
           <h2 className="text-2xl lg:text-4xl lg:mb-10 font-bold text-center text-navy-900">
