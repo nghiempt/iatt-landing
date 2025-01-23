@@ -7,7 +7,7 @@ import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { LoginModal } from './login';
 import Cookies from "js-cookie";
-import { FolderPlus, Gift, History, House, Info, LogOut, NotepadText, PhoneCall, UserRound } from 'lucide-react';
+import { CircleDollarSign, FolderPlus, Gift, History, House, Info, LogOut, NotepadText, PhoneCall, UserRound } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 
 export default function Header() {
@@ -113,6 +113,11 @@ export default function Header() {
                             <li className='font-bold '>
                                 <a href={`${ROUTES.PRODUCT}`} className="flex items-center justify-start gap-4 text-gray-700 hover:text-black">
                                     <Gift size={18} /> Sản phẩm
+                                </a>
+                            </li>
+                            <li className='font-bold '>
+                                <a href={`${ROUTES.PRICE}`} className="flex items-center justify-start gap-4 text-gray-700 hover:text-black">
+                                    <CircleDollarSign size={18} /> Bảng giá
                                 </a>
                             </li>
                             <li className='font-bold '>
