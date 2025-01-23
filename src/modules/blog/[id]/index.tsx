@@ -76,11 +76,11 @@ export default function BlogDetailClient() {
                 paddingTop: isExpanded ? '10px' : '0px',
               }}
             >
-              {isExpanded && currentData?.content}
+              {isExpanded && <div dangerouslySetInnerHTML={{ __html: currentData?.content }} />}
             </div>
           </div>
-          <div className="w-full bg-[rgb(var(--tertiary-rgb))] rounded-lg mt-4 pt-3 pb-3 px-4 z-10">
-            <p>{currentData?.content}</p>
+          <div className="w-full mt-4 pt-3 z-10">
+            <div dangerouslySetInnerHTML={{ __html: currentData?.content }} />
           </div>
           <div className="w-full bg-white rounded-lg mt-4 py-4 z-10">
             <div className="font-semibold text-md mb-4">BÀI VIẾT LIÊN QUAN</div>

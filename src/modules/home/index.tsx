@@ -7,6 +7,7 @@ import React, { useEffect } from 'react';
 import { useSearchParams } from "next/navigation";
 import Cookies from "js-cookie";
 import HomeContent from './main';
+import BannerSlider from './slider';
 
 export default function HomeClient() {
 
@@ -22,6 +23,7 @@ export default function HomeClient() {
   return (
     <div className="w-full flex flex-col justify-center items-center">
       <Header />
+      <BannerSlider />
       <div className="w-full md:w-3/4 lg:w-3/4 mb-4 lg:mb-10 lg:mt-4">
         <HomeContent />
       </div>

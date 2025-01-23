@@ -162,39 +162,25 @@ export default function ProductDetailClient() {
                   </div>
                   <div className="text-3xl font-bold text-brown-700">{HELPER.formatVND(currentData?.price)}</div>
                 </div>
-                <div className="hideen lg:flex flex-col w-full rounded-md px-6 py-6 space-y-4 mt-6">
-                  <h2 className="text-xl font-bold text-navy-700">Đặc điểm nổi bật</h2>
-                  <div className="space-y-4">
-                    <p className={`text-gray-500 leading-relaxed ${!isExpanded && 'line-clamp-2'}`}>
-                      {currentData?.description}
-                    </p>
-                  </div>
-                  <button
-                    onClick={() => setIsExpanded(!isExpanded)}
-                    className="flex items-center gap-2 text-brown-700 hover:text-brown-800"
-                  >
-                    Xem thêm
-                    <ChevronDown className={`h-4 w-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
-                  </button>
-                </div>
                 <div className="hideen lg:flex flex-col w-full rounded-md px-6 py-6 space-y-4">
                   <h2 className="text-xl font-bold text-navy-700">Mô tả sản phẩm</h2>
                   <div className="space-y-4">
-                    <p className={`text-gray-500 leading-relaxed ${!isExpanded && 'line-clamp-2'}`}>
-                      {currentData?.description}
+                    <p className={`text-gray-500 leading-relaxed`}>
+                      <div dangerouslySetInnerHTML={{ __html: currentData?.description }} />
                     </p>
                   </div>
-                  <button
-                    onClick={() => setIsExpanded(!isExpanded)}
-                    className="flex items-center gap-2 text-brown-700 hover:text-brown-800"
-                  >
-                    Xem thêm
-                    <ChevronDown className={`h-4 w-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
-                  </button>
                 </div>
               </div>
             </div>
           </div>
+        </div>
+      </div>
+      <div className="w-full lg:w-3/4 rounded-md py-6 space-y-4">
+        <h2 className="text-2xl font-bold text-navy-700">GIỚI THIỆU SẢN PHẨM</h2>
+        <div className="space-y-4">
+          <p className={`text-gray-500 leading-relaxed`}>
+            <div dangerouslySetInnerHTML={{ __html: currentData?.introduction }} />
+          </p>
         </div>
       </div>
       <div className='w-full px-4 lg:px-0 lg:w-3/4 flex flex-col justify-center items-start pb-4 lg:py-10'>

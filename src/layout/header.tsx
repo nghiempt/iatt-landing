@@ -33,7 +33,7 @@ export default function Header() {
     }, [])
 
     const renderLogin = (isLogin: any) => {
-        if (isLogin) {
+        if (false) {
             return <Image
                 src={IMAGES.LOGO}
                 alt="logo"
@@ -172,10 +172,10 @@ export default function Header() {
                 <div className='w-3/4 text-white flex justify-between items-center py-5'>
                     <a href={`${ROUTES.HOME}`} className={`${checkTabEnable(ROUTES.HOME, pathname) ? 'border px-3 py-1 rounded-md' : ''} font-semibold`}>TRANG CHỦ</a>
                     <a href={`${ROUTES.ABOUT}`} className={`${checkTabEnable(ROUTES.ABOUT, pathname) ? 'border px-3 py-1 rounded-md' : ''} font-semibold`}>VỀ CHÚNG TÔI</a>
-                    {/* <a href={`${ROUTES.PRODUCT}`} className={`${checkTabEnable(ROUTES.PRODUCT, pathname) ? 'border px-3 py-1 rounded-md' : ''} font-semibold`}>ÉP PLASTIC</a> */}
+                    <a href={`${ROUTES.PRODUCT}`} className={`${checkTabEnable(ROUTES.PRODUCT, pathname) ? 'border px-3 py-1 rounded-md' : ''} font-semibold`}>ÉP PLASTIC</a>
                     <a href={`${ROUTES.PRODUCT}`} className={`${checkTabEnable(ROUTES.PRODUCT, pathname) ? 'border px-3 py-1 rounded-md' : ''} font-semibold`}>SẢN PHẨM</a>
-                    {/* <a href={`${ROUTES.PRODUCT}`} className={`${checkTabEnable(ROUTES.PRODUCT, pathname) ? 'border px-3 py-1 rounded-md' : ''} font-semibold`}>PHOTOBOOK</a> */}
-                    {/* <a href={`${ROUTES.PRODUCT}`} className={`${checkTabEnable(ROUTES.PRODUCT, pathname) ? 'border px-3 py-1 rounded-md' : ''} font-semibold`}>BẢNG GIÁ</a> */}
+                    <a href={`${ROUTES.PRODUCT}`} className={`${checkTabEnable(ROUTES.PRODUCT, pathname) ? 'border px-3 py-1 rounded-md' : ''} font-semibold`}>PHOTOBOOK</a>
+                    <a href={`${ROUTES.PRODUCT}`} className={`${checkTabEnable(ROUTES.PRODUCT, pathname) ? 'border px-3 py-1 rounded-md' : ''} font-semibold`}>BẢNG GIÁ</a>
                     <a href={`${ROUTES.BLOG}`} className={`${checkTabEnable(ROUTES.BLOG, pathname) ? 'border px-3 py-1 rounded-md' : ''} font-semibold`}>TIN TỨC</a>
                 </div>
             </div>

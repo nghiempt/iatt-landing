@@ -9,7 +9,7 @@ const Footer = () => {
     return (
         <footer className="w-full flex flex-col justify-center items-center bg-[rgb(var(--quaternary-rgb))] pt-8 space-y-8">
             <div className='w-full lg:w-3/4 flex flex-col lg:flex-row gap-4 lg:gap-20'>
-                <div className="flex flex-col px-4 text-center lg:text-start space-y-4">
+                <div className="flex flex-col px-4 lg:px-0 text-center lg:text-start space-y-4">
                     <div className="flex items-center justify-center lg:justify-start">
                         <Image
                             src={IMAGES.LOGO}

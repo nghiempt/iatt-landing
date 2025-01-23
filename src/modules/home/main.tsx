@@ -57,26 +57,49 @@ export default function HomeContent() {
 
   return (
     <main id="body" className="space-y-6">
-      <BannerSlider />
       <div className="mt-4 text-center px-4 lg:py-8">
         <h3 className="text-lg lg:text-2xl font-bold text-navy-blue mb-4 lg:mb-8">DANH MỤC SẢN PHẨM</h3>
         <div className="flex justify-center space-x-4">
           <Link href={`${ROUTES.PRODUCT}`}>
             <GlobalComponent.CategoryCard
-              title="Ép Plastic"
-              icon={<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-hard-drive"><line x1="22" x2="2" y1="12" y2="12" /><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z" /><line x1="6" x2="6.01" y1="16" y2="16" /><line x1="10" x2="10.01" y1="16" y2="16" /></svg>}
+              title="Ép Ảnh Plastic"
+              icon={
+                <Image
+                  src="https://cdn-icons-png.flaticon.com/128/9089/9089872.png"
+                  alt="alt"
+                  className="w-20 object-cover"
+                  width={1000}
+                  height={0}
+                />
+              }
             />
           </Link>
           <Link href={`${ROUTES.PRODUCT}`}>
             <GlobalComponent.CategoryCard
-              title="Khung ảnh"
-              icon={<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-frame"><line x1="22" x2="2" y1="6" y2="6" /><line x1="22" x2="2" y1="18" y2="18" /><line x1="6" x2="6" y1="2" y2="22" /><line x1="18" x2="18" y1="2" y2="22" /></svg>}
+              title="Khung Ảnh Viền"
+              icon={
+                <Image
+                  src="https://cdn-icons-png.flaticon.com/128/1438/1438744.png"
+                  alt="alt"
+                  className="w-20 object-cover"
+                  width={1000}
+                  height={0}
+                />
+              }
             />
           </Link>
           <Link href={`${ROUTES.PRODUCT}`}>
             <GlobalComponent.CategoryCard
-              title="Album"
-              icon={<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-images"><path d="M18 22H4a2 2 0 0 1-2-2V6" /><path d="m22 13-1.296-1.296a2.41 2.41 0 0 0-3.408 0L11 18" /><circle cx="12" cy="8" r="2" /><rect width="16" height="16" x="6" y="2" rx="2" /></svg>}
+              title="Photobook"
+              icon={
+                <Image
+                  src="https://cdn-icons-png.flaticon.com/128/1358/1358994.png"
+                  alt="alt"
+                  className="w-20 object-cover"
+                  width={1000}
+                  height={0}
+                />
+              }
             />
           </Link>
         </div>
@@ -87,7 +110,7 @@ export default function HomeContent() {
             <Image
               src="https://res.cloudinary.com/farmcode/image/upload/v1737355998/iatt/j8arjpmms7r5w2vlu78w.png"
               alt="alt"
-              className="w-full h-48 object-cover rounded-lg"
+              className="w-full h-48 lg:h-80 object-cover rounded-lg"
               width={200}
               height={200}
               priority
@@ -106,7 +129,7 @@ export default function HomeContent() {
             <Image
               src={IMAGES.SUB_BANNER}
               alt="alt"
-              className="w-full h-48 object-cover rounded-lg"
+              className="w-full h-48 lg:h-80 object-cover rounded-lg"
               width={200}
               height={200}
               priority
@@ -183,8 +206,8 @@ export default function HomeContent() {
         </div>
       </div>
       <div className="p-4 md:p-0 lg:p-0 space-y-10 pt-0">
-        <div className="space-y-4 lg:px-40">
-          <h2 className="text-2xl font-bold text-center text-navy-900">
+        <div className="block lg:hidden space-y-4 lg:px-40">
+          <h2 className="text-2xl lg:text-4xl lg:mb-10 font-bold text-center text-navy-900">
             KHÁCH HÀNG NÓI GÌ?
           </h2>
           <Swiper
@@ -225,8 +248,31 @@ export default function HomeContent() {
             </button>
           </Swiper>
         </div>
-        <div className="space-y-4 lg:py-10">
-          <h2 className="text-2xl font-bold text-navy-900 text-center">
+        <div className="w-full lg:block hidden space-y-4">
+          <h2 className="text-2xl lg:text-4xl lg:mb-10 font-bold text-center text-navy-900">
+            KHÁCH HÀNG NÓI GÌ?
+          </h2>
+          <div className='w-full flex gap-4'>
+          {reviews?.map((review: any, index: any) => (
+            <Card key={index} className="border-2 border-dashed border-gray-300 py-6 px-8 relative">
+              <div className="flex justify-center mb-4">
+                <div className="bg-[rgb(var(--quaternary-rgb))] p-4 rounded-full">
+                  <Users2 className="w-8 h-8 text-black" />
+                </div>
+              </div>
+              <p className="text-center text-gray-700 text-lg mb-4">
+                {review?.review}
+              </p>
+              <div className="text-center">
+                <h3 className="font-bold text-lg text-black">{review?.name}</h3>
+                <p className="text-gray-500">{review?.role}</p>
+              </div>
+            </Card>
+          ))}
+          </div>
+        </div>
+        <div className="flex lg:hidden flex-col space-y-4 lg:py-10">
+          <h2 className="text-2xl lg:text-4xl lg:mb-10 font-bold text-navy-900 text-center">
             XU HƯỚNG HIỆN ĐẠI
           </h2>
           <div className="relative flex md:hidden lg:hidden">
@@ -245,9 +291,45 @@ export default function HomeContent() {
             </p>
           </div>
         </div>
+        <div className="space-y-4 lg:py-4 hidden lg:flex justify-between items-start gap-10">
+          <div className='w-2/3 flex flex-col justify-center items-start'>
+            <h2 className="text-2xl lg:text-4xl lg:mb-10 font-bold text-navy-900">
+              XU HƯỚNG HIỆN ĐẠI
+            </h2>
+            <p className="text-gray-700 leading-relaxed">
+              Mặc dù mùa xuân và mùa hè thường gắn liền với thời tiết ấm hơn, nhưng không phải lúc nào mọi chuyện cũng bắt đầu như vậy. Các nhà thiết kế đã trang bị cho bạn những chiếc áo khoác ngoài sang trọng để tăng thêm phong cách cho phong cách của bạn trong giai đoạn chuyển tiếp từ nhiệt độ lạnh hơn sang những buổi chiều ấm áp và đầy nắng. Ngay cả khi thời tiết ấm áp hơn vào mùa xuân tới, hãy thêm một chiếc áo blazer oversized kiểu dáng đẹp vào diện mạo nếu bạn muốn tạo điểm nhấn táo bạo cho phong cách của mình.
+            </p>
+          </div>
+          <Image
+            src="https://res.cloudinary.com/farmcode/image/upload/v1737611123/iatt/lnxejwbnytyqo23xfvi9.png"
+            alt="alt"
+            className="w-1/3 rounded-lg"
+            width={200}
+            height={0}
+            priority
+          />
+        </div>
+        <div className="space-y-4 lg:py-4 hidden lg:flex justify-between items-end gap-10">
+          <Image
+            src="https://res.cloudinary.com/farmcode/image/upload/v1737611123/iatt/lnxejwbnytyqo23xfvi9.png"
+            alt="alt"
+            className="w-1/3 rounded-lg"
+            width={200}
+            height={0}
+            priority
+          />
+          <div className='w-2/3 flex flex-col justify-center items-end'>
+            <h2 className="text-2xl lg:text-4xl lg:mb-10 font-bold text-navy-900">
+              XU HƯỚNG HIỆN ĐẠI
+            </h2>
+            <p className="text-gray-700 leading-relaxed text-right">
+              Mặc dù mùa xuân và mùa hè thường gắn liền với thời tiết ấm hơn, nhưng không phải lúc nào mọi chuyện cũng bắt đầu như vậy. Các nhà thiết kế đã trang bị cho bạn những chiếc áo khoác ngoài sang trọng để tăng thêm phong cách cho phong cách của bạn trong giai đoạn chuyển tiếp từ nhiệt độ lạnh hơn sang những buổi chiều ấm áp và đầy nắng. Ngay cả khi thời tiết ấm áp hơn vào mùa xuân tới, hãy thêm một chiếc áo blazer oversized kiểu dáng đẹp vào diện mạo nếu bạn muốn tạo điểm nhấn táo bạo cho phong cách của mình.
+            </p>
+          </div>
+        </div>
       </div>
       <div className="p-4 md:p-0 lg:p-0 space-y-4">
-        <h2 className="text-2xl font-bold text-center text-navy-900">TIN TỨC</h2>
+        <h2 className="text-2xl lg:text-4xl font-bold text-center text-navy-900 lg:mb-10">TIN TỨC NỔI BẬT</h2>
         <div className="space-y-2 lg:hidden flex flex-col">
           {blogs?.slice(0, 3)?.map((blog: any, index: any) => (
             <div key={index}>
@@ -267,7 +349,7 @@ export default function HomeContent() {
         </div>
         <div className="hidden lg:grid grid-cols-1 lg:grid-cols-3 gap-6">
           {
-            blogs?.map((blog: any, index: any) => (
+            blogs?.slice(0, 3)?.map((blog: any, index: any) => (
               <GlobalComponent.BlogCard
                 key={index}
                 id={blog?._id}
