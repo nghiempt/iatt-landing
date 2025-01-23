@@ -62,7 +62,7 @@ export default function HomeContent() {
         <div className="flex justify-center space-x-4">
           <Link href={`${ROUTES.PRODUCT}`}>
             <GlobalComponent.CategoryCard
-              title="Ép Ảnh Plastic"
+              title="In Ấn"
               icon={
                 <Image
                   src="https://cdn-icons-png.flaticon.com/128/9089/9089872.png"

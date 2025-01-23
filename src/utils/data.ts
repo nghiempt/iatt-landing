@@ -7,7 +7,7 @@ const CATEGORIES = [
   {
     id: 1,
     tag: 'plastic',
-    name: "ẢNH PLASTIC",
+    name: "IN ẤN",
   },
   {
     id: 2,

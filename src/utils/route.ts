@@ -2,7 +2,7 @@ export const ROUTES = {
   HOME: "/",
   BLOG: "/tin-tuc",
   PRODUCT: "/san-pham",
-  PLASTIC: "/ep-plastic",
+  PLASTIC: "/in-an",
   FRAME: "/khung-anh",
   ALBUM: "/photobook",
   ABOUT: "/gioi-thieu",
