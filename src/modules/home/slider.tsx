@@ -62,7 +62,7 @@ const BannerSlider: React.FC = () => {
     };
 
     return (
-        <div className="relative w-full min-h-[540px]">
+        <div className="relative w-full min-h-[140px] lg:min-h-[540px]">
             <div className="relative w-full">
                 {banners.map((banner, index) => (
                     <div

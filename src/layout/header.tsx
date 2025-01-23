@@ -28,7 +28,7 @@ export default function Header() {
 
     useEffect(() => {
         if (isLogin) {
-            setLogined(true)
+            // setLogined(true)
         }
     }, [])
 
