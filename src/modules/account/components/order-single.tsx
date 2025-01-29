@@ -164,9 +164,9 @@ export default function OrderSingleCreate() {
   }, [])
 
   return (
-    <div className="w-full">
+    <div className="w-full flex flex-col justify-center items-center">
       <Header />
-      <div className="max-w-4xl mx-auto px-4 py-4">
+      <div className="w-3/4 px-4 py-4">
         <nav className="flex items-center gap-2 text-sm text-gray-600 mb-6">
           <Link href={`${ROUTES.HOME}`} className="hover:text-black">Trang chủ</Link>
           <ChevronRight className="w-4 h-4" />

@@ -18,6 +18,7 @@ import { GlobalComponent } from '@/components/global';
 export default function ProductDetailClient() {
 
   const { id } = useParams();
+  const [data, setData] = useState<any | null>([] as any);
   const [currentData, setCurrentData] = useState<any | null>(null);
   const [activeSlide, setActiveSlide] = useState<number>(0);
   const [thumbnailSwiperInstance, setThumbnailSwiperInstance] = useState<any>(null);
@@ -27,6 +28,7 @@ export default function ProductDetailClient() {
   const init = async () => {
     const res = await ProductService.getAll()
     if (res && res.data.length > 0) {
+      setData(res?.data)
       const product = res.data?.find((pro: any) => HELPER.getLastFourChars(pro._id).toString() === id);
       console.log(product);
       setCurrentData(product || null);
@@ -63,13 +65,13 @@ export default function ProductDetailClient() {
       <div className="w-full md:w-3/4 lg:w-3/4 lg:mt-4">
         <div className='w-full px-4 py-4 lg:px-0 flex flex-col justify-center items-start'>
           <nav className="flex items-center gap-2 text-sm text-gray-600 mb-4">
-            <Link href={`${ROUTES.HOME}`} className="hover:text-black">Trang chủ</Link>
+            <Link href={`${ROUTES.HOME}`} className="hover:text-black text-md">Trang chủ</Link>
             <ChevronRight className="w-4 h-4" />
-            <Link href={`${ROUTES.PRODUCT}`} className="hover:text-black">Sản phẩm</Link>
+            <Link href={`${ROUTES.PRODUCT}`} className="hover:text-black text-md">Sản phẩm</Link>
             <ChevronRight className="w-4 h-4" />
             <p className="hover:text-black truncate">{currentData?.name?.slice(0, 14)}...</p>
           </nav>
-          <div className="">
+          <div className="lg:mt-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="relative">
                 <Swiper
@@ -161,9 +163,20 @@ export default function ProductDetailClient() {
                     <span>Dòng sản phẩm: <strong>{HELPER.renderCategory(currentData?.category)}</strong></span>
                   </div>
                   <div className="text-3xl font-bold text-brown-700">{HELPER.formatVND(currentData?.price)}</div>
+                  <button
+                    // onClick={() => {
+                    //   window.location.href = `http://localhost:3000/tai-khoan?tab=order-single&product=${currentData?._id}`
+                    // }}
+                    // onClick={() => {
+                    //   window.location.href = `http://localhost:3000/tai-khoan?tab=order-single&product=${currentData?._id}`
+                    // }}
+                    className='w-full bg-orange-700 rounded-md text-white text-md py-4'
+                  >
+                    TẠO ĐƠN HÀNG NGAY
+                  </button>
                 </div>
-                <div className="hideen lg:flex flex-col w-full rounded-md px-6 py-6 space-y-4">
-                  <h2 className="text-xl font-bold text-navy-700">Mô tả sản phẩm</h2>
+                <div className="hideen lg:flex flex-col w-full rounded-md lg:px-6 py-6 space-y-4">
+                  <h2 className="text-2xl font-bold text-navy-700">MÔ TẢ SẢN PHẨM</h2>
                   <div className="space-y-4">
                     <p className={`text-gray-500 leading-relaxed`}>
                       <div dangerouslySetInnerHTML={{ __html: currentData?.description }} />
@@ -175,7 +188,7 @@ export default function ProductDetailClient() {
           </div>
         </div>
       </div>
-      <div className="w-full lg:w-3/4 rounded-md py-6 space-y-4 px-8 lg:px-0">
+      <div className="w-full lg:w-3/4 rounded-md lg:py-6 space-y-4 px-4 lg:px-0">
         <h2 className="text-2xl font-bold text-navy-700">GIỚI THIỆU SẢN PHẨM</h2>
         <div className="space-y-4">
           <p className={`text-gray-500 leading-relaxed`}>
@@ -183,13 +196,13 @@ export default function ProductDetailClient() {
           </p>
         </div>
       </div>
-      <div className='w-full px-4 lg:px-0 lg:w-3/4 flex flex-col justify-center items-start pb-4 lg:py-10'>
-        <h2 className="text-lg lg:text-2xl font-bold text-black mb-4">SẢN PHẨM LIÊN QUAN</h2>
+      <div className='w-full px-4 lg:px-0 lg:w-3/4 flex flex-col justify-center items-start mb-12'>
+        <h2 className="text-2xl font-bold text-black mb-4">SẢN PHẨM LIÊN QUAN</h2>
         <div className="w-full grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4">
-          {[1, 2, 3, 4]?.map((product: any, index: any) => (
+          {data?.slice(0, 4)?.map((product: any, index: any) => (
             <div key={index}>
               <Link href={`${ROUTES.PRODUCT}/${product?._id}`}>
-                <GlobalComponent.ProductCard
+                <GlobalComponent.ProductCardSmall
                   image={product?.thumbnail}
                   title={product?.name}
                   price={product?.price}
@@ -199,18 +212,6 @@ export default function ProductDetailClient() {
               </Link>
             </div>
           ))}
-        </div>
-      </div>
-      <div
-        onClick={() => {
-          window.location.href = `http://localhost:3000/tai-khoan?tab=order-single&product=${currentData?._id}`
-        }}
-        className='lg:hidden fixed bottom-0 left-0 right-0 h-20 bg-white  shadow-[0px_0px_20px_10px_rgba(0,0,0,0.1)]'
-      >
-        <div className='h-full flex justify-center items-center'>
-          <div className='bg-[rgb(var(--tertiary-rgb))] px-12 py-2 border-2 font-semibold rounded-lg'>
-            TẠO ĐƠN HÀNG
-          </div>
         </div>
       </div>
       <Footer />

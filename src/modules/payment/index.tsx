@@ -13,11 +13,11 @@ export default function ShippingPaymentPolicy() {
       <div className="w-full md:w-3/4 lg:w-3/4 lg:mt-4">
         <div className="px-4 py-4 lg:px-0">
           <nav className="flex items-center gap-2 text-sm text-gray-600 mb-6">
-            <Link href={`${ROUTES.HOME}`} className="hover:text-black">Trang chủ</Link>
+            <Link href={`${ROUTES.HOME}`} className="hover:text-black text-md">Trang chủ</Link>
             <ChevronRight className="w-4 h-4" />
-            <Link href={`${ROUTES.ABOUT}`} className="hover:text-black">Giới thiệu</Link>
+            <Link href={`${ROUTES.ABOUT}`} className="hover:text-black text-md">Giới thiệu</Link>
             <ChevronRight className="w-4 h-4" />
-            <Link href={`${ROUTES.PAYMENT}`} className="hover:text-black">Giao hàng</Link>
+            <Link href={`${ROUTES.PAYMENT}`} className="hover:text-black text-md">Chính sách giao hàng</Link>
           </nav>
           <div className="space-y-8">
             <div className="space-y-4">

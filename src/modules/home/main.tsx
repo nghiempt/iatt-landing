@@ -16,7 +16,6 @@ import { ROUTES } from '@/utils/route';
 import { ProductService } from '@/services/product';
 import { BlogService } from '@/services/blog';
 import { GlobalComponent } from '@/components/global';
-import BannerSlider from './slider';
 
 export default function HomeContent() {
 
@@ -56,57 +55,10 @@ export default function HomeContent() {
   }, [])
 
   return (
-    <main id="body" className="space-y-6">
-      <div className="mt-4 text-center px-4 lg:py-8">
-        <h3 className="text-lg lg:text-2xl font-bold text-navy-blue mb-4 lg:mb-8">DANH MỤC SẢN PHẨM</h3>
-        <div className="flex justify-center space-x-4">
-          <Link href={`${ROUTES.PRODUCT}`}>
-            <GlobalComponent.CategoryCard
-              title="In Ấn"
-              icon={
-                <Image
-                  src="https://cdn-icons-png.flaticon.com/128/9089/9089872.png"
-                  alt="alt"
-                  className="w-20 object-cover"
-                  width={1000}
-                  height={0}
-                />
-              }
-            />
-          </Link>
-          <Link href={`${ROUTES.PRODUCT}`}>
-            <GlobalComponent.CategoryCard
-              title="Khung Ảnh Viền"
-              icon={
-                <Image
-                  src="https://cdn-icons-png.flaticon.com/128/1438/1438744.png"
-                  alt="alt"
-                  className="w-20 object-cover"
-                  width={1000}
-                  height={0}
-                />
-              }
-            />
-          </Link>
-          <Link href={`${ROUTES.PRODUCT}`}>
-            <GlobalComponent.CategoryCard
-              title="Photobook"
-              icon={
-                <Image
-                  src="https://cdn-icons-png.flaticon.com/128/1358/1358994.png"
-                  alt="alt"
-                  className="w-20 object-cover"
-                  width={1000}
-                  height={0}
-                />
-              }
-            />
-          </Link>
-        </div>
-      </div>
-      <div className="p-4 md:p-0 lg:p-0 space-y-8">
-        <div className='w-full grid grid-cols-1 lg:grid-cols-2 gap-4'>
-          <div className="rounded-lg overflow-hidden border border-dashed border-[rgb(var(--primary-rgb))] p-4">
+    <main className="">
+      <div className="mt-10 lg:mt-20">
+        <div className='w-full grid grid-cols-1 lg:grid-cols-2 gap-4 px-4 lg:px-0'>
+          <div className="rounded-lg overflow-hidden border border-gray-400 border-dashed p-4">
             <Image
               src="https://res.cloudinary.com/farmcode/image/upload/v1737355998/iatt/j8arjpmms7r5w2vlu78w.png"
               alt="alt"
@@ -116,16 +68,16 @@ export default function HomeContent() {
               priority
             />
             <div className="text-center mt-4">
-              <p className="text-gray-600">Khuyến mãi cho người mới</p>
-              <h2 className="text-xl font-semibold text-black">Thiết kế gia công sản phẩm</h2>
+              <p className="text-gray-600 text-md">Khuyến mãi cho người mới</p>
+              <h2 className="text-xl font-semibold text-black">Ảnh Cổng Cưới Giá Ưu Đãi 199k</h2>
               <Button
-                className="w-full md:w/1-3 lg:w-1/4 bg-[rgb(var(--primary-rgb))] hover:bg-[#6B3410] text-white px-8 mt-4"
+                className="w-full md:w/1-3 lg:w-1/4 bg-orange-700 hover:bg-orange-800 text-white px-8 mt-4 text-md"
               >
-                Liên hệ ngay
+                Mua ngay
               </Button>
             </div>
           </div>
-          <div className="hidden lg:flex flex-col rounded-lg overflow-hidden border border-dashed border-[rgb(var(--primary-rgb))] p-4">
+          <div className="flex flex-col rounded-lg overflow-hidden border border-gray-400 border-dashed p-4">
             <Image
               src={IMAGES.SUB_BANNER}
               alt="alt"
@@ -135,18 +87,18 @@ export default function HomeContent() {
               priority
             />
             <div className="text-center mt-4">
-              <p className="text-gray-600">Khuyến mãi cho người mới</p>
-              <h2 className="text-xl font-semibold text-black">Thiết kế gia công sản phẩm</h2>
+              <p className="text-gray-600 text-md">Khuyến mãi cho người mới</p>
+              <h2 className="text-xl font-semibold text-black">In Ấn - Thiết Kế - Gia Công</h2>
               <Button
-                className="w-full md:w/1-3 lg:w-1/4 bg-[rgb(var(--primary-rgb))] hover:bg-[#6B3410] text-white px-8 mt-4"
+                className="text-md w-full md:w/1-3 lg:w-1/4 bg-orange-700 hover:bg-orange-800 text-white px-8 mt-4"
               >
                 Liên hệ ngay
               </Button>
             </div>
           </div>
         </div>
-        <div className='lg:py-6'>
-          <h2 className="text-lg lg:text-2xl font-bold text-black mb-4 lg:mb-8">SẢN PHẨM NỔI BẬT</h2>
+        <div className='mt-10 lg:mt-20 px-4 lg:px-0'>
+          <h2 className="text-2xl lg:text-3xl font-bold text-black mb-4 lg:mb-10">SẢN PHẨM NỔI BẬT</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
             {products?.slice(0, 6)?.map((product: any, index: any) => (
               <div key={index}>
@@ -164,9 +116,9 @@ export default function HomeContent() {
           </div>
         </div>
       </div>
-      <div className="p-4 md:p-0 lg:p-0 space-y-10 pt-0">
-        <div className="block lg:hidden space-y-4 lg:px-40">
-          <h2 className="text-2xl lg:text-4xl lg:mb-10 font-bold text-center text-navy-900">
+      <div className="mt-10 lg:mt-20">
+        <div className="block lg:hidden px-4 lg:px-0">
+          <h2 className="text-2xl lg:text-4xl font-bold text-center text-navy-900 mb-4">
             KHÁCH HÀNG NÓI GÌ?
           </h2>
           <Swiper
@@ -207,13 +159,13 @@ export default function HomeContent() {
             </button>
           </Swiper>
         </div>
-        <div className="w-full lg:block hidden space-y-4">
-          <h2 className="text-2xl lg:text-4xl lg:mb-10 font-bold text-center text-navy-900">
+        <div className="w-full lg:block hidden mb-20">
+          <h2 className="text-2xl lg:text-3xl font-bold text-center text-navy-900 mb-10">
             KHÁCH HÀNG NÓI GÌ?
           </h2>
           <div className='w-full flex gap-4'>
           {reviews?.map((review: any, index: any) => (
-            <Card key={index} className="border-2 border-dashed border-gray-300 py-6 px-8 relative">
+            <Card key={index} className="border border-gray-400 border-dashed py-6 px-8 relative">
               <div className="flex justify-center mb-4">
                 <div className="bg-[rgb(var(--quaternary-rgb))] p-4 rounded-full">
                   <Users2 className="w-8 h-8 text-black" />
@@ -224,14 +176,14 @@ export default function HomeContent() {
               </p>
               <div className="text-center">
                 <h3 className="font-bold text-lg text-black">{review?.name}</h3>
-                <p className="text-gray-500">{review?.role}</p>
+                <p className="text-gray-500 text-md">{review?.role}</p>
               </div>
             </Card>
           ))}
           </div>
         </div>
-        <div className="flex lg:hidden flex-col space-y-4 lg:py-10">
-          <h2 className="text-2xl lg:text-4xl lg:mb-10 font-bold text-navy-900 text-center">
+        <div className="flex lg:hidden flex-col mt-10 px-4 text-justify">
+          <h2 className="text-2xl font-bold text-navy-900 text-center mb-4">
             XU HƯỚNG HIỆN ĐẠI
           </h2>
           <div className="relative flex md:hidden lg:hidden">
@@ -244,18 +196,18 @@ export default function HomeContent() {
               priority
             />
           </div>
-          <div className="space-y-4 lg:text-center lg:px-20">
+          <div className="space-y-4 mt-4">
             <p className="text-gray-700 leading-relaxed">
               Mặc dù mùa xuân và mùa hè thường gắn liền với thời tiết ấm hơn, nhưng không phải lúc nào mọi chuyện cũng bắt đầu như vậy. Các nhà thiết kế đã trang bị cho bạn những chiếc áo khoác ngoài sang trọng để tăng thêm phong cách cho phong cách của bạn trong giai đoạn chuyển tiếp từ nhiệt độ lạnh hơn sang những buổi chiều ấm áp và đầy nắng. Ngay cả khi thời tiết ấm áp hơn vào mùa xuân tới, hãy thêm một chiếc áo blazer oversized kiểu dáng đẹp vào diện mạo nếu bạn muốn tạo điểm nhấn táo bạo cho phong cách của mình.
             </p>
           </div>
         </div>
-        <div className="space-y-4 lg:py-4 hidden lg:flex justify-between items-start gap-10">
+        <div className="hidden lg:flex justify-between items-start gap-10 mb-10">
           <div className='w-2/3 flex flex-col justify-center items-start'>
-            <h2 className="text-2xl lg:text-4xl lg:mb-10 font-bold text-navy-900">
+            <h2 className="lg:text-3xl font-bold text-navy-900 mb-4">
               XU HƯỚNG HIỆN ĐẠI
             </h2>
-            <p className="text-gray-700 leading-relaxed">
+            <p className="text-gray-700 leading-relaxed text-lg text-justify">
               Mặc dù mùa xuân và mùa hè thường gắn liền với thời tiết ấm hơn, nhưng không phải lúc nào mọi chuyện cũng bắt đầu như vậy. Các nhà thiết kế đã trang bị cho bạn những chiếc áo khoác ngoài sang trọng để tăng thêm phong cách cho phong cách của bạn trong giai đoạn chuyển tiếp từ nhiệt độ lạnh hơn sang những buổi chiều ấm áp và đầy nắng. Ngay cả khi thời tiết ấm áp hơn vào mùa xuân tới, hãy thêm một chiếc áo blazer oversized kiểu dáng đẹp vào diện mạo nếu bạn muốn tạo điểm nhấn táo bạo cho phong cách của mình.
             </p>
           </div>
@@ -268,7 +220,7 @@ export default function HomeContent() {
             priority
           />
         </div>
-        <div className="space-y-4 lg:py-4 hidden lg:flex justify-between items-end gap-10">
+        <div className="hidden lg:flex justify-between items-end gap-10">
           <Image
             src="https://res.cloudinary.com/farmcode/image/upload/v1737611123/iatt/lnxejwbnytyqo23xfvi9.png"
             alt="alt"
@@ -278,18 +230,18 @@ export default function HomeContent() {
             priority
           />
           <div className='w-2/3 flex flex-col justify-center items-end'>
-            <h2 className="text-2xl lg:text-4xl lg:mb-10 font-bold text-navy-900">
+            <h2 className="lg:text-3xl font-bold text-navy-900 mb-4">
               XU HƯỚNG HIỆN ĐẠI
             </h2>
-            <p className="text-gray-700 leading-relaxed text-right">
+            <p className="text-gray-700 leading-relaxed text-lg text-justify">
               Mặc dù mùa xuân và mùa hè thường gắn liền với thời tiết ấm hơn, nhưng không phải lúc nào mọi chuyện cũng bắt đầu như vậy. Các nhà thiết kế đã trang bị cho bạn những chiếc áo khoác ngoài sang trọng để tăng thêm phong cách cho phong cách của bạn trong giai đoạn chuyển tiếp từ nhiệt độ lạnh hơn sang những buổi chiều ấm áp và đầy nắng. Ngay cả khi thời tiết ấm áp hơn vào mùa xuân tới, hãy thêm một chiếc áo blazer oversized kiểu dáng đẹp vào diện mạo nếu bạn muốn tạo điểm nhấn táo bạo cho phong cách của mình.
             </p>
           </div>
         </div>
       </div>
-      <div className="p-4 md:p-0 lg:p-0 space-y-4">
-        <h2 className="text-2xl lg:text-4xl font-bold text-center text-navy-900 lg:mb-10">TIN TỨC NỔI BẬT</h2>
-        <div className="space-y-2 lg:hidden flex flex-col">
+      <div className="mt-10 lg:mt-20 px-4 lg:px-0">
+        <h2 className="text-2xl lg:text-3xl font-bold text-center text-navy-900 mb-4 lg:mb-10">TIN TỨC NỔI BẬT</h2>
+        <div className="lg:hidden flex flex-col">
           {blogs?.slice(0, 3)?.map((blog: any, index: any) => (
             <div key={index}>
               <Link href={`${ROUTES.BLOG}/${blog._id}`}>

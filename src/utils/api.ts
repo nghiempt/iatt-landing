@@ -1,4 +1,4 @@
-const BASE_URL = 'https://api.inanhtructuyen.com/api/v1';
+const BASE_URL = 'https://api.farmcode.io.vn/v1';
 // const BASE_URL = 'http://localhost:8000/api/v1';
 
 const AUTH = {
@@ -11,11 +11,11 @@ const ACCOUNT = {
 }
 
 const PRODUCT = {
-    GET_ALL: `${BASE_URL}/product/get-all`,
+    GET_ALL: `${BASE_URL}/inanhtructuyen/product/get-all`,
 }
 
 const BLOG = {
-    GET_ALL: `${BASE_URL}/blog/get-all`,
+    GET_ALL: `${BASE_URL}/inanhtructuyen/blog/get-all`,
 }
 
 const ORDER = {

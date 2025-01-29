@@ -7,7 +7,7 @@ import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { LoginModal } from './login';
 import Cookies from "js-cookie";
-import { CircleDollarSign, FolderPlus, Gift, History, House, Info, LogOut, NotepadText, PhoneCall, UserRound } from 'lucide-react';
+import { CircleDollarSign, FolderPlus, Gift, History, House, Info, LogOut, NotepadText, PhoneCall, ShoppingCart, UserRound } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 
 export default function Header() {
@@ -78,7 +78,7 @@ export default function Header() {
                         </div>
                     </button>
                 </div>
-                <div className="flex items-center justify-center gap-4 cursor-pointer">
+                <a href='/' className="flex items-center justify-center gap-4 cursor-pointer">
                     <Image
                         src={IMAGES.LOGO}
                         alt="logo"
@@ -87,15 +87,19 @@ export default function Header() {
                         priority
                         className="hidden lg:flex rounded-full"
                     />
-                    <span className="flex items-center justify-center mt-1 text-lg font-bold">IN ẢNH TRỰC TUYẾN</span>
-                </div>
+                    <div className='flex gap-1.5 ml-2'>
+                        <span className="text-xl flex items-center justify-center font-bold text-red-600">IN</span>
+                        <span className="text-xl flex items-center justify-center font-bold text-green-600">ẢNH</span>
+                        <span className="text-xl flex items-center justify-center font-bold text-blue-700">TRỰC</span>
+                        <span className="text-xl flex items-center justify-center font-bold text-purple-500">TUYẾN</span>
+                    </div>
+                </a>
                 <div className='flex justify-center items-center gap-4'>
-                    <div className='hidden border border-gray-400 rounded-full px-6 py-1 lg:flex justify-center items-center gap-2'>
+                    <div className='hidden border-2 border-gray-600 text-md font-semibold rounded-full px-6 py-1.5 lg:flex justify-center items-center gap-2'>
                         <PhoneCall size={15} /> Hotline: 0939.468.252
                     </div>
-                    {
-                        renderLogin(logined)
-                    }
+                    <div className='hidden lg:flex'>{renderLogin(logined)}</div>
+                    <div className='flex lg:hidden'><ShoppingCart size={24} className='mr-3' /></div>
                 </div>
                 {open && (
                     <div className="absolute mt-2 top-16 left-0 h-[1000px] w-full bg-white shadow-md z-20">
@@ -175,13 +179,13 @@ export default function Header() {
             </header>
             <div className='w-full bg-orange-700 hidden lg:flex justify-center items-center'>
                 <div className='w-3/4 text-white flex justify-between items-center py-5'>
-                    <a href={`${ROUTES.HOME}`} className={`${checkTabEnable(ROUTES.HOME, pathname) ? 'border px-3 py-1 rounded-md' : ''} font-semibold`}>TRANG CHỦ</a>
-                    <a href={`${ROUTES.ABOUT}`} className={`${checkTabEnable(ROUTES.ABOUT, pathname) ? 'border px-3 py-1 rounded-md' : ''} font-semibold`}>VỀ CHÚNG TÔI</a>
-                    <a href={`${ROUTES.PLASTIC}`} className={`${checkTabEnable(ROUTES.PLASTIC, pathname) ? 'border px-3 py-1 rounded-md' : ''} font-semibold`}>IN ẤN</a>
-                    <a href={`${ROUTES.FRAME}`} className={`${checkTabEnable(ROUTES.FRAME, pathname) ? 'border px-3 py-1 rounded-md' : ''} font-semibold`}>KHUNG ẢNH</a>
-                    <a href={`${ROUTES.ALBUM}`} className={`${checkTabEnable(ROUTES.ALBUM, pathname) ? 'border px-3 py-1 rounded-md' : ''} font-semibold`}>PHOTOBOOK</a>
-                    <a href={`${ROUTES.PRICE}`} className={`${checkTabEnable(ROUTES.PRICE, pathname) ? 'border px-3 py-1 rounded-md' : ''} font-semibold`}>BẢNG GIÁ</a>
-                    <a href={`${ROUTES.BLOG}`} className={`${checkTabEnable(ROUTES.BLOG, pathname) ? 'border px-3 py-1 rounded-md' : ''} font-semibold`}>TIN TỨC</a>
+                    <a href={`${ROUTES.HOME}`} className={`${checkTabEnable(ROUTES.HOME, pathname) ? 'bg-white text-orange-700 font-bold' : 'font-semibold'} text-lg px-4 py-2 rounded-full hover:text-orange-700 hover:bg-white`}>TRANG CHỦ</a>
+                    <a href={`${ROUTES.ABOUT}`} className={`${checkTabEnable(ROUTES.ABOUT, pathname) ? 'bg-white text-orange-700 font-bold' : 'font-semibold'} text-lg px-4 py-2 rounded-full hover:text-orange-700 hover:bg-white`}>VỀ CHÚNG TÔI</a>
+                    <a href={`${ROUTES.PLASTIC}`} className={`${checkTabEnable(ROUTES.PLASTIC, pathname) ? 'bg-white text-orange-700 font-bold' : 'font-semibold'} text-lg px-4 py-2 rounded-full hover:text-orange-700 hover:bg-white`}>IN ẤN</a>
+                    <a href={`${ROUTES.FRAME}`} className={`${checkTabEnable(ROUTES.FRAME, pathname) ? 'bg-white text-orange-700 font-bold' : 'font-semibold'} text-lg px-4 py-2 rounded-full hover:text-orange-700 hover:bg-white`}>KHUNG ẢNH</a>
+                    <a href={`${ROUTES.ALBUM}`} className={`${checkTabEnable(ROUTES.ALBUM, pathname) ? 'bg-white text-orange-700 font-bold' : 'font-semibold'} text-lg px-4 py-2 rounded-full hover:text-orange-700 hover:bg-white`}>PHOTOBOOK</a>
+                    <a href={`${ROUTES.PRICE}`} className={`${checkTabEnable(ROUTES.PRICE, pathname) ? 'bg-white text-orange-700 font-bold' : 'font-semibold'} text-lg px-4 py-2 rounded-full hover:text-orange-700 hover:bg-white`}>BẢNG GIÁ</a>
+                    <a href={`${ROUTES.BLOG}`} className={`${checkTabEnable(ROUTES.BLOG, pathname) ? 'bg-white text-orange-700 font-bold' : 'font-semibold'} text-lg px-4 py-2 rounded-full hover:text-orange-700 hover:bg-white`}>TIN TỨC</a>
                 </div>
             </div>
         </div>

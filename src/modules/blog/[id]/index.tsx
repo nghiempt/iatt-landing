@@ -39,25 +39,25 @@ export default function BlogDetailClient() {
   return (
     <div className="w-full flex flex-col justify-center items-center">
       <Header />
-      <div className="w-full md:w-3/4 lg:w-3/4 lg:mt-4">
+      <div className="w-full md:w-3/4 lg:w-3/4 lg:mt-4 mb-10">
         <div className='w-full px-4 py-4 lg:px-0 flex flex-col justify-center items-start'>
           <nav className="flex items-center gap-2 text-sm text-gray-600 mb-4">
-            <Link href={`${ROUTES.HOME}`} className="hover:text-black">Trang chủ</Link>
+            <Link href={`${ROUTES.HOME}`} className="hover:text-black text-md">Trang chủ</Link>
             <ChevronRight className="w-4 h-4" />
-            <Link href={`${ROUTES.BLOG}`} className="hover:text-black">Tin Tức</Link>
+            <Link href={`${ROUTES.BLOG}`} className="hover:text-black text-md">Tin Tức</Link>
             <ChevronRight className="w-4 h-4" />
-            <p className="hover:text-black truncate">{currentData?.title?.slice(0, 20)}...</p>
+            <p className="hover:text-black truncate text-md">{currentData?.title?.slice(0, 20)}...</p>
           </nav>
           <h1 className="text-3xl font-bold text-navy-900 mb-3">{currentData?.title}</h1>
           <div className="mb-3">
             <p>Đăng bởi: {currentData?.author} - {currentData?.date}</p>
           </div>
-          <div className="h-full bg-pink-50 rounded-md mb-4">
+          <div className="w-full lg:w-1/2 h-full bg-pink-50 rounded-md mb-4">
             <Image
               src={currentData?.thumbnail || ""}
               alt="Products Banner"
               className="w-full h-full object-cover rounded-md"
-              width={400}
+              width={1000}
               height={0}
             />
           </div>
@@ -82,21 +82,20 @@ export default function BlogDetailClient() {
           <div className="w-full mt-4 pt-3 z-10">
             <div dangerouslySetInnerHTML={{ __html: currentData?.content }} />
           </div>
-          <div className="w-full bg-white rounded-lg mt-4 py-4 z-10">
-            <div className="font-semibold text-md mb-4">BÀI VIẾT LIÊN QUAN</div>
+          <div className="w-full bg-white rounded-lg mt-10 py-4 z-10">
+            <div className="font-semibold text-xl mb-4">BÀI VIẾT LIÊN QUAN</div>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-              {blogs?.slice(0, 2)?.map((blogs: any, index: any) => (
+              {blogs?.slice(0, 4)?.map((blogs: any, index: any) => (
                 <div key={index}>
                   <Link href={`${ROUTES.BLOG}/${blogs?._id}`}>
                     <div>
-                      <Image className="h-28 object-cover rounded-lg" src={blogs?.thumbnail || ""} alt="image" width={1000} height={1000} />
+                      <Image className="h-28 lg:h-48 object-cover rounded-lg" src={blogs?.thumbnail || ""} alt="image" width={1000} height={1000} />
                     </div>
                     <div className="my-2">
                       <p className="font-bold text-[15px] leading-5 line-clamp-2">{blogs?.title}</p>
                     </div>
-
                     <div className="line-clamp-3 text-xs">
-                      {blogs?.content}
+                      <div dangerouslySetInnerHTML={{ __html: blogs?.content }} />
                     </div>
                   </Link>
                 </div>

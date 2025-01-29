@@ -14,11 +14,11 @@ export default function PrivacyPolicyClient() {
       <div className="w-full md:w-3/4 lg:w-3/4 lg:mt-4">
         <div className="px-4 py-4 lg:px-0">
           <nav className="flex items-center gap-2 text-sm text-gray-600 mb-6">
-            <Link href={`${ROUTES.HOME}`} className="hover:text-black">Trang chủ</Link>
+            <Link href={`${ROUTES.HOME}`} className="hover:text-black text-md">Trang chủ</Link>
             <ChevronRight className="w-4 h-4" />
-            <Link href={`${ROUTES.ABOUT}`} className="hover:text-black">Giới thiệu</Link>
+            <Link href={`${ROUTES.ABOUT}`} className="hover:text-black text-md">Giới thiệu</Link>
             <ChevronRight className="w-4 h-4" />
-            <Link href={`${ROUTES.PRIVACY_POLICY}`} className="hover:text-black">Chính sách bảo mật</Link>
+            <Link href={`${ROUTES.PRIVACY_POLICY}`} className="hover:text-black text-md">Chính sách bảo mật</Link>
           </nav>
           <div className="space-y-8">
             <div className="space-y-4">
@@ -86,8 +86,8 @@ export default function PrivacyPolicyClient() {
                     Cơ sở kinh doanh IN ẢNH TRỰC TUYẾN
                   </p>
                   <p className="text-gray-700 leading-relaxed">
-                    <strong>Địa chỉ:</strong> [Địa chỉ cụ thể] <br />
-                    <strong>Điện thoại:</strong> [Số điện thoại liên hệ]
+                    <strong>Địa chỉ:</strong> QLPH Tân Thành, Cà Mau <br />
+                    <strong>Điện thoại:</strong> 0939.468.252
                   </p>
                 </div>
                 <div>

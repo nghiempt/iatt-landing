@@ -69,12 +69,12 @@ export default function ProductClient() {
   return (
     <div className="w-full flex flex-col justify-center items-center">
       <Header />
-      <div className="w-full md:w-3/4 lg:w-3/4 lg:mt-4">
+      <div className="w-full md:w-3/4 lg:w-3/4 lg:mt-4 mb-10">
         <div className="px-4 py-4 lg:px-0">
           <nav className="flex items-center gap-2 text-sm text-gray-600 mb-6">
-            <Link href={`${ROUTES.HOME}`} className="hover:text-black">Trang chủ</Link>
+            <Link href={`${ROUTES.HOME}`} className="hover:text-black text-md">Trang chủ</Link>
             <ChevronRight className="w-4 h-4" />
-            <Link href={`${ROUTES.PRODUCT}`} className="hover:text-black">Tất cả sản phẩm</Link>
+            <Link href={`${ROUTES.PRODUCT}`} className="hover:text-black text-md">Tất cả sản phẩm</Link>
           </nav>
           <div className="h-32 lg:h-64 bg-pink-50 rounded-lg mb-8">
             <Image
@@ -159,7 +159,7 @@ export default function ProductClient() {
                   filteredDataSort?.map((data: any, index: any) => (
                     <div key={index}>
                       <Link href={`${ROUTES.PRODUCT}/${HELPER.getLastFourChars(data?._id)}?sp=${HELPER.convertSpacesToDash(data?.name)}`}>
-                        <GlobalComponent.ProductCard
+                        <GlobalComponent.ProductCardSmall
                           image={data?.thumbnail}
                           title={data?.name}
                           price={data?.price}
