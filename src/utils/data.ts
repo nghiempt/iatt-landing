@@ -6,17 +6,17 @@ const CATEGORIES = [
   },
   {
     id: 1,
-    tag: 'plastic',
-    name: "IN ẤN",
+    tag: 'Plastic',
+    name: "PLASTIC",
   },
   {
     id: 2,
-    tag: 'frame',
+    tag: 'Frame',
     name: "KHUNG ẢNH",
   },
   {
     id: 3,
-    tag: 'album',
+    tag: 'Album',
     name: "ALBUM",
   },
 ];

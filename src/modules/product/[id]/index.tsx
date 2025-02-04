@@ -1,43 +1,45 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-"use client"
+"use client";
 
-import Header from '@/layout/header';
-import Footer from '@/layout/footer';
-import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
-import { ChevronRight, ChevronDown, ChevronLeft } from 'lucide-react';
-import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import Header from "@/layout/header";
+import Footer from "@/layout/footer";
+import React, { useEffect, useState } from "react";
+import Image from "next/image";
+import { ChevronRight, ChevronDown, ChevronLeft } from "lucide-react";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 import "swiper/css";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { ROUTES } from '@/utils/route';
-import { ProductService } from '@/services/product';
-import { HELPER } from '@/utils/helper';
-import { GlobalComponent } from '@/components/global';
+import { ROUTES } from "@/utils/route";
+import { ProductService } from "@/services/product";
+import { HELPER } from "@/utils/helper";
+import { GlobalComponent } from "@/components/global";
 
 export default function ProductDetailClient() {
-
   const { id } = useParams();
   const [data, setData] = useState<any | null>([] as any);
   const [currentData, setCurrentData] = useState<any | null>(null);
   const [activeSlide, setActiveSlide] = useState<number>(0);
-  const [thumbnailSwiperInstance, setThumbnailSwiperInstance] = useState<any>(null);
+  const [thumbnailSwiperInstance, setThumbnailSwiperInstance] =
+    useState<any>(null);
   const [swiperInstance, setSwiperInstance] = useState<any>(null);
   const [isExpanded, setIsExpanded] = useState(false);
 
   const init = async () => {
-    const res = await ProductService.getAll()
+    const res = await ProductService.getAll();
     if (res && res.data.length > 0) {
-      setData(res?.data)
-      const product = res.data?.find((pro: any) => HELPER.getLastFourChars(pro._id).toString() === id);
+      setData(res?.data);
+      const product = res.data?.find(
+        (pro: any) => HELPER.getLastFourChars(pro._id).toString() === id
+      );
       console.log(product);
       setCurrentData(product || null);
     }
-  }
+  };
 
   useEffect(() => {
-    init()
-  }, [])
+    init();
+  }, []);
 
   const handleSwiper = (swiper: any) => {
     setSwiperInstance(swiper);
@@ -63,13 +65,22 @@ export default function ProductDetailClient() {
     <div className="w-full flex flex-col justify-center items-center">
       <Header />
       <div className="w-full md:w-3/4 lg:w-3/4 lg:mt-4">
-        <div className='w-full px-4 py-4 lg:px-0 flex flex-col justify-center items-start'>
+        <div className="w-full px-4 py-4 lg:px-0 flex flex-col justify-center items-start">
           <nav className="flex items-center gap-2 text-sm text-gray-600 mb-4">
-            <Link href={`${ROUTES.HOME}`} className="hover:text-black text-md">Trang chủ</Link>
+            <Link href={`${ROUTES.HOME}`} className="hover:text-black text-md">
+              Trang chủ
+            </Link>
             <ChevronRight className="w-4 h-4" />
-            <Link href={`${ROUTES.PRODUCT}`} className="hover:text-black text-md">Sản phẩm</Link>
+            <Link
+              href={`${ROUTES.PRODUCT}`}
+              className="hover:text-black text-md"
+            >
+              Sản phẩm
+            </Link>
             <ChevronRight className="w-4 h-4" />
-            <p className="hover:text-black truncate">{currentData?.name?.slice(0, 14)}...</p>
+            <p className="hover:text-black truncate">
+              {currentData?.name?.slice(0, 14)}...
+            </p>
           </nav>
           <div className="lg:mt-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -131,7 +142,11 @@ export default function ProductDetailClient() {
                       <SwiperSlide key={index}>
                         <div
                           key={index}
-                          className={`w-full h-28 rounded-sm overflow-hidden cursor-pointer relative transition-all duration-300 ${activeSlide === index ? 'border-[#6B3410]  border-2' : 'border-transparent'}`}
+                          className={`w-full h-28 rounded-sm overflow-hidden cursor-pointer relative transition-all duration-300 ${
+                            activeSlide === index
+                              ? "border-[#6B3410]  border-2"
+                              : "border-transparent"
+                          }`}
                           onClick={() => handleThumbnailClick(index)}
                         >
                           <Image
@@ -147,39 +162,67 @@ export default function ProductDetailClient() {
                 </div>
               </div>
               <div className="">
-                <div className="hideen lg:flex flex-col w-full space-y-4 rounded-md p-6 bg-[rgb(var(--tertiary-rgb))]">
+                <div className="flex flex-col w-full space-y-4 rounded-md p-6 bg-[rgb(var(--tertiary-rgb))]">
                   <div className="flex justify-between items-start">
                     <div className="flex items-center gap-1">
                       {[1, 2, 3, 4, 5].map((star) => (
-                        <svg key={star} className="w-5 h-5 text-yellow-500" fill="#FFFF00FF" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                        <svg
+                          key={star}
+                          className="w-5 h-5 text-yellow-500"
+                          fill="#FFFF00FF"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
+                          />
                         </svg>
                       ))}
-                      <span className="text-sm text-gray-500">({currentData?.sold} đã bán)</span>
+                      <span className="text-sm text-gray-500">
+                        ({currentData?.sold} đã bán)
+                      </span>
                     </div>
                   </div>
-                  <h1 className="text-2xl font-bold text-navy-700">{currentData?.name}</h1>
+                  <h1 className="text-2xl font-bold text-navy-700">
+                    {currentData?.name}
+                  </h1>
                   <div className="flex flex-col gap-2">
-                    <span>Dòng sản phẩm: <strong>{HELPER.renderCategory(currentData?.category)}</strong></span>
+                    <span>
+                      Dòng sản phẩm:{" "}
+                      <strong>
+                        {HELPER.renderCategory(currentData?.category)}
+                      </strong>
+                    </span>
                   </div>
-                  <div className="text-3xl font-bold text-brown-700">{HELPER.formatVND(currentData?.price)}</div>
+                  <div className="text-3xl font-bold text-brown-700">
+                    {HELPER.formatVND(currentData?.price)}
+                  </div>
                   <button
                     // onClick={() => {
-                    //   window.location.href = `http://localhost:3000/tai-khoan?tab=order-single&product=${currentData?._id}`
+                    //   window.location.href = `http://localhost:3000/tai-khoan?tab=order-single&product=${currentData?._id}`;
                     // }}
-                    // onClick={() => {
-                    //   window.location.href = `http://localhost:3000/tai-khoan?tab=order-single&product=${currentData?._id}`
-                    // }}
-                    className='w-full bg-orange-700 rounded-md text-white text-md py-4'
+                    onClick={() => {
+                      window.location.href = `http://localhost:3000/tai-khoan?tab=order-single&product=${currentData?._id}`;
+                    }}
+                    className="w-full bg-orange-700 rounded-md text-white text-md py-4"
                   >
                     TẠO ĐƠN HÀNG NGAY
                   </button>
                 </div>
                 <div className="hideen lg:flex flex-col w-full rounded-md lg:px-6 py-6 space-y-4">
-                  <h2 className="text-2xl font-bold text-navy-700">MÔ TẢ SẢN PHẨM</h2>
+                  <h2 className="text-2xl font-bold text-navy-700">
+                    MÔ TẢ SẢN PHẨM
+                  </h2>
                   <div className="space-y-4">
                     <p className={`text-gray-500 leading-relaxed`}>
-                      <div dangerouslySetInnerHTML={{ __html: currentData?.description }} />
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: currentData?.description,
+                        }}
+                      />
                     </p>
                   </div>
                 </div>
@@ -189,29 +232,44 @@ export default function ProductDetailClient() {
         </div>
       </div>
       <div className="w-full lg:w-3/4 rounded-md lg:py-6 space-y-4 px-4 lg:px-0">
-        <h2 className="text-2xl font-bold text-navy-700">GIỚI THIỆU SẢN PHẨM</h2>
+        <h2 className="text-2xl font-bold text-navy-700">
+          GIỚI THIỆU SẢN PHẨM
+        </h2>
         <div className="space-y-4">
           <p className={`text-gray-500 leading-relaxed`}>
-            <div dangerouslySetInnerHTML={{ __html: currentData?.introduction }} />
+            <div
+              dangerouslySetInnerHTML={{ __html: currentData?.introduction }}
+            />
           </p>
         </div>
       </div>
-      <div className='w-full px-4 lg:px-0 lg:w-3/4 flex flex-col justify-center items-start mb-12'>
-        <h2 className="text-2xl font-bold text-black mb-4">SẢN PHẨM LIÊN QUAN</h2>
+      <div className="w-full px-4 lg:px-0 lg:w-3/4 flex flex-col justify-center items-start mb-12">
+        <h2 className="text-2xl font-bold text-black mb-4">
+          SẢN PHẨM LIÊN QUAN
+        </h2>
         <div className="w-full grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4">
-          {data?.slice(0, 4)?.map((product: any, index: any) => (
-            <div key={index}>
-              <Link href={`${ROUTES.PRODUCT}/${product?._id}`}>
-                <GlobalComponent.ProductCardSmall
-                  image={product?.thumbnail}
-                  title={product?.name}
-                  price={product?.price}
-                  hot={true}
-                  sold={product?.sold}
-                />
-              </Link>
-            </div>
-          ))}
+          {data
+            ?.filter(
+              (product: any) => HELPER.getLastFourChars(product?._id) !== id
+            )
+            ?.slice(0, 4)
+            ?.map((product: any, index: any) => (
+              <div key={index}>
+                <Link
+                  href={`${ROUTES.PRODUCT}/${HELPER.getLastFourChars(
+                    product?._id
+                  )}?sp=${HELPER.convertSpacesToDash(product?.name)}`}
+                >
+                  <GlobalComponent.ProductCardSmall
+                    image={product?.thumbnail}
+                    title={product?.name}
+                    price={product?.price}
+                    hot={true}
+                    sold={product?.sold}
+                  />
+                </Link>
+              </div>
+            ))}
         </div>
       </div>
       <Footer />
