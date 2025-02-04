@@ -9,6 +9,7 @@ import { LoginModal } from "./login";
 import Cookies from "js-cookie";
 import {
   CircleDollarSign,
+  Download,
   FolderPlus,
   Gift,
   History,
@@ -21,6 +22,7 @@ import {
   UserRound,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 export default function Header() {
   const isLogin = Cookies.get("isLogin");
@@ -127,6 +129,13 @@ export default function Header() {
             <PhoneCall size={15} /> Hotline: 0939.468.252
           </div>
           <div className="hidden lg:flex">{renderLogin(logined)}</div>
+          <Link
+            href="#"
+            className="hidden lg:flex bg-orange-700 rounded-full px-6 py-2.5 cursor-pointer"
+          >
+            <Download size={24} className="mr-3" color="white" />
+            <p className="text-white text-md font-semibold ">Tải App</p>
+          </Link>
           <div className="flex lg:hidden">
             <ShoppingCart size={24} className="mr-3" />
           </div>

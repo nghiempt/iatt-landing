@@ -11,11 +11,11 @@ const ACCOUNT = {
 }
 
 const PRODUCT = {
-    GET_ALL: `${BASE_URL}/inanhtructuyen/product/get-all`,
+    GET_ALL: `${BASE_URL}/inanhtructuyen/product/`,
 }
 
 const BLOG = {
-    GET_ALL: `${BASE_URL}/inanhtructuyen/blog/get-all`,
+    GET_ALL: `${BASE_URL}/inanhtructuyen/blog/`,
 }
 
 const ORDER = {
