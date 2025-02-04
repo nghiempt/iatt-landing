@@ -224,7 +224,7 @@ export default function Header() {
                 </li>
               )}
 
-              <li className="font-bold ">
+              {/* <li className="font-bold ">
                 <a
                   href={`${ROUTES.ACCOUNT}?tab=profile`}
                   className="flex items-center justify-start gap-4 text-gray-700 hover:text-black"
@@ -255,7 +255,7 @@ export default function Header() {
                 >
                   <LogOut size={18} /> Đăng xuất
                 </button>
-              </li>
+              </li> */}
             </ul>
           </div>
         )}
