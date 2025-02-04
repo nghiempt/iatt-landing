@@ -205,7 +205,7 @@ export default function ProductDetailClient() {
                     //   window.location.href = `http://localhost:3000/tai-khoan?tab=order-single&product=${currentData?._id}`;
                     // }}
                     onClick={() => {
-                      window.location.href = `http://localhost:3000/tai-khoan?tab=order-single&product=${currentData?._id}`;
+                      window.location.href = `/tai-khoan?tab=order-single&product=${currentData?._id}`;
                     }}
                     className="w-full bg-orange-700 rounded-md text-white text-md py-4"
                   >
