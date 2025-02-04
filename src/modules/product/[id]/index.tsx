@@ -217,13 +217,13 @@ export default function ProductDetailClient() {
                     MÔ TẢ SẢN PHẨM
                   </h2>
                   <div className="space-y-4">
-                    <p className={`text-gray-500 leading-relaxed`}>
+                    <div className={`text-gray-500 leading-relaxed`}>
                       <div
                         dangerouslySetInnerHTML={{
                           __html: currentData?.description,
                         }}
                       />
-                    </p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -236,11 +236,11 @@ export default function ProductDetailClient() {
           GIỚI THIỆU SẢN PHẨM
         </h2>
         <div className="space-y-4">
-          <p className={`text-gray-500 leading-relaxed`}>
+          <div className={`text-gray-500 leading-relaxed`}>
             <div
               dangerouslySetInnerHTML={{ __html: currentData?.introduction }}
             />
-          </p>
+          </div>
         </div>
       </div>
       <div className="w-full px-4 lg:px-0 lg:w-3/4 flex flex-col justify-center items-start mb-12">
