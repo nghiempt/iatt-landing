@@ -6,7 +6,6 @@ import { IMAGES } from "@/utils/image";
 import { ROUTES } from "@/utils/route";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import { LoginModal } from "./login";
 import Cookies from "js-cookie";
 import {
   CircleDollarSign,
@@ -34,6 +33,7 @@ import {
   DropdownSection,
   DropdownItem,
 } from "@heroui/dropdown";
+import { AccountService } from "@/services/account";
 
 export default function Header() {
   const isLogin = Cookies.get("isLogin");
@@ -56,28 +56,21 @@ export default function Header() {
   };
 
   useEffect(() => {
-    setLogined(Cookies.get("isLogin") === "true");
-  }, []);
+    const isLogin = Cookies.get("isLogin");
+    const userLogin = Cookies.get("userLogin");
 
-  // const renderLogin = (isLogin: any) => {
-  //   if (false) {
-  //     return (
-  //       <Image
-  //         src={IMAGES.LOGO}
-  //         alt="logo"
-  //         width={32}
-  //         height={32}
-  //         priority
-  //         className="rounded-full"
-  //       />
-  //     );
-  //   } else {
-  //     return <LoginModal />;
-  //   }
-  // };
+    if (isLogin && userLogin && isLogin === userLogin) {
+      setLogined(true);
+    } else {
+      setLogined(false);
+    }
+
+    console.log("Check login status:", isLogin ? "Logged in" : "Not logged in");
+  }, []);
 
   const handleLogOut = () => {
     Cookies.remove("isLogin");
+    Cookies.remove("userLogin");
     setLogined(false);
     window.location.href = ROUTES.HOME;
   };
@@ -98,19 +91,25 @@ export default function Header() {
     if (!validateForm()) return;
     setIsLoading(true);
 
-    if (username === "inanhtructuyen@gmail.com" && password === "Iatt@7777") {
-      setTimeout(() => {
-        Cookies.set("isLogin", "true", { expires: 7 });
-        setIsLoading(false);
+    try {
+      const data = await AccountService.loginAccount(username, password);
+
+      if (data?.message === "SUCCESS") {
+        Cookies.set("isLogin", data?.data, { expires: 7 });
+        Cookies.set("userLogin", data?.data, { expires: 7 });
         setLogined(true);
         window.location.href = ROUTES.HOME;
-      }, 2000);
-    } else {
-      setIsLoading(false);
+      } else {
+        throw new Error("Email hoặc mật khẩu chưa chính xác");
+      }
+    } catch (error) {
+      console.error("========= Error Login:", error);
       toast({
         variant: "destructive",
         title: "Email hoặc mật khẩu chưa chính xác",
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 

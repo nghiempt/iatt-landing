@@ -10,4 +10,5 @@ export const ROUTES = {
   PRIVACY_POLICY: "/chinh-sach-bao-mat",
   PAYMENT: "/chinh-sach-giao-hang",
   ACCOUNT: "/tai-khoan",
+  LOGIN_WITH_GOOGLE: "/inanhtructuyen/auth/login/google",
 };

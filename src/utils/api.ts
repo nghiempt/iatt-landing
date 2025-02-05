@@ -2,11 +2,13 @@ const BASE_URL = "https://api.farmcode.io.vn/v1";
 // const BASE_URL = 'http://localhost:8000/api/v1';
 
 const AUTH = {
+  LOGIN_MANUAL: `${BASE_URL}/inanhtructuyen/auth/login`,
   LOGIN_WITH_GOOGLE: `${BASE_URL}/inanhtructuyen/auth/login/google`,
 };
 
 const ACCOUNT = {
   GET_ALL: `${BASE_URL}/account/get-all`,
+  GET_ACCOUNT_BY_ID: `${BASE_URL}/inanhtructuyen/account`,
   UPDATE: `${BASE_URL}/account/update`,
 };
 
