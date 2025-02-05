@@ -56,10 +56,30 @@ export interface FormData extends UserData {
   province: string;
 }
 
-const accountProfile = DATA?.USER_PROFILE as UserData;
+export interface CustomerAccount {
+  _id: string;
+  email: string;
+  password: string;
+  name: string;
+  phone: string;
+  avatar: string;
+  address: string;
+  ward: string;
+  district: string;
+  province: string;
+  role: string;
+  status: boolean;
+  created_at: string;
+  districtName: string;
+  provinceName: string;
+  wardName: string;
+}
 
 export default function AccountProfile() {
-  const emailCookie = Cookies.get("email");
+  const emailCookie = Cookies.get("isLogin");
+  const isLogin = Cookies.get("isLogin");
+  const [customerAccount, setCustomerAccount] =
+    useState<CustomerAccount | null>(null);
 
   const [provinces, setProvinces] = React.useState<Province[]>([]);
   const [userData, setUserData] = React.useState<UserData>({
@@ -88,18 +108,39 @@ export default function AccountProfile() {
     fetchProvinces();
   }, []);
 
+  useEffect(() => {
+    if (emailCookie) {
+      init(emailCookie);
+    }
+
+    const fetchAccount = async () => {
+      if (isLogin) {
+        try {
+          const data = await AccountService.getAccountById(isLogin);
+          setCustomerAccount(data);
+        } catch (error) {
+          console.error("Error fetching account:", error);
+        }
+      }
+    };
+
+    fetchAccount();
+  }, []);
+
   const getFullAddressName = () => {
-    if (!provinces.length) return "";
+    if (!customerAccount || !provinces.length) return "Address not found.";
+
     const provinceObj = provinces.find(
-      (p) => p.code.toString() === accountProfile.province
+      (p) => p.code.toString() === customerAccount.province
     );
     const districtObj = provinceObj?.districts.find(
-      (d) => d.code.toString() === accountProfile.district
+      (d) => d.code.toString() === customerAccount.district
     );
     const wardObj = districtObj?.wards.find(
-      (w) => w.code.toString() === accountProfile.ward
+      (w) => w.code.toString() === customerAccount.ward
     );
-    return `${accountProfile.address}, ${wardObj?.name}, ${districtObj?.name}, ${provinceObj?.name}`;
+
+    return `${customerAccount.address}, ${wardObj?.name}, ${districtObj?.name}, ${provinceObj?.name}`;
   };
 
   const init = async (emailCookie: any) => {
@@ -112,16 +153,10 @@ export default function AccountProfile() {
     }
   };
 
-  useEffect(() => {
-    if (emailCookie) {
-      init(emailCookie);
-    }
-  }, []);
-
   return (
     <div className="w-full">
       <Header />
-      <div className="max-w-4xl lg:max-w-6xl mx-auto px-4 pt-4 pb-20">
+      <div className="w-full lg:w-3/4 mx-auto px-4 pt-4 pb-20">
         <nav className="flex items-center gap-2 text-sm text-gray-600 mb-6">
           <Link href={`${ROUTES.HOME}`} className="hover:text-black">
             Trang chủ
@@ -139,54 +174,48 @@ export default function AccountProfile() {
           <section className="bg-white antialiased dark:bg-gray-900">
             <div className="">
               <div className="">
-                <div className="mb-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-1 sm:gap-8 lg:gap-5">
-                  <div className="space-y-4">
-                    <div className="flex space-x-4">
-                      <Image
-                        src={accountProfile.avatar}
-                        width={1000}
-                        height={1000}
-                        className="w-14 h-14 rounded-md"
-                        alt="avatar"
-                      />
-                      <div>
-                        <span className="mb-1 inline-block rounded bg-primary-100 py-0.5 text-xs font-medium text-primary-800 dark:bg-primary-900 dark:text-primary-300">
-                          Hạng vàng
-                        </span>
-                        <h2 className="flex items-center text-xl font-bold leading-none text-gray-900 dark:text-white sm:text-2xl">
-                          {accountProfile.name}
-                        </h2>
+                {customerAccount && (
+                  <div className="mb-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-1 sm:gap-8 lg:gap-5">
+                    <div className="space-y-4">
+                      <div className="flex space-x-4">
+                        <Image
+                          src={customerAccount.avatar}
+                          width={1000}
+                          height={1000}
+                          className="w-14 h-14 rounded-md"
+                          alt="avatar"
+                        />
+                        <div className="flex flex-col items-start justify-center">
+                          <h2 className="flex items-center text-xl font-bold leading-none text-gray-900 dark:text-white sm:text-2xl">
+                            {customerAccount.name}
+                          </h2>
+                          <span className="mb-1 inline-block rounded bg-primary-100 py-0.5 text-sm font-medium text-gray-500 dark:bg-primary-900 dark:text-primary-300">
+                            {customerAccount.email}
+                          </span>
+                        </div>
                       </div>
+                      <dl>
+                        <dt className="font-semibold text-gray-900 dark:text-white">
+                          Địa chỉ giao hàng
+                        </dt>
+                        <dd className="flex items-center gap-1 text-gray-500 dark:text-gray-400">
+                          {getFullAddressName()}
+                        </dd>
+                      </dl>
                     </div>
-                    <dl className="">
-                      <dt className="font-semibold text-gray-900 dark:text-white">
-                        Địa chỉ email
-                      </dt>
-                      <dd className="text-gray-500 dark:text-gray-400">
-                        {accountProfile.email}
-                      </dd>
-                    </dl>
-                    <dl>
-                      <dt className="font-semibold text-gray-900 dark:text-white">
-                        Địa chỉ giao hàng
-                      </dt>
-                      <dd className="flex items-center gap-1 text-gray-500 dark:text-gray-400">
-                        {getFullAddressName()}
-                      </dd>
-                    </dl>
+                    <div className="space-y-4">
+                      <dl>
+                        <dt className="font-semibold text-gray-900 dark:text-white">
+                          Số điện thoại
+                        </dt>
+                        <dd className="text-gray-500 dark:text-gray-400">
+                          {customerAccount.phone}
+                        </dd>
+                      </dl>
+                    </div>
                   </div>
-                  <div className="space-y-4">
-                    <dl>
-                      <dt className="font-semibold text-gray-900 dark:text-white">
-                        Số điện thoại
-                      </dt>
-                      <dd className="text-gray-500 dark:text-gray-400">
-                        {accountProfile.phone}
-                      </dd>
-                    </dl>
-                  </div>
-                </div>
-                <EditProfileModal user={accountProfile} />
+                )}
+                <EditProfileModal user={customerAccount} />
               </div>
             </div>
           </section>

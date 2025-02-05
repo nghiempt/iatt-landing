@@ -9,7 +9,7 @@ const AUTH = {
 const ACCOUNT = {
   GET_ALL: `${BASE_URL}/account/get-all`,
   GET_ACCOUNT_BY_ID: `${BASE_URL}/inanhtructuyen/account`,
-  UPDATE: `${BASE_URL}/account/update`,
+  UPDATE: `${BASE_URL}/inanhtructuyen/account/update`,
 };
 
 const PRODUCT = {

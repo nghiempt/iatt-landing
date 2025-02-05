@@ -44,7 +44,7 @@ export default function OrderHistory() {
   return (
     <div className="w-full">
       <Header />
-      <div id="body" className="max-w-4xl lg:max-w-6xl mx-auto px-4 py-4">
+      <div id="body" className="w-3/4 mx-auto px-4 py-4">
         <nav className="flex items-center gap-2 text-sm text-gray-600 mb-6">
           <Link href={`${ROUTES.HOME}`} className="hover:text-black">
             Trang chủ
@@ -163,3 +163,4 @@ export default function OrderHistory() {
     </div>
   );
 }
+``;

@@ -445,13 +445,16 @@ export default function OrderSingleCreate({ user }: { user: any }) {
                 </div>
               </div> */}
               <div className="mt-6 sm:mt-8 lg:flex lg:items-start lg:gap-12 xl:gap-16">
-                <div className="min-w-0 flex-1 space-y-8">
+                <div className="w-3/4 flex-1 space-y-8">
                   <div className="space-y-4">
                     <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
                       Tạo đơn hàng
                     </h2>
                     <div className="w-full flex flex-col justify-center items-center gap-4">
-                      <div className="w-full" style={getImageContainerStyle()}>
+                      <div
+                        className="w-full h-full"
+                        style={getImageContainerStyle()}
+                      >
                         {!currentImage.startsWith("http") ? (
                           <ImageUpload
                             onImageChange={setUploadedFile}

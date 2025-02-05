@@ -11,7 +11,7 @@ const Footer = () => {
     <footer className="w-full flex flex-col justify-center items-center bg-[rgb(var(--quaternary-rgb))] pt-8 space-y-8">
       <div className="w-full lg:w-3/4 flex flex-col lg:flex-row gap-4 lg:gap-20">
         <div className="flex flex-col px-4 lg:px-0 text-center lg:text-start space-y-4">
-          <div className="flex items-center justify-evenly lg:justify-start">
+          <div className="flex items-center justify-center lg:justify-start">
             <Image
               src={IMAGES.LOGO}
               alt="logo"
@@ -72,9 +72,10 @@ const Footer = () => {
               className="cursor-pointer"
             />
           </div>
-          <div className="pt-5 flex justify-center lg:justify-start">
+          <div className="pt-5 hidden lg:flex justify-center lg:justify-start">
             <a
               href="https://www.dmca.com/compliance/inanhtructuyen.com"
+              target="blank"
               title="DMCA Compliance information for inanhtructuyen.com"
               className="dmca-badge"
             >
@@ -173,6 +174,27 @@ const Footer = () => {
               />
               <p className="text-gray-700 text-md">VNPay</p>
             </div>
+          </div>
+          <div className="flex lg:hidden justify-start">
+            <a
+              href="https://www.dmca.com/compliance/inanhtructuyen.com"
+              target="blank"
+              title="DMCA Compliance information for inanhtructuyen.com"
+              className="dmca-badge"
+            >
+              <Image
+                src="https://images.dmca.com/Badges/dmca_protected_sml_120c.png?ID=37bab9ec-5168-4ee5-b8aa-76713c56b9de"
+                alt="DMCA Compliance information for inanhtructuyen.com"
+                width={1000}
+                height={1000}
+                className="w-[100%] lg:w-[100%] h-5"
+              />
+            </a>
+
+            <Script
+              src="https://images.dmca.com/Badges/DMCABadgeHelper.min.js"
+              strategy="lazyOnload"
+            />
           </div>
         </div>
       </div>

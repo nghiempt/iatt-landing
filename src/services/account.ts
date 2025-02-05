@@ -22,7 +22,7 @@ const updateAccount = async (id: any, payload: any) => {
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     const response = await fetch(`${API.ACCOUNT.UPDATE}/${id}`, {
-      method: "PUT",
+      method: "POST",
       headers: myHeaders,
       body: JSON.stringify(payload),
       redirect: "follow",
@@ -36,36 +36,6 @@ const updateAccount = async (id: any, payload: any) => {
     return false;
   }
 };
-
-// const loginAccount = async (email: any, password: any) => {
-//   try {
-//     const response = await fetch(API.AUTH.LOGIN_MANUAL, {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify({ email, password }),
-//     });
-
-//     if (!response.ok) {
-//       console.log(
-//         "login failed - Status: ${response.status}",
-//         JSON.stringify({ email, password })
-//       );
-//       throw new Error(`Đăng nhập thất bại - Status: ${response.status}`);
-//     }
-
-//     const data = await response.json();
-
-//     if (data?.message == "SUCCESS") {
-//       return data;
-//     } else {
-//       throw new Error("Thông tin đăng nhập không hợp lệ");
-//     }
-//   } catch (error) {
-//     console.error("========= Error Login:", error);
-//   }
-// };
 
 const loginAccount = async (email: string, password: string) => {
   try {
@@ -93,8 +63,31 @@ const loginAccount = async (email: string, password: string) => {
   }
 };
 
+const getAccountById = async (id: string) => {
+  try {
+    const response = await fetch(`${API.ACCOUNT.GET_ACCOUNT_BY_ID}/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      console.error(`Login failed - Status: ${response.status}`);
+      throw new Error(`Get Account Failed - Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data.data;
+  } catch (error) {
+    console.error("========= Error Get Account:", error);
+    throw error;
+  }
+};
+
 export const AccountService = {
   getAll,
   updateAccount,
   loginAccount,
+  getAccountById,
 };

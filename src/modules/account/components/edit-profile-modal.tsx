@@ -19,6 +19,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { AccountService } from "@/services/account";
+import { Loader } from "lucide-react";
 
 export interface Province {
   code: string;
@@ -175,7 +176,8 @@ const EditProfileModal = ({ user }: { user: any }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(formData);
+    // console.log("check update profile: ", formData);
+    setLoading(true);
     const selectedProvince = provinces.find(
       (p) => p.code === formData.province
     );
@@ -189,8 +191,9 @@ const EditProfileModal = ({ user }: { user: any }) => {
       districtName: selectedDistrict?.name,
       wardName: selectedWard?.name,
     };
-    console.log("Formatted data:", formattedData);
+    // console.log("Formatted data:", formattedData);
     await AccountService.updateAccount(user?._id, formattedData);
+    setLoading(false);
     window.location.href = "/tai-khoan?tab=profile";
   };
 
@@ -212,7 +215,7 @@ const EditProfileModal = ({ user }: { user: any }) => {
   return (
     <Dialog>
       <DialogTrigger asChild onClick={updateDOM}>
-        <Button className="inline-flex w-1/2 items-center justify-center rounded-lg bg-white border border-[rgb(var(--primary-rgb))] px-5 py-2.5 text-sm font-medium text-[rgb(var(--primary-rgb))] hover:text-white sm:w-auto">
+        <Button className="inline-flex w-1/2 items-center justify-center rounded-lg bg-white border border-[rgb(var(--primary-rgb))] px-5 py-2.5 text-sm font-medium text-[rgb(var(--primary-rgb))] hover:text-white sm:w-auto gap-0">
           <svg
             className="-ms-0.5 me-1.5 h-4 w-4"
             aria-hidden="true"
@@ -258,7 +261,8 @@ const EditProfileModal = ({ user }: { user: any }) => {
                 name="email"
                 type="email"
                 value={formData.email}
-                onChange={handleInputChange}
+                // onChange={handleInputChange}
+                disabled={true}
               />
             </div>
             <div className="grid gap-2">
@@ -340,6 +344,7 @@ const EditProfileModal = ({ user }: { user: any }) => {
           </div>
           <Button type="submit" className="w-full bg-[rgb(var(--primary-rgb))]">
             Lưu thay đổi
+            {loading && <Loader className="animate-spin" size={48} />}
           </Button>
         </form>
       </DialogContent>
