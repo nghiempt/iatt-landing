@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { IMAGES } from "@/utils/image";
 import { ROUTES } from "@/utils/route";
 import Image from "next/image";
@@ -15,6 +16,7 @@ import {
   History,
   House,
   Info,
+  Loader,
   LogOut,
   NotepadText,
   PhoneCall,
@@ -23,11 +25,18 @@ import {
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { useToast } from "@/hooks/use-toast";
+import { API } from "@/utils/api";
 
 export default function Header() {
   const isLogin = Cookies.get("isLogin");
-  const [logined, setLogined] = useState(false);
+  const [logined, setLogined] = useState(true);
   const [open, setOpen] = useState(false);
+
+  const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const pathname = usePathname();
 
@@ -45,26 +54,63 @@ export default function Header() {
     }
   }, []);
 
-  const renderLogin = (isLogin: any) => {
-    if (false) {
-      return (
-        <Image
-          src={IMAGES.LOGO}
-          alt="logo"
-          width={32}
-          height={32}
-          priority
-          className="rounded-full"
-        />
-      );
-    } else {
-      return <LoginModal />;
-    }
-  };
+  // const renderLogin = (isLogin: any) => {
+  //   if (false) {
+  //     return (
+  //       <Image
+  //         src={IMAGES.LOGO}
+  //         alt="logo"
+  //         width={32}
+  //         height={32}
+  //         priority
+  //         className="rounded-full"
+  //       />
+  //     );
+  //   } else {
+  //     return <LoginModal />;
+  //   }
+  // };
 
   const handleLogOut = () => {
     Cookies.remove("isLogin");
     window.location.href = ROUTES.HOME;
+  };
+
+  const validateForm = () => {
+    if (username === "" || password === "") {
+      toast({
+        variant: "destructive",
+        title: "Vui lòng điền đầy đủ thông tin",
+      });
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  const handleSubmit = async () => {
+    if (!validateForm()) return;
+    setIsLoading(true);
+
+    if (username === "inanhtructuyen@gmail.com" && password === "Iatt@7777") {
+      setTimeout(() => {
+        Cookies.set("isLogin", "true", { expires: 7 });
+        window.location.href = ROUTES.HOME;
+        setIsLoading(false);
+        setLogined(false);
+      }, 2000);
+    } else {
+      setIsLoading(false);
+      toast({
+        variant: "destructive",
+        title: "Email hoặc mật khẩu chưa chính xác",
+      });
+    }
+  };
+
+  const handleSubmitWithGoogle = async (e: any) => {
+    e.preventDefault();
+    window.location.href = API.AUTH.LOGIN_WITH_GOOGLE;
   };
 
   return (
@@ -128,7 +174,7 @@ export default function Header() {
           <div className="hidden border-2 border-gray-600 text-md font-semibold rounded-full px-6 py-1.5 lg:flex justify-center items-center gap-2">
             <PhoneCall size={15} /> Hotline: 0939.468.252
           </div>
-          <div className="hidden lg:flex">{renderLogin(logined)}</div>
+          {/* <div className="hidden lg:flex">{renderLogin(!logined)}</div> */}
           <Link
             href="#"
             className="hidden lg:flex bg-orange-700 rounded-full px-6 py-2.5 cursor-pointer"
@@ -136,9 +182,131 @@ export default function Header() {
             <Download size={24} className="mr-3" color="white" />
             <p className="text-white text-md font-semibold ">Tải App</p>
           </Link>
-          <div className="flex lg:hidden">
-            <ShoppingCart size={24} className="mr-3" />
-          </div>
+          {logined ? (
+            <div>
+              <Link href={ROUTES.ACCOUNT}>
+                <Image
+                  src="https://res.cloudinary.com/farmcode/image/upload/v1738733499/iatt/Screenshot_2025-02-05_at_12.30.28_usdydu.png"
+                  alt="avatar"
+                  width={1000}
+                  height={1000}
+                  className="w-12 h-12 object-cover rounded-full cursor-pointer"
+                />
+              </Link>
+            </div>
+          ) : (
+            <div>
+              <Dialog>
+                <DialogTrigger className="flex lg:hidden" asChild>
+                  <div className="">
+                    <ShoppingCart size={24} className="mr-3" />
+                  </div>
+                </DialogTrigger>
+                <DialogTrigger className="lg:flex hidden" asChild>
+                  <button
+                    type="button"
+                    className="flex items-center justify-center px-4 lg:px-8 py-2 text-md font-semibold text-white rounded-full bg-orange-700 lg:bg-white lg:text-orange-700 lg:border-orange-700 lg:border-2"
+                  >
+                    Đăng nhập
+                  </button>
+                </DialogTrigger>
+                <DialogContent
+                  className="w-full"
+                  onOpenAutoFocus={(e) => e.preventDefault()}
+                >
+                  <div>
+                    <div className="w-full">
+                      <div className="flex flex-col items-center justify-center mx-auto lg:py-0">
+                        <div className="w-full bg-white dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+                          <div className="space-y-4">
+                            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                              Đăng nhập
+                            </h1>
+                            <div className="space-y-4 md:space-y-6">
+                              <div>
+                                <label
+                                  htmlFor="email"
+                                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                >
+                                  Tài khoản
+                                </label>
+                                <input
+                                  type="email"
+                                  name="email"
+                                  id="email"
+                                  className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                  placeholder="name@company.com"
+                                  onChange={(e) => setUsername(e.target.value)}
+                                />
+                              </div>
+                              <div>
+                                <label
+                                  htmlFor="password"
+                                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                >
+                                  Mật khẩu
+                                </label>
+                                <input
+                                  type="password"
+                                  name="password"
+                                  id="password"
+                                  placeholder="••••••••"
+                                  className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                  onChange={(e) => setPassword(e.target.value)}
+                                />
+                              </div>
+                              <div className="flex items-center justify-end">
+                                <a
+                                  href="#"
+                                  className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
+                                >
+                                  Quên mật khẩu?
+                                </a>
+                              </div>
+                              <button
+                                onClick={handleSubmit}
+                                className="flex flex-row justify-center items-center gap-2 w-full text-white bg-orange-700 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-md px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                              >
+                                Đăng nhập
+                                {isLoading && (
+                                  <Loader className="animate-spin" size={20} />
+                                )}
+                              </button>
+                              <div
+                                onClick={(e: any) => handleSubmitWithGoogle(e)}
+                                className="cursor-pointer w-full px-4 py-2 border flex justify-center items-center gap-2 border-slate-200 dark:border-slate-700 rounded-lg text-slate-700 dark:text-slate-200 hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150"
+                              >
+                                <Image
+                                  className="w-5 h-5"
+                                  src="https://www.svgrepo.com/show/475656/google-color.svg"
+                                  width={1000}
+                                  height={1000}
+                                  loading="lazy"
+                                  alt="google logo"
+                                />
+                                <span className="text-md font-medium">
+                                  Đăng nhập bằng Google
+                                </span>
+                              </div>
+                              <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+                                Bạn chưa có tài khoản?{" "}
+                                <Link
+                                  href="#"
+                                  className="font-medium text-primary-600 hover:underline text-black"
+                                >
+                                  Đăng ký
+                                </Link>
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </DialogContent>
+              </Dialog>
+            </div>
+          )}
         </div>
         {open && (
           <div className="absolute mt-2 top-16 left-0 h-[1000px] w-full bg-white shadow-md z-20">
@@ -223,39 +391,6 @@ export default function Header() {
                   </button>
                 </li>
               )}
-
-              {/* <li className="font-bold ">
-                <a
-                  href={`${ROUTES.ACCOUNT}?tab=profile`}
-                  className="flex items-center justify-start gap-4 text-gray-700 hover:text-black"
-                >
-                  <UserRound size={18} /> Hồ sơ cá nhân
-                </a>
-              </li>
-              <li className="font-bold ">
-                <a
-                  href={`${ROUTES.ACCOUNT}?tab=history`}
-                  className="flex items-center justify-start gap-4 text-gray-700 hover:text-black"
-                >
-                  <History size={18} /> Lịch sử mua hàng
-                </a>
-              </li>
-              <li className="font-bold ">
-                <a
-                  href={`${ROUTES.ACCOUNT}?tab=order-single`}
-                  className="flex items-center justify-start gap-4 text-gray-700 hover:text-black"
-                >
-                  <FolderPlus size={18} /> Tạo đơn hàng mới
-                </a>
-              </li>
-              <li className="font-bold ">
-                <button
-                  onClick={handleLogOut}
-                  className="flex items-center justify-start gap-4 text-orange-700 hover:text-black"
-                >
-                  <LogOut size={18} /> Đăng xuất
-                </button>
-              </li> */}
             </ul>
           </div>
         )}

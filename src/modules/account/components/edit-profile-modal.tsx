@@ -212,7 +212,7 @@ const EditProfileModal = ({ user }: { user: any }) => {
   return (
     <Dialog>
       <DialogTrigger asChild onClick={updateDOM}>
-        <Button className="inline-flex w-1/2 items-center justify-center rounded-lg bg-white border border-[rgb(var(--primary-rgb))] px-5 py-2.5 text-sm font-medium text-[rgb(var(--primary-rgb))] sm:w-auto">
+        <Button className="inline-flex w-1/2 items-center justify-center rounded-lg bg-white border border-[rgb(var(--primary-rgb))] px-5 py-2.5 text-sm font-medium text-[rgb(var(--primary-rgb))] hover:text-white sm:w-auto">
           <svg
             className="-ms-0.5 me-1.5 h-4 w-4"
             aria-hidden="true"

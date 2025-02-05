@@ -223,10 +223,10 @@ export default function OrderSingleCreate({ user }: { user: any }) {
   );
   const [uploadedFile, setUploadedFile] = React.useState<File | null>(null);
   const [userData, setUserData] = React.useState<any>({
-    name: "",
-    email: "",
-    avatar: "",
-    phone: "",
+    name: user?.name || "",
+    email: user?.email || "",
+    avatar: user?.avatar || "",
+    phone: user?.phone || "",
     address: "",
     ward: "",
     district: "",
@@ -549,6 +549,7 @@ export default function OrderSingleCreate({ user }: { user: any }) {
                           type="text"
                           className="block w-full rounded-lg border border-gray-200 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                           placeholder="Nguyễn Văn A"
+                          value={userData?.name}
                         />
                       </div>
                       <div>
@@ -642,6 +643,7 @@ export default function OrderSingleCreate({ user }: { user: any }) {
                           type="number"
                           className="block w-full rounded-lg border p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                           placeholder="0123456789"
+                          value={userData?.phone}
                         />
                       </div>
                     </div>
