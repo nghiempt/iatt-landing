@@ -30,7 +30,7 @@ import { API } from "@/utils/api";
 
 export default function Header() {
   const isLogin = Cookies.get("isLogin");
-  const [logined, setLogined] = useState(true);
+  const [logined, setLogined] = useState(false);
   const [open, setOpen] = useState(false);
 
   const { toast } = useToast();
@@ -49,9 +49,7 @@ export default function Header() {
   };
 
   useEffect(() => {
-    if (isLogin) {
-      // setLogined(true)
-    }
+    setLogined(Cookies.get("isLogin") === "true");
   }, []);
 
   // const renderLogin = (isLogin: any) => {
@@ -73,6 +71,7 @@ export default function Header() {
 
   const handleLogOut = () => {
     Cookies.remove("isLogin");
+    setLogined(false);
     window.location.href = ROUTES.HOME;
   };
 
@@ -95,9 +94,9 @@ export default function Header() {
     if (username === "inanhtructuyen@gmail.com" && password === "Iatt@7777") {
       setTimeout(() => {
         Cookies.set("isLogin", "true", { expires: 7 });
-        window.location.href = ROUTES.HOME;
         setIsLoading(false);
-        setLogined(false);
+        setLogined(true);
+        window.location.href = ROUTES.HOME;
       }, 2000);
     } else {
       setIsLoading(false);
