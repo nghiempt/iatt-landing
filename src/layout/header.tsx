@@ -180,76 +180,81 @@ export default function Header() {
             <PhoneCall size={15} /> Hotline: 0939.468.252
           </div>
           {/* <div className="hidden lg:flex">{renderLogin(!logined)}</div> */}
-          <Link
-            href="#"
-            className="hidden lg:flex bg-orange-700 rounded-full px-6 py-2.5 cursor-pointer"
-          >
-            <Download size={24} className="mr-3" color="white" />
-            <p className="text-white text-md font-semibold ">Tải App</p>
-          </Link>
+
           {logined ? (
-            <div>
-              <Dropdown>
-                <DropdownTrigger>
-                  <Image
-                    src="https://res.cloudinary.com/farmcode/image/upload/v1738733499/iatt/Screenshot_2025-02-05_at_12.30.28_usdydu.png"
-                    alt="avatar"
-                    width={1000}
-                    height={1000}
-                    className="w-11 h-11 object-cover rounded-full cursor-pointer"
-                  />
-                </DropdownTrigger>
-                <DropdownMenu
-                  className="bg-white rounded-md border border-gray-200"
-                  aria-label="Static Actions"
-                >
-                  <DropdownItem
-                    className="px-3 py-2.5 text-left text-md hover:bg-gray-200 rounded-md"
-                    key="Quản lí hồ sơ"
+            <>
+              <div className="flex lg:hidden">
+                <Image
+                  src="https://res.cloudinary.com/farmcode/image/upload/v1738733499/iatt/Screenshot_2025-02-05_at_12.30.28_usdydu.png"
+                  alt="avatar"
+                  width={1000}
+                  height={1000}
+                  className="w-11 h-11 object-cover rounded-full cursor-pointer"
+                />
+              </div>
+              <div className="hidden lg:flex">
+                <Dropdown>
+                  <DropdownTrigger>
+                    <Image
+                      src="https://res.cloudinary.com/farmcode/image/upload/v1738733499/iatt/Screenshot_2025-02-05_at_12.30.28_usdydu.png"
+                      alt="avatar"
+                      width={1000}
+                      height={1000}
+                      className="w-11 h-11 object-cover rounded-full cursor-pointer"
+                    />
+                  </DropdownTrigger>
+                  <DropdownMenu
+                    className="bg-white rounded-md border border-gray-200"
+                    aria-label="Static Actions"
                   >
-                    <a
-                      href={`${ROUTES.ACCOUNT}?tab=profile`}
-                      className="flex items-center justify-start gap-4 text-gray-700 hover:text-black"
+                    <DropdownItem
+                      className="px-3 py-2.5 text-left text-md hover:bg-gray-200 rounded-md"
+                      key="Quản lí hồ sơ"
                     >
-                      <UserRound size={18} /> Quản lí hồ sơ
-                    </a>
-                  </DropdownItem>
-                  <DropdownItem
-                    className="px-3 py-2.5 text-left text-md hover:bg-gray-200 rounded-md"
-                    key="Lịch sử mua hàng"
-                  >
-                    <a
-                      href={`${ROUTES.ACCOUNT}?tab=history`}
-                      className="flex items-center justify-start gap-4 text-gray-700 hover:text-black"
+                      <a
+                        href={`${ROUTES.ACCOUNT}?tab=profile`}
+                        className="flex items-center justify-start gap-4 text-gray-700 hover:text-black"
+                      >
+                        <UserRound size={18} /> Quản lí hồ sơ
+                      </a>
+                    </DropdownItem>
+                    <DropdownItem
+                      className="px-3 py-2.5 text-left text-md hover:bg-gray-200 rounded-md"
+                      key="Lịch sử mua hàng"
                     >
-                      <History size={18} /> Lịch sử mua hàng
-                    </a>
-                  </DropdownItem>
-                  <DropdownItem
-                    className="px-3 py-2.5 text-left text-md hover:bg-gray-200 rounded-md"
-                    key="Tạo đơn hàng mới"
-                  >
-                    <a
-                      href={`${ROUTES.ACCOUNT}?tab=order-single`}
-                      className="flex items-center justify-start gap-4 text-gray-700 hover:text-black"
+                      <a
+                        href={`${ROUTES.ACCOUNT}?tab=history`}
+                        className="flex items-center justify-start gap-4 text-gray-700 hover:text-black"
+                      >
+                        <History size={18} /> Lịch sử mua hàng
+                      </a>
+                    </DropdownItem>
+                    <DropdownItem
+                      className="px-3 py-2.5 text-left text-md hover:bg-gray-200 rounded-md"
+                      key="Tạo đơn hàng mới"
                     >
-                      <FolderPlus size={18} /> Tạo đơn hàng mới
-                    </a>
-                  </DropdownItem>
-                  <DropdownItem
-                    key="delete"
-                    className="text-red-700 hover:text-white hover:bg-red-700 font-medium rounded-lg text-md px-3 py-2.5 text-left me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
-                  >
-                    <button
-                      onClick={handleLogOut}
-                      className="flex items-center justify-start gap-4 hover:text-white"
+                      <a
+                        href={`${ROUTES.ACCOUNT}?tab=order-single`}
+                        className="flex items-center justify-start gap-4 text-gray-700 hover:text-black"
+                      >
+                        <FolderPlus size={18} /> Tạo đơn hàng mới
+                      </a>
+                    </DropdownItem>
+                    <DropdownItem
+                      key="delete"
+                      className="text-red-700 hover:text-white hover:bg-red-700 font-medium rounded-lg text-md px-3 py-2.5 text-left me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
                     >
-                      <LogOut size={18} /> Đăng xuất
-                    </button>
-                  </DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-            </div>
+                      <button
+                        onClick={handleLogOut}
+                        className="flex items-center justify-start gap-4 hover:text-white"
+                      >
+                        <LogOut size={18} /> Đăng xuất
+                      </button>
+                    </DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
+              </div>
+            </>
           ) : (
             <div>
               <Dialog>
@@ -363,6 +368,14 @@ export default function Header() {
               </Dialog>
             </div>
           )}
+
+          <Link
+            href="#"
+            className="hidden lg:flex bg-orange-700 items-center rounded-full px-6 py-2.5 cursor-pointer"
+          >
+            <Download size={18} className="mr-3" color="white" />
+            <p className="text-white text-md font-semibold ">Tải App</p>
+          </Link>
         </div>
         {open && (
           <div className="absolute mt-2 top-16 left-0 h-[1000px] w-full bg-white shadow-md z-20">
