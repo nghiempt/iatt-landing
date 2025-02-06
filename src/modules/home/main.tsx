@@ -291,7 +291,7 @@ export default function HomeContent() {
                   image={blog?.thumbnail}
                   title={blog?.title}
                   excerpt={blog?.excerpt}
-                  date={HELPER.formatDate(blog?.date)}
+                  date={HELPER.formatDate(blog?.created_at)}
                   author={blog?.author}
                   isMain={index === 0}
                 />
@@ -307,7 +307,7 @@ export default function HomeContent() {
               image={blog?.thumbnail}
               title={blog?.title}
               excerpt={blog?.excerpt}
-              date={blog?.date}
+              date={HELPER.formatDate(blog?.created_at)}
               author={blog?.author}
               isMain={true}
             />
