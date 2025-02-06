@@ -127,7 +127,7 @@ export default function AccountProfile() {
   }, []);
 
   const getFullAddressName = () => {
-    if (!customerAccount || !provinces.length) return "Address not found.";
+    if (!customerAccount || !provinces) return "Address not found.";
 
     const provinceObj = provinces.find(
       (p) => p.code.toString() === customerAccount.province
@@ -208,7 +208,9 @@ export default function AccountProfile() {
                           Số điện thoại
                         </dt>
                         <dd className="text-gray-500 dark:text-gray-400">
-                          {customerAccount.phone}
+                          {!customerAccount.phone
+                            ? "Bạn chưa có thông tin liên lạc vui lòng bổ sung."
+                            : customerAccount.phone}
                         </dd>
                       </dl>
                     </div>
