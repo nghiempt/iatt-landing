@@ -60,7 +60,8 @@ export default function BlogDetailClient() {
           </h1>
           <div className="mb-3">
             <p>
-              Đăng bởi: {currentData?.author} - {currentData?.date}
+              Đăng bởi: {currentData?.author} -{" "}
+              {HELPER.formatDate(currentData?.created_at)}
             </p>
           </div>
           <div className="w-full lg:w-1/2 h-full bg-pink-50 rounded-md mb-4">

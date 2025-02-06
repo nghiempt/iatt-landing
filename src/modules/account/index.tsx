@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import AccountProfile from "./components/profile";
 import OrderHistory from "./components/history";
@@ -8,6 +8,8 @@ import Loading from "./components/loading";
 import OrderAlbumCreate from "./components/order-album";
 import OrderSingleCreate from "./components/order-single";
 import { DATA } from "@/utils/data";
+import Cookies from "js-cookie";
+import { AccountService } from "@/services/account";
 
 export interface Province {
   code: string;
@@ -52,9 +54,9 @@ export interface FormData extends UserData {
   province: string;
 }
 
-const accountProfile = DATA?.USER_PROFILE as UserData;
-
 export default function AccountClient() {
+  const isLogin = Cookies.get("isLogin");
+  const [accountProfile, setAccountProfile] = useState(null as any);
   const param = useSearchParams();
 
   const [tab, setTab] = React.useState("");
@@ -75,6 +77,20 @@ export default function AccountClient() {
   };
 
   useEffect(() => {
+    const fetchAccount = async () => {
+      if (isLogin) {
+        try {
+          const data = await AccountService.getAccountById(isLogin);
+          console.log("check profies", data);
+
+          setAccountProfile(data);
+        } catch (error) {
+          console.error("Error fetching account:", error);
+        }
+      }
+    };
+
+    fetchAccount();
     setTab(param.get("tab") || "profile");
   }, [param]);
 

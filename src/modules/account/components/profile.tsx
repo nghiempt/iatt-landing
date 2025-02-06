@@ -11,7 +11,6 @@ import Image from "next/image";
 import EditProfileModal from "./edit-profile-modal";
 import { AccountService } from "@/services/account";
 import Cookies from "js-cookie";
-import { DATA } from "@/utils/data";
 
 export interface Province {
   code: string;

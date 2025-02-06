@@ -14,6 +14,7 @@ const ACCOUNT = {
 
 const PRODUCT = {
   GET_ALL: `${BASE_URL}/inanhtructuyen/product/`,
+  GET_PRODUCT_BY_ID: `${BASE_URL}/inanhtructuyen/product`,
 };
 
 const BLOG = {

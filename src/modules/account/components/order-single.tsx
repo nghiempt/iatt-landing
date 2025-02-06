@@ -211,6 +211,7 @@ export default function OrderSingleCreate({ user }: { user: any }) {
   const emailCookie = Cookies.get("email");
   const param = useSearchParams();
   const [products, setProducts] = useState([] as any);
+  const [productsData, setProductsData] = useState({} as any);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [voucher, setVoucher] = useState<any>(null as any);
   const [currentImage, setCurrentImage] = React.useState("");
@@ -227,10 +228,10 @@ export default function OrderSingleCreate({ user }: { user: any }) {
     email: user?.email || "",
     avatar: user?.avatar || "",
     phone: user?.phone || "",
-    address: "",
-    ward: "",
-    district: "",
-    province: "",
+    address: user?.address || "",
+    ward: user?.ward || "",
+    district: user?.district || "",
+    province: user?.province || "",
   });
 
   const colorOptions: ColorOption[] = [
@@ -246,7 +247,24 @@ export default function OrderSingleCreate({ user }: { user: any }) {
       bgColor: "bg-black",
       borderColor: "border-black",
     },
-    // { id: 'gold', name: 'Vàng', bgColor: 'bg-yellow-600', borderColor: 'border-yellow-600' },
+    {
+      id: "gold",
+      name: "Gold",
+      bgColor: "bg-[#FFD700]",
+      borderColor: "border-black",
+    },
+    {
+      id: "silver",
+      name: "Bạc",
+      bgColor: "bg-[#C0C0C0]",
+      borderColor: "border-black",
+    },
+    {
+      id: "wood",
+      name: "Gỗ",
+      bgColor: "bg-[#8B5A2B]",
+      borderColor: "border-black",
+    },
   ];
 
   const sizeOptions: SizeOption[] = [
@@ -389,11 +407,26 @@ export default function OrderSingleCreate({ user }: { user: any }) {
 
   const renderProduct = async () => {
     const res = await ProductService.getAll();
-    console.log(res);
     if (res && res.data.length > 0) {
       setProducts(res.data);
     }
   };
+
+  useEffect(() => {
+    const fetchProductData = async () => {
+      if (!selectedProduct || selectedProduct === "Chon san pham") return;
+      try {
+        const res = await ProductService.getProductById(selectedProduct);
+        if (res && res.data) {
+          setProductsData(res.data);
+        }
+      } catch (error) {
+        console.error("Error fetching product by ID:", error);
+      }
+    };
+
+    fetchProductData();
+  }, [selectedProduct]);
 
   const init = async (emailCookie: any) => {
     const res = await AccountService.getAll();
@@ -470,7 +503,13 @@ export default function OrderSingleCreate({ user }: { user: any }) {
                                   ? "gray-200"
                                   : selectedColor === "black"
                                   ? "black"
-                                  : "yellow-700"
+                                  : selectedColor === "gold"
+                                  ? "[#FFD700]"
+                                  : selectedColor === "silver"
+                                  ? "[#C0C0C0]"
+                                  : selectedColor === "wood"
+                                  ? "[#8B5A2B]"
+                                  : ""
                               }`
                             )}
                           >
@@ -504,21 +543,32 @@ export default function OrderSingleCreate({ user }: { user: any }) {
                       {selectedProduct !== "Chon san pham" && (
                         <>
                           <div className="w-full flex justify-center items-center gap-6 py-4">
-                            {colorOptions.map((color) => (
-                              <button
-                                key={color.id}
-                                type="button"
-                                onClick={() => setSelectedColor(color.id)}
-                                className={cn(
-                                  "w-10 h-10 rounded-full border-2 transition-all",
-                                  color.bgColor,
-                                  color.borderColor,
-                                  selectedColor === color.id
-                                    ? "ring-2 ring-offset-2 ring-orange-700"
-                                    : ""
-                                )}
-                              />
-                            ))}
+                            {colorOptions
+                              .filter((colorOptions) =>
+                                productsData.color?.includes(colorOptions.id)
+                              )
+                              .map((color) => (
+                                <button
+                                  key={color.id}
+                                  type="button"
+                                  onClick={() => {
+                                    console.log(
+                                      "check selectedColor: ",
+                                      color.id
+                                    );
+
+                                    setSelectedColor(color.id);
+                                  }}
+                                  className={cn(
+                                    "w-10 h-10 rounded-full border-2 transition-all",
+                                    color.bgColor,
+                                    color.borderColor,
+                                    selectedColor === color.id
+                                      ? "ring-2 ring-offset-2 ring-orange-700"
+                                      : ""
+                                  )}
+                                />
+                              ))}
                           </div>
                           <div className="w-full grid grid-cols-3 justify-center items-center gap-4">
                             {sizeOptions.map((size) => (
@@ -858,7 +908,7 @@ export default function OrderSingleCreate({ user }: { user: any }) {
                   <div className="space-y-3">
                     <div
                       onClick={() => handleSubmit()}
-                      className="flex w-full items-center justify-center rounded-lg bg-[rgb(var(--quaternary-rgb))] border border-[rgb(var(--primary-rgb))] px-5 py-4 text-sm font-bold text-[rgb(var(--primary-rgb))] hover:bg-primary-800 focus:outline-none focus:ring-4  focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                      className="cursor-pointer flex w-full items-center justify-center rounded-lg bg-[rgb(var(--quaternary-rgb))] border border-[rgb(var(--primary-rgb))] px-5 py-4 text-sm font-bold text-[rgb(var(--primary-rgb))] hover:bg-primary-800 focus:outline-none focus:ring-4  focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                     >
                       ĐẶT HÀNG NGAY
                       {isLoading && (
