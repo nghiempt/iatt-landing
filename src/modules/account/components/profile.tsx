@@ -127,7 +127,8 @@ export default function AccountProfile() {
   }, []);
 
   const getFullAddressName = () => {
-    if (!customerAccount || !provinces) return "Address not found.";
+    if (!customerAccount || !customerAccount.province)
+      return "Bạn chưa có địa chỉ giao hàng vui lòng bổ sung.";
 
     const provinceObj = provinces.find(
       (p) => p.code.toString() === customerAccount.province
