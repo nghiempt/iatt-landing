@@ -111,18 +111,18 @@ const ImageUpload = ({
           <div
             className={cn(
               "relative w-full overflow-hidden rounded-md",
-              `border-8 border-${
+              `border-8 ${
                 selectedColor === "white"
-                  ? "gray-200"
+                  ? "border-gray-200"
                   : selectedColor === "black"
-                  ? "black"
+                  ? "border-black"
                   : selectedColor === "gold"
-                  ? "yellow-400"
+                  ? "border-yellow-400"
                   : selectedColor === "silver"
-                  ? "gray-200"
+                  ? "border-gray-200"
                   : selectedColor === "wood"
-                  ? "yellow-950"
-                  : ""
+                  ? "border-yellow-950"
+                  : "border-gray-200"
               }`
             )}
           >
