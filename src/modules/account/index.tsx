@@ -7,7 +7,6 @@ import OrderHistory from "./components/history";
 import Loading from "./components/loading";
 import OrderAlbumCreate from "./components/order-album";
 import OrderSingleCreate from "./components/order-single";
-import { DATA } from "@/utils/data";
 import Cookies from "js-cookie";
 import { AccountService } from "@/services/account";
 
@@ -81,8 +80,6 @@ export default function AccountClient() {
       if (isLogin) {
         try {
           const data = await AccountService.getAccountById(isLogin);
-          console.log("check profies", data);
-
           setAccountProfile(data);
         } catch (error) {
           console.error("Error fetching account:", error);

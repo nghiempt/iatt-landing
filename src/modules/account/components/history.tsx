@@ -95,7 +95,7 @@ export default function OrderHistory() {
                           Ngày:
                         </dt>
                         <dd className="mt-1.5 text-base font-semibold text-gray-900 dark:text-white">
-                          {order.date_create}
+                          {HELPER.formatDate(order.created_at)}
                         </dd>
                       </dl>
                       <dl className="w-1/2 sm:w-1/5 md:flex-1 lg:w-auto">

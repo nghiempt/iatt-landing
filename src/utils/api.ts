@@ -22,8 +22,8 @@ const BLOG = {
 };
 
 const ORDER = {
-  GET_ALL: `${BASE_URL}/order/get-all`,
-  CREATE: `${BASE_URL}/order/create`,
+  GET_ALL: `${BASE_URL}/inanhtructuyen/order/`,
+  CREATE: `${BASE_URL}/inanhtructuyen/order/`,
 };
 
 export const API = {

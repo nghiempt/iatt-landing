@@ -193,7 +193,7 @@ export default function ProductDetailClient() {
                     <span>
                       Dòng sản phẩm:{" "}
                       <strong>
-                        {HELPER.renderCategory(currentData?.category)}
+                        {HELPER.renderCategory2(currentData?.category)}
                       </strong>
                     </span>
                   </div>

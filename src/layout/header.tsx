@@ -532,7 +532,7 @@ export default function Header() {
             VỀ CHÚNG TÔI
           </a>
           <a
-            href={`${ROUTES.PLASTIC}`}
+            href={`${ROUTES.PLASTIC}?tag=Plastic`}
             className={`${
               checkTabEnable(ROUTES.PLASTIC, pathname)
                 ? "bg-white text-orange-700 font-bold"
@@ -542,7 +542,7 @@ export default function Header() {
             IN ẤN
           </a>
           <a
-            href={`${ROUTES.FRAME}`}
+            href={`${ROUTES.FRAME}?tag=Frame`}
             className={`${
               checkTabEnable(ROUTES.FRAME, pathname)
                 ? "bg-white text-orange-700 font-bold"
@@ -552,7 +552,7 @@ export default function Header() {
             KHUNG ẢNH
           </a>
           <a
-            href={`${ROUTES.ALBUM}`}
+            href={`${ROUTES.ALBUM}?tag=Album`}
             className={`${
               checkTabEnable(ROUTES.ALBUM, pathname)
                 ? "bg-white text-orange-700 font-bold"

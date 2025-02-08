@@ -12,8 +12,15 @@ import { useOnClickOutside } from "usehooks-ts";
 import { ProductService } from "@/services/product";
 import { GlobalComponent } from "@/components/global";
 import { HELPER } from "@/utils/helper";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function ProductClient() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchPath = useSearchParams();
+  const tag = searchPath.get("tag");
+
   const categories = DATA.CATEGORIES as any;
   const [products, setProducts] = useState([] as any);
   const [openFilter, setOpenFilter] = useState(false);
@@ -46,8 +53,23 @@ export default function ProductClient() {
   });
 
   const handleSelectCategory = (cate: string) => {
-    setSelectedCate(cate);
+    if (!tag) {
+      setSelectedCate("all");
+    } else {
+      setSelectedCate(cate);
+    }
     setOpenFilter(false);
+
+    const newParams = new URLSearchParams(searchPath.toString());
+
+    if (cate === "all") {
+      newParams.delete("tag");
+      router.push(`${pathname}`);
+      router.refresh();
+    } else {
+      newParams.set("tag", cate);
+      router.push(`${pathname}?${newParams.toString()}`);
+    }
   };
 
   const handleSelectSort = (sort: number) => {
@@ -69,12 +91,19 @@ export default function ProductClient() {
       setLoading(false);
     }, 2000);
 
+    if (!tag) {
+      setSelectedCate("all");
+    } else {
+      setSelectedCate(tag);
+    }
+
+    console.log("check tag: ", tag);
+
     return () => clearTimeout(timer);
-  }, [filteredDataSort]);
+  }, [filteredDataSort, tag]);
 
   useEffect(() => {
     init();
-    console.log("check selected cate: ", selectedCate);
   }, [selectedCate]);
 
   return (
@@ -132,7 +161,9 @@ export default function ProductClient() {
                       ) : (
                         <button
                           key={index}
-                          onClick={() => handleSelectCategory(cate.tag)}
+                          onClick={() => {
+                            handleSelectCategory(cate.tag);
+                          }}
                           className="text-black font-medium w-full text-left py-1"
                         >
                           {cate.name}

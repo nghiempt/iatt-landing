@@ -112,6 +112,28 @@ export default function OrderSingleCreate({ user }: { user: any }) {
     province: user?.province || "",
   });
 
+  const isLogin = Cookies.get("isLogin");
+
+  useEffect(() => {
+    if (emailCookie) {
+      init(emailCookie);
+    }
+
+    const fetchAccount = async () => {
+      if (isLogin) {
+        try {
+          const data = await AccountService.getAccountById(isLogin);
+          setFormData(data);
+          setUserData(data);
+        } catch (error) {
+          console.error("Error fetching account:", error);
+        }
+      }
+    };
+
+    fetchAccount();
+  }, []);
+
   React.useEffect(() => {
     const fetchProvinces = async () => {
       try {
@@ -171,6 +193,12 @@ export default function OrderSingleCreate({ user }: { user: any }) {
         district: "",
         ward: "",
       }));
+      setUserData((prev: any) => ({
+        ...prev,
+        province: provinceCode,
+        district: "",
+        ward: "",
+      }));
     } else {
       setDistricts([]);
       setWards([]);
@@ -186,6 +214,11 @@ export default function OrderSingleCreate({ user }: { user: any }) {
         district: districtCode,
         ward: "",
       }));
+      setUserData((prev: any) => ({
+        ...prev,
+        district: districtCode,
+        ward: "",
+      }));
     } else {
       setWards([]);
     }
@@ -196,11 +229,20 @@ export default function OrderSingleCreate({ user }: { user: any }) {
       ...prev,
       ward: wardCode,
     }));
+    setUserData((prev: any) => ({
+      ...prev,
+      ward: wardCode,
+    }));
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+
     setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+    setUserData((prev: any) => ({
       ...prev,
       [name]: value,
     }));
@@ -357,6 +399,36 @@ export default function OrderSingleCreate({ user }: { user: any }) {
       });
       return false;
     }
+    if (!userData?.ward) {
+      toast({
+        title: "",
+        description:
+          "Vui lòng chọn đầy đủ Tỉnh/Thành phố, Quận/Huyện, Phường/Xã.",
+        variant: "destructive",
+      });
+      return false;
+    }
+    if (!userData?.phone) {
+      console.log("check phone: ", userData?.phone);
+      console.log("check phone form: ", formData?.phone);
+
+      toast({
+        title: "",
+        description: "Vui lòng nhập số điện thoại!",
+        variant: "destructive",
+      });
+      return false;
+    }
+    const phoneRegex = /^\d{10,11}$/;
+    if (!phoneRegex.test(userData.phone)) {
+      toast({
+        title: "",
+        description:
+          "Số điện thoại phải là một dãy số hợp lệ (10 đến 11 chữ số)! ",
+        variant: "destructive",
+      });
+      return false;
+    }
     if (!selectedPayment) {
       toast({
         title: "",
@@ -370,39 +442,70 @@ export default function OrderSingleCreate({ user }: { user: any }) {
 
   const handleSubmit = async () => {
     if (!validateForm()) return;
-    setIsLoading(true);
+    if (!isLogin) {
+      setIsLoading(true);
 
-    setIsLoading(true);
-    const upload: any = await UploadService.uploadToCloudinary([uploadedFile]);
-    var currentdate = new Date();
-    var datetime =
-      currentdate.getDate() +
-      "/" +
-      (currentdate.getMonth() + 1) +
-      "/" +
-      currentdate.getFullYear() +
-      " @ " +
-      currentdate.getHours() +
-      ":" +
-      currentdate.getMinutes() +
-      ":" +
-      currentdate.getSeconds();
-    const body = {
-      product_id: selectedProduct,
-      account_email: emailCookie,
-      image: upload[0]?.url,
-      color: selectedColor,
-      size: selectedSize,
-      address: userData?.address || "",
-      payment_method: selectedPayment || "",
-      status: "waiting",
-      total: products.find((pro: any) => pro._id.toString() === selectedProduct)
-        ?.price,
-      date_create: datetime,
-      date_completed: "",
-    };
-    await OrderService.createOrder(body);
-    setIsLoading(false);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 2000);
+    } else {
+      setIsLoading(true);
+
+      // UPDATE CUSTOMER PROFILE
+      const selectedProvince = provinces.find(
+        (p) => p.code === formData.province
+      );
+      const selectedDistrict = districts.find(
+        (d) => d.code === formData.district
+      );
+      const selectedWard = wards.find((w) => w.code === formData.ward);
+      const { _id, ...cleanedFormData }: any = formData;
+
+      const formattedData = {
+        ...cleanedFormData,
+        provinceName: selectedProvince?.name,
+        districtName: selectedDistrict?.name,
+        wardName: selectedWard?.name,
+      };
+      await AccountService.updateAccount(isLogin, formattedData);
+
+      console.log("check form data: ", formData);
+
+      const upload: any = await UploadService.uploadToCloudinary([
+        uploadedFile,
+      ]);
+      // var  currentdate= new Date();
+      // var datetime =
+      //   currentdate.getDate() +
+      //   "/" +
+      //   (currentdate.getMonth() + 1) +
+      //   "/" +
+      //   currentdate.getFullYear() +
+      //   " @ " +
+      //   currentdate.getHours() +
+      //   ":" +
+      //   currentdate.getMinutes() +
+      //   ":" +
+      //   currentdate.getSeconds();
+      const body = {
+        product_id: selectedProduct,
+        account_email: formData.email || "",
+        image: upload[0]?.url,
+        color: selectedColor,
+        size: selectedSize,
+        address: userData?.address || "",
+        payment_method: selectedPayment || "",
+        status: "waiting",
+        total: products.find(
+          (pro: any) => pro._id.toString() === selectedProduct
+        )?.price,
+        // date_create: datetime,
+        date_completed: "",
+      };
+      await OrderService.createOrder(body);
+
+      setIsLoading(false);
+    }
   };
 
   const renderProduct = async () => {
@@ -599,10 +702,13 @@ export default function OrderSingleCreate({ user }: { user: any }) {
                           Tên *
                         </label>
                         <input
+                          id="name"
+                          name="name"
                           type="text"
                           className="block w-full rounded-lg border border-gray-200 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                           placeholder="Nguyễn Văn A"
                           value={userData?.name}
+                          onChange={handleInputChange}
                         />
                       </div>
                       <div>
@@ -683,7 +789,7 @@ export default function OrderSingleCreate({ user }: { user: any }) {
                             id="address"
                             name="address"
                             placeholder="Ví dụ: 123 Đường ABC"
-                            value={formData.address}
+                            value={userData?.address}
                             onChange={handleInputChange}
                           />
                         </div>
@@ -692,11 +798,14 @@ export default function OrderSingleCreate({ user }: { user: any }) {
                         <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
                           Số điện thoại *
                         </label>
-                        <input
+                        <Input
+                          id="phone"
+                          name="phone"
                           type="number"
                           className="block w-full rounded-lg border p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                           placeholder="0123456789"
                           value={userData?.phone}
+                          onChange={handleInputChange}
                         />
                       </div>
                     </div>

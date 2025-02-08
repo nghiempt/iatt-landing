@@ -30,6 +30,9 @@ const updateAccount = async (id: any, payload: any) => {
     if (!response.ok) {
       throw new Error(`Failed - Status: ${response.status}`);
     }
+
+    console.log("update profile success");
+
     return true;
   } catch (error: any) {
     console.error("========= Error Update Account:", error);

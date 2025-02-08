@@ -176,7 +176,6 @@ const EditProfileModal = ({ user }: { user: any }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // console.log("check update profile: ", formData);
     setLoading(true);
     const selectedProvince = provinces.find(
       (p) => p.code === formData.province
@@ -191,7 +190,6 @@ const EditProfileModal = ({ user }: { user: any }) => {
       districtName: selectedDistrict?.name,
       wardName: selectedWard?.name,
     };
-    // console.log("Formatted data:", formattedData);
     await AccountService.updateAccount(user?._id, formattedData);
     setLoading(false);
     window.location.href = "/tai-khoan?tab=profile";

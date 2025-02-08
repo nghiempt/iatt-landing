@@ -56,6 +56,23 @@ const renderCategory = (category: string) => {
   return result;
 };
 
+const renderCategory2 = (category: string) => {
+  let result = "";
+  switch (category) {
+    case "Plastic":
+      result = "Ép Plastic";
+      break;
+    case "Frame":
+      result = "Khung Ảnh";
+      break;
+    case "Album":
+      result = "Album";
+      break;
+    default:
+      break;
+  }
+  return result;
+};
 const renderColor = (color: string) => {
   let result = "";
   switch (color) {
@@ -74,6 +91,7 @@ const renderColor = (color: string) => {
 export const HELPER = {
   formatVND,
   renderCategory,
+  renderCategory2,
   renderColor,
   convertSpacesToDash,
   getLastFourChars,
