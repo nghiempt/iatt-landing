@@ -581,7 +581,7 @@ export default function OrderSingleCreate({ user }: { user: any }) {
                 </div>
               </div> */}
               <div className="mt-6 sm:mt-8 lg:flex lg:items-start lg:gap-12 xl:gap-16">
-                <div className="w-3/4 flex-1 space-y-8">
+                <div className="w-full md:w-3/4 flex-1 space-y-8">
                   <div className="space-y-4">
                     <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
                       Tạo đơn hàng
@@ -603,15 +603,15 @@ export default function OrderSingleCreate({ user }: { user: any }) {
                               "relative w-full h-full overflow-hidden rounded-md",
                               `border-8 border-${
                                 selectedColor === "white"
-                                  ? "gray-200"
+                                  ? "gray-100"
                                   : selectedColor === "black"
                                   ? "black"
                                   : selectedColor === "gold"
-                                  ? "[#FFD700]"
+                                  ? "yellow-400"
                                   : selectedColor === "silver"
-                                  ? "[#C0C0C0]"
+                                  ? "gray-200"
                                   : selectedColor === "wood"
-                                  ? "[#8B5A2B]"
+                                  ? "yellow-950"
                                   : ""
                               }`
                             )}

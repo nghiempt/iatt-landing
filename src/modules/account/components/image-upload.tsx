@@ -117,11 +117,11 @@ const ImageUpload = ({
                   : selectedColor === "black"
                   ? "black"
                   : selectedColor === "gold"
-                  ? "[#FFD700]"
+                  ? "yellow-400"
                   : selectedColor === "silver"
-                  ? "[#C0C0C0]"
+                  ? "gray-200"
                   : selectedColor === "wood"
-                  ? "[#8B5A2B]"
+                  ? "yellow-950"
                   : ""
               }`
             )}
