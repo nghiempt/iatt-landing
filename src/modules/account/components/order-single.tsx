@@ -7,7 +7,7 @@ import Link from "next/link";
 import { ChevronRight, Frame, Images, Loader } from "lucide-react";
 import { ROUTES } from "@/utils/route";
 import Image from "next/image";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
 import ImageUpload from "./image-upload";
 import { useToast } from "@/hooks/use-toast";
@@ -97,6 +97,8 @@ export interface FormData extends UserData {
 
 export default function OrderSingleCreate({ user }: { user: any }) {
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
+
+  const router = useRouter();
 
   useEffect(() => {
     const handleResize = () => {
@@ -201,8 +203,9 @@ export default function OrderSingleCreate({ user }: { user: any }) {
         console.log("END");
         console.log("====================================");
       }
+      router.refresh();
     }
-  }, [formData.province, formData.district, formData.ward, provinces]);
+  }, [formData.province, formData.district, formData.ward, wards, provinces]);
 
   const handleProvinceChange = (provinceCode: string) => {
     const selectedProvince = provinces.find((p) => p.code === provinceCode);
@@ -622,6 +625,10 @@ export default function OrderSingleCreate({ user }: { user: any }) {
     init("");
     // }
   }, []);
+
+  useEffect(() => {
+    
+  }, [formData.ward, wards]);
 
   return (
     <div className="w-full flex flex-col justify-center items-center">
