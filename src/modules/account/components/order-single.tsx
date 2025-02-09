@@ -269,12 +269,14 @@ export default function OrderSingleCreate({ user }: { user: any }) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [voucher, setVoucher] = useState<any>(null as any);
   const [currentImage, setCurrentImage] = React.useState("");
-  const [selectedColor, setSelectedColor] = React.useState<string>("white");
   const [selectedSize, setSelectedSize] = React.useState<string>("15x21");
   const [selectedPayment, setSelectedPayment] = React.useState<string>("cash");
   // const [selectedProduct, setSelectedProduct] = React.useState<any>(null);
   const [selectedProduct, setSelectedProduct] = React.useState<any>(
     param.get("product") || "Chon san pham"
+  );
+  const [selectedColor, setSelectedColor] = React.useState<string>(
+    productsData.color?.[0] || "white"
   );
   const [uploadedFile, setUploadedFile] = React.useState<File | null>(null);
   const [userData, setUserData] = React.useState<any>({
@@ -490,7 +492,6 @@ export default function OrderSingleCreate({ user }: { user: any }) {
 
       const customerData = await AccountService.getAll();
       setCustomerList(customerData.data);
-      console.log("check customer list", customerData.data);
 
       setIsLoading(false);
     } else {
@@ -565,6 +566,7 @@ export default function OrderSingleCreate({ user }: { user: any }) {
         const res = await ProductService.getProductById(selectedProduct);
         if (res && res.data) {
           setProductsData(res.data);
+          setSelectedColor(res.data.color[0]);
         }
       } catch (error) {
         console.error("Error fetching product by ID:", error);
@@ -699,11 +701,14 @@ export default function OrderSingleCreate({ user }: { user: any }) {
                                   type="button"
                                   onClick={() => {
                                     console.log(
-                                      "check selectedColor: ",
+                                      "Before update:",
+                                      selectedColor
+                                    );
+                                    setSelectedColor(color.id);
+                                    console.log(
+                                      "After update (async, might not log immediately):",
                                       color.id
                                     );
-
-                                    setSelectedColor(color.id);
                                   }}
                                   className={cn(
                                     "w-10 h-10 rounded-full border-2 transition-all",
@@ -751,7 +756,7 @@ export default function OrderSingleCreate({ user }: { user: any }) {
                           type="text"
                           className="block w-full rounded-lg border border-gray-200 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                           placeholder="Nguyễn Văn A"
-                          value={userData?.name}
+                          value={formData?.name}
                           onChange={handleInputChange}
                         />
                       </div>
@@ -988,7 +993,7 @@ export default function OrderSingleCreate({ user }: { user: any }) {
                           type="text"
                           className="block w-full rounded-lg border border-gray-200 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                           placeholder="Nguyễn Văn A"
-                          value={userData?.name}
+                          value={formData?.name}
                           onChange={handleInputChange}
                         />
                       </div>
