@@ -20,6 +20,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { AccountService } from "@/services/account";
 import { Loader } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 export interface Province {
   code: string;
@@ -65,6 +66,8 @@ export interface FormData extends UserData {
 }
 
 const EditProfileModal = ({ user }: { user: any }) => {
+  const { toast } = useToast();
+
   const [provinces, setProvinces] = React.useState<Province[]>([]);
   const [districts, setDistricts] = React.useState<District[]>([]);
   const [wards, setWards] = React.useState<Ward[]>([]);
@@ -190,9 +193,21 @@ const EditProfileModal = ({ user }: { user: any }) => {
       districtName: selectedDistrict?.name,
       wardName: selectedWard?.name,
     };
-    await AccountService.updateAccount(user?._id, formattedData);
-    setLoading(false);
-    window.location.href = "/tai-khoan?tab=profile";
+    const response = await AccountService.updateAccount(
+      user?._id,
+      formattedData
+    );
+    if (response === false) {
+      toast({
+        title: "",
+        description: "Số điện thoại đã được sử dụng!",
+        variant: "destructive",
+      });
+      setLoading(false);
+    } else {
+      setLoading(false);
+      window.location.href = "/tai-khoan?tab=profile";
+    }
   };
 
   const updateDOM = () => {

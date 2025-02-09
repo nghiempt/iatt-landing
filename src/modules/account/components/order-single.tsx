@@ -501,11 +501,8 @@ export default function OrderSingleCreate({ user }: { user: any }) {
           date_completed: "",
         },
       };
-      console.log("check body: " + JSON.stringify(body));
 
-      const orderData = await OrderService.createOrder_no_login(body);
-
-      console.log("check orderData", orderData);
+      await OrderService.createOrder_no_login(body);
 
       setIsLoading(false);
 
@@ -514,6 +511,43 @@ export default function OrderSingleCreate({ user }: { user: any }) {
       setIsLoading(true);
 
       // UPDATE CUSTOMER PROFILE
+      // const selectedProvince = provinces.find(
+      //   (p) => p.code === formData.province
+      // );
+      // const selectedDistrict = districts.find(
+      //   (d) => d.code === formData.district
+      // );
+      // const selectedWard = wards.find((w) => w.code === formData.ward);
+      // const { _id, ...cleanedFormData }: any = formData;
+
+      // const formattedData = {
+      //   ...cleanedFormData,
+      //   provinceName: selectedProvince?.name,
+      //   districtName: selectedDistrict?.name,
+      //   wardName: selectedWard?.name,
+      // };
+      // await AccountService.updateAccount(isLogin, formattedData);
+
+      const upload: any = await UploadService.uploadToCloudinary([
+        uploadedFile,
+      ]);
+      // const body = {
+      //   product_id: selectedProduct,
+      //   account_email: formData.email || "",
+      //   phone: formData.phone || "",
+      //   image: upload[0]?.url,
+      //   color: selectedColor,
+      //   size: selectedSize,
+      //   address: userData?.address || "",
+      //   payment_method: selectedPayment || "",
+      //   // status: "waiting",
+      //   total: products.find(
+      //     (pro: any) => pro._id.toString() === selectedProduct
+      //   )?.price,
+      //   // date_create: datetime,
+      //   date_completed: "",
+      // };
+
       const selectedProvince = provinces.find(
         (p) => p.code === formData.province
       );
@@ -521,39 +555,54 @@ export default function OrderSingleCreate({ user }: { user: any }) {
         (d) => d.code === formData.district
       );
       const selectedWard = wards.find((w) => w.code === formData.ward);
-      const { _id, ...cleanedFormData }: any = formData;
 
-      const formattedData = {
-        ...cleanedFormData,
-        provinceName: selectedProvince?.name,
-        districtName: selectedDistrict?.name,
-        wardName: selectedWard?.name,
-      };
-      await AccountService.updateAccount(isLogin, formattedData);
-
-      const upload: any = await UploadService.uploadToCloudinary([
-        uploadedFile,
-      ]);
       const body = {
-        product_id: selectedProduct,
-        account_email: formData.email || "",
-        image: upload[0]?.url,
-        color: selectedColor,
-        size: selectedSize,
-        address: userData?.address || "",
-        payment_method: selectedPayment || "",
-        status: "waiting",
-        total: products.find(
-          (pro: any) => pro._id.toString() === selectedProduct
-        )?.price,
-        // date_create: datetime,
-        date_completed: "",
+        account: {
+          _id: isLogin,
+          name: formData?.name || "",
+          phone: formData?.phone || "",
+          avatar: formData?.avatar || "",
+          address: formData?.address || "",
+          role: "personal",
+          ward: selectedWard?.code,
+          district: selectedDistrict?.code,
+          province: selectedProvince?.code,
+          status: true,
+          created_at: "",
+          districtName: selectedDistrict?.name,
+          provinceName: selectedProvince?.name,
+          wardName: selectedWard?.name,
+        },
+        order: {
+          product_id: selectedProduct,
+          // account_email: formData.email || "",
+          // phone: formData.phone || "",
+          image: upload[0]?.url,
+          color: selectedColor,
+          size: selectedSize,
+          address: formData?.address || "",
+          payment_method: selectedPayment || "",
+          // status: "waiting",
+          total: products.find(
+            (pro: any) => pro._id.toString() === selectedProduct
+          )?.price,
+          // date_create: datetime,
+          date_completed: "",
+        },
       };
-      await OrderService.createOrder(body);
+      const response = await OrderService.createOrder(body);
 
-      setIsLoading(false);
-
-      window.location.href = `${ROUTES.ACCOUNT}?tab=history`;
+      if (response === false) {
+        toast({
+          title: "",
+          description: "Số điện thoại đã được sử dụng!",
+          variant: "destructive",
+        });
+        setLoading(false);
+      } else {
+        setLoading(false);
+        window.location.href = `${ROUTES.ACCOUNT}?tab=history`;
+      }
     }
   };
 
