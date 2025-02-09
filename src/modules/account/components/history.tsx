@@ -9,6 +9,7 @@ import { ROUTES } from "@/utils/route";
 import OrderDetailModal from "./order-detail-modal";
 import { OrderService } from "@/services/order";
 import { HELPER } from "@/utils/helper";
+import Cookies from "js-cookie";
 
 export interface OrderProduct {
   name: string;
@@ -27,13 +28,13 @@ export interface Order {
 }
 
 export default function OrderHistory() {
+  const customerID = Cookies.get("isLogin");
   const [orders, setOrders] = useState([] as any);
 
   const init = async () => {
-    const res = await OrderService.getAll();
-    if (res && res.data.length > 0) {
-      setOrders(res.data);
-      console.log(res.data);
+    const res = await OrderService.getOrderById(customerID?.toString() ?? "");
+    if (res && res.length > 0) {
+      setOrders(res);
     }
   };
 
@@ -126,7 +127,12 @@ export default function OrderHistory() {
                           order.status === "waiting"
                             ? "bg-yellow-100 text-yellow-800"
                             : ""
-                        }`}
+                        }
+                            ${
+                              order.status === "pending"
+                                ? "bg-orange-400 text-white"
+                                : ""
+                            }`}
                         >
                           {/* {order.status === 'completed' && (
                           <svg className="me-1 h-3 w-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -145,6 +151,8 @@ export default function OrderHistory() {
                         )} */}
                           {order.status === "completed" && "Hoàn thành"}
                           {order.status === "delivering" && "Đang giao hàng"}
+                          {order.status === "pending" &&
+                            "Đang chuẩn bị đơn hàng"}
                           {order.status === "waiting" && "Đợi phản hồi"}
                         </dd>
                       </dl>

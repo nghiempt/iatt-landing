@@ -96,6 +96,17 @@ export interface FormData extends UserData {
 }
 
 export default function OrderSingleCreate({ user }: { user: any }) {
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   // ADDRESS
   const [provinces, setProvinces] = React.useState<Province[]>([]);
   const [districts, setDistricts] = React.useState<District[]>([]);
@@ -115,9 +126,9 @@ export default function OrderSingleCreate({ user }: { user: any }) {
   const isLogin = Cookies.get("isLogin");
 
   useEffect(() => {
-    if (emailCookie) {
-      init(emailCookie);
-    }
+    // if (emailCookie) {
+    //   init(emailCookie);
+    // }
 
     const fetchAccount = async () => {
       if (isLogin) {
@@ -132,6 +143,7 @@ export default function OrderSingleCreate({ user }: { user: any }) {
     };
 
     fetchAccount();
+    console.log("check accounttt: ", formData?.address);
   }, []);
 
   React.useEffect(() => {
@@ -237,7 +249,6 @@ export default function OrderSingleCreate({ user }: { user: any }) {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -250,8 +261,9 @@ export default function OrderSingleCreate({ user }: { user: any }) {
 
   const { toast } = useToast();
 
-  const emailCookie = Cookies.get("email");
+  // const emailCookie = Cookies.get("email");
   const param = useSearchParams();
+  const [customerList, setCustomerList] = useState([] as any);
   const [products, setProducts] = useState([] as any);
   const [productsData, setProductsData] = useState({} as any);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -409,9 +421,6 @@ export default function OrderSingleCreate({ user }: { user: any }) {
       return false;
     }
     if (!userData?.phone) {
-      console.log("check phone: ", userData?.phone);
-      console.log("check phone form: ", formData?.phone);
-
       toast({
         title: "",
         description: "Vui lòng nhập số điện thoại!",
@@ -445,9 +454,45 @@ export default function OrderSingleCreate({ user }: { user: any }) {
     if (!isLogin) {
       setIsLoading(true);
 
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 2000);
+      const upload: any = await UploadService.uploadToCloudinary([
+        uploadedFile,
+      ]);
+      // var  currentdate= new Date();
+      // var datetime =
+      //   currentdate.getDate() +
+      //   "/" +
+      //   (currentdate.getMonth() + 1) +
+      //   "/" +
+      //   currentdate.getFullYear() +
+      //   " @ " +
+      //   currentdate.getHours() +
+      //   ":" +
+      //   currentdate.getMinutes() +
+      //   ":" +
+      //   currentdate.getSeconds();
+      const body = {
+        product_id: selectedProduct,
+        account_email: formData.email || "",
+        phone: formData.phone || "",
+        image: upload[0]?.url,
+        color: selectedColor,
+        size: selectedSize,
+        address: userData?.address || "",
+        payment_method: selectedPayment || "",
+        status: "waiting",
+        total: products.find(
+          (pro: any) => pro._id.toString() === selectedProduct
+        )?.price,
+        // date_create: datetime,
+        date_completed: "",
+      };
+      await OrderService.createOrder(body);
+
+      const customerData = await AccountService.getAll();
+      setCustomerList(customerData.data);
+      console.log("check customer list", customerData.data);
+
+      setIsLoading(false);
     } else {
       setIsLoading(true);
 
@@ -468,8 +513,6 @@ export default function OrderSingleCreate({ user }: { user: any }) {
         wardName: selectedWard?.name,
       };
       await AccountService.updateAccount(isLogin, formattedData);
-
-      console.log("check form data: ", formData);
 
       const upload: any = await UploadService.uploadToCloudinary([
         uploadedFile,
@@ -543,11 +586,11 @@ export default function OrderSingleCreate({ user }: { user: any }) {
   };
 
   useEffect(() => {
-    if (emailCookie) {
-      init(emailCookie);
-    } else {
-      init("");
-    }
+    // if (emailCookie) {
+    //   init(emailCookie);
+    // } else {
+    init("");
+    // }
   }, []);
 
   return (
@@ -693,7 +736,8 @@ export default function OrderSingleCreate({ user }: { user: any }) {
                         </>
                       )}
                     </div>
-                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-1">
+
+                    <div className="lg:hidden grid grid-cols-1 gap-4 sm:grid-cols-1">
                       <h3 className="mt-4 text-xl font-semibold text-gray-900 dark:text-white">
                         Thông tin cá nhân
                       </h3>
@@ -789,7 +833,7 @@ export default function OrderSingleCreate({ user }: { user: any }) {
                             id="address"
                             name="address"
                             placeholder="Ví dụ: 123 Đường ABC"
-                            value={userData?.address}
+                            value={formData?.address}
                             onChange={handleInputChange}
                           />
                         </div>
@@ -804,14 +848,14 @@ export default function OrderSingleCreate({ user }: { user: any }) {
                           type="number"
                           className="block w-full rounded-lg border p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                           placeholder="0123456789"
-                          value={userData?.phone}
+                          value={formData?.phone}
                           onChange={handleInputChange}
                         />
                       </div>
                     </div>
                   </div>
 
-                  {selectedProduct !== "Chon san pham" && (
+                  {!isDesktop && selectedProduct !== "Chon san pham" && (
                     <>
                       <div className="space-y-4 pb-0 md:pb-7">
                         <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
@@ -928,7 +972,242 @@ export default function OrderSingleCreate({ user }: { user: any }) {
                     </>
                   )}
                 </div>
-                <div className="mt-6 w-full space-y-6 sm:mt-8 lg:mt-0 lg:max-w-xs xl:max-w-md md:pt-[3.5%]">
+                <div className="mt-6 w-full space-y-6 sm:mt-8 lg:mt-0 lg:max-w-xs xl:max-w-md md:pt-[3.5%] lg:pt-0">
+                  {isDesktop && (
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-1">
+                      <h3 className="mt-0 text-xl font-semibold text-gray-900 dark:text-white">
+                        Thông tin cá nhân
+                      </h3>
+                      <div>
+                        <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                          Tên *
+                        </label>
+                        <input
+                          id="name"
+                          name="name"
+                          type="text"
+                          className="block w-full rounded-lg border border-gray-200 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
+                          placeholder="Nguyễn Văn A"
+                          value={userData?.name}
+                          onChange={handleInputChange}
+                        />
+                      </div>
+                      <div>
+                        {/* <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                          Địa chỉ *
+                        </label>
+                        <textarea
+                          className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
+                          placeholder=""
+                        /> */}
+
+                        <div className="grid gap-2 mb-4">
+                          <Label htmlFor="province">Tỉnh/Thành phố *</Label>
+                          <Select
+                            value={formData.province}
+                            onValueChange={handleProvinceChange}
+                            disabled={loading}
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder="Chọn tỉnh/thành phố" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {provinces.map((province) => (
+                                <SelectItem
+                                  key={province.code}
+                                  value={province.code}
+                                >
+                                  {province.name}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div className="grid gap-2 mb-4">
+                          <Label htmlFor="district">Quận/Huyện *</Label>
+                          <Select
+                            value={formData.district}
+                            onValueChange={handleDistrictChange}
+                            disabled={!formData.province || loading}
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder="Chọn quận/huyện" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {districts.map((district) => (
+                                <SelectItem
+                                  key={district.code}
+                                  value={district.code}
+                                >
+                                  {district.name}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div className="grid gap-2 mb-4">
+                          <Label htmlFor="ward">Phường/Xã *</Label>
+                          <Select
+                            value={formData.ward}
+                            onValueChange={handleWardChange}
+                            disabled={!formData.district || loading}
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder="Chọn phường/xã" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {wards.map((ward) => (
+                                <SelectItem key={ward.code} value={ward.code}>
+                                  {ward.name}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div className="grid gap-2">
+                          <Label htmlFor="address">Số nhà, tên đường *</Label>
+                          <Input
+                            id="address"
+                            name="address"
+                            placeholder="Ví dụ: 123 Đường ABC"
+                            value={formData?.address}
+                            onChange={handleInputChange}
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                          Số điện thoại *
+                        </label>
+                        <Input
+                          id="phone"
+                          name="phone"
+                          type="number"
+                          className="block w-full rounded-lg border p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
+                          placeholder="0123456789"
+                          value={formData?.phone}
+                          onChange={handleInputChange}
+                        />
+                      </div>
+                    </div>
+                  )}
+
+                  {isDesktop && selectedProduct !== "Chon san pham" && (
+                    <>
+                      <div className="space-y-4 pb-0 md:pb-7">
+                        <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                          Thanh toán
+                        </h3>
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                          <div
+                            onClick={() => setSelectedPayment("cash")}
+                            className="cursor-pointer rounded-lg border border-gray-200 bg-gray-50 p-4 ps-4 dark:border-gray-700 dark:bg-gray-800"
+                          >
+                            <div className="flex items-start">
+                              <div className="flex h-5 items-center">
+                                <input
+                                  type="radio"
+                                  name="payment-method"
+                                  value=""
+                                  className="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600"
+                                  checked={selectedPayment === "cash"}
+                                />
+                              </div>
+                              <div className="ms-4 text-sm">
+                                <label className="font-medium leading-none text-gray-900 dark:text-white flex justify-start items-center gap-2">
+                                  <Image
+                                    src="https://cdn-icons-png.flaticon.com/128/10499/10499979.png"
+                                    alt="money"
+                                    width={20}
+                                    height={20}
+                                  />
+                                  Tiền mặt (COD)
+                                </label>
+                                <p className="mt-1 text-xs font-normal text-gray-500 dark:text-gray-400">
+                                  Thanh toán khi nhận hàng
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <div
+                            onClick={() => setSelectedPayment("bank")}
+                            className="cursor-pointer rounded-lg border border-gray-200 bg-gray-50 p-4 ps-4 dark:border-gray-700 dark:bg-gray-800"
+                          >
+                            <div className="flex items-start">
+                              <div className="flex h-5 items-center">
+                                <input
+                                  type="radio"
+                                  name="payment-method"
+                                  value=""
+                                  className="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600"
+                                  checked={selectedPayment === "bank"}
+                                />
+                              </div>
+                              <div className="ms-4 text-sm">
+                                <label className="font-medium leading-none text-gray-900 dark:text-white flex justify-start items-center gap-2">
+                                  <Image
+                                    src="https://cdn-icons-png.flaticon.com/128/8983/8983163.png"
+                                    alt="money"
+                                    width={20}
+                                    height={20}
+                                  />
+                                  Ngân hàng
+                                </label>
+                                <p className="mt-1 text-xs font-normal text-gray-500 dark:text-gray-400">
+                                  Quét QR để thanh toán
+                                </p>
+                              </div>
+                            </div>
+                            {selectedPayment === "bank" && (
+                              <div className="w-full flex flex-row md:flex-col justify-center items-center gap-4 mt-4">
+                                <Image
+                                  src="https://docs.lightburnsoftware.com/legacy/img/QRCode/ExampleCode.png"
+                                  alt="QR code"
+                                  width={100}
+                                  height={100}
+                                />
+                                <div className="flex flex-col gap-1">
+                                  <strong>NGUYEN VAN A</strong>
+                                  <span>ABC BANK</span>
+                                  <span>11223344556677</span>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                          <div
+                            onClick={() => setSelectedPayment("momo")}
+                            className="cursor-pointer rounded-lg border border-gray-200 bg-gray-50 p-4 ps-4 dark:border-gray-700 dark:bg-gray-800"
+                          >
+                            <div className="flex items-start">
+                              <div className="flex h-5 items-center">
+                                <input
+                                  type="radio"
+                                  name="payment-method"
+                                  value=""
+                                  className="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600"
+                                  checked={selectedPayment === "momo"}
+                                />
+                              </div>
+                              <div className="ms-4 text-sm">
+                                <label className="font-medium leading-none text-gray-900 dark:text-white flex justify-start items-center gap-2">
+                                  <Image
+                                    src="https://cdn.haitrieu.com/wp-content/uploads/2022/10/Logo-MoMo-Square.png"
+                                    alt="money"
+                                    width={18}
+                                    height={18}
+                                  />
+                                  Momo
+                                </label>
+                                <p className="mt-1 text-xs font-normal text-gray-500 dark:text-gray-400">
+                                  Thanh toán qua app Momo
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  )}
                   {selectedProduct !== "Chon san pham" && (
                     <>
                       <div className="flow-root">
@@ -1014,7 +1293,7 @@ export default function OrderSingleCreate({ user }: { user: any }) {
                     </>
                   )}
 
-                  <div className="space-y-3">
+                  <div className="space-y-3 pb-0 lg:pb-5">
                     <div
                       onClick={() => handleSubmit()}
                       className="cursor-pointer flex w-full items-center justify-center rounded-lg bg-[rgb(var(--quaternary-rgb))] border border-[rgb(var(--primary-rgb))] px-5 py-4 text-sm font-bold text-[rgb(var(--primary-rgb))] hover:bg-primary-800 focus:outline-none focus:ring-4  focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"

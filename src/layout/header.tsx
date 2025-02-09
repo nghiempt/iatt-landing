@@ -20,7 +20,6 @@ import {
   LogOut,
   NotepadText,
   PhoneCall,
-  ShoppingCart,
   UserRound,
 } from "lucide-react";
 import { usePathname } from "next/navigation";

@@ -7,7 +7,7 @@ const AUTH = {
 };
 
 const ACCOUNT = {
-  GET_ALL: `${BASE_URL}/account/get-all`,
+  GET_ALL: `${BASE_URL}/inanhtructuyen/account/`,
   GET_ACCOUNT_BY_ID: `${BASE_URL}/inanhtructuyen/account`,
   UPDATE: `${BASE_URL}/inanhtructuyen/account/update`,
 };
@@ -23,6 +23,7 @@ const BLOG = {
 
 const ORDER = {
   GET_ALL: `${BASE_URL}/inanhtructuyen/order/`,
+  GET_ORDER_BY_ID: `${BASE_URL}/inanhtructuyen/order/get-all`,
   CREATE: `${BASE_URL}/inanhtructuyen/order/`,
 };
 
