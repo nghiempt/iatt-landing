@@ -187,9 +187,19 @@ export default function OrderSingleCreate({ user }: { user: any }) {
         const selectedDistrict = selectedProvince.districts.find(
           (d) => d.code === formData.district
         );
+        console.log("====================================");
+        console.log("START");
+        console.log("====================================");
         if (selectedDistrict) {
+          console.log("====================================");
+          console.log(formData.ward);
+          console.log("selectedDistrict: ", selectedDistrict);
+          console.log("====================================");
           setWards(selectedDistrict.wards);
         }
+        console.log("====================================");
+        console.log("END");
+        console.log("====================================");
       }
     }
   }, [formData.province, formData.district, provinces]);
@@ -664,18 +674,17 @@ export default function OrderSingleCreate({ user }: { user: any }) {
                           <div
                             className={cn(
                               "relative w-full h-full overflow-hidden rounded-md",
-                              `border-8 ${
-                                selectedColor === "white"
-                                  ? "border-gray-100"
-                                  : selectedColor === "black"
+                              `border-8 ${selectedColor === "white"
+                                ? "border-gray-100"
+                                : selectedColor === "black"
                                   ? "border-black"
                                   : selectedColor === "gold"
-                                  ? "border-yellow-400"
-                                  : selectedColor === "silver"
-                                  ? "border-gray-200"
-                                  : selectedColor === "wood"
-                                  ? "border-yellow-950"
-                                  : "border-gray-200"
+                                    ? "border-yellow-400"
+                                    : selectedColor === "silver"
+                                      ? "border-gray-200"
+                                      : selectedColor === "wood"
+                                        ? "border-yellow-950"
+                                        : "border-gray-200"
                               }`
                             )}
                           >
