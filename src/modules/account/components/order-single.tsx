@@ -508,6 +508,8 @@ export default function OrderSingleCreate({ user }: { user: any }) {
       console.log("check orderData", orderData);
 
       setIsLoading(false);
+
+      window.location.href = `${ROUTES.HOME}`;
     } else {
       setIsLoading(true);
 
@@ -550,6 +552,8 @@ export default function OrderSingleCreate({ user }: { user: any }) {
       await OrderService.createOrder(body);
 
       setIsLoading(false);
+
+      window.location.href = `${ROUTES.ACCOUNT}?tab=history`;
     }
   };
 
