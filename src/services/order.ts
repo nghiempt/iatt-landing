@@ -36,6 +36,26 @@ const createOrder = async (payload: any) => {
   }
 };
 
+const createOrder_no_login = async (payload: any) => {
+  try {
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    const response = await fetch(API.ORDER.CREATE_NO_LOGIN, {
+      method: "POST",
+      headers: myHeaders,
+      body: JSON.stringify(payload),
+      redirect: "follow",
+    });
+    if (!response.ok) {
+      throw new Error(`Failed - Status: ${response.status}`);
+    }
+    return true;
+  } catch (error: any) {
+    console.error("========= Error Create Order:", error);
+    return false;
+  }
+};
+
 const getOrderById = async (id: string) => {
   try {
     const response = await fetch(`${API.ORDER.GET_ORDER_BY_ID}/${id}`, {
@@ -61,5 +81,6 @@ const getOrderById = async (id: string) => {
 export const OrderService = {
   getAll,
   createOrder,
+  createOrder_no_login,
   getOrderById,
 };

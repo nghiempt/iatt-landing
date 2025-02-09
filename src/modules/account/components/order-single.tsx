@@ -459,39 +459,53 @@ export default function OrderSingleCreate({ user }: { user: any }) {
       const upload: any = await UploadService.uploadToCloudinary([
         uploadedFile,
       ]);
-      // var  currentdate= new Date();
-      // var datetime =
-      //   currentdate.getDate() +
-      //   "/" +
-      //   (currentdate.getMonth() + 1) +
-      //   "/" +
-      //   currentdate.getFullYear() +
-      //   " @ " +
-      //   currentdate.getHours() +
-      //   ":" +
-      //   currentdate.getMinutes() +
-      //   ":" +
-      //   currentdate.getSeconds();
-      const body = {
-        product_id: selectedProduct,
-        account_email: formData.email || "",
-        phone: formData.phone || "",
-        image: upload[0]?.url,
-        color: selectedColor,
-        size: selectedSize,
-        address: userData?.address || "",
-        payment_method: selectedPayment || "",
-        status: "waiting",
-        total: products.find(
-          (pro: any) => pro._id.toString() === selectedProduct
-        )?.price,
-        // date_create: datetime,
-        date_completed: "",
-      };
-      await OrderService.createOrder(body);
 
-      const customerData = await AccountService.getAll();
-      setCustomerList(customerData.data);
+      const selectedProvince = provinces.find(
+        (p) => p.code === formData.province
+      );
+      const selectedDistrict = districts.find(
+        (d) => d.code === formData.district
+      );
+      const selectedWard = wards.find((w) => w.code === formData.ward);
+
+      const body = {
+        account: {
+          name: formData?.name || "",
+          phone: formData?.phone || "",
+          avatar: "",
+          address: formData?.address || "",
+          role: "personal",
+          ward: selectedWard?.code,
+          district: selectedDistrict?.code,
+          province: selectedProvince?.code,
+          status: true,
+          created_at: "",
+          districtName: selectedDistrict?.name,
+          provinceName: selectedProvince?.name,
+          wardName: selectedWard?.name,
+        },
+        order: {
+          product_id: selectedProduct,
+          // account_email: formData.email || "",
+          // phone: formData.phone || "",
+          image: upload[0]?.url,
+          color: selectedColor,
+          size: selectedSize,
+          address: formData?.address || "",
+          payment_method: selectedPayment || "",
+          // status: "waiting",
+          total: products.find(
+            (pro: any) => pro._id.toString() === selectedProduct
+          )?.price,
+          // date_create: datetime,
+          date_completed: "",
+        },
+      };
+      console.log("check body: " + JSON.stringify(body));
+
+      const orderData = await OrderService.createOrder_no_login(body);
+
+      console.log("check orderData", orderData);
 
       setIsLoading(false);
     } else {
@@ -518,19 +532,6 @@ export default function OrderSingleCreate({ user }: { user: any }) {
       const upload: any = await UploadService.uploadToCloudinary([
         uploadedFile,
       ]);
-      // var  currentdate= new Date();
-      // var datetime =
-      //   currentdate.getDate() +
-      //   "/" +
-      //   (currentdate.getMonth() + 1) +
-      //   "/" +
-      //   currentdate.getFullYear() +
-      //   " @ " +
-      //   currentdate.getHours() +
-      //   ":" +
-      //   currentdate.getMinutes() +
-      //   ":" +
-      //   currentdate.getSeconds();
       const body = {
         product_id: selectedProduct,
         account_email: formData.email || "",
