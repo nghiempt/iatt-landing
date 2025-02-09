@@ -136,6 +136,7 @@ export default function OrderSingleCreate({ user }: { user: any }) {
           const data = await AccountService.getAccountById(isLogin);
           setFormData(data);
           setUserData(data);
+          console.log("check account address: ", data);
         } catch (error) {
           console.error("Error fetching account:", error);
         }
@@ -143,7 +144,6 @@ export default function OrderSingleCreate({ user }: { user: any }) {
     };
 
     fetchAccount();
-    console.log("check accounttt: ", formData?.address);
   }, []);
 
   React.useEffect(() => {
@@ -834,7 +834,7 @@ export default function OrderSingleCreate({ user }: { user: any }) {
                         <div className="grid gap-2 mb-4">
                           <Label htmlFor="ward">Phường/Xã *</Label>
                           <Select
-                            value={userData.ward}
+                            value={formData.ward}
                             onValueChange={handleWardChange}
                             disabled={!formData.district || loading}
                           >
@@ -1071,7 +1071,7 @@ export default function OrderSingleCreate({ user }: { user: any }) {
                         <div className="grid gap-2 mb-4">
                           <Label htmlFor="ward">Phường/Xã *</Label>
                           <Select
-                            value={userData.ward}
+                            value={formData.ward}
                             onValueChange={handleWardChange}
                             disabled={!formData.district || loading}
                           >
