@@ -202,7 +202,7 @@ export default function OrderSingleCreate({ user }: { user: any }) {
         console.log("====================================");
       }
     }
-  }, [formData.province, formData.district, provinces]);
+  }, [formData.province, formData.district, formData.ward, provinces]);
 
   const handleProvinceChange = (provinceCode: string) => {
     const selectedProvince = provinces.find((p) => p.code === provinceCode);
