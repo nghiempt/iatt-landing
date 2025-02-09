@@ -177,6 +177,54 @@ const EditProfileModal = ({ user }: { user: any }) => {
     }));
   };
 
+  const validateForm = () => {
+    if (!formData?.name) {
+      toast({
+        title: "",
+        description: "Vui lòng nhập tên!",
+        variant: "destructive",
+      });
+      return false;
+    }
+
+    if (!formData?.address) {
+      toast({
+        title: "",
+        description: "Vui lòng nhập địa chỉ giao hàng!",
+        variant: "destructive",
+      });
+      return false;
+    }
+    if (!formData?.ward) {
+      toast({
+        title: "",
+        description:
+          "Vui lòng chọn đầy đủ Tỉnh/Thành phố, Quận/Huyện, Phường/Xã.",
+        variant: "destructive",
+      });
+      return false;
+    }
+    if (!formData?.phone) {
+      toast({
+        title: "",
+        description: "Vui lòng nhập số điện thoại!",
+        variant: "destructive",
+      });
+      return false;
+    }
+    const phoneRegex = /^\d{10,11}$/;
+    if (!phoneRegex.test(formData.phone)) {
+      toast({
+        title: "",
+        description:
+          "Số điện thoại phải là một dãy số hợp lệ (10 đến 11 chữ số)! ",
+        variant: "destructive",
+      });
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);

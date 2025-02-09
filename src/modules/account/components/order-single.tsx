@@ -834,7 +834,7 @@ export default function OrderSingleCreate({ user }: { user: any }) {
                         <div className="grid gap-2 mb-4">
                           <Label htmlFor="ward">Phường/Xã *</Label>
                           <Select
-                            value={formData.ward}
+                            value={userData.ward}
                             onValueChange={handleWardChange}
                             disabled={!formData.district || loading}
                           >
@@ -1071,7 +1071,7 @@ export default function OrderSingleCreate({ user }: { user: any }) {
                         <div className="grid gap-2 mb-4">
                           <Label htmlFor="ward">Phường/Xã *</Label>
                           <Select
-                            value={formData.ward}
+                            value={userData.ward}
                             onValueChange={handleWardChange}
                             disabled={!formData.district || loading}
                           >
