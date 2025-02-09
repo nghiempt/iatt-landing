@@ -509,45 +509,9 @@ export default function OrderSingleCreate({ user }: { user: any }) {
       window.location.href = `${ROUTES.HOME}`;
     } else {
       setIsLoading(true);
-
-      // UPDATE CUSTOMER PROFILE
-      // const selectedProvince = provinces.find(
-      //   (p) => p.code === formData.province
-      // );
-      // const selectedDistrict = districts.find(
-      //   (d) => d.code === formData.district
-      // );
-      // const selectedWard = wards.find((w) => w.code === formData.ward);
-      // const { _id, ...cleanedFormData }: any = formData;
-
-      // const formattedData = {
-      //   ...cleanedFormData,
-      //   provinceName: selectedProvince?.name,
-      //   districtName: selectedDistrict?.name,
-      //   wardName: selectedWard?.name,
-      // };
-      // await AccountService.updateAccount(isLogin, formattedData);
-
       const upload: any = await UploadService.uploadToCloudinary([
         uploadedFile,
       ]);
-      // const body = {
-      //   product_id: selectedProduct,
-      //   account_email: formData.email || "",
-      //   phone: formData.phone || "",
-      //   image: upload[0]?.url,
-      //   color: selectedColor,
-      //   size: selectedSize,
-      //   address: userData?.address || "",
-      //   payment_method: selectedPayment || "",
-      //   // status: "waiting",
-      //   total: products.find(
-      //     (pro: any) => pro._id.toString() === selectedProduct
-      //   )?.price,
-      //   // date_create: datetime,
-      //   date_completed: "",
-      // };
-
       const selectedProvince = provinces.find(
         (p) => p.code === formData.province
       );
