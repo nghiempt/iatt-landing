@@ -485,14 +485,14 @@ export default function OrderSingleCreate({ user }: { user: any }) {
         account: {
           name: formData?.name || "",
           phone: formData?.phone || "",
-          avatar: "",
+          // avatar: "",
           address: formData?.address || "",
           role: "personal",
           ward: selectedWard?.code,
           district: selectedDistrict?.code,
           province: selectedProvince?.code,
           status: true,
-          created_at: "",
+          // created_at: "",
           districtName: selectedDistrict?.name,
           provinceName: selectedProvince?.name,
           wardName: selectedWard?.name,
@@ -511,7 +511,7 @@ export default function OrderSingleCreate({ user }: { user: any }) {
             (pro: any) => pro._id.toString() === selectedProduct
           )?.price,
           // date_create: datetime,
-          date_completed: "",
+          // date_completed: "",
         },
       };
 
@@ -545,7 +545,7 @@ export default function OrderSingleCreate({ user }: { user: any }) {
           district: selectedDistrict?.code,
           province: selectedProvince?.code,
           status: true,
-          created_at: "",
+          // created_at: "",
           districtName: selectedDistrict?.name,
           provinceName: selectedProvince?.name,
           wardName: selectedWard?.name,
@@ -564,7 +564,7 @@ export default function OrderSingleCreate({ user }: { user: any }) {
             (pro: any) => pro._id.toString() === selectedProduct
           )?.price,
           // date_create: datetime,
-          date_completed: "",
+          // date_completed: "",
         },
       };
       const response = await OrderService.createOrder(body);
@@ -626,9 +626,7 @@ export default function OrderSingleCreate({ user }: { user: any }) {
     // }
   }, []);
 
-  useEffect(() => {
-    
-  }, [formData.ward, wards]);
+  useEffect(() => {}, [formData.ward, wards]);
 
   return (
     <div className="w-full flex flex-col justify-center items-center">
@@ -681,17 +679,18 @@ export default function OrderSingleCreate({ user }: { user: any }) {
                           <div
                             className={cn(
                               "relative w-full h-full overflow-hidden rounded-md",
-                              `border-8 ${selectedColor === "white"
-                                ? "border-gray-100"
-                                : selectedColor === "black"
+                              `border-8 ${
+                                selectedColor === "white"
+                                  ? "border-gray-100"
+                                  : selectedColor === "black"
                                   ? "border-black"
                                   : selectedColor === "gold"
-                                    ? "border-yellow-400"
-                                    : selectedColor === "silver"
-                                      ? "border-gray-200"
-                                      : selectedColor === "wood"
-                                        ? "border-yellow-950"
-                                        : "border-gray-200"
+                                  ? "border-yellow-400"
+                                  : selectedColor === "silver"
+                                  ? "border-gray-200"
+                                  : selectedColor === "wood"
+                                  ? "border-yellow-950"
+                                  : "border-gray-200"
                               }`
                             )}
                           >
