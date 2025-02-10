@@ -7,7 +7,7 @@ import Link from "next/link";
 import { ChevronRight, Frame, Images, Loader } from "lucide-react";
 import { ROUTES } from "@/utils/route";
 import Image from "next/image";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
 import ImageUpload from "./image-upload";
 import { useToast } from "@/hooks/use-toast";
@@ -98,6 +98,8 @@ export interface FormData extends UserData {
 export default function OrderSingleCreate({ user }: { user: any }) {
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
 
+  const router = useRouter();
+
   useEffect(() => {
     const handleResize = () => {
       setIsDesktop(window.innerWidth >= 1024);
@@ -187,12 +189,23 @@ export default function OrderSingleCreate({ user }: { user: any }) {
         const selectedDistrict = selectedProvince.districts.find(
           (d) => d.code === formData.district
         );
+        console.log("====================================");
+        console.log("START");
+        console.log("====================================");
         if (selectedDistrict) {
+          console.log("====================================");
+          console.log(formData.ward);
+          console.log("selectedDistrict: ", selectedDistrict);
+          console.log("====================================");
           setWards(selectedDistrict.wards);
         }
+        console.log("====================================");
+        console.log("END");
+        console.log("====================================");
       }
+      router.refresh();
     }
-  }, [formData.province, formData.district, provinces]);
+  }, [formData.province, formData.district, formData.ward, wards, provinces]);
 
   const handleProvinceChange = (provinceCode: string) => {
     const selectedProvince = provinces.find((p) => p.code === provinceCode);
@@ -613,6 +626,10 @@ export default function OrderSingleCreate({ user }: { user: any }) {
     // }
   }, []);
 
+  useEffect(() => {
+    
+  }, [formData.ward, wards]);
+
   return (
     <div className="w-full flex flex-col justify-center items-center">
       <Header />
@@ -664,18 +681,17 @@ export default function OrderSingleCreate({ user }: { user: any }) {
                           <div
                             className={cn(
                               "relative w-full h-full overflow-hidden rounded-md",
-                              `border-8 ${
-                                selectedColor === "white"
-                                  ? "border-gray-100"
-                                  : selectedColor === "black"
+                              `border-8 ${selectedColor === "white"
+                                ? "border-gray-100"
+                                : selectedColor === "black"
                                   ? "border-black"
                                   : selectedColor === "gold"
-                                  ? "border-yellow-400"
-                                  : selectedColor === "silver"
-                                  ? "border-gray-200"
-                                  : selectedColor === "wood"
-                                  ? "border-yellow-950"
-                                  : "border-gray-200"
+                                    ? "border-yellow-400"
+                                    : selectedColor === "silver"
+                                      ? "border-gray-200"
+                                      : selectedColor === "wood"
+                                        ? "border-yellow-950"
+                                        : "border-gray-200"
                               }`
                             )}
                           >
