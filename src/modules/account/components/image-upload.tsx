@@ -32,7 +32,7 @@ const ImageUpload = ({
     return {
       aspectRatio: `${aspectRatio}`,
       width: "100%",
-      maxWidth: "600px",
+      // maxWidth: "600px",
       margin: "0 auto",
     };
   };
@@ -83,7 +83,7 @@ const ImageUpload = ({
   };
 
   return (
-    <div className={cn("w-full flex justify-center", className)}>
+    <div className={cn("w-full h-full flex justify-center", className)}>
       <input
         type="file"
         ref={fileInputRef}

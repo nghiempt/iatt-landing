@@ -718,15 +718,7 @@ export default function OrderSingleCreate({ user }: { user: any }) {
                                   key={color.id}
                                   type="button"
                                   onClick={() => {
-                                    console.log(
-                                      "Before update:",
-                                      selectedColor
-                                    );
                                     setSelectedColor(color.id);
-                                    console.log(
-                                      "After update (async, might not log immediately):",
-                                      color.id
-                                    );
                                   }}
                                   className={cn(
                                     "w-10 h-10 rounded-full border-2 transition-all",
