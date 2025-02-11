@@ -40,7 +40,7 @@ const updateAccount = async (id: any, payload: any) => {
   }
 };
 
-const loginAccount = async (email: string, password: string) => {
+const loginAccountEmail = async (email: string, password: string) => {
   try {
     const response = await fetch(API.AUTH.LOGIN_MANUAL, {
       method: "POST",
@@ -54,6 +54,32 @@ const loginAccount = async (email: string, password: string) => {
       console.error(
         `Login failed - Status: ${response.status}`,
         JSON.stringify({ email, password })
+      );
+      throw new Error(`Đăng nhập thất bại - Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("========= Error Login:", error);
+    throw error;
+  }
+};
+
+const loginAccountPhone = async (phone: string, password: string) => {
+  try {
+    const response = await fetch(API.AUTH.LOGIN_MANUAL_PHONE, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ phone, password }),
+    });
+
+    if (!response.ok) {
+      console.error(
+        `Login failed - Status: ${response.status}`,
+        JSON.stringify({ phone, password })
       );
       throw new Error(`Đăng nhập thất bại - Status: ${response.status}`);
     }
@@ -91,6 +117,7 @@ const getAccountById = async (id: string) => {
 export const AccountService = {
   getAll,
   updateAccount,
-  loginAccount,
+  loginAccountEmail,
   getAccountById,
+  loginAccountPhone,
 };

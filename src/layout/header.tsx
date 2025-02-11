@@ -120,7 +120,13 @@ export default function Header() {
     setIsLoading(true);
 
     try {
-      const data = await AccountService.loginAccount(username, password);
+      let data;
+
+      if (/^\d+$/.test(username)) {
+        data = await AccountService.loginAccountPhone(username, password);
+      } else {
+        data = await AccountService.loginAccountEmail(username, password);
+      }
 
       if (data?.message === "SUCCESS") {
         Cookies.set("isLogin", data?.data, { expires: 7 });
