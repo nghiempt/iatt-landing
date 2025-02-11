@@ -128,11 +128,21 @@ export default function OrderHistory() {
                             ? "bg-yellow-100 text-yellow-800"
                             : ""
                         }
-                            ${
-                              order.status === "pending"
-                                ? "bg-orange-400 text-white"
-                                : ""
-                            }`}
+                        ${
+                          order.status === "pending"
+                            ? "bg-orange-400 text-white"
+                            : ""
+                        }
+                        ${
+                          order.status === "paid pending"
+                            ? "bg-yellow-400 text-gray-700"
+                            : ""
+                        }
+                        ${
+                          order.status === "paid"
+                            ? "bg-green-500 text-gray-700"
+                            : ""
+                        }`}
                         >
                           {/* {order.status === 'completed' && (
                           <svg className="me-1 h-3 w-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -150,6 +160,9 @@ export default function OrderHistory() {
                           </svg>
                         )} */}
                           {order.status === "completed" && "Hoàn thành"}
+                          {order.status === "paid pending" &&
+                            "Đang chờ thanh toán"}
+                          {order.status === "paid" && "Đã thanh toán"}
                           {order.status === "delivering" && "Đang giao hàng"}
                           {order.status === "pending" &&
                             "Đang chuẩn bị đơn hàng"}

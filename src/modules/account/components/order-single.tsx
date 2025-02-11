@@ -189,19 +189,9 @@ export default function OrderSingleCreate({ user }: { user: any }) {
         const selectedDistrict = selectedProvince.districts.find(
           (d) => d.code === formData.district
         );
-        console.log("====================================");
-        console.log("START");
-        console.log("====================================");
         if (selectedDistrict) {
-          console.log("====================================");
-          console.log(formData.ward);
-          console.log("selectedDistrict: ", selectedDistrict);
-          console.log("====================================");
           setWards(selectedDistrict.wards);
         }
-        console.log("====================================");
-        console.log("END");
-        console.log("====================================");
       }
       router.refresh();
     }
@@ -515,11 +505,16 @@ export default function OrderSingleCreate({ user }: { user: any }) {
         },
       };
 
-      await OrderService.createOrder_no_login(body);
+      const response = await OrderService.createOrder_no_login(body);
 
-      setIsLoading(false);
+      if (selectedPayment === "momo") {
+        const paymentWindow = window.open(response.data, "_blank");
+        window.location.href = `${ROUTES.HOME}`;
+      } else {
+        setIsLoading(false);
 
-      window.location.href = `${ROUTES.HOME}`;
+        window.location.href = `${ROUTES.HOME}`;
+      }
     } else {
       setIsLoading(true);
       const upload: any = await UploadService.uploadToCloudinary([
@@ -568,17 +563,24 @@ export default function OrderSingleCreate({ user }: { user: any }) {
         },
       };
       const response = await OrderService.createOrder(body);
+      console.log("check res message: " + response);
 
       if (response === false) {
+        setLoading(false);
+
         toast({
           title: "",
           description: "Số điện thoại đã được sử dụng!",
           variant: "destructive",
         });
-        setLoading(false);
       } else {
-        setLoading(false);
-        window.location.href = `${ROUTES.ACCOUNT}?tab=history`;
+        if (selectedPayment === "momo") {
+          const paymentWindow = window.open(response.data, "_blank");
+          window.location.href = `${ROUTES.ACCOUNT}?tab=history`;
+        } else {
+          setLoading(false);
+          window.location.href = `${ROUTES.ACCOUNT}?tab=history`;
+        }
       }
     }
   };

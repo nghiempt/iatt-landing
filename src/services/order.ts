@@ -29,7 +29,9 @@ const createOrder = async (payload: any) => {
     if (!response.ok) {
       throw new Error(`Failed - Status: ${response.status}`);
     }
-    return true;
+    const data = await response.json();
+
+    return data;
   } catch (error: any) {
     console.error("========= Error Create Order:", error);
     return false;
@@ -49,7 +51,8 @@ const createOrder_no_login = async (payload: any) => {
     if (!response.ok) {
       throw new Error(`Failed - Status: ${response.status}`);
     }
-    return true;
+    const data = await response.json();
+    return data;
   } catch (error: any) {
     console.error("========= Error Create Order:", error);
     return false;
