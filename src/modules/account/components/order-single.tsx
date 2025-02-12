@@ -633,7 +633,7 @@ export default function OrderSingleCreate({ user }: { user: any }) {
   return (
     <div className="w-full flex flex-col justify-center items-center">
       <Header />
-      <div className="w-full md:w-3/4 py-4">
+      <div className="w-full md:w-3/4 px-4 lg:px-4 py-4">
         <nav className="flex items-center gap-2 text-sm text-gray-600 mb-6">
           <Link href={`${ROUTES.HOME}`} className="hover:text-black">
             Trang chủ
@@ -811,6 +811,7 @@ export default function OrderSingleCreate({ user }: { user: any }) {
                                 <SelectItem
                                   key={province.code}
                                   value={province.code}
+                                  className="py-3"
                                 >
                                   {province.name}
                                 </SelectItem>
@@ -833,6 +834,7 @@ export default function OrderSingleCreate({ user }: { user: any }) {
                                 <SelectItem
                                   key={district.code}
                                   value={district.code}
+                                  className="py-3"
                                 >
                                   {district.name}
                                 </SelectItem>
@@ -852,7 +854,11 @@ export default function OrderSingleCreate({ user }: { user: any }) {
                             </SelectTrigger>
                             <SelectContent>
                               {wards.map((ward) => (
-                                <SelectItem key={ward.code} value={ward.code}>
+                                <SelectItem
+                                  key={ward.code}
+                                  value={ward.code}
+                                  className="py-3"
+                                >
                                   {ward.name}
                                 </SelectItem>
                               ))}
@@ -1048,6 +1054,7 @@ export default function OrderSingleCreate({ user }: { user: any }) {
                                 <SelectItem
                                   key={province.code}
                                   value={province.code}
+                                  className="py-3"
                                 >
                                   {province.name}
                                 </SelectItem>
@@ -1070,6 +1077,7 @@ export default function OrderSingleCreate({ user }: { user: any }) {
                                 <SelectItem
                                   key={district.code}
                                   value={district.code}
+                                  className="py-3"
                                 >
                                   {district.name}
                                 </SelectItem>
@@ -1089,7 +1097,11 @@ export default function OrderSingleCreate({ user }: { user: any }) {
                             </SelectTrigger>
                             <SelectContent>
                               {wards.map((ward) => (
-                                <SelectItem key={ward.code} value={ward.code}>
+                                <SelectItem
+                                  key={ward.code}
+                                  value={ward.code}
+                                  className="py-3"
+                                >
                                   {ward.name}
                                 </SelectItem>
                               ))}

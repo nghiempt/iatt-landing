@@ -34,7 +34,7 @@ export function LoginModal() {
 
     if (username === "inanhtructuyen@gmail.com" && password === "Iatt@7777") {
       setTimeout(() => {
-        Cookies.set("isLogin", "true", { expires: 7 });
+        // Cookies.set("isLogin", "true", { expires: 7 });
         window.location.href = ROUTES.HOME;
         setIsLoading(false);
       }, 2000);
