@@ -156,7 +156,7 @@ export default function AccountProfile() {
   return (
     <div className="w-full">
       <Header />
-      <div className="w-full lg:w-3/4 mx-auto px-4 pt-4 pb-20">
+      <div className="w-full lg:w-3/4 mx-auto pt-4 pb-20">
         <nav className="flex items-center gap-2 text-sm text-gray-600 mb-6">
           <Link href={`${ROUTES.HOME}`} className="hover:text-black">
             Trang chủ

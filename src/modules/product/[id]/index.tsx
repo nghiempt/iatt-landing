@@ -63,6 +63,14 @@ export default function ProductDetailClient() {
     swiperInstance?.slideTo(firstVisibleIndex);
   };
 
+  const [expanded, setExpanded] = useState(false);
+  const description = currentData?.description || "";
+
+  const getPartialContent = (content: string) => {
+    const words = content.split(" ");
+    return words.slice(0, Math.ceil(words.length / 6)).join(" ") + "...";
+  };
+
   return (
     <div className="w-full flex flex-col justify-center items-center">
       <Header />
@@ -213,9 +221,6 @@ export default function ProductDetailClient() {
                         {HELPER.formatVND(currentData?.price)}
                       </div>
                       <button
-                        // onClick={() => {
-                        //   window.location.href = `http://localhost:3000/tai-khoan?tab=order-single&product=${currentData?._id}`;
-                        // }}
                         onClick={() => {
                           window.location.href = `/tai-khoan?tab=order-single&product=${currentData?._id}`;
                         }}
@@ -229,12 +234,22 @@ export default function ProductDetailClient() {
                         MÔ TẢ SẢN PHẨM
                       </h2>
                       <div className="space-y-4">
-                        <div className={`text-gray-500 leading-relaxed`}>
+                        <div className="text-gray-500 leading-relaxed overflow-hidden">
                           <div
                             dangerouslySetInnerHTML={{
-                              __html: currentData?.description,
+                              __html: expanded
+                                ? description
+                                : getPartialContent(description),
                             }}
                           />
+                        </div>
+                        <div className="flex justify-center relative">
+                          <button
+                            className="text-gray-500 cursor-pointer font-semibold"
+                            onClick={() => setExpanded(!expanded)}
+                          >
+                            {expanded ? "Thu gọn" : "Xem thêm"}
+                          </button>
                         </div>
                       </div>
                     </div>

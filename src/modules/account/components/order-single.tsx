@@ -633,7 +633,7 @@ export default function OrderSingleCreate({ user }: { user: any }) {
   return (
     <div className="w-full flex flex-col justify-center items-center">
       <Header />
-      <div className="w-full md:w-3/4 px-4 py-4">
+      <div className="w-full md:w-3/4 py-4">
         <nav className="flex items-center gap-2 text-sm text-gray-600 mb-6">
           <Link href={`${ROUTES.HOME}`} className="hover:text-black">
             Trang chủ
@@ -893,7 +893,7 @@ export default function OrderSingleCreate({ user }: { user: any }) {
                         <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
                           Thanh toán
                         </h3>
-                        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                        <div className="grid grid-cols-1 gap-4">
                           <div
                             onClick={() => setSelectedPayment("cash")}
                             className="cursor-pointer rounded-lg border border-gray-200 bg-gray-50 p-4 ps-4 dark:border-gray-700 dark:bg-gray-800"
@@ -1130,7 +1130,7 @@ export default function OrderSingleCreate({ user }: { user: any }) {
                         <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
                           Thanh toán
                         </h3>
-                        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                        <div className="grid grid-cols-1 gap-4">
                           <div
                             onClick={() => setSelectedPayment("cash")}
                             className="cursor-pointer rounded-lg border border-gray-200 bg-gray-50 p-4 ps-4 dark:border-gray-700 dark:bg-gray-800"
@@ -1191,7 +1191,7 @@ export default function OrderSingleCreate({ user }: { user: any }) {
                               </div>
                             </div>
                             {selectedPayment === "bank" && (
-                              <div className="w-full flex flex-row md:flex-col justify-center items-center gap-4 mt-4">
+                              <div className="w-full flex flex-row justify-center items-center gap-4 mt-4">
                                 <Image
                                   src="https://docs.lightburnsoftware.com/legacy/img/QRCode/ExampleCode.png"
                                   alt="QR code"
