@@ -115,32 +115,32 @@ export default function OrderHistory() {
                           className={`mt-1.5 inline-flex items-center rounded px-2.5 py-0.5 text-xs font-medium
                         ${
                           order.status === "completed"
-                            ? "bg-green-100 text-green-800"
+                            ? "bg-green-700 text-white"
                             : ""
                         }
                         ${
                           order.status === "delivering"
-                            ? "bg-blue-100 text-blue-800"
+                            ? "bg-yellow-800 text-white"
                             : ""
                         }
                         ${
                           order.status === "waiting"
-                            ? "bg-yellow-100 text-yellow-800"
+                            ? "bg-blue-700 text-white"
                             : ""
                         }
                         ${
                           order.status === "pending"
-                            ? "bg-orange-400 text-white"
+                            ? "bg-orange-600 text-white"
                             : ""
                         }
                         ${
                           order.status === "paid pending"
-                            ? "bg-yellow-400 text-gray-700"
+                            ? "bg-yellow-400 text-white"
                             : ""
                         }
                         ${
                           order.status === "paid"
-                            ? "bg-green-500 text-gray-700"
+                            ? "bg-pink-200 text-white"
                             : ""
                         }`}
                         >
