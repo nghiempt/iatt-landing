@@ -474,7 +474,7 @@ export default function OrderSingleCreate({ user }: { user: any }) {
       const commonAccountData = {
         name: formData?.name || "",
         phone: formData?.phone || "",
-        avatar: formData?.avatar || "",
+        // avatar: formData?.avatar || "",
         address: formData?.address || "",
         role: "personal",
         ward: selectedWard?.code,
