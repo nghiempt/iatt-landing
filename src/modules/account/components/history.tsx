@@ -112,7 +112,7 @@ export default function OrderHistory() {
                           Trạng thái:
                         </dt>
                         <dd
-                          className={`mt-1.5 inline-flex items-center rounded px-2.5 py-0.5 text-xs font-medium
+                          className={`mt-1.5 inline-flex items-center rounded px-4 py-1.5 text-xs font-medium
                         ${
                           order.status === "completed"
                             ? "bg-green-700 text-white"

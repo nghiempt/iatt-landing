@@ -74,9 +74,11 @@ export default function HomeContent() {
               <h2 className="text-xl font-semibold text-black">
                 Ảnh Cổng Cưới Giá Ưu Đãi 199k
               </h2>
-              <Button className="w-full md:w/1-3 lg:w-1/4 bg-orange-700 hover:bg-orange-800 text-white px-8 mt-4 text-md">
-                Mua ngay
-              </Button>
+              <Link href={`${ROUTES.PLASTIC}`}>
+                <Button className="w-full md:w/1-3 lg:w-1/4 bg-orange-700 hover:bg-orange-800 text-white px-8 mt-4 text-md">
+                  Mua ngay
+                </Button>
+              </Link>
             </div>
           </div>
           <div className="flex flex-col rounded-lg overflow-hidden border border-gray-400 border-dashed p-4">
@@ -93,9 +95,11 @@ export default function HomeContent() {
               <h2 className="text-xl font-semibold text-black">
                 In Ấn - Thiết Kế - Gia Công
               </h2>
-              <Button className="text-md w-full md:w/1-3 lg:w-1/4 bg-orange-700 hover:bg-orange-800 text-white px-8 mt-4">
-                Liên hệ ngay
-              </Button>
+              <Link href={`${ROUTES.PLASTIC}`}>
+                <Button className="text-md w-full md:w/1-3 lg:w-1/4 bg-orange-700 hover:bg-orange-800 text-white px-8 mt-4">
+                  Liên hệ ngay
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

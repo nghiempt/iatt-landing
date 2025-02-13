@@ -456,9 +456,9 @@ export default function OrderSingleCreate({ user }: { user: any }) {
 
   const handleSubmit = async () => {
     if (!validateForm()) return;
-    if (!isLogin) {
-      setIsLoading(true);
 
+    setIsLoading(true);
+    try {
       const upload: any = await UploadService.uploadToCloudinary([
         uploadedFile,
       ]);
@@ -471,117 +471,75 @@ export default function OrderSingleCreate({ user }: { user: any }) {
       );
       const selectedWard = wards.find((w) => w.code === formData.ward);
 
-      const body = {
-        account: {
-          name: formData?.name || "",
-          phone: formData?.phone || "",
-          // avatar: "",
-          address: formData?.address || "",
-          role: "personal",
-          ward: selectedWard?.code,
-          district: selectedDistrict?.code,
-          province: selectedProvince?.code,
-          status: true,
-          // created_at: "",
-          districtName: selectedDistrict?.name,
-          provinceName: selectedProvince?.name,
-          wardName: selectedWard?.name,
-        },
-        order: {
-          product_id: selectedProduct,
-          // account_email: formData.email || "",
-          // phone: formData.phone || "",
-          image: upload[0]?.secure_url,
-          color: selectedColor,
-          size: selectedSize,
-          address: formData?.address || "",
-          payment_method: selectedPayment || "",
-          // status: "waiting",
-          total: products.find(
-            (pro: any) => pro._id.toString() === selectedProduct
-          )?.price,
-          // date_create: datetime,
-          // date_completed: "",
-        },
+      const commonAccountData = {
+        name: formData?.name || "",
+        phone: formData?.phone || "",
+        avatar: formData?.avatar || "",
+        address: formData?.address || "",
+        role: "personal",
+        ward: selectedWard?.code,
+        district: selectedDistrict?.code,
+        province: selectedProvince?.code,
+        status: true,
+        districtName: selectedDistrict?.name,
+        provinceName: selectedProvince?.name,
+        wardName: selectedWard?.name,
       };
 
-      const response = await OrderService.createOrder_no_login(body);
-
-      if (selectedPayment === "momo") {
-        const paymentWindow = window.open(response.data, "_blank");
-        window.location.href = `${ROUTES.HOME}`;
-      } else {
-        setIsLoading(false);
-
-        window.location.href = `${ROUTES.HOME}`;
-      }
-    } else {
-      setIsLoading(true);
-      const upload: any = await UploadService.uploadToCloudinary([
-        uploadedFile,
-      ]);
-      const selectedProvince = provinces.find(
-        (p) => p.code === formData.province
-      );
-      const selectedDistrict = districts.find(
-        (d) => d.code === formData.district
-      );
-      const selectedWard = wards.find((w) => w.code === formData.ward);
-
-      const body = {
-        account: {
-          _id: isLogin,
-          name: formData?.name || "",
-          phone: formData?.phone || "",
-          avatar: formData?.avatar || "",
-          address: formData?.address || "",
-          role: "personal",
-          ward: selectedWard?.code,
-          district: selectedDistrict?.code,
-          province: selectedProvince?.code,
-          status: true,
-          // created_at: "",
-          districtName: selectedDistrict?.name,
-          provinceName: selectedProvince?.name,
-          wardName: selectedWard?.name,
-        },
-        order: {
-          product_id: selectedProduct,
-          // account_email: formData.email || "",
-          // phone: formData.phone || "",
-          image: upload[0]?.secure_url,
-          color: selectedColor,
-          size: selectedSize,
-          address: formData?.address || "",
-          payment_method: selectedPayment || "",
-          // status: "waiting",
-          total: products.find(
-            (pro: any) => pro._id.toString() === selectedProduct
-          )?.price,
-          // date_create: datetime,
-          // date_completed: "",
-        },
+      const orderData = {
+        product_id: selectedProduct,
+        image: upload[0]?.secure_url,
+        color: selectedColor,
+        size: selectedSize,
+        address: formData?.address || "",
+        payment_method: selectedPayment || "",
+        total: products.find(
+          (pro: any) => pro._id.toString() === selectedProduct
+        )?.price,
       };
-      const response = await OrderService.createOrder(body);
-      console.log("check res message: " + response);
 
-      if (response === false) {
-        setLoading(false);
+      let response;
 
-        toast({
-          title: "",
-          description: "Số điện thoại đã được sử dụng!",
-          variant: "destructive",
+      if (!isLogin) {
+        response = await OrderService.createOrder_no_login({
+          account: commonAccountData,
+          order: orderData,
         });
       } else {
-        if (selectedPayment === "momo") {
-          const paymentWindow = window.open(response.data, "_blank");
-          window.location.href = `${ROUTES.ACCOUNT}?tab=history`;
-        } else {
-          setLoading(false);
-          window.location.href = `${ROUTES.ACCOUNT}?tab=history`;
+        response = await OrderService.createOrder({
+          account: { _id: isLogin, ...commonAccountData },
+          order: orderData,
+        });
+
+        if (response === false) {
+          toast({
+            title: "",
+            description: "Số điện thoại đã được sử dụng!",
+            variant: "destructive",
+          });
+          return;
         }
       }
+
+      if (selectedPayment === "momo" && response?.data) {
+        window.open(response.data, "_blank");
+        window.location.href = isLogin
+          ? `${ROUTES.ACCOUNT}?tab=history`
+          : `${ROUTES.HOME}`;
+      } else {
+        window.location.href = isLogin
+          ? `${ROUTES.ACCOUNT}?tab=history`
+          : `${ROUTES.HOME}`;
+      }
+    } catch (error) {
+      console.error("Error submitting order:", error);
+      toast({
+        title: "",
+        description: "Đã xảy ra lỗi khi đặt hàng, vui lòng thử lại!",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
