@@ -272,7 +272,7 @@ export default function ProductDetailClient() {
               </div>
             </div>
           </div>
-          <div className="w-full px-4 lg:px-0 lg:w-3/4 flex flex-col justify-center items-start mb-12">
+          <div className="w-full px-4 lg:px-0 lg:w-3/4 flex flex-col justify-center items-start mt-5 lg:mt-0 mb-12">
             <h2 className="text-2xl font-bold text-black mb-4">
               SẢN PHẨM LIÊN QUAN
             </h2>
