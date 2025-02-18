@@ -45,7 +45,20 @@ const REVIEWS = [
   },
 ];
 
+const USER_PROFILE = {
+  name: "Phạm Thanh Nghiêm",
+  avatar:
+    "https://res.cloudinary.com/farmcode/image/upload/v1738733499/iatt/Screenshot_2025-02-05_at_12.30.28_usdydu.png",
+  email: "nghiempt@gmail.com",
+  phone: "0123456789",
+  address: "332/8 Phan Văn Trị",
+  ward: "29650",
+  district: "858",
+  province: "86",
+};
+
 export const DATA = {
   REVIEWS,
   CATEGORIES,
+  USER_PROFILE,
 };
