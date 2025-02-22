@@ -4,8 +4,8 @@
 
 @layer base {
   :root {
-    --primary-rgb: 139, 69, 19;
-    --secondary-rgb: 0, 0, 0;
+    --primary-rgb: 255, 180, 19;
+    --secondary-rgb: 255, 96, 96;
     --tertiary-rgb: 253, 248, 247;
     --quaternary-rgb: 253, 246, 240;
     --background: 0 0% 100%;
@@ -34,7 +34,9 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
   }
-
+  .scroll-bar-style::-webkit-scrollbar {
+    display: none;
+  }
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;

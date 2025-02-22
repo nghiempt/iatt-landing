@@ -26,7 +26,7 @@ const BlogCard = ({ id, image, title, excerpt, date, author, isMain = false }: a
       <h3 className={`font-medium line-clamp-2 text-navy-900 ${isMain ? 'text-lg mb-2' : 'text-sm mb-2'}`}>
         {title}
       </h3>
-      <p className="text-gray-600 text-xs mb-2 line-clamp-2">{excerpt}</p>
+      <p className="text-gray-600 text-base mb-2 line-clamp-2">{excerpt}</p>
       <div className="flex items-center text-sm text-gray-500 gap-4">
         <div className="flex items-center gap-1">
           <Calendar className="w-4 h-4" />
@@ -46,16 +46,15 @@ const ProductCard = (
     image,
     title,
     price,
-    hot,
     sold,
   }: any) => (
   <Card className="bg-white h-full rounded-lg overflow-hidden">
     <div className="relative">
-      {hot && (
+      {/* {hot && (
         <div className="absolute top-2 left-2 bg-[rgb(var(--primary-rgb))] text-white px-2 py-1 rounded-md text-sm">
           Bán chạy
         </div>
-      )}
+      )} */}
       <Image src={image} alt={title} className="w-full h-48 lg:h-80 object-cover" width={200} height={200} priority />
     </div>
     <div className="flex flex-col justify-between p-4">
@@ -81,31 +80,29 @@ const ProductCardSmall = (
     image,
     title,
     price,
-    hot,
-    sold,
   }: any) => (
-  <Card className="bg-white h-full rounded-lg overflow-hidden">
-    <div className="relative">
-      {hot && (
+  <Card className="bg-white h-full rounded-lg overflow-hidden flex flex-col">
+    <div className="relative px-4 pt-4">
+      {/* {hot && (
         <div className="absolute top-2 left-2 bg-[rgb(var(--primary-rgb))] text-white px-2 py-1 rounded-md text-sm">
           Bán chạy
         </div>
-      )}
-      <Image src={image} alt={title} className="w-full h-44 lg:h-64 object-cover" width={200} height={200} priority />
+      )} */}
+      <Image src={image} alt={title} className="w-full h-44 lg:h-64 object-cover " width={200} height={200} priority />
     </div>
-    <div className="flex flex-col justify-between p-4">
-      <div className="flex items-center space-x-2">
-        <span className="text-xs lg:text-[14px] font-bold text-black">{HELPER.formatVND(price)}</span>
+    <div className="p-4 flex flex-col flex-grow">
+      <div className='flex-grow'>
+        <div className="flex items-center space-x-2">
+          <span className="line-through lg:text-[14px] font-normal text-black">{HELPER.formatVND(HELPER.upPrice(price))}</span>
+        </div>
+        <div className="flex items-center space-x-2">
+          <span className=" lg:text-[20px] font-medium text-black">{HELPER.formatVND(price)}</span>
+        </div>
+        <h3 className="lg:text-[16px] font-medium text-gray-900 line-clamp-2">{title}</h3>
       </div>
-      <h3 className="text-xs lg:text-[14px] font-medium text-gray-900 line-clamp-2 mt-2">{title}</h3>
-      <div className="flex items-center mt-2">
-        {[...Array(5)].map((_, i) => (
-          <Star
-            key={i}
-            className={`w-3 h-3 ${i < 5 ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`}
-          />
-        ))}
-        <span className="text-xs text-gray-500 ml-2">({sold} đã bán)</span>
+
+      <div className="mt-auto pt-4">
+        <span className="text-base font-medium text-green-500 ">Miễn phí vận chuyển</span>
       </div>
     </div>
   </Card>

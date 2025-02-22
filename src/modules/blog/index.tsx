@@ -4,14 +4,17 @@ import React, { useEffect, useState } from "react";
 import Header from "@/layout/header";
 import Footer from "@/layout/footer";
 import Link from "next/link";
-import { ChevronRight, Loader } from "lucide-react";
+import { Calendar, ChevronRight, Loader, PencilLine } from "lucide-react";
 import { ROUTES } from "@/utils/route";
 import { BlogService } from "@/services/blog";
 import { GlobalComponent } from "@/components/global";
 import { HELPER } from "@/utils/helper";
+import Image from 'next/image';
+import BannerSlider from "./components/slider";
+import { Card } from "@/components/ui/card";
 
 export default function BlogClient() {
-  const [blogs, setBlogs] = useState([] as any);
+  const [blogs, setBlogs] = useState([] as Blog[]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const renderBlog = async () => {
@@ -21,6 +24,29 @@ export default function BlogClient() {
       setIsLoading(false);
     }
   };
+
+  interface Blog {
+    _id: string;
+    title: string;
+    thumbnail: string;
+    content: string;
+    tag: string;
+    author: string;
+    excerpt: string;
+    created_at: string;
+  }
+
+  const sortedPosts = [...blogs].sort((a, b) => {
+    const dateA = new Date(a.created_at.split('/').reverse().join('-'));
+    const dateB = new Date(b.created_at.split('/').reverse().join('-'));
+    return dateB.getTime() - dateA.getTime();
+  });
+
+  const recentPosts = sortedPosts.slice(0, 4);
+
+  const featuredPost = recentPosts[0];
+
+  const regularPosts = recentPosts.slice(1, 4);
 
   const init = async () => {
     renderBlog();
@@ -32,21 +58,76 @@ export default function BlogClient() {
 
   return (
     <div className="w-full flex flex-col justify-center items-center">
+      <div className="w-full bg-black p-2.5 text-center text-white text-sm font-semibold">
+        <span>IN ẢNH TRỰC TUYẾN - In ảnh nhanh chóng, tiện lợi</span>
+      </div>
       <Header />
-      <div className="w-full md:w-3/4 lg:w-3/4 lg:mt-4">
-        <div className="px-4 pt-4 pb-10 lg:px-0">
+      <div className="container pb-20 pt-2">
+        <div className="px-4 py-4 pb-10 lg:px-0">
           <nav className="flex items-center gap-2 text-sm text-gray-600 mb-6">
-            <Link href={`${ROUTES.HOME}`} className="hover:text-black text-md">
+            <Link href={`${ROUTES.HOME}`} className="hover:text-[rgb(var(--primary-rgb))] text-md">
               Trang chủ
             </Link>
             <ChevronRight className="w-4 h-4" />
-            <Link href={`${ROUTES.BLOG}`} className="hover:text-black text-md">
+            <Link href={`${ROUTES.BLOG}`} className="hover:text-[rgb(var(--primary-rgb))] text-md">
               Tin tức
             </Link>
           </nav>
-          <h1 className="text-3xl font-bold text-navy-900 mb-4">
-            TIN TỨC NỔI BẬT
+
+          <BannerSlider />
+
+          <h1 className="text-3xl font-bold text-navy-900 py-8">
+            BÀI VIẾT MỚI NHẤT
           </h1>
+
+          <Card onClick={() => window.location.href = `${ROUTES.BLOG}/${HELPER.getLastFourChars(featuredPost?._id)}?b=${HELPER.convertSpacesToDash(featuredPost?.title)}`} className="cursor-pointer overflow-hidden mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white rounded-lg overflow-hidden shadow-sm">
+              <div className="relative h-64 md:h-auto">
+                <Image
+                  src={featuredPost?.thumbnail}
+                  alt={featuredPost?.title}
+                  width={1000}
+                  height={200}
+                  objectFit="cover"
+                  priority
+                />
+              </div>
+              <div className="p-4 md:p-6 flex flex-col ">
+                <div>
+                  <h2 className="text-xl font-semibold mb-2" >
+                    <a className="text-gray-800 hover:text-gray-600">{featuredPost?.title}</a>
+                  </h2>
+                  <p className="text-gray-600 mb-4">{featuredPost?.excerpt}</p>
+                </div>
+                <div className="flex items-center text-sm text-gray-500">
+                  <Calendar className="w-4 h-4" />
+                  <span className="mr-3">{HELPER.formatDate(featuredPost?.created_at)}</span>
+                  <PencilLine className="w-4 h-4" />
+                  <span>{featuredPost?.author}</span>
+                </div>
+              </div>
+            </div>
+          </Card>
+
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {regularPosts.map((blog: any, index: any) => (
+              <GlobalComponent.BlogCard
+                key={index}
+                id={blog?._id}
+                image={blog?.thumbnail}
+                title={blog?.title}
+                excerpt={blog?.excerpt}
+                date={HELPER.formatDate(blog?.created_at)}
+                author={blog?.author}
+                isMain={true}
+              />
+            ))}
+          </div>
+          <h1 className="text-3xl font-bold text-navy-900 py-8">
+            TẤT CẢ BÀI VIẾT
+          </h1>
+
           {isLoading ? (
             <div className="w-full flex justify-center items-center py-40">
               <Loader className="animate-spin" size={32} />

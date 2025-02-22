@@ -62,7 +62,7 @@ const BannerSlider: React.FC = () => {
     };
 
     return (
-        <div className="relative w-full h-[140px] lg:h-[540px]">
+        <div className="relative w-full h-[250px] lg:h-[450px] ">
             <div className="relative w-full">
                 {banners.map((banner, index) => (
                     <div
@@ -73,9 +73,9 @@ const BannerSlider: React.FC = () => {
                         <Image
                             src={banner.imageUrl}
                             alt={banner.title}
-                            className="w-full object-cover"
-                            width={1000}
-                            height={0}
+                            className="w-full object-cover rounded-lg"
+                            width={1350}
+                            height={250}
                         />
                     </div>
                 ))}

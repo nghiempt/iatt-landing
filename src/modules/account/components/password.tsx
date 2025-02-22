@@ -55,11 +55,12 @@ export interface UserData {
   province?: string;
 }
 
-export interface FormData extends UserData {
-  ward: string;
-  district: string;
-  province: string;
+export interface FormData {
+  password: string;
+  newPassword: string;
+  confirmPassword: string;
 }
+
 
 export interface CustomerAccount {
   _id: string;
@@ -80,23 +81,37 @@ export interface CustomerAccount {
   wardName: string;
 }
 
-export default function AccountProfile() {
+export default function AccountPassword() {
   const emailCookie = Cookies.get("isLogin");
   const isLogin = Cookies.get("isLogin");
   const [loading, setLoading] = React.useState(false);
   const [customerAccount, setCustomerAccount] =
     useState<CustomerAccount | null>(null);
+  const router = useRouter();
+  const tab = new URLSearchParams(window.location.search).get("tab");
+
+  const [provinces, setProvinces] = React.useState<Province[]>([]);
   const [formData, setFormData] = React.useState<FormData>({
-    name: customerAccount?.name || "",
-    email: customerAccount?.email || "",
-    avatar: customerAccount?.avatar || "",
-    phone: customerAccount?.phone || "",
-    address: customerAccount?.address || "",
-    ward: customerAccount?.ward || "",
-    district: customerAccount?.district || "",
-    province: customerAccount?.province || "",
+      password: "",
+      newPassword: "",
+      confirmPassword: "",
   });
 
+
+  React.useEffect(() => {
+    const fetchProvinces = async () => {
+      try {
+        const response = await fetch(
+          "https://provinces.open-api.vn/api/?depth=3"
+        );
+        const data = await response.json();
+        setProvinces(data);
+      } catch (error) {
+        console.error("Error fetching provinces:", error);
+      }
+    };
+    fetchProvinces();
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -116,16 +131,6 @@ export default function AccountProfile() {
         try {
           const data = await AccountService.getAccountById(isLogin);
           setCustomerAccount(data);
-          setFormData({
-            name: data.name,
-            email: data.email,
-            avatar: data.avatar,
-            phone: data.phone,
-            address: data.address,
-            ward: data.ward,
-            district: data.district,
-            province: data.province,
-          });
         } catch (error) {
           console.error("Error fetching account:", error);
         }
@@ -134,6 +139,23 @@ export default function AccountProfile() {
 
     fetchAccount();
   }, []);
+
+  const getFullAddressName = () => {
+    if (!customerAccount || !customerAccount.province)
+      return "Bạn chưa có địa chỉ giao hàng vui lòng bổ sung.";
+
+    const provinceObj = provinces.find(
+      (p) => p.code.toString() === customerAccount.province
+    );
+    const districtObj = provinceObj?.districts.find(
+      (d) => d.code.toString() === customerAccount.district
+    );
+    const wardObj = districtObj?.wards.find(
+      (w) => w.code.toString() === customerAccount.ward
+    );
+
+    return `${customerAccount.address}, ${wardObj?.name}, ${districtObj?.name}, ${provinceObj?.name}`;
+  };
 
 
 
@@ -183,32 +205,33 @@ export default function AccountProfile() {
             <Sidebar customerAccount={customerAccount} />
 
             {/* Main Content */}
-            <div className="flex-1 py-8 px-8 col-span-8">
+            <div className="flex-1 p-8 col-span-8">
               <div className="max-w-2xl">
-                <h1 className="text-2xl font-medium mb-6">Hồ sơ cá nhân</h1>
+                <h1 className="text-2xl font-medium mb-6">Đổi Mật khẩu</h1>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="flex justify-between items-center gap-4">
-                    <Label htmlFor="name" className="text-gray-600 w-2/6 ">Họ và tên:</Label>
+                    <Label htmlFor="password" className="text-gray-600 w-2/6">Nhập mật khẩu cũ:</Label>
                     <div className="w-full">
                       <Input
-                        id="name"
-                        type="text"
-                        name="name"
-                        value={formData.name}
+                        id="password"
+                        type="password"
+                        name="password"
+                        value={formData.password}
                         onChange={handleInputChange}
-                        className="w-full py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                       />
                     </div>
+
                   </div>
 
                   <div className="flex justify-between items-center gap-4">
-                    <Label htmlFor="phone" className="text-gray-600 w-2/6">Số điện thoại:</Label>
+                    <Label htmlFor="newPassword" className="text-gray-600 w-2/6">Nhập mật khẩu mới:</Label>
                     <div className=" w-full">
                       <Input
-                        type="phone"
-                        name="phone"
-                        value={formData.phone}
+                        type="newPassword"
+                        name="newPassword"
+                        value={formData.newPassword}
                         onChange={handleInputChange}
                         className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                       />
@@ -216,14 +239,13 @@ export default function AccountProfile() {
                   </div>
 
                   <div className="flex justify-between items-center gap-4">
-                    <Label htmlFor="email" className="text-gray-600 w-2/6">Email:</Label>
+                    <Label htmlFor="confirmPassword" className="text-gray-600 w-2/6">Nhập lại mật khẩu mới:</Label>
                     <div className="w-full">
                       <Input
-                        id="email"
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        disabled={true}
+                        id="confirmPassword"
+                        type="confirmPassword"
+                        name="confirmPassword"
+                        value={formData.confirmPassword}
                         className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                       />
                     </div>
