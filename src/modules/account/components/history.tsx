@@ -131,9 +131,9 @@ export default function OrderHistory() {
           </nav>
         </div>
         {customerAccount && (
-          <div className="grid grid-cols-12 gap-4">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
             <Sidebar customerAccount={customerAccount} />
-            <div className=" space-y-4 col-span-8">
+            <div className=" space-y-4 lg:col-span-8">
               <h1 className="text-2xl font-semibold mb-6">Đơn hàng của bạn</h1>
               {orders.length === 0 ? (
                   <div className="col-span-2 text-center w-full flex justify-center items-center py-4">
@@ -145,7 +145,7 @@ export default function OrderHistory() {
               orders.map(async (order: any, index: any) => (
                 <div key={index} className="border border-gray-300 p-4">
                   <div className="flex items-center justify-between mb-4">
-                    <div className="flex justify-between items-center gap-16">
+                    <div className="flex justify-between items-center lg:gap-16">
                       <span>Mã đơn hàng: #{order?._id?.slice(0, 6)}</span>
                       <span>Ngày đặt hàng: {HELPER.formatDate(order?.created_at)}</span>
                     </div>
@@ -201,7 +201,7 @@ export default function OrderHistory() {
                       ${order?.status === "paid"
                             ? "bg-pink-200 text-white"
                             : ""
-                          } py-2 rounded-sm flex items-center justify-center`}>
+                          } lg:py-2 rounded-sm flex items-center justify-center text-center`}>
                           {order?.status === "completed" && "Hoàn thành"}
                           {order?.status === "paid pending" &&
                             "Đang chờ thanh toán"}
