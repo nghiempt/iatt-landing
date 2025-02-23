@@ -91,8 +91,8 @@ export default function Sidebar({ customerAccount }: SidebarProps) {
   };
 
   return (
-    <div className=" bg-white shadow-lg p-4 col-span-4 rounded-md">
-      <div className="flex flex-col items-center mb-8">
+    <div className=" hidden lg:block bg-white shadow-lg p-4 col-span-4 rounded-md">
+      <div className=" flex flex-col items-center mb-8">
         <Image
           src={customerAccount.avatar}
           width={1000}

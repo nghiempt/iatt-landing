@@ -118,7 +118,7 @@ export default function LoginClient() {
             </div>
 
             {/* Login Form */}
-            <form className="space-y-4">
+            <div className="space-y-4">
               <div>
                 <input
                   type="email"
@@ -151,7 +151,7 @@ export default function LoginClient() {
               >
                 Đăng nhập
               </button>
-            </form>
+            </div>
 
             {/* Sign Up Link */}
             <p className="text-center text-sm text-gray-600">

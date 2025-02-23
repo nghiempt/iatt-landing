@@ -55,7 +55,7 @@ export default function BlogDetailClient() {
       </div>
       <Header />
       <div className="container pb-20 pt-2">
-        <div className="w-full px-4 py-4 lg:px-0 flex flex-col justify-center items-start">
+        <div className="w-full py-4 lg:px-0 flex flex-col justify-center items-start">
           <nav className="flex items-center gap-2 text-sm text-gray-600 mb-4">
             <Link href={`${ROUTES.HOME}`} className="hover:text-[rgb(var(--primary-rgb))] text-md">
               Trang chủ
@@ -69,19 +69,22 @@ export default function BlogDetailClient() {
               {currentData?.title?.slice(0, 20)}...
             </p>
           </nav>
-          <div className="w-full grid grid-cols-12 items-start gap-20">
-            <div className="mt-10 py-4 z-10 col-span-8 border-b border-gray-300">
+
+          <div className="w-full grid grid-cols-1 lg:grid-cols-12 items-start gap-20">
+            <div className="mt-10 py-4 z-10 lg:col-span-8 border-b border-gray-300">
               <div className="mb-3">
                 <p>
                   Đăng bởi: {currentData?.author} -{" "}
                   {HELPER.formatDate(currentData?.created_at)}
                 </p>
               </div>
-              <h1 className="text-3xl font-bold text-navy-900 mb-3">
+              <div>
+                <h1 className="text-3xl font-bold text-navy-900 mb-3">
                 {currentData?.title}
-              </h1>
+              </h1></div>
+              
 
-              <div className="w-full  h-full bg-pink-50 rounded-md mb-4">
+              <div className="w-full h-full bg-pink-50 rounded-md mb-4">
                 <Image
                   src={currentData?.thumbnail || ""}
                   alt="Products Banner"
@@ -95,7 +98,7 @@ export default function BlogDetailClient() {
               </div>
             </div>
 
-            <div className="w-full bg-white rounded-lg mt-10 py-4 z-10 col-span-4">
+            <div className="w-full bg-white rounded-lg lg:mt-10 lg:py-4 z-10 lg:col-span-4">
               <Image
                 src="https://s3-alpha-sig.figma.com/img/9f8e/17f8/0d6b3369d3a841ae41f699ffbe191bbf?Expires=1740960000&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=dQhpBYG6d3d0hXipXWeyelqAIhU6jhxM0dDJ5jdNIpq1ehjUS2X2RS1iSHWcQZkUGtYPmLgyX~Ouav~wFju4mF7fm7X80w~JbuRLZkp6Nx8h0nLiSwOYpsu7yvG2X~FdagZ4NzPv5ZI3DtL9nslmlcHPKDsx~lKEJcGA8Gbnn61scEtEIH7yZUi~pqiF7Wmb1vRYhplIeXHYUWOEWQG9Tr~x4WoOY3TVerdjniHI9vqxgErEwc97mMasvUmvLDYOPBQoOeHhkrn5f5f4hQN8mROTBokByXtyPjslx571PlmXdmwis7X8cL7tKqDRcZY09RQ6X0YEVRENBE9f5nYr8A__"
                 alt="Products Banner"

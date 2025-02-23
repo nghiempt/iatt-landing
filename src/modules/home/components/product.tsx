@@ -32,14 +32,14 @@ const ProductSection: React.FC<ProductSectionProps> = ({type}) => {
         init()
     }, []);
     return (
-        <section className="container !px-0 py-8">
+        <section className="container !px-0 py-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div className="relative aspect-square group overflow-hidden rounded-lg">
                     <Image
                         src="https://res.cloudinary.com/farmcode/image/upload/v1737355066/iatt/fkgpmp7plmfvzizsaqpt.png"
                         alt="alt"
                         fill
-                        className="object-cover"
+                        className=" object-cover"
                     />
                     <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center text-white">
                         <h3 className="text-lg font-medium mb-2">Bộ sưu tập</h3>
@@ -81,8 +81,8 @@ const ProductSection: React.FC<ProductSectionProps> = ({type}) => {
                                 </CarouselItem>
                             ))}
                         </CarouselContent>
-                        <CarouselPrevious />
-                        <CarouselNext />
+                        {/* <CarouselPrevious />
+                        <CarouselNext /> */}
                     </Carousel>
                 </div>
             </div>

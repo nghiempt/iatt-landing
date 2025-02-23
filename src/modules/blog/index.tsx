@@ -9,7 +9,7 @@ import { ROUTES } from "@/utils/route";
 import { BlogService } from "@/services/blog";
 import { GlobalComponent } from "@/components/global";
 import { HELPER } from "@/utils/helper";
-import Image from 'next/image';
+import Image from "next/image";
 import BannerSlider from "./components/slider";
 import { Card } from "@/components/ui/card";
 
@@ -37,8 +37,8 @@ export default function BlogClient() {
   }
 
   const sortedPosts = [...blogs].sort((a, b) => {
-    const dateA = new Date(a.created_at.split('/').reverse().join('-'));
-    const dateB = new Date(b.created_at.split('/').reverse().join('-'));
+    const dateA = new Date(a.created_at.split("/").reverse().join("-"));
+    const dateB = new Date(b.created_at.split("/").reverse().join("-"));
     return dateB.getTime() - dateA.getTime();
   });
 
@@ -65,11 +65,17 @@ export default function BlogClient() {
       <div className="container pb-20 pt-2">
         <div className="px-4 py-4 pb-10 lg:px-0">
           <nav className="flex items-center gap-2 text-sm text-gray-600 mb-6">
-            <Link href={`${ROUTES.HOME}`} className="hover:text-[rgb(var(--primary-rgb))] text-md">
+            <Link
+              href={`${ROUTES.HOME}`}
+              className="hover:text-[rgb(var(--primary-rgb))] text-md"
+            >
               Trang chủ
             </Link>
             <ChevronRight className="w-4 h-4" />
-            <Link href={`${ROUTES.BLOG}`} className="hover:text-[rgb(var(--primary-rgb))] text-md">
+            <Link
+              href={`${ROUTES.BLOG}`}
+              className="hover:text-[rgb(var(--primary-rgb))] text-md"
+            >
               Tin tức
             </Link>
           </nav>
@@ -80,9 +86,26 @@ export default function BlogClient() {
             BÀI VIẾT MỚI NHẤT
           </h1>
 
-          <Card onClick={() => window.location.href = `${ROUTES.BLOG}/${HELPER.getLastFourChars(featuredPost?._id)}?b=${HELPER.convertSpacesToDash(featuredPost?.title)}`} className="cursor-pointer overflow-hidden mb-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white rounded-lg overflow-hidden shadow-sm">
-              <div className="relative h-64 md:h-auto">
+          <Card
+            onClick={() =>
+            (window.location.href = `${ROUTES.BLOG}/${HELPER.getLastFourChars(
+              featuredPost?._id
+            )}?b=${HELPER.convertSpacesToDash(featuredPost?.title)}`)
+            }
+            className="cursor-pointer overflow-hidden mb-8"
+          > <div className="grid lg:hidden"><GlobalComponent.BlogCard
+            key={1}
+            id={featuredPost?._id}
+            image={featuredPost?.thumbnail}
+            title={featuredPost?.title}
+            excerpt={featuredPost?.excerpt}
+            date={HELPER.formatDate(featuredPost?.created_at)}
+            author={featuredPost?.author}
+            isMain={true}
+          /></div>
+
+            <div className="hidden lg:grid grid-cols-1 md:grid-cols-2 gap-6 bg-white rounded-lg overflow-hidden shadow-sm">
+              <div className="relative h-auto">
                 <Image
                   src={featuredPost?.thumbnail}
                   alt={featuredPost?.title}
@@ -94,21 +117,26 @@ export default function BlogClient() {
               </div>
               <div className="p-4 md:p-6 flex flex-col ">
                 <div>
-                  <h2 className="text-xl font-semibold mb-2" >
-                    <a className="text-gray-800 hover:text-gray-600">{featuredPost?.title}</a>
+                  <h2 className="text-xl font-semibold mb-2">
+                    <a className="text-gray-800 hover:text-gray-600">
+                      {featuredPost?.title}
+                    </a>
                   </h2>
-                  <p className="text-gray-600 mb-4">{featuredPost?.excerpt}</p>
+                  <p className="text-gray-600 mb-4 line-clamp-2 lg:line-clamp-none">
+                    {featuredPost?.excerpt}
+                  </p>
                 </div>
                 <div className="flex items-center text-sm text-gray-500">
                   <Calendar className="w-4 h-4" />
-                  <span className="mr-3">{HELPER.formatDate(featuredPost?.created_at)}</span>
+                  <span className="mr-3">
+                    {HELPER.formatDate(featuredPost?.created_at)}
+                  </span>
                   <PencilLine className="w-4 h-4" />
                   <span>{featuredPost?.author}</span>
                 </div>
               </div>
             </div>
           </Card>
-
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {regularPosts.map((blog: any, index: any) => (

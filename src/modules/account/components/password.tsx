@@ -200,12 +200,12 @@ export default function AccountPassword() {
           </Link>
         </nav>
         {customerAccount && (
-          <div className=" grid grid-cols-12 gap-4 py-6 pb-24">
+          <div className=" grid lg:grid-cols-12 gap-4 py-6 pb-24">
             {/* Sidebar */}
             <Sidebar customerAccount={customerAccount} />
 
             {/* Main Content */}
-            <div className="flex-1 p-8 col-span-8">
+            <div className="flex-1 p-8 lg:col-span-8">
               <div className="max-w-2xl">
                 <h1 className="text-2xl font-medium mb-6">Đổi Mật khẩu</h1>
 

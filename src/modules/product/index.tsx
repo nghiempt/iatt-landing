@@ -72,7 +72,9 @@ export default function ProductClient() {
     { label: "Giá Cao Đến Thấp", sort: 2 },
   ];
 
-  const selectedSortLabel = sortOptions.find((option) => option.sort === selectedSort)?.label || "Mặc Định";
+  const selectedSortLabel =
+    sortOptions.find((option) => option.sort === selectedSort)?.label ||
+    "Mặc Định";
 
   const handleSelectCategory = (cate: string) => {
     if (!tag) {
@@ -135,112 +137,123 @@ export default function ProductClient() {
       </div>
       <Header />
       <div className="container pb-20 pt-2">
-          <div className="px-4 py-4 lg:px-0">
-            <nav className="flex items-center gap-2 text-sm text-gray-600 mb-6">
-              <Link href={`${ROUTES.HOME}`} className="hover:text-[rgb(var(--primary-rgb))] text-md">
-                Trang chủ
-              </Link>
-              <ChevronRight className="w-4 h-4" />
-              <Link
-                href={`${ROUTES.PRODUCT}`}
-                className="hover:text-[rgb(var(--primary-rgb))] text-md"
-              >
-                Tất cả sản phẩm
-              </Link>
-            </nav>
-            <BannerSlider />
-            <h1 className="text-3xl font-bold text-navy-900 mt-6 ">
-              TẤT CẢ SẢN PHẨM
-            </h1>
-            <div className="flex justify-between gap-4 py-8">
-              <div className="flex gap-4">
-                <div className="font-medium items-center text-black py-2">Chọn theo: </div>
-                {categories.map((cate: any, index: any) =>
-                  selectedCate === cate.tag ? (
-                    <div
-                      key={index}
-                      className="text-[rgb(var(--primary-rgb))] font-bold px-4 py-2 rounded-sm bg-gray-100 border border-gray-300 justify-between flex items-center"
-                    >
-                      <span>{cate.name}</span>
-                    </div>
-                  ) : (
-                    <button
-                      key={index}
-                      onClick={() => {
-                        handleSelectCategory(cate.tag);
-                      }}
-                      className="text-black font-medium px-4 py-2 rounded-sm bg-gray-100 border border-gray-300"
-                    >
-                      {cate.name}
-                    </button>
-                  )
-                )}
+        <div className="px-4 py-4 lg:px-0">
+          <nav className="flex items-center gap-2 text-sm text-gray-600 mb-6">
+            <Link
+              href={`${ROUTES.HOME}`}
+              className="hover:text-[rgb(var(--primary-rgb))] text-md"
+            >
+              Trang chủ
+            </Link>
+            <ChevronRight className="w-4 h-4" />
+            <Link
+              href={`${ROUTES.PRODUCT}`}
+              className="hover:text-[rgb(var(--primary-rgb))] text-md"
+            >
+              Tất cả sản phẩm
+            </Link>
+          </nav>
+          <BannerSlider />
+          <h1 className="text-3xl font-bold text-navy-900 mt-6 ">
+            TẤT CẢ SẢN PHẨM
+          </h1>
+          <div className="grid grid-cols-1 space-y-2 lg:flex lg:flex-row justify-between items-center gap-4 py-8">
+            <div className=" grid lg:flex gap-4">
+              <div className=":font-medium items-center text-black py-2">
+                Chọn theo:{" "}
               </div>
-
-              <div className="relative flex justify-between items-center gap-4" ref={sortRef}>
-                Sắp xếp theo
-                <Button
-                  onClick={() => setOpenSort(!openSort)}
-                  variant="outline"
-                  className="border border-gray-300 flex justify-between items-center w-56 gap-4"
-                >
-                  <span>{selectedSortLabel}</span>
-                  <ChevronDown className="w-4 h-4" />
-                </Button>
-                {openSort && (
-                  <div className="absolute top-12 left-auto right-0 w-56 bg-white shadow-md border border-gray-100 z-10 transition-opacity duration-300 ease-in-out">
-                    <div className="flex flex-col space-y-2 ">
-                      {sortOptions.map(({ label, sort }) =>
-                        selectedSort === sort ? (
-                          <div
-                            key={sort}
-                            className="bg-gray-200 text-[rgb(var(--primary-rgb))] font-medium flex items-center px-4 py-1"
-                          >
-                            <span>{label}</span>
-                          </div>
-                        ) : (
-                          <button
-                            key={sort}
-                            onClick={() => handleSelectSort(sort)}
-                            className="text-black font-medium w-full text-left px-4 py-1"
-                          >
-                            {label}
-                          </button>
-                        )
-                      )}
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-            {filteredDataSort && filteredDataSort.length > 0 ? (
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                {filteredDataSort?.map((data: any, index: any) => (
-                  <div key={index}>
-                    <Link
-                      href={`${ROUTES.PRODUCT}/${HELPER.getLastFourChars(
-                        data?._id
-                      )}?sp=${HELPER.convertSpacesToDash(data?.name)}`}
-                    >
-                      <GlobalComponent.ProductCardSmall
-                        image={data?.thumbnail}
-                        title={data?.name}
-                        price={data?.price}
-                      />
-                    </Link>
+              {categories.map((cate: any, index: any) =>
+                selectedCate === cate.tag ? (
+                  <button
+                    key={index}
+                    className="text-[rgb(var(--primary-rgb))] font-bold px-4 py-2 rounded-sm bg-gray-100 border border-gray-300"
+                  >
+                    {cate.name}
+                  </button>
+                ) : (
+                  <button
+                    key={index}
+                    onClick={() => {
+                      handleSelectCategory(cate.tag);
+                    }}
+                    className="text-black font-medium px-4 py-2 rounded-sm bg-gray-100 border border-gray-300"
+                  >
+                    {cate.name}
+                  </button>
+                )
+              )}
+              </div>
+              
+            </div>
+
+            <div
+              className="relative flex justify-between items-center gap-4"
+              ref={sortRef}
+            >
+              Sắp xếp theo
+              <Button
+                onClick={() => setOpenSort(!openSort)}
+                variant="outline"
+                className="border border-gray-300 flex justify-between items-center w-56 gap-4"
+              >
+                <span>{selectedSortLabel}</span>
+                <ChevronDown className="w-4 h-4" />
+              </Button>
+              {openSort && (
+                <div className="absolute top-12 left-auto right-0 w-56 bg-white shadow-md border border-gray-100 z-10 transition-opacity duration-300 ease-in-out">
+                  <div className="flex flex-col space-y-2 ">
+                    {sortOptions.map(({ label, sort }) =>
+                      selectedSort === sort ? (
+                        <div
+                          key={sort}
+                          className="bg-gray-200 text-[rgb(var(--primary-rgb))] font-medium flex items-center px-4 py-1"
+                        >
+                          <span>{label}</span>
+                        </div>
+                      ) : (
+                        <button
+                          key={sort}
+                          onClick={() => handleSelectSort(sort)}
+                          className="text-black font-medium w-full text-left px-4 py-1"
+                        >
+                          {label}
+                        </button>
+                      )
+                    )}
                   </div>
-                ))}
-              </div>
-            ) : loading ? (
-              <div className="col-span-2 text-center w-full flex justify-center items-center py-40">
-                <Loader className="animate-spin" size={32} />
-              </div>
-            ) : (
-              <div className="col-span-2 text-center w-full flex justify-center items-center py-40">
-                <p className="text-gray-500 text-lg">Product not found.</p>
-              </div>
-            )}
+                </div>
+              )}
+            </div>
           </div>
+          {filteredDataSort && filteredDataSort.length > 0 ? (
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
+              {filteredDataSort?.map((data: any, index: any) => (
+                <div key={index}>
+                  <Link
+                    href={`${ROUTES.PRODUCT}/${HELPER.getLastFourChars(
+                      data?._id
+                    )}?sp=${HELPER.convertSpacesToDash(data?.name)}`}
+                  >
+                    <GlobalComponent.ProductCardSmall
+                      image={data?.thumbnail}
+                      title={data?.name}
+                      price={data?.price}
+                    />
+                  </Link>
+                </div>
+              ))}
+            </div>
+          ) : loading ? (
+            <div className="col-span-2 text-center w-full flex justify-center items-center py-40">
+              <Loader className="animate-spin" size={32} />
+            </div>
+          ) : (
+            <div className="col-span-2 text-center w-full flex justify-center items-center py-40">
+              <p className="text-gray-500 text-lg">Product not found.</p>
+            </div>
+          )}
+        </div>
       </div>
       <Footer />
     </div>

@@ -22,7 +22,7 @@ const services = [
 
 const CategoryListSection = () => {
     return (
-        <section className="container !px-0 py-8">
+        <section className="container py-4 lg:py-8">
             <div className="grid grid-cols-3 gap-8">
                 {services.map((service, index) => (
                     <Link

@@ -241,13 +241,11 @@ const AboutSection = () => {
     };
 
     return (
-        <div className="min-h-screen bg-white">
+        <div className=" bg-white">
             {/* Hero Banner */}
             <BannerSlider />
-
-
             {/* Policy Sections */}
-            <div className=" px-4 py-4 lg:pb-0 lg:px-0">
+            <div className="lg:pb-0 lg:px-0">
                 {/* <div className="max-w-3xl mx-auto"> */}
                 {policies.map((policy) => (
                     <div key={policy.title} className="">
@@ -262,7 +260,7 @@ const AboutSection = () => {
                             />
                         </button>
                         {expandedSections[policy.title] && (
-                            <div className=" py-4 text-gray-600">
+                            <div className=" lg:py-4 text-gray-600">
                                 {policy.content}
                             </div>
                         )}

@@ -503,7 +503,8 @@ const CreateOrderSingleSection = () => {
         <div className="w-full mx-auto py-8">
 
             <div className="flex flex-col md:flex-row gap-8">
-                <div className="w-full md:w-1/2 space-y-6">
+
+                <div className="hidden lg:grid w-full md:w-1/2 space-y-6">
                     <div>
                         <h2 className="text-xl font-medium mb-4">Thông tin khách hàng</h2>
                         <div className="mb-4 ml-5">
@@ -732,28 +733,32 @@ const CreateOrderSingleSection = () => {
                         </button>
                     </div>
                 </div>
-                <div className="w-full md:w-1/2 space-y-6">
+
+
+                <div className="w-full lg:w-1/2 space-y-6">
                     <div>
                         <h2 className="text-xl font-medium mb-4">Thông tin sản phẩm</h2>
-
-                        {products?.length > 0 && (
-                            <select
-                                defaultValue={selectedProduct}
-                                onChange={(e) => setSelectedProduct(e.target.value)}
-                                className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 my-4"
+                        <div className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full
+                         my-4">
+                            <Select
+                                value={selectedProduct}
+                                onValueChange={setSelectedProduct}
+        
                             >
-                                <option value="Chon san pham" disabled>
-                                    Chọn sản phẩm
-                                </option>
-                                {products?.map((item: any, index: any) => {
-                                    return (
-                                        <option key={index} value={item?._id}>
+                                <SelectTrigger >
+                                    {selectedProduct === "Chon san pham" ? "Chọn sản phẩm" : ""}
+                                    <SelectValue placeholder="Chọn sản phẩm" />
+                                </SelectTrigger>
+
+                                <SelectContent>
+                                    {products?.map((item: any, index: any) => (
+                                        <SelectItem key={index} value={String(item?._id)}>
                                             {item?.name}
-                                        </option>
-                                    );
-                                })}
-                            </select>
-                        )}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </div>
 
                         {/* <div
                         className="w-full h-full"
@@ -846,57 +851,287 @@ const CreateOrderSingleSection = () => {
                                 </div>
 
                             </div>
-
-
-                            <div className="border-t pt-4 space-y-2">
-                                <div className="flex justify-between">
-                                    <span>Giá sản phẩm</span>
-                                    <span>{selectedProduct &&
-                                        HELPER.formatVND(
-                                            products.find(
-                                                (pro: any) =>
-                                                    pro._id.toString() === selectedProduct
-                                            )?.price
-                                        )}</span>
-                                </div>
-                                <div className="flex justify-between">
-                                    <span>Phí vận chuyển</span>
-                                    <span>{HELPER.formatVND("30000")}</span>
-                                </div>
-                                <div className="flex justify-between font-medium">
-                                    <span>Tạm tính</span>
-                                    <span>{selectedProduct &&
-                                        HELPER.calculateTotal(
-                                            products.find(
-                                                (pro: any) =>
-                                                    pro._id.toString() === selectedProduct
-                                            )?.price, "30000", "0"
-                                        )}</span>
-                                </div>
-                                <div className="flex justify-between items-center pt-2">
-                                    <span>Khuyến mãi</span>
-                                    <div className="flex gap-2">
-                                        <input
-                                            type="text"
-                                            placeholder="Nhập mã khuyến mãi"
-                                            className="border border-gray-300 rounded p-2 text-sm"
-                                            value={promoCode}
-                                            onChange={(e) => setPromoCode(e.target.value)}
-                                        />
-                                    </div>
-                                </div>
-                                <div className="flex justify-between font-bold text-xl pt-4">
-                                    <span>Tổng</span>
-                                    <span>{selectedProduct &&
-                                        HELPER.calculateTotal(
-                                            products.find(
-                                                (pro: any) =>
-                                                    pro._id.toString() === selectedProduct
-                                            )?.price, "30000", "0"
-                                        )}</span>
+                        </>
+                    )}
+                    <div className=" lg:hidden w-full md:w-1/2 space-y-6">
+                        <div>
+                            <h2 className="text-xl font-medium mb-4">Thông tin khách hàng</h2>
+                            <div className="mb-4 ml-5">
+                                <Label htmlFor="name" className="text-gray-600 ">Họ và tên:</Label>
+                                <div className="w-full">
+                                    <Input
+                                        id="name"
+                                        type="text"
+                                        name="name"
+                                        value={formData.name}
+                                        onChange={handleInputChange}
+                                        className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                                    />
                                 </div>
                             </div>
-                        </>
+                            <div className="mb-4 ml-5">
+                                <Label htmlFor="email" className="text-gray-600">Email:</Label>
+                                <div className="w-full">
+                                    <Input
+                                        id="email"
+                                        type="email"
+                                        name="email"
+                                        value={formData.email}
+                                        disabled={true}
+                                        className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                                    />
+                                </div>
+                            </div>
+                            <div className="mb-4 ml-5">
+                                <Label htmlFor="phone" className="text-gray-600">Số điện thoại:</Label>
+                                <div className=" w-full">
+                                    <Input
+                                        type="phone"
+                                        name="phone"
+                                        value={formData.phone}
+                                        onChange={handleInputChange}
+                                        className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h2 className="text-xl font-medium mb-4">Địa chỉ nhận hàng</h2>
+                            <div className="grid grid-cols-2 gap-4 mb-4 ml-5">
+                                <div>
+                                    <Label htmlFor="province" className="text-gray-600">Tỉnh/Thành phố:</Label>
+                                    <Select
+                                        value={String(formData.province)}
+                                        onValueChange={handleProvinceChange}
+                                        disabled={loading}
+                                    >
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Chọn tỉnh/thành phố" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {provinces.map((province) => (
+                                                <SelectItem key={province.code} value={String(province.code)}>
+                                                    {province.name}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+                                <div>
+                                    <Label htmlFor="district" className="text-gray-600">Quận/Huyện:</Label>
+                                    <Select
+                                        value={String(formData.district)}
+                                        onValueChange={handleDistrictChange}
+                                        disabled={!formData.province || loading}
+                                    >
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Chọn quận/huyện" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {districts.map((district) => (
+                                                <SelectItem key={district.code} value={String(district.code)}>
+                                                    {district.name}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+                            </div>
+                            <div className="mb-4 ml-5">
+                                <Label htmlFor="ward" className="text-gray-600">Phường/Xã:</Label>
+                                <Select
+                                    value={String(formData.ward)}
+                                    onValueChange={handleWardChange}
+                                    disabled={!formData.district || loading}
+                                >
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Chọn phường/xã" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {wards.map((ward) => (
+                                            <SelectItem key={ward.code} value={String(ward.code)}>
+                                                {ward.name}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                            <div className="mb-4 ml-5">
+                                <Label htmlFor="address" className="text-gray-600">Số nhà, tên đường:</Label>
+                                <Input
+                                    id="address"
+                                    name="address"
+                                    placeholder="Ví dụ: 123 Đường ABC"
+                                    value={formData.address}
+                                    onChange={handleInputChange}
+                                />
+                            </div>
+                        </div>
+                        {selectedProduct !== "Chon san pham" && (
+                            <>
+                                <div>
+                                    <h2 className="text-xl font-medium mb-4">Tùy chọn thanh toán</h2>
+                                    <div className="border border-gray-300 rounded divide-y ml-5">
+                                        <div onClick={() => setSelectedPayment("cash")} className=" cursor-pointer p-4 flex items-center">
+                                            <input
+                                                type="radio"
+                                                id="cod"
+                                                name="payment"
+                                                className="mr-2 w-4 h-4 accent-yellow-500"
+                                                defaultChecked
+                                            />
+                                            <label htmlFor="cod" className="ml-2">
+                                                Thanh toán khi nhận hàng
+                                            </label>
+                                        </div>
+                                        <div onClick={() => setSelectedPayment("bank")} className=" cursor-pointer p-4 items-center">
+                                            <div className="flex items-center">
+                                                <input
+                                                    type="radio"
+                                                    id="bank"
+                                                    name="payment"
+                                                    className="mr-2 w-4 h-4"
+                                                />
+                                                <label htmlFor="bank" className="ml-2">
+                                                    Thanh toán qua chuyển khoản ngân hàng
+                                                </label>
+                                            </div>
+
+                                            {selectedPayment === "bank" && (
+                                                <div className="w-full flex flex-row justify-center items-center gap-4 mt-4">
+                                                    <Image
+                                                        src="https://docs.lightburnsoftware.com/legacy/img/QRCode/ExampleCode.png"
+                                                        alt="QR code"
+                                                        width={100}
+                                                        height={100}
+                                                    />
+                                                    <div className="flex flex-col gap-1">
+                                                        <strong>NGUYEN VAN A</strong>
+                                                        <span>ABC BANK</span>
+                                                        <span>11223344556677</span>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div onClick={() => setSelectedPayment("momo")} className=" cursor-pointer p-4 flex items-center">
+                                            <input
+                                                type="radio"
+                                                id="momo"
+                                                name="payment"
+                                                className="mr-2 w-4 h-4"
+                                            />
+                                            <label htmlFor="momo" className="ml-2">
+                                                Thanh toán qua MOMO
+                                            </label>
+                                        </div>
+                                        <div className="p-4 flex items-center">
+                                            <input
+                                                type="radio"
+                                                id="vnpay"
+                                                name="payment"
+                                                className="mr-2 w-4 h-4"
+                                            />
+                                            <label htmlFor="vnpay" className="ml-2">
+                                                Thanh toán qua VNPay
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <h2 className="text-sm font-medium mb-2">
+                                        Thêm ghi chú cho đơn hàng
+                                    </h2>
+                                    <textarea
+                                        placeholder="Ghi chú về đơn hàng (Nếu có)"
+                                        className="w-full p-3 border border-gray-300 rounded h-24 ml-5 mx-10"
+                                    ></textarea>
+                                </div>
+                            </>
+                        )}
+                        <p className="text-sm text-gray-600">
+                            Bằng cách tiến hành mua hàng, bạn đã đồng ý với các điều khoản và
+                            chính sách của chúng tôi.
+                        </p>
+
+                        <div className="flex flex-row justify-between items-center mt-6">
+                            <Link
+                                href={`${ROUTES.HOME}`}
+                                className="flex items-center text-gray-600"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-4 w-4 mr-1"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M15 19l-7-7 7-7"
+                                    />
+                                </svg>
+                                Quay lại Giỏ hàng
+                            </Link>
+
+                            <button onClick={() => handleSubmit()} className="w-1/2 py-4 bg-yellow-400 hover:bg-yellow-500 text-center rounded-md font-medium transition">
+                                Đặt hàng
+                            </button>
+                        </div>
+                    </div>
+
+                    {selectedProduct !== "Chon san pham" && (
+                        <div className="border-t pt-4 space-y-2">
+                            <div className="flex justify-between">
+                                <span>Giá sản phẩm</span>
+                                <span>{selectedProduct &&
+                                    HELPER.formatVND(
+                                        products.find(
+                                            (pro: any) =>
+                                                pro._id.toString() === selectedProduct
+                                        )?.price
+                                    )}</span>
+                            </div>
+                            <div className="flex justify-between">
+                                <span>Phí vận chuyển</span>
+                                <span>{HELPER.formatVND("30000")}</span>
+                            </div>
+                            <div className="flex justify-between font-medium">
+                                <span>Tạm tính</span>
+                                <span>{selectedProduct &&
+                                    HELPER.calculateTotal(
+                                        products.find(
+                                            (pro: any) =>
+                                                pro._id.toString() === selectedProduct
+                                        )?.price, "30000", "0"
+                                    )}</span>
+                            </div>
+                            <div className="flex justify-between items-center pt-2">
+                                <span>Khuyến mãi</span>
+                                <div className="flex gap-2">
+                                    <input
+                                        type="text"
+                                        placeholder="Nhập mã khuyến mãi"
+                                        className="border border-gray-300 rounded p-2 text-sm"
+                                        value={promoCode}
+                                        onChange={(e) => setPromoCode(e.target.value)}
+                                    />
+                                </div>
+                            </div>
+                            <div className="flex justify-between font-bold text-xl pt-4">
+                                <span>Tổng</span>
+                                <span>{selectedProduct &&
+                                    HELPER.calculateTotal(
+                                        products.find(
+                                            (pro: any) =>
+                                                pro._id.toString() === selectedProduct
+                                        )?.price, "30000", "0"
+                                    )}</span>
+                            </div>
+                        </div>
                     )}
                 </div>
             </div>
