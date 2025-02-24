@@ -62,8 +62,8 @@ export default function BlogClient() {
         <span>IN ẢNH TRỰC TUYẾN - In ảnh nhanh chóng, tiện lợi</span>
       </div>
       <Header />
-      <div className="container pb-20 pt-2">
-        <div className="px-4 py-4 pb-10 lg:px-0">
+      <div className="container px-5 lg:px-8 pb-10 lg:pb-20 pt-2">
+        <div className="pt-2 pb-4 lg:pb-0 lg:px-0">
           <nav className="flex items-center gap-2 text-sm text-gray-600 mb-6">
             <Link
               href={`${ROUTES.HOME}`}
@@ -80,7 +80,7 @@ export default function BlogClient() {
             </Link>
           </nav>
           <BannerSlider />
-          <h1 className="text-3xl font-bold text-navy-900 py-8">
+          <h1 className="text-2xl lg:text-3xl font-bold text-navy-900 py-8">
             BÀI VIẾT MỚI NHẤT
           </h1>
           <Card
@@ -115,7 +115,7 @@ export default function BlogClient() {
                   priority
                 />
               </div>
-              <div className="p-4 md:p-6 flex flex-col ">
+              <div className="p-4 md:p-6 flex flex-col">
                 <div>
                   <h2 className="text-xl font-semibold mb-2">
                     <a className="text-gray-800 hover:text-gray-600">
@@ -151,7 +151,7 @@ export default function BlogClient() {
               />
             ))}
           </div>
-          <h1 className="text-3xl font-bold text-navy-900 py-8">
+          <h1 className="text-2xl lg:text-3xl font-bold text-navy-900 py-8">
             TẤT CẢ BÀI VIẾT
           </h1>
           {isLoading ? (
@@ -161,16 +161,18 @@ export default function BlogClient() {
           ) : (
             <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-x-6 lg:gap-y-2">
               {blogs?.map((blog: any, index: any) => (
-                <GlobalComponent.BlogCard
-                  key={index}
-                  id={blog?._id}
-                  image={blog?.thumbnail}
-                  title={blog?.title}
-                  excerpt={blog?.excerpt}
-                  date={HELPER.formatDate(blog?.created_at)}
-                  author={blog?.author}
-                  isMain={true}
-                />
+                <div key={index} className="mb-6">
+                  <GlobalComponent.BlogCard
+                    key={index}
+                    id={blog?._id}
+                    image={blog?.thumbnail}
+                    title={blog?.title}
+                    excerpt={blog?.excerpt}
+                    date={HELPER.formatDate(blog?.created_at)}
+                    author={blog?.author}
+                    isMain={true}
+                  />
+                </div>
               ))}
             </div>
           )}

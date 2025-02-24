@@ -24,6 +24,14 @@ import {
 import { toast } from "@/hooks/use-toast";
 import { OrderService } from "@/services/order";
 import { UploadService } from "@/services/upload";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { DialogHeader } from "@/components/ui/dialog";
 
 interface ColorOption {
   id: string;
@@ -101,6 +109,14 @@ export interface CustomerAccount {
 }
 
 const CreateOrderSingleSection = () => {
+  // ADDRESS
+  const [openProvinces, setOpenProvinces] = useState(false);
+  const [openDistrict, setOpenDistrict] = useState(false);
+  const [openWard, setOpenWard] = useState(false);
+  const [province, setProvince] = useState("");
+  const [district, setDistrict] = useState("");
+  const [ward, setWard] = useState("");
+
   const [selectedPayment, setSelectedPayment] = React.useState<string>("cash");
   const [provinces, setProvinces] = React.useState<Province[]>([]);
   const [districts, setDistricts] = React.useState<District[]>([]);
@@ -395,17 +411,26 @@ const CreateOrderSingleSection = () => {
       const selectedProvince = provinces.find(
         (p) => p.code === formData.province
       );
+
       if (selectedProvince) {
         setDistricts(selectedProvince.districts);
         const selectedDistrict = selectedProvince.districts.find(
           (d) => d.code === formData.district
         );
+        setProvince(selectedProvince.name);
         if (selectedDistrict) {
+          setDistrict(selectedDistrict.name);
           setWards(selectedDistrict.wards);
+          const selectedWard = selectedDistrict.wards.find(
+            (w) => w.code === Number(formData.ward)
+          );
+          if (selectedWard) {
+            setWard(selectedWard.name);
+          }
         }
       }
     }
-  }, [formData.province, formData.district, provinces]);
+  }, [formData.province, formData.district, provinces, formData.ward]);
 
   useEffect(() => {
     // if (emailCookie) {
@@ -465,6 +490,8 @@ const CreateOrderSingleSection = () => {
         district: 0,
         ward: 0,
       }));
+      setProvince(selectedProvince.name);
+      setOpenProvinces(false);
     } else {
       setDistricts([]);
       setWards([]);
@@ -482,16 +509,30 @@ const CreateOrderSingleSection = () => {
         district: Number(districtCode),
         ward: 0,
       }));
+      setDistrict(selectedDistrict.name);
+      setOpenDistrict(false);
     } else {
       setWards([]);
     }
   };
 
   const handleWardChange = (wardCode: String) => {
-    setFormData((prev) => ({
-      ...prev,
-      ward: Number(wardCode),
-    }));
+    // setFormData((prev) => ({
+    //   ...prev,
+    //   ward: Number(wardCode),
+    // }));
+
+    const selectedWard = wards.find((w) => w.code === Number(wardCode));
+
+    if (selectedWard) {
+      setFormData((prev) => ({
+        ...prev,
+        ward: Number(wardCode),
+      }));
+
+      setWard(selectedWard.name);
+      setOpenWard(false);
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -952,35 +993,91 @@ const CreateOrderSingleSection = () => {
                 Địa chỉ nhận hàng
               </h2>
               <div className="grid grid-cols-1 gap-4 mb-4">
+                {/* <div>
+                  <Label htmlFor="province" className="text-gray-600">
+                    Tỉnh/Thành phố:
+                  </Label>
+                  <Dialog>
+                    <DialogTrigger>
+                      <Input
+                        // type="phone"
+                        // name="phone"
+                        value={String(formData.province)}
+                        onChange={handleInputChange}
+                        className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                      />
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Are you absolutely sure?</DialogTitle>
+                        <DialogDescription>
+                          <Select
+                            value={String(formData.province)}
+                            onValueChange={handleProvinceChange}
+                            disabled={loading}
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder="Chọn tỉnh/thành phố" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {provinces.map((province) => (
+                                <SelectItem
+                                  key={province.code}
+                                  value={String(province.code)}
+                                >
+                                  {province.name}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </DialogDescription>
+                      </DialogHeader>
+                    </DialogContent>
+                  </Dialog>
+                </div> */}
                 <div>
                   <Label htmlFor="province" className="text-gray-600">
                     Tỉnh/Thành phố:
                   </Label>
-                  <Select
-                    value={String(formData.province)}
-                    onValueChange={handleProvinceChange}
-                    disabled={loading}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Chọn tỉnh/thành phố" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {provinces.map((province) => (
-                        <SelectItem
-                          key={province.code}
-                          value={String(province.code)}
-                        >
-                          {province.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <Dialog open={openProvinces} onOpenChange={setOpenProvinces}>
+                    <DialogTrigger asChild>
+                      <Input
+                        readOnly
+                        value={
+                          // String(formData.province)
+                          province || "Vui lòng chọn thành phố"
+                        }
+                        className="text-left w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent cursor-pointer"
+                        onClick={() => setOpenProvinces(true)}
+                      />
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Vui lòng chọn thành phố</DialogTitle>
+                        <DialogDescription className="max-h-96 overflow-y-auto">
+                          <div className="my-3">
+                            {provinces.map((province) => (
+                              <div
+                                key={province.code}
+                                className="p-2"
+                                onClick={() => {
+                                  handleProvinceChange(String(province.code));
+                                }}
+                              >
+                                {province.name}
+                              </div>
+                            ))}
+                          </div>
+                        </DialogDescription>
+                      </DialogHeader>
+                    </DialogContent>
+                  </Dialog>
                 </div>
                 <div>
                   <Label htmlFor="district" className="text-gray-600">
                     Quận/Huyện:
                   </Label>
-                  <Select
+                  {/* <Select
                     value={String(formData.district)}
                     onValueChange={handleDistrictChange}
                     disabled={!formData.province || loading}
@@ -998,14 +1095,47 @@ const CreateOrderSingleSection = () => {
                         </SelectItem>
                       ))}
                     </SelectContent>
-                  </Select>
+                  </Select> */}
+                  <Dialog open={openDistrict} onOpenChange={setOpenDistrict}>
+                    <DialogTrigger asChild>
+                      <Input
+                        readOnly
+                        value={
+                          // String(formData.district)
+                          district || "Vui lòng chọn quận/huyện"
+                        }
+                        className="text-left w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent cursor-pointer"
+                        onClick={() => setOpenDistrict(true)}
+                      />
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Vui lòng chọn quận/huyện</DialogTitle>
+                        <DialogDescription className="max-h-96 overflow-y-auto">
+                          <div className="my-3">
+                            {districts.map((district) => (
+                              <div
+                                key={district.code}
+                                className="p-2"
+                                onClick={() => {
+                                  handleDistrictChange(String(district.code));
+                                }}
+                              >
+                                {district.name}
+                              </div>
+                            ))}
+                          </div>
+                        </DialogDescription>
+                      </DialogHeader>
+                    </DialogContent>
+                  </Dialog>
                 </div>
               </div>
               <div className="mb-4">
                 <Label htmlFor="ward" className="text-gray-600">
                   Phường/Xã:
                 </Label>
-                <Select
+                {/* <Select
                   value={String(formData.ward)}
                   onValueChange={handleWardChange}
                   disabled={!formData.district || loading}
@@ -1020,7 +1150,40 @@ const CreateOrderSingleSection = () => {
                       </SelectItem>
                     ))}
                   </SelectContent>
-                </Select>
+                </Select> */}
+                <Dialog open={openWard} onOpenChange={setOpenWard}>
+                  <DialogTrigger asChild>
+                    <Input
+                      readOnly
+                      value={
+                        // String(formData.ward)
+                        ward || "Vui lòng chọn phường/xã"
+                      }
+                      className="text-left w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent cursor-pointer"
+                      onClick={() => setOpenWard(true)}
+                    />
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Vui lòng chọn phường/xã</DialogTitle>
+                      <DialogDescription className="max-h-96 overflow-y-auto">
+                        <div className="my-3">
+                          {wards.map((ward) => (
+                            <div
+                              key={ward.code}
+                              className="p-2"
+                              onClick={() => {
+                                handleWardChange(String(ward.code));
+                              }}
+                            >
+                              {ward.name}
+                            </div>
+                          ))}
+                        </div>
+                      </DialogDescription>
+                    </DialogHeader>
+                  </DialogContent>
+                </Dialog>
               </div>
               <div className="mb-4">
                 <Label htmlFor="address" className="text-gray-600">

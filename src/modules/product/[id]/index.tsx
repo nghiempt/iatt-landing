@@ -63,7 +63,7 @@ export default function ProductDetailClient() {
       id: 1,
       rating: 5,
       author: "Ngọc Quí",
-      date: "03/Feb/2023",
+      date: "03/03/2023",
       content:
         "Tôi rất hài lòng về sản phẩm và dịch vụ của bạn. Hy vọng chúng ta có nhiều cơ hội làm việc với nhau hơn. Sản phẩm tốt ngoài mong đợi, giá cả hợp lý lại giao hàng nhanh.",
       avatar:
@@ -73,7 +73,7 @@ export default function ProductDetailClient() {
       id: 2,
       rating: 4,
       author: "Ngọc Mai",
-      date: "02/Feb/2023",
+      date: "02/03/2023",
       content:
         "Tôi rất hài lòng về sản phẩm và dịch vụ của bạn. Hy vọng chúng ta có nhiều cơ hội làm việc với nhau hơn. Sản phẩm tốt ngoài mong đợi, giá cả hợp lý lại giao hàng nhanh.",
       avatar:
@@ -83,7 +83,7 @@ export default function ProductDetailClient() {
       id: 3,
       rating: 4,
       author: "Ngọc Mai",
-      date: "01/Feb/2023",
+      date: "01/03/2023",
       content:
         "Tôi rất hài lòng về sản phẩm và dịch vụ của bạn. Hy vọng chúng ta có nhiều cơ hội làm việc với nhau hơn. Sản phẩm tốt ngoài mong đợi, giá cả hợp lý lại giao hàng nhanh.",
       avatar:
@@ -93,7 +93,7 @@ export default function ProductDetailClient() {
       id: 4,
       rating: 5,
       author: "Ngọc Mai",
-      date: "01/Feb/2023",
+      date: "01/03/2023",
       content:
         "Tôi rất hài lòng về sản phẩm và dịch vụ của bạn. Hy vọng chúng ta có nhiều cơ hội làm việc với nhau hơn. Sản phẩm tốt ngoài mong đợi, giá cả hợp lý lại giao hàng nhanh.",
       avatar:
@@ -319,7 +319,7 @@ export default function ProductDetailClient() {
                           </button>
                           <input
                             type="number"
-                            className="w-14 grid place-items-center"
+                            className="w-14 text-center grid place-items-center"
                             value={quantity}
                             readOnly
                           />
@@ -395,7 +395,7 @@ export default function ProductDetailClient() {
               </div>
             </div>
             <div className="pt-4 pb-7 lg:pb-14 lg:pt-14 grid grid-cols-1 lg:grid-cols-12 gap-4">
-              <div className="hidden lg:flex flex-col col-span-5">
+              <div className="hidden lg:flex flex-col w-full col-span-5">
                 <div className="flex items-center gap-2 mb-4">
                   <h2 className="text-xl font-bold">Đánh giá</h2>
                   <span className="text-gray-500">(4)</span>

@@ -167,7 +167,7 @@ export default function OrderHistory() {
                       </div>
                     </div>
                     <div className="w-full h-[1px] bg-gray-300 mb-4"></div>
-                    <div className="flex items-start justify-between">
+                    <div className="flex flex-col lg:flex-row gap-5 lg:gap-0 items-start justify-between">
                       <div className="flex gap-4 justify-center items-center">
                         <div className="relative w-24 h-24">
                           <Image
@@ -186,7 +186,7 @@ export default function OrderHistory() {
                               {order?.product_category === "Album" &&
                                 "Photobook"}
                             </p>
-                            <h3 className="text-xl font-medium">
+                            <h3 className="text-sm lg:text-xl font-medium">
                               {order?.product_name}
                             </h3>
                             <p className="text-sm text-gray-500">
@@ -196,31 +196,33 @@ export default function OrderHistory() {
                         </div>
                       </div>
                       <div className="text-right space-y-2">
-                        <div className={`space-y-4`}>
+                        <div
+                          className={`flex flex-row lg:flex-col gap-20 space-y-0 lg:space-y-4`}
+                        >
                           <div
                             className={`${
                               order?.status === "completed"
-                                ? "bg-green-700 text-white text-sm lg:text-base"
+                                ? "bg-green-700 text-white text-sm lg:text-base px-2"
                                 : ""
                             }
                       ${
                         order?.status === "delivering"
-                          ? "bg-yellow-800 text-white text-sm lg:text-base"
+                          ? "bg-yellow-800 text-white text-sm lg:text-base px-2"
                           : ""
                       }
                       ${
                         order?.status === "waiting"
-                          ? "bg-blue-700 text-white text-sm lg:text-base"
+                          ? "bg-blue-700 text-white text-sm lg:text-base px-2"
                           : ""
                       }
                       ${
                         order?.status === "pending"
-                          ? "bg-orange-600 text-white text-sm lg:text-base"
+                          ? "bg-orange-600 text-white text-sm lg:text-base px-2"
                           : ""
                       }
                       ${
                         order?.status === "paid pending"
-                          ? "bg-yellow-400 text-white text-sm lg:text-base"
+                          ? "bg-yellow-400 text-white text-sm lg:text-base px-2"
                           : ""
                       }
                       ${
@@ -236,10 +238,12 @@ export default function OrderHistory() {
                               "Đang chuẩn bị đơn hàng"}
                             {order?.status === "waiting" && "Đợi phản hồi"}
                           </div>
-                          <p className="text-md lg:text-xl font-medium">
-                            Tổng đơn: <br />
-                            {HELPER.formatVND(order?.total)}
-                          </p>
+                          <div>
+                            <p className="text-md lg:text-xl font-medium">
+                              Tổng đơn: <br />
+                              {HELPER.formatVND(order?.total)}
+                            </p>
+                          </div>
                         </div>
                       </div>
                     </div>

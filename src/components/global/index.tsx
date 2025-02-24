@@ -26,7 +26,7 @@ const BlogCard = ({
       )}?b=${HELPER.convertSpacesToDash(title)}`)
     }
     className={`cursor-pointer overflow-hidden ${
-      isMain ? "mb-4" : "flex items-center gap-4 mb-4"
+      isMain ? "mb-0" : "flex items-center gap-4 mb-4"
     }`}
   >
     <div className={`${isMain ? "w-full" : "w-24 h-28 flex-shrink-0"}`}>
