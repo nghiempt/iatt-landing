@@ -1,17 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import React, { useEffect, useState } from "react";
-import Header from "@/layout/header";
-import Footer from "@/layout/footer";
+import React from "react";
 import Link from "next/link";
-import { Bell, ChevronRight, Clock, User } from "lucide-react";
+import { Bell, Clock, User } from "lucide-react";
 import { ROUTES } from "@/utils/route";
 import Image from "next/image";
-import EditProfileModal from "./edit-profile-modal";
-import { AccountService } from "@/services/account";
-import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
 
 export interface Province {
   code: string;
@@ -102,41 +96,65 @@ export default function Sidebar({ customerAccount }: SidebarProps) {
         />
         <h2 className="text-lg font-medium">{customerAccount.name}</h2>
       </div>
-
       <nav className="space-y-2">
-        <a href={`${ROUTES.ACCOUNT}?tab=profile`} className={`${((tab === "profile") || (tab === "address") || (tab === "password")) 
-          ? "text-[rgb(var(--primary-rgb))] font-semibold bg-gray-100" 
-          : "text-gray-600"
-          } flex items-center space-x-3 px-4 py-2 hover:bg-gray-50 rounded-lg `}>
+        <a
+          href={`${ROUTES.ACCOUNT}?tab=profile`}
+          className={`${
+            tab === "profile" || tab === "address" || tab === "password"
+              ? "text-[rgb(var(--primary-rgb))] font-semibold bg-gray-100"
+              : "text-gray-600"
+          } flex items-center space-x-3 px-4 py-2 hover:bg-gray-50 rounded-lg `}
+        >
           <User className="w-5 h-5" />
           <span>Thông tin tài khoản</span>
         </a>
         <div className="pl-8 flex flex-col space-y-2">
-
-          <Link href={`${ROUTES.ACCOUNT}?tab=profile`}
-            className={`${checkTabEnable('profile', tab)
-              ? "text-[rgb(var(--primary-rgb))] font-semibold"
-              : "text-gray-600"
-              }block py-2 `}>Hồ sơ cá nhân</Link>
-
-          <Link href={`${ROUTES.ACCOUNT}?tab=address`} className={`${checkTabEnable('address', tab)
-            ? "text-[rgb(var(--primary-rgb))] font-semibold"
-            : "text-gray-600"
-            }block py-2  `}>Địa chỉ</Link>
-
-          <Link href={`${ROUTES.ACCOUNT}?tab=password`} className={`${checkTabEnable('password', tab)
-            ? "text-[rgb(var(--primary-rgb))] font-semibold"
-            : "text-gray-600"
-            } block py-2  `}>Mật khẩu</Link>
+          <Link
+            href={`${ROUTES.ACCOUNT}?tab=profile`}
+            className={`${
+              checkTabEnable("profile", tab)
+                ? "text-[rgb(var(--primary-rgb))] font-semibold"
+                : "text-gray-600"
+            }block py-2 `}
+          >
+            Hồ sơ cá nhân
+          </Link>
+          <Link
+            href={`${ROUTES.ACCOUNT}?tab=address`}
+            className={`${
+              checkTabEnable("address", tab)
+                ? "text-[rgb(var(--primary-rgb))] font-semibold"
+                : "text-gray-600"
+            }block py-2  `}
+          >
+            Địa chỉ
+          </Link>
+          <Link
+            href={`${ROUTES.ACCOUNT}?tab=password`}
+            className={`${
+              checkTabEnable("password", tab)
+                ? "text-[rgb(var(--primary-rgb))] font-semibold"
+                : "text-gray-600"
+            } block py-2  `}
+          >
+            Mật khẩu
+          </Link>
         </div>
-        <a href="#" className="flex items-center space-x-3 px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-lg">
+        <a
+          href="#"
+          className="flex items-center space-x-3 px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-lg"
+        >
           <Bell className="w-5 h-5" />
           <span>Thông báo</span>
         </a>
-        <a href={`${ROUTES.ACCOUNT}?tab=history`} className={`${"history" === tab
-          ? "text-[rgb(var(--primary-rgb))] font-semibold bg-gray-100" 
-          : "text-gray-600" 
-          } flex items-center space-x-3 px-4 py-2 hover:bg-gray-50 rounded-lg`}>
+        <a
+          href={`${ROUTES.ACCOUNT}?tab=history`}
+          className={`${
+            "history" === tab
+              ? "text-[rgb(var(--primary-rgb))] font-semibold bg-gray-100"
+              : "text-gray-600"
+          } flex items-center space-x-3 px-4 py-2 hover:bg-gray-50 rounded-lg`}
+        >
           <Clock className="w-5 h-5" />
           <span>Lịch sử mua hàng</span>
         </a>

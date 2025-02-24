@@ -79,31 +79,31 @@ export default function BlogClient() {
               Tin tức
             </Link>
           </nav>
-
           <BannerSlider />
-
           <h1 className="text-3xl font-bold text-navy-900 py-8">
             BÀI VIẾT MỚI NHẤT
           </h1>
-
           <Card
             onClick={() =>
-            (window.location.href = `${ROUTES.BLOG}/${HELPER.getLastFourChars(
-              featuredPost?._id
-            )}?b=${HELPER.convertSpacesToDash(featuredPost?.title)}`)
+              (window.location.href = `${ROUTES.BLOG}/${HELPER.getLastFourChars(
+                featuredPost?._id
+              )}?b=${HELPER.convertSpacesToDash(featuredPost?.title)}`)
             }
             className="cursor-pointer overflow-hidden mb-8"
-          > <div className="grid lg:hidden"><GlobalComponent.BlogCard
-            key={1}
-            id={featuredPost?._id}
-            image={featuredPost?.thumbnail}
-            title={featuredPost?.title}
-            excerpt={featuredPost?.excerpt}
-            date={HELPER.formatDate(featuredPost?.created_at)}
-            author={featuredPost?.author}
-            isMain={true}
-          /></div>
-
+          >
+            {" "}
+            <div className="grid lg:hidden">
+              <GlobalComponent.BlogCard
+                key={1}
+                id={featuredPost?._id}
+                image={featuredPost?.thumbnail}
+                title={featuredPost?.title}
+                excerpt={featuredPost?.excerpt}
+                date={HELPER.formatDate(featuredPost?.created_at)}
+                author={featuredPost?.author}
+                isMain={true}
+              />
+            </div>
             <div className="hidden lg:grid grid-cols-1 md:grid-cols-2 gap-6 bg-white rounded-lg overflow-hidden shadow-sm">
               <div className="relative h-auto">
                 <Image
@@ -137,7 +137,6 @@ export default function BlogClient() {
               </div>
             </div>
           </Card>
-
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {regularPosts.map((blog: any, index: any) => (
               <GlobalComponent.BlogCard
@@ -155,7 +154,6 @@ export default function BlogClient() {
           <h1 className="text-3xl font-bold text-navy-900 py-8">
             TẤT CẢ BÀI VIẾT
           </h1>
-
           {isLoading ? (
             <div className="w-full flex justify-center items-center py-40">
               <Loader className="animate-spin" size={32} />

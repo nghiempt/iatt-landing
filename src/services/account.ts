@@ -1,5 +1,4 @@
 import { API } from "@/utils/api";
-import Cookies from "js-cookie";
 
 const getAll = async () => {
   try {

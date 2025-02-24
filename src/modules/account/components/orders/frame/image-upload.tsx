@@ -97,7 +97,8 @@ const ImageUpload = ({
           onDragOver={handleDragOver}
           onDrop={handleDrop}
           className="border-2 border-dashed border-gray-300 p-4 flex flex-col items-center justify-center h-64 mb-4"
-          style={getContainerStyle()} >
+          style={getContainerStyle()}
+        >
           <div className="text-gray-500 flex flex-col items-center">
             <div className="flex flex-row justify-center items-center gap-2">
               <svg
@@ -124,26 +125,28 @@ const ImageUpload = ({
           <div
             className={cn(
               "relative w-full overflow-hidden rounded-md",
-              `border-8 ${selectedColor === "white"
-                ? "border-gray-200"
-                : selectedColor === "black"
+              `border-8 ${
+                selectedColor === "white"
+                  ? "border-gray-200"
+                  : selectedColor === "black"
                   ? "border-black"
                   : selectedColor === "gold"
-                    ? "border-yellow-400"
-                    : selectedColor === "silver"
-                      ? "border-gray-200"
-                      : selectedColor === "wood"
-                        ? "border-yellow-950"
-                        : "border-gray-200"
+                  ? "border-yellow-400"
+                  : selectedColor === "silver"
+                  ? "border-gray-200"
+                  : selectedColor === "wood"
+                  ? "border-yellow-950"
+                  : "border-gray-200"
               }`
             )}
           >
             <div
               style={{
-                paddingBottom: `${(sizeMap[selectedSize as keyof typeof sizeMap].height /
-                  sizeMap[selectedSize as keyof typeof sizeMap].width) *
+                paddingBottom: `${
+                  (sizeMap[selectedSize as keyof typeof sizeMap].height /
+                    sizeMap[selectedSize as keyof typeof sizeMap].width) *
                   100
-                  }%`,
+                }%`,
               }}
             />
             <Image

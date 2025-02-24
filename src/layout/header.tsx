@@ -3,8 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import {
-  CircleDollarSign,
-  CircleUserRound,
+  CircleUser,
   Dot,
   Download,
   FolderPlus,
@@ -12,10 +11,10 @@ import {
   History,
   House,
   Info,
-  Loader,
+  KeyRound,
   LogOut,
+  MapPinHouse,
   NotepadText,
-  PhoneCall,
   Search,
   UserRound,
 } from "lucide-react";
@@ -98,9 +97,9 @@ export default function Header() {
   };
   return (
     <header className="relative flex flex-col w-full bg-white shadow-md">
-      <div className="container py-4 px-2 lg:px-8">
+      <div className="container py-2 lg:py-4 px-2 lg:px-8">
         <div className="flex items-center justify-between">
-          <div className="lg:hidden flex flex-col justify-center">
+          <div className="lg:hidden flex flex-col justify-center ml-1">
             <button
               className="text-gray-800 w-10 h-10 relative focus:outline-none"
               onClick={() => setOpen(!open)}
@@ -108,47 +107,54 @@ export default function Header() {
               <div className="block w-5 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
                 <span
                   aria-hidden="true"
-                  className={`block absolute h-0.5 w-5 bg-current transform transition duration-300 ease-in-out ${open ? "rotate-45 translate-y-0" : "-translate-y-1.5"
-                    }`}
+                  className={`block absolute h-0.5 w-5 bg-current transform transition duration-300 ease-in-out ${
+                    open ? "rotate-45 translate-y-0" : "-translate-y-1.5"
+                  }`}
                 ></span>
                 <span
                   aria-hidden="true"
-                  className={`block absolute h-0.5 w-5 bg-current transform transition duration-300 ease-in-out ${open ? "opacity-0" : "opacity-100"
-                    }`}
+                  className={`block absolute h-0.5 w-5 bg-current transform transition duration-300 ease-in-out ${
+                    open ? "opacity-0" : "opacity-100"
+                  }`}
                 ></span>
                 <span
                   aria-hidden="true"
-                  className={`block absolute h-0.5 w-5 bg-current transform transition duration-300 ease-in-out ${open ? "-rotate-45 translate-y-0" : "translate-y-1.5"
-                    }`}
+                  className={`block absolute h-0.5 w-5 bg-current transform transition duration-300 ease-in-out ${
+                    open ? "-rotate-45 translate-y-0" : "translate-y-1.5"
+                  }`}
                 ></span>
               </div>
             </button>
           </div>
-          <Link href="/" className="flex items-center space-x-2">
+          <Link href={ROUTES.HOME} className="flex items-center space-x-2">
             <Image
               src={IMAGES.LOGO}
               alt="In Ảnh Trực Tuyến"
-              width={40}
-              height={40}
+              width={1000}
+              height={1000}
+              className="w-8 h-8 lg:w-10 lg:h-10"
             />
-            <span className="text-xl font-bold">IN ẢNH TRỰC TUYẾN</span>
+            <span className="text-lg lg:text-xl font-bold">
+              IN ẢNH TRỰC TUYẾN
+            </span>
           </Link>
-          {logined ?
-            (<div className="flex lg:hidden">
+          {logined ? (
+            <div className="flex lg:hidden">
               <Image
                 src={customerAccount?.avatar || ""}
                 alt="avatar"
                 width={1000}
                 height={1000}
-                className="w-11 h-11 object-cover rounded-full cursor-pointer"
+                className="w-10 h-10 mr-3 object-cover rounded-full cursor-pointer"
               />
-            </div>) :
-            (<div className="flex lg:hidden items-center space-x-2">
+            </div>
+          ) : (
+            <div className="flex lg:hidden items-center pr-3">
               <Link href={`${ROUTES.LOGIN}`}>
-                <Button variant="ghost">Đăng nhập</Button>
+                <CircleUser size={25} />
               </Link>
-            </div>)
-          }
+            </div>
+          )}
           <div className="hidden lg:flex-1 max-w-xl mx-8">
             <div className="relative">
               <Input
@@ -295,11 +301,12 @@ export default function Header() {
           <ul className="flex items-center space-x-8">
             <li>
               <Link
-                href="/"
-                className={`${checkTabEnable("/", pathname)
-                  ? "text-[rgb(var(--primary-rgb))] font-semibold"
-                  : "text-black"
-                  } text-md font-medium hover:text-[rgb(var(--primary-rgb))]`}
+                href={ROUTES.HOME}
+                className={`${
+                  checkTabEnable("/", pathname)
+                    ? "text-[rgb(var(--primary-rgb))] font-semibold"
+                    : "text-black"
+                } text-md font-medium hover:text-[rgb(var(--primary-rgb))]`}
               >
                 TRANG CHỦ
               </Link>
@@ -307,10 +314,11 @@ export default function Header() {
             <li>
               <Link
                 href={`${ROUTES.ABOUT}`}
-                className={`${checkTabEnable(ROUTES.ABOUT, pathname)
-                  ? "text-[rgb(var(--primary-rgb))] font-semibold"
-                  : "text-black"
-                  } text-md font-medium flex justify-center items-center gap-1 hover:text-[rgb(var(--primary-rgb))]`}
+                className={`${
+                  checkTabEnable(ROUTES.ABOUT, pathname)
+                    ? "text-[rgb(var(--primary-rgb))] font-semibold"
+                    : "text-black"
+                } text-md font-medium flex justify-center items-center gap-1 hover:text-[rgb(var(--primary-rgb))]`}
               >
                 VỀ CHÚNG TÔI
                 {/* <ChevronDown size={16} /> */}
@@ -319,10 +327,11 @@ export default function Header() {
             <li>
               <Link
                 href={`${ROUTES.PLASTIC}?tag=Plastic`}
-                className={`${checkTabEnable(ROUTES.PLASTIC, pathname)
-                  ? "text-[rgb(var(--primary-rgb))] font-semibold"
-                  : "text-black"
-                  }text-md font-medium flex justify-center items-center gap-1 hover:text-[rgb(var(--primary-rgb))]`}
+                className={`${
+                  checkTabEnable(ROUTES.PLASTIC, pathname)
+                    ? "text-[rgb(var(--primary-rgb))] font-semibold"
+                    : "text-black"
+                }text-md font-medium flex justify-center items-center gap-1 hover:text-[rgb(var(--primary-rgb))]`}
               >
                 IN ẤN
                 {/* <ChevronDown size={16} /> */}
@@ -331,10 +340,11 @@ export default function Header() {
             <li>
               <Link
                 href={`${ROUTES.FRAME}?tag=Frame`}
-                className={`${checkTabEnable(ROUTES.FRAME, pathname)
-                  ? "text-[rgb(var(--primary-rgb))] font-semibold"
-                  : "text-black"
-                  }text-md font-medium flex justify-center items-center gap-1 hover:text-[rgb(var(--primary-rgb))]`}
+                className={`${
+                  checkTabEnable(ROUTES.FRAME, pathname)
+                    ? "text-[rgb(var(--primary-rgb))] font-semibold"
+                    : "text-black"
+                }text-md font-medium flex justify-center items-center gap-1 hover:text-[rgb(var(--primary-rgb))]`}
               >
                 KHUNG ẢNH
                 {/* <ChevronDown size={16} /> */}
@@ -343,10 +353,11 @@ export default function Header() {
             <li>
               <Link
                 href={`${ROUTES.ALBUM}?tag=Album`}
-                className={`${checkTabEnable(ROUTES.ALBUM, pathname)
-                  ? "text-[rgb(var(--primary-rgb))] font-semibold"
-                  : "text-black"
-                  }text-md font-medium flex justify-center items-center gap-1 hover:text-[rgb(var(--primary-rgb))]`}
+                className={`${
+                  checkTabEnable(ROUTES.ALBUM, pathname)
+                    ? "text-[rgb(var(--primary-rgb))] font-semibold"
+                    : "text-black"
+                }text-md font-medium flex justify-center items-center gap-1 hover:text-[rgb(var(--primary-rgb))]`}
               >
                 PHOTOBOOK
                 {/* <ChevronDown size={16} /> */}
@@ -354,7 +365,7 @@ export default function Header() {
             </li>
             <li>
               <Link
-                href="/"
+                href={ROUTES.HOME}
                 className="text-md font-medium flex justify-center items-center gap-1 hover:text-[rgb(var(--primary-rgb))]"
               >
                 BẢNG GIÁ
@@ -364,10 +375,11 @@ export default function Header() {
             <li>
               <Link
                 href={`${ROUTES.BLOG}`}
-                className={`${checkTabEnable(ROUTES.BLOG, pathname)
-                  ? "text-[rgb(var(--primary-rgb))] font-semibold"
-                  : "text-black"
-                  }text-md font-medium flex justify-center items-center gap-1 hover:text-[rgb(var(--primary-rgb))]`}
+                className={`${
+                  checkTabEnable(ROUTES.BLOG, pathname)
+                    ? "text-[rgb(var(--primary-rgb))] font-semibold"
+                    : "text-black"
+                }text-md font-medium flex justify-center items-center gap-1 hover:text-[rgb(var(--primary-rgb))]`}
               >
                 TIN TỨC
                 {/* <ChevronDown size={16} /> */}
@@ -377,7 +389,7 @@ export default function Header() {
           <ul className="hidden lg:flex items-center space-x-2">
             <li className="ml-auto">
               <Link
-                href="/"
+                href={ROUTES.HOME}
                 className="text-md font-medium flex justify-center items-center text-[rgb(var(--primary-rgb))]"
               >
                 <Dot size={36} /> Vị trí của hàng
@@ -385,7 +397,7 @@ export default function Header() {
             </li>
             <li>
               <Link
-                href="/"
+                href={ROUTES.HOME}
                 className="text-md font-medium flex justify-center items-center text-[rgb(var(--secondary-rgb))]"
               >
                 <Dot size={36} /> Yêu cầu xuất hóa đơn VAT
@@ -395,7 +407,7 @@ export default function Header() {
         </nav>
       )}
       {open && (
-        <div className="absolute mt-2 top-16 left-0 h-[1000px] w-full bg-white shadow-md z-20">
+        <div className="absolute mt-2 top-10 left-0 h-[1000px] w-full bg-white shadow-md z-20">
           <ul className="flex flex-col space-y-10 py-10 px-5">
             <li className="font-bold ">
               <a
@@ -414,6 +426,14 @@ export default function Header() {
               </a>
             </li>
             <li className="font-bold ">
+              <a
+                href={`${ROUTES.PRODUCT}`}
+                className="flex items-center justify-start gap-4 text-gray-700 hover:text-black"
+              >
+                <Gift size={18} /> Sản phẩm
+              </a>
+            </li>
+            {/* <li className="font-bold ">
               <a
                 href={`${ROUTES.PLASTIC}?tag=Plastic`}
                 className="flex items-center justify-start gap-4 text-gray-700 hover:text-black"
@@ -436,7 +456,7 @@ export default function Header() {
               >
                 <NotepadText size={18} /> Photobook
               </a>
-            </li>
+            </li> */}
             <li className="font-bold ">
               <a
                 href={`${ROUTES.BLOG}`}
@@ -461,7 +481,7 @@ export default function Header() {
                   href={`${ROUTES.ACCOUNT}?tab=address`}
                   className="flex items-center justify-start gap-4 text-gray-700 hover:text-black"
                 >
-                  <UserRound size={18} /> Địa chỉ
+                  <MapPinHouse size={18} /> Địa chỉ
                 </a>
               </li>
             )}
@@ -471,7 +491,7 @@ export default function Header() {
                   href={`${ROUTES.ACCOUNT}?tab=password`}
                   className="flex items-center justify-start gap-4 text-gray-700 hover:text-black"
                 >
-                  <UserRound size={18} /> Mật khẩu
+                  <KeyRound size={18} /> Mật khẩu
                 </a>
               </li>
             )}

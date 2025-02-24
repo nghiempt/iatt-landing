@@ -11,6 +11,8 @@ import {
   ChevronLeft,
   Loader,
   ChevronUp,
+  Minus,
+  Plus,
 } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -180,14 +182,14 @@ export default function ProductDetailClient() {
         <span>IN ẢNH TRỰC TUYẾN - In ảnh nhanh chóng, tiện lợi</span>
       </div>
       <Header />
-      <div className="container pb-20 pt-2">
+      <div className="container px-5 lg:px-8 pb-10 lg:pb-20 pt-2">
         {isLoading ? (
           <div className="col-span-2 text-center w-full flex justify-center items-center py-40">
             <Loader className="animate-spin" size={32} />
           </div>
         ) : (
           <>
-            <div className="w-full px-4 py-4 lg:px-0 flex flex-col justify-center items-start">
+            <div className="w-full pt-2 pb-4 px-0 flex flex-col justify-center items-start">
               <nav className="flex items-center gap-2 text-sm text-gray-600 mb-6">
                 <Link
                   href={`${ROUTES.HOME}`}
@@ -207,7 +209,6 @@ export default function ProductDetailClient() {
                   {currentData?.name?.slice(0, 14)}...
                 </p>
               </nav>
-
               <div className="lg:mt-4">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
                   <div className="relative col-span-6">
@@ -288,29 +289,21 @@ export default function ProductDetailClient() {
                       </Swiper>
                     </div>
                   </div>
-                  <div className="col-span-6 lg:ml-8" >
+                  <div className="col-span-6 lg:ml-8">
                     <div className="flex flex-col w-full space-y-4 rounded-md ">
                       <div className="flex justify-between items-start">
-                        <div className="flex items-center gap-1 bg-red-500 text-white px-2 py-1">
+                        <div className="flex items-center gap-1 bg-red-500 text-white text-xs lg:text-base px-2 py-1">
                           Miễn phí Vận Chuyển
                         </div>
                       </div>
                       <h1 className="text-2xl font-bold text-navy-700">
                         {currentData?.name}
                       </h1>
-                      {/* <div className="flex flex-col gap-2">
-                          <span>
-                            Dòng sản phẩm:{" "}
-                            <strong>
-                              {HELPER.renderCategory2(currentData?.category)}
-                            </strong>
-                          </span>
-                        </div> */}
                       <div className="flex justify-start items-center gap-4">
-                        <div className="text-3xl font-medium text-brown-700">
+                        <div className="text-2xl lg:text-3xl font-medium text-brown-700">
                           {HELPER.formatVND(currentData?.price)}
                         </div>
-                        <div className="text-xl font-normal line-through text-brown-700">
+                        <div className="text-md lg:text-xl font-normal line-through text-brown-700">
                           {HELPER.formatVND(HELPER.upPrice(currentData?.price))}
                         </div>
                       </div>
@@ -319,42 +312,42 @@ export default function ProductDetailClient() {
                         <span>Số lượng</span>
                         <div className="flex border border-gray-400 rounded-sm">
                           <button
-                            className="px-3 py-1 border-r border-gray-400 items-center"
+                            className="px-2 py-1 border-r border-gray-400 items-center"
                             onClick={() => handleQuantityChange("decrease")}
                           >
-                            -
+                            <Minus size={17} />
                           </button>
                           <input
                             type="number"
-                            className="w-14 grid place-items-center ml-2"
+                            className="w-14 grid place-items-center"
                             value={quantity}
                             readOnly
                           />
                           <button
-                            className="px-3 py-1 border-l border-gray-400 items-center"
+                            className="px-2 py-1 border-l border-gray-400 items-center"
                             onClick={() => handleQuantityChange("increase")}
                           >
-                            +
+                            <Plus size={17} />
                           </button>
                         </div>
                       </div>
 
                       <div className="flex space-x-4">
-                        <button className="px-6 py-2 w-52 border-2 border-[rgb(var(--primary-rgb))] text-[rgb(var(--primary-rgb))] hover:bg-orange-50">
+                        <button className="text-sm lg:text-base px-2 lg:px-6 py-2 w-52 border-2 border-[rgb(var(--primary-rgb))] text-[rgb(var(--primary-rgb))] hover:bg-orange-50">
                           Thêm Vào Giỏ Hàng
                         </button>
                         <button
                           onClick={() => {
                             window.location.href = `/tai-khoan?tab=order-single&product=${currentData?._id}`;
                           }}
-                          className="px-6 py-2 w-52 bg-[rgb(var(--primary-rgb))] text-white hover:bg-[rgb(var(--primary-rgb))]"
+                          className="text-sm lg:text-base px-2 lg:px-6 py-2 w-52 bg-[rgb(var(--primary-rgb))] text-white hover:bg-[rgb(var(--primary-rgb))]"
                         >
                           Mua Ngay
                         </button>
                       </div>
                     </div>
-                    <div className="flex flex-col w-full lg:px-6 py-6 space-y-4">
-                      <h2 className="text-2xl font-bold text-navy-700">
+                    <div className="flex flex-col w-full lg:px-6 pt-7 pb-1 space-y-4">
+                      <h2 className="text-xl lg:text-2xl font-bold text-navy-700">
                         CHI TIẾT SẢN PHẨM
                       </h2>
                       <div className="space-y-4">
@@ -369,16 +362,18 @@ export default function ProductDetailClient() {
                         </div>
                         <div className="flex justify-center relative">
                           <button
-                            className="text-black cursor-pointer font-semibold py-4 px-8 border border-gray-300 flex items-center gap-4 rounded-md"
+                            className="text-black cursor-pointer font-semibold px-4 py-2 lg:py-4 lg:px-8 border border-gray-300 flex items-center gap-4 rounded-md"
                             onClick={() => setExpanded(!expanded)}
                           >
                             {expanded ? (
                               <>
-                                <p>Thu gọn</p> <ChevronUp size={16} />
+                                <p className="text-sm lg:text-base">Thu gọn</p>{" "}
+                                <ChevronUp size={16} />
                               </>
                             ) : (
                               <>
-                                <p>Xem thêm</p> <ChevronDown size={16} />
+                                <p className="text-sm lg:text-base">Xem thêm</p>{" "}
+                                <ChevronDown size={16} />
                               </>
                             )}
                           </button>
@@ -399,8 +394,7 @@ export default function ProductDetailClient() {
                 </div>
               </div>
             </div>
-
-            <div className="py-14 grid grid-cols-1 lg:grid-cols-12 gap-4">
+            <div className="pt-4 pb-7 lg:pb-14 lg:pt-14 grid grid-cols-1 lg:grid-cols-12 gap-4">
               <div className="hidden lg:flex flex-col col-span-5">
                 <div className="flex items-center gap-2 mb-4">
                   <h2 className="text-xl font-bold">Đánh giá</h2>
@@ -433,9 +427,8 @@ export default function ProductDetailClient() {
                   ))}
                 </div>
               </div>
-
               <div className="col-span-7 lg:pl-20 space-y-4">
-                <h2 className="text-2xl font-bold text-navy-700">
+                <h2 className="text-xl lg:text-2xl font-bold text-navy-700">
                   MÔ TẢ SẢN PHẨM
                 </h2>
                 <div className="space-y-4">
@@ -450,24 +443,25 @@ export default function ProductDetailClient() {
                   </div>
                   <div className="flex justify-center relative">
                     <button
-                      className="text-black cursor-pointer font-semibold py-4 px-8 border border-gray-300 flex items-center gap-4 rounded-md"
+                      className="text-black cursor-pointer font-semibold px-4 py-2 lg:py-4 lg:px-8 border border-gray-300 flex items-center gap-4 rounded-md"
                       onClick={() => setExpanded1(!expanded1)}
                     >
-                      {expanded ? (
+                      {expanded1 ? (
                         <>
-                          <p>Thu gọn</p> <ChevronUp size={16} />
+                          <p className="text-sm lg:text-base">Thu gọn</p>{" "}
+                          <ChevronUp size={16} />
                         </>
                       ) : (
                         <>
-                          <p>Xem thêm</p> <ChevronDown size={16} />
+                          <p className="text-sm lg:text-base">Xem thêm</p>{" "}
+                          <ChevronDown size={16} />
                         </>
                       )}
                     </button>
                   </div>
                 </div>
               </div>
-
-              <div className="flex flex-col lg:hidden col-span-5">
+              <div className="flex flex-col lg:hidden col-span-5 mt-5">
                 <div className="flex items-center gap-2 mb-4">
                   <h2 className="text-xl font-bold">Đánh giá</h2>
                   <span className="text-gray-500">(4)</span>
@@ -500,11 +494,10 @@ export default function ProductDetailClient() {
                 </div>
               </div>
             </div>
-
-            <h2 className="text-2xl font-bold text-black mb-4">
+            <h2 className="text-2xl font-bold text-black mb-4 mt-2">
               Bạn cũng có thể thích
             </h2>
-            <div className="w-full grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-4">
+            <div className="w-full grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4">
               {data
                 ?.filter(
                   (product: any) => HELPER.getLastFourChars(product?._id) !== id

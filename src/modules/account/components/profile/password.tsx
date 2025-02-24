@@ -5,14 +5,12 @@ import React, { useEffect, useState } from "react";
 import Header from "@/layout/header";
 import Footer from "@/layout/footer";
 import Link from "next/link";
-import { Bell, ChevronRight, Clock, Loader, User } from "lucide-react";
+import { ChevronRight, Loader } from "lucide-react";
 import { ROUTES } from "@/utils/route";
-import Image from "next/image";
-import EditProfileModal from "./edit-profile-modal";
 import { AccountService } from "@/services/account";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
-import Sidebar from "./sidebar";
+import Sidebar from "../sidebar";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
@@ -55,10 +53,10 @@ export interface UserData {
   province?: string;
 }
 
-export interface FormData extends UserData {
-  ward: string;
-  district: string;
-  province: string;
+export interface FormData {
+  password: string;
+  newPassword: string;
+  confirmPassword: string;
 }
 
 export interface CustomerAccount {
@@ -80,23 +78,36 @@ export interface CustomerAccount {
   wardName: string;
 }
 
-export default function AccountProfile() {
+export default function AccountPassword() {
   const emailCookie = Cookies.get("isLogin");
   const isLogin = Cookies.get("isLogin");
   const [loading, setLoading] = React.useState(false);
   const [customerAccount, setCustomerAccount] =
     useState<CustomerAccount | null>(null);
+  const router = useRouter();
+  const tab = new URLSearchParams(window.location.search).get("tab");
+
+  const [provinces, setProvinces] = React.useState<Province[]>([]);
   const [formData, setFormData] = React.useState<FormData>({
-    name: customerAccount?.name || "",
-    email: customerAccount?.email || "",
-    avatar: customerAccount?.avatar || "",
-    phone: customerAccount?.phone || "",
-    address: customerAccount?.address || "",
-    ward: customerAccount?.ward || "",
-    district: customerAccount?.district || "",
-    province: customerAccount?.province || "",
+    password: "",
+    newPassword: "",
+    confirmPassword: "",
   });
 
+  React.useEffect(() => {
+    const fetchProvinces = async () => {
+      try {
+        const response = await fetch(
+          "https://provinces.open-api.vn/api/?depth=3"
+        );
+        const data = await response.json();
+        setProvinces(data);
+      } catch (error) {
+        console.error("Error fetching provinces:", error);
+      }
+    };
+    fetchProvinces();
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -116,16 +127,6 @@ export default function AccountProfile() {
         try {
           const data = await AccountService.getAccountById(isLogin);
           setCustomerAccount(data);
-          setFormData({
-            name: data.name,
-            email: data.email,
-            avatar: data.avatar,
-            phone: data.phone,
-            address: data.address,
-            ward: data.ward,
-            district: data.district,
-            province: data.province,
-          });
         } catch (error) {
           console.error("Error fetching account:", error);
         }
@@ -135,7 +136,22 @@ export default function AccountProfile() {
     fetchAccount();
   }, []);
 
+  const getFullAddressName = () => {
+    if (!customerAccount || !customerAccount.province)
+      return "Bạn chưa có địa chỉ giao hàng vui lòng bổ sung.";
 
+    const provinceObj = provinces.find(
+      (p) => p.code.toString() === customerAccount.province
+    );
+    const districtObj = provinceObj?.districts.find(
+      (d) => d.code.toString() === customerAccount.district
+    );
+    const wardObj = districtObj?.wards.find(
+      (w) => w.code.toString() === customerAccount.ward
+    );
+
+    return `${customerAccount.address}, ${wardObj?.name}, ${districtObj?.name}, ${provinceObj?.name}`;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -162,76 +178,93 @@ export default function AccountProfile() {
 
   return (
     <div className="w-full">
+      <div className="w-full bg-black p-2.5 text-center text-white text-sm font-semibold">
+        <span>IN ẢNH TRỰC TUYẾN - In ảnh nhanh chóng, tiện lợi</span>
+      </div>
       <Header />
-      <div className="container pb-6 pt-2">
-        <nav className="flex items-center gap-2 text-sm text-gray-600 mb-6 px-4 py-4">
+      <div className="container px-5 lg:px-8 pb-6 pt-2">
+        <nav className="flex items-center gap-2 text-sm text-gray-600 pt-2 pb-4">
           <Link href={`${ROUTES.HOME}`} className="hover:text-black">
             Trang chủ
           </Link>
           <ChevronRight className="w-4 h-4" />
-          <Link href={`${ROUTES.ACCOUNT}`} className="hover:text-[rgb(var(--primary-rgb))] text-md">
+          <Link
+            href={`${ROUTES.ACCOUNT}`}
+            className="hover:text-[rgb(var(--primary-rgb))] text-md"
+          >
             Tài khoản
           </Link>
           <ChevronRight className="w-4 h-4" />
-          <Link href={`${ROUTES.ACCOUNT}`} className="hover:text-[rgb(var(--primary-rgb))] text-md">
+          <Link
+            href={`${ROUTES.ACCOUNT}`}
+            className="hover:text-[rgb(var(--primary-rgb))] text-md"
+          >
             Hồ sơ cá nhân
           </Link>
         </nav>
         {customerAccount && (
-          <div className=" grid lg:grid-cols-12 gap-4 py-6 pb-24">
-            {/* Sidebar */}
-              <Sidebar customerAccount={customerAccount} />
-            {/* Main Content */}
-            <div className="flex-1 py-8 px-8 lg:col-span-8">
+          <div className=" grid lg:grid-cols-12 gap-4 pb-10 lg:pb-24">
+            <Sidebar customerAccount={customerAccount} />
+            <div className="flex-1 lg:col-span-8">
               <div className="max-w-2xl">
-                <h1 className="text-2xl font-medium mb-6">Hồ sơ cá nhân</h1>
-
+                <h1 className="text-2xl font-medium mb-6">Đổi Mật khẩu</h1>
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="flex justify-between items-center gap-4">
-                    <Label htmlFor="name" className="text-gray-600 w-2/6 ">Họ và tên:</Label>
+                  <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+                    <Label
+                      htmlFor="password"
+                      className="text-gray-600 w-full lg:w-2/6"
+                    >
+                      Nhập mật khẩu cũ:
+                    </Label>
                     <div className="w-full">
                       <Input
-                        id="name"
-                        type="text"
-                        name="name"
-                        value={formData.name}
+                        id="password"
+                        type="password"
+                        name="password"
+                        value={formData.password}
                         onChange={handleInputChange}
-                        className="w-full py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                       />
                     </div>
                   </div>
-
-                  <div className="flex justify-between items-center gap-4">
-                    <Label htmlFor="phone" className="text-gray-600 w-2/6">Số điện thoại:</Label>
+                  <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+                    <Label
+                      htmlFor="newPassword"
+                      className="text-gray-600 w-full lg:w-2/6"
+                    >
+                      Nhập mật khẩu mới:
+                    </Label>
                     <div className=" w-full">
                       <Input
-                        type="phone"
-                        name="phone"
-                        value={formData.phone}
+                        type="newPassword"
+                        name="newPassword"
+                        value={formData.newPassword}
                         onChange={handleInputChange}
                         className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                       />
                     </div>
                   </div>
-
-                  <div className="flex justify-between items-center gap-4">
-                    <Label htmlFor="email" className="text-gray-600 w-2/6">Email:</Label>
+                  <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+                    <Label
+                      htmlFor="confirmPassword"
+                      className="text-gray-600 w-full lg:w-2/6"
+                    >
+                      Nhập lại mật khẩu mới:
+                    </Label>
                     <div className="w-full">
                       <Input
-                        id="email"
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        disabled={true}
+                        id="confirmPassword"
+                        type="confirmPassword"
+                        name="confirmPassword"
+                        value={formData.confirmPassword}
                         className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                       />
                     </div>
                   </div>
-
                   <div className="mt-8 flex justify-center items-center">
                     <Button
                       type="submit"
-                      className="w-64 py-2 px-4 bg-[rgb(var(--primary-rgb))]  hover:bg-[rgb(var(--secondary-rgb))] text-white font-medium rounded-md transition-colors"
+                      className="w-full lg:w-64 py-2 px-4 bg-[rgb(var(--primary-rgb))]  hover:bg-[rgb(var(--secondary-rgb))] text-white font-medium rounded-md transition-colors"
                     >
                       Lưu thay đổi
                       {loading && <Loader className="animate-spin" size={48} />}

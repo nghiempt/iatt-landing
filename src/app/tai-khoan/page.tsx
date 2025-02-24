@@ -1,5 +1,5 @@
 import AccountClient from "@/modules/account";
-import React, { Suspense } from 'react';
+import React, { Suspense } from "react";
 
 export default function Account() {
   return (

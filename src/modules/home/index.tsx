@@ -6,7 +6,6 @@ import Image from "next/image";
 import CategoryListSection from "./components/category-list";
 import ProductSection from "./components/product";
 import CategorySpecialSection from "./components/category-special";
-import { Ban } from "lucide-react";
 import BannerSlider from "./components/slider";
 
 export default function HomeClient() {
@@ -16,7 +15,7 @@ export default function HomeClient() {
         <span>IN ẢNH TRỰC TUYẾN - In ảnh nhanh chóng, tiện lợi</span>
       </div>
       <Header />
-      <div className="w-full flex flex-col justify-center items-center text-center py-6 gap-1">
+      <div className="w-full flex flex-col justify-center items-center text-center py-6 px-5 gap-1">
         <span className="text-md font-semibold">Thông tin thanh toán: </span>
         <span className="text-sm font-light">
           Vui lòng đảm bảo địa chỉ giao hàng và tên thành phố được định dạng
@@ -30,21 +29,22 @@ export default function HomeClient() {
           .
         </span>
       </div>
-      <div className="container pb-20 pt-2">
+      <div className="container px-5 lg:px-8 pb-10 lg:pb-20 pt-2">
         <BannerSlider />
         <CategoryListSection />
         <ProductSection type="Frame" />
-        <div className="relative w-full h-[400px] lg:h-[600px]">
+        <div className="relative w-full h-full lg:h-[600px]">
           <Image
             src="https://res.cloudinary.com/farmcode/image/upload/v1737355887/iatt/vw0razvbguqvcumvyfxa.png"
             alt="alt"
-            fill
-            className="object-cover rounded-lg"
+            width={1000}
+            height={1000}
+            className="object-cover w-full lg:h-full rounded-lg"
           />
         </div>
         <ProductSection type="Album" />
         <CategorySpecialSection />
-        <div className="relative w-full h-[400px] lg:h-[600px] mt-8 rounded-lg">
+        <div className="relative w-full h-[400px] lg:h-[600px] mt-4 lg:mt-8 rounded-lg">
           <Image
             src="https://res.cloudinary.com/farmcode/image/upload/v1739871597/iatt/gvvwloyp3qjmrcygbxsg.png"
             alt="alt"

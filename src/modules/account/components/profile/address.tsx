@@ -5,18 +5,21 @@ import React, { useEffect, useState } from "react";
 import Header from "@/layout/header";
 import Footer from "@/layout/footer";
 import Link from "next/link";
-import { Bell, ChevronRight, Clock, Loader, User } from "lucide-react";
+import { ChevronRight, Loader } from "lucide-react";
 import { ROUTES } from "@/utils/route";
-import Image from "next/image";
-import EditProfileModal from "./edit-profile-modal";
 import { AccountService } from "@/services/account";
 import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
-import Sidebar from "./sidebar";
+import Sidebar from "../sidebar";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 
 export interface Province {
@@ -88,16 +91,15 @@ export default function AccountAddress() {
   const [customerAccount, setCustomerAccount] =
     useState<CustomerAccount | null>(null);
   const [formData, setFormData] = React.useState<FormData>({
-    name:  "",
-    email:  "",
-    avatar:  "",
-    phone:  "",
-    address:  "",
-    ward:  0,
-    district:  0,
-    province:  0,
+    name: "",
+    email: "",
+    avatar: "",
+    phone: "",
+    address: "",
+    ward: 0,
+    district: 0,
+    province: 0,
   });
-
 
   React.useEffect(() => {
     const fetchProvinces = async () => {
@@ -122,7 +124,6 @@ export default function AccountAddress() {
     }));
   };
 
-
   React.useEffect(() => {
     if (formData.province) {
       const selectedProvince = provinces.find(
@@ -136,9 +137,7 @@ export default function AccountAddress() {
         );
         if (selectedDistrict) {
           setWards(selectedDistrict.wards);
-
         }
-          
       }
     }
   }, [formData.province, formData.district, provinces]);
@@ -147,7 +146,7 @@ export default function AccountAddress() {
     // if (emailCookie) {
     //   init(emailCookie);
     // }
-    
+
     const fetchAccount = async () => {
       if (isLogin) {
         try {
@@ -173,7 +172,9 @@ export default function AccountAddress() {
   }, []);
 
   const handleProvinceChange = (provinceCode: string) => {
-    const selectedProvince = provinces.find((p) => p.code === Number(provinceCode));
+    const selectedProvince = provinces.find(
+      (p) => p.code === Number(provinceCode)
+    );
     if (selectedProvince) {
       console.log("selectedProvince: ", selectedProvince.districts);
       setDistricts(selectedProvince.districts);
@@ -190,10 +191,11 @@ export default function AccountAddress() {
     }
   };
 
-    const handleDistrictChange = (districtCode: string) => {
-    const selectedDistrict = districts.find((d) => d.code === Number(districtCode));
+  const handleDistrictChange = (districtCode: string) => {
+    const selectedDistrict = districts.find(
+      (d) => d.code === Number(districtCode)
+    );
     if (selectedDistrict) {
-      console.log("selectedDistrict: ", selectedDistrict.wards);
       setWards(selectedDistrict.wards || []);
       setFormData((prev) => ({
         ...prev,
@@ -228,8 +230,6 @@ export default function AccountAddress() {
 
     return `${customerAccount.address}, ${wardObj?.name}, ${districtObj?.name}, ${provinceObj?.name}`;
   };
-
-
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -266,34 +266,44 @@ export default function AccountAddress() {
 
   return (
     <div className="w-full">
+      <div className="w-full bg-black p-2.5 text-center text-white text-sm font-semibold">
+        <span>IN ẢNH TRỰC TUYẾN - In ảnh nhanh chóng, tiện lợi</span>
+      </div>
       <Header />
-      <div className="container pb-6 pt-2">
-        <nav className="flex items-center gap-2 text-sm text-gray-600 mb-6 px-4 py-4">
+      <div className="container px-5 lg:px-8 pb-6 pt-2">
+        <nav className="flex items-center gap-2 text-sm text-gray-600 pt-2 pb-4">
           <Link href={`${ROUTES.HOME}`} className="hover:text-black">
             Trang chủ
           </Link>
           <ChevronRight className="w-4 h-4" />
-          <Link href={`${ROUTES.ACCOUNT}`} className="hover:text-[rgb(var(--primary-rgb))] text-md">
+          <Link
+            href={`${ROUTES.ACCOUNT}`}
+            className="hover:text-[rgb(var(--primary-rgb))] text-md"
+          >
             Tài khoản
           </Link>
           <ChevronRight className="w-4 h-4" />
-          <Link href={`${ROUTES.ACCOUNT}`} className="hover:text-[rgb(var(--primary-rgb))] text-md">
+          <Link
+            href={`${ROUTES.ACCOUNT}`}
+            className="hover:text-[rgb(var(--primary-rgb))] text-md"
+          >
             Hồ sơ cá nhân
           </Link>
         </nav>
         {customerAccount && (
-          <div className=" grid lg:grid-cols-12 gap-4 py-6 pb-24">
-            {/* Sidebar */}
+          <div className=" grid lg:grid-cols-12 gap-4 pb-10 lg:pb-24">
             <Sidebar customerAccount={customerAccount} />
-
-            {/* Main Content */}
-            <div className="flex-1 p-8 lg:col-span-8">
+            <div className="flex-1 lg:col-span-8">
               <div className="max-w-2xl">
                 <h1 className="text-2xl font-medium mb-6">Địa chỉ</h1>
-
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="flex justify-between items-center gap-4">
-                    <Label htmlFor="province" className="text-gray-600 w-2/6" >Tỉnh/Thành phố:</Label>
+                  <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+                    <Label
+                      htmlFor="province"
+                      className="text-gray-600 w-full lg:w-2/6"
+                    >
+                      Tỉnh/Thành phố:
+                    </Label>
                     <Select
                       value={String(formData.province)}
                       onValueChange={handleProvinceChange}
@@ -304,17 +314,23 @@ export default function AccountAddress() {
                       </SelectTrigger>
                       <SelectContent>
                         {provinces.map((province) => (
-                          <SelectItem key={province.code} value={String(province.code)}>
+                          <SelectItem
+                            key={province.code}
+                            value={String(province.code)}
+                          >
                             {province.name}
                           </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
-
                   </div>
-
-                  <div className="flex justify-between items-center gap-4">
-                    <Label htmlFor="district" className="text-gray-600 w-2/6">Quận/Huyện:</Label>
+                  <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+                    <Label
+                      htmlFor="district"
+                      className="text-gray-600 w-full lg:w-2/6"
+                    >
+                      Quận/Huyện:
+                    </Label>
                     <Select
                       value={String(formData.district)}
                       onValueChange={handleDistrictChange}
@@ -325,16 +341,23 @@ export default function AccountAddress() {
                       </SelectTrigger>
                       <SelectContent>
                         {districts.map((district) => (
-                          <SelectItem key={district.code} value={String(district.code)}>
+                          <SelectItem
+                            key={district.code}
+                            value={String(district.code)}
+                          >
                             {district.name}
                           </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
                   </div>
-
-                  <div className="flex justify-between items-center gap-4">
-                    <Label htmlFor="ward" className="text-gray-600 w-2/6">Phường/Xã:</Label>
+                  <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+                    <Label
+                      htmlFor="ward"
+                      className="text-gray-600 w-full lg:w-2/6"
+                    >
+                      Phường/Xã:
+                    </Label>
                     <Select
                       value={String(formData.ward)}
                       onValueChange={handleWardChange}
@@ -352,9 +375,13 @@ export default function AccountAddress() {
                       </SelectContent>
                     </Select>
                   </div>
-
-                  <div className="flex justify-between items-center gap-4 ">
-                    <Label htmlFor="address" className="text-gray-600 w-2/6">Số nhà, tên đường:</Label>
+                  <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 ">
+                    <Label
+                      htmlFor="address"
+                      className="text-gray-600 w-full lg:w-2/6"
+                    >
+                      Số nhà, tên đường:
+                    </Label>
                     <Input
                       id="address"
                       name="address"
@@ -363,12 +390,10 @@ export default function AccountAddress() {
                       onChange={handleInputChange}
                     />
                   </div>
-
-                  
                   <div className="mt-8 flex justify-center items-center">
                     <Button
                       type="submit"
-                      className="w-64 py-2 px-4 bg-[rgb(var(--primary-rgb))]  hover:bg-[rgb(var(--secondary-rgb))] text-white font-medium rounded-md transition-colors"
+                      className="w-full lg:w-64 py-2 px-4 bg-[rgb(var(--primary-rgb))]  hover:bg-[rgb(var(--secondary-rgb))] text-white font-medium rounded-md transition-colors"
                     >
                       Lưu thay đổi
                       {loading && <Loader className="animate-spin" size={48} />}

@@ -12,7 +12,7 @@ const upPrice = (money: string) => {
     return "Invalid number";
   }
 
-  return (number+50000).toString();
+  return (number + 50000).toString();
 };
 
 const formatDate = (isoDate: string) => {

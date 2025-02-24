@@ -5,7 +5,6 @@ import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ChevronRight, ChevronDown, Filter, Loader } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
 import { DATA } from "@/utils/data";
 import { ROUTES } from "@/utils/route";
 import { useOnClickOutside } from "usehooks-ts";
@@ -121,8 +120,6 @@ export default function ProductClient() {
       setSelectedCate(tag);
     }
 
-    console.log("check tag: ", tag);
-
     return () => clearTimeout(timer);
   }, [filteredDataSort, tag]);
 
@@ -136,8 +133,8 @@ export default function ProductClient() {
         <span>IN ẢNH TRỰC TUYẾN - In ảnh nhanh chóng, tiện lợi</span>
       </div>
       <Header />
-      <div className="container pb-20 pt-2">
-        <div className="px-4 py-4 lg:px-0">
+      <div className="container px-5 lg:px-8 pb-10 lg:pb-20 pt-2">
+        <div className="pt-2 pb-4 px-0">
           <nav className="flex items-center gap-2 text-sm text-gray-600 mb-6">
             <Link
               href={`${ROUTES.HOME}`}
@@ -154,44 +151,42 @@ export default function ProductClient() {
             </Link>
           </nav>
           <BannerSlider />
-          <h1 className="text-3xl font-bold text-navy-900 mt-6 ">
+          <h1 className="text-2xl lg:text-3xl font-bold text-navy-900 mt-6 ">
             TẤT CẢ SẢN PHẨM
           </h1>
-          <div className="grid grid-cols-1 space-y-2 lg:flex lg:flex-row justify-between items-center gap-4 py-8">
-            <div className=" grid lg:flex gap-4">
-              <div className=":font-medium items-center text-black py-2">
+          <div className="grid grid-cols-1 space-y-2 lg:flex lg:flex-row justify-between items-center gap-4 pb-8 pt-3">
+            <div className="grid lg:flex gap-2 lg:gap-4">
+              <div className="font-medium items-center text-black py-2">
                 Chọn theo:{" "}
               </div>
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-              {categories.map((cate: any, index: any) =>
-                selectedCate === cate.tag ? (
-                  <button
-                    key={index}
-                    className="text-[rgb(var(--primary-rgb))] font-bold px-4 py-2 rounded-sm bg-gray-100 border border-gray-300"
-                  >
-                    {cate.name}
-                  </button>
-                ) : (
-                  <button
-                    key={index}
-                    onClick={() => {
-                      handleSelectCategory(cate.tag);
-                    }}
-                    className="text-black font-medium px-4 py-2 rounded-sm bg-gray-100 border border-gray-300"
-                  >
-                    {cate.name}
-                  </button>
-                )
-              )}
+                {categories.map((cate: any, index: any) =>
+                  selectedCate === cate.tag ? (
+                    <button
+                      key={index}
+                      className="text-[rgb(var(--primary-rgb))] font-bold px-4 py-2 rounded-sm bg-gray-100 border border-gray-300"
+                    >
+                      {cate.name}
+                    </button>
+                  ) : (
+                    <button
+                      key={index}
+                      onClick={() => {
+                        handleSelectCategory(cate.tag);
+                      }}
+                      className="text-black font-medium px-4 py-2 rounded-sm bg-gray-100 border border-gray-300"
+                    >
+                      {cate.name}
+                    </button>
+                  )
+                )}
               </div>
-              
             </div>
-
             <div
-              className="relative flex justify-between items-center gap-4"
+              className="relative flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4"
               ref={sortRef}
             >
-              Sắp xếp theo
+              Sắp xếp theo:
               <Button
                 onClick={() => setOpenSort(!openSort)}
                 variant="outline"
@@ -201,13 +196,13 @@ export default function ProductClient() {
                 <ChevronDown className="w-4 h-4" />
               </Button>
               {openSort && (
-                <div className="absolute top-12 left-auto right-0 w-56 bg-white shadow-md border border-gray-100 z-10 transition-opacity duration-300 ease-in-out">
-                  <div className="flex flex-col space-y-2 ">
+                <div className="absolute top-20 left-0 lg:top-12 lg:left-auto lg:right-0 w-56 bg-white shadow-md border border-gray-100 z-10 transition-opacity duration-300 ease-in-out">
+                  <div className="flex flex-col space-y-2">
                     {sortOptions.map(({ label, sort }) =>
                       selectedSort === sort ? (
                         <div
                           key={sort}
-                          className="bg-gray-200 text-[rgb(var(--primary-rgb))] font-medium flex items-center px-4 py-1"
+                          className="bg-gray-100 text-[rgb(var(--primary-rgb))] font-medium flex items-center px-4 py-2"
                         >
                           <span>{label}</span>
                         </div>
@@ -227,7 +222,7 @@ export default function ProductClient() {
             </div>
           </div>
           {filteredDataSort && filteredDataSort.length > 0 ? (
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
               {filteredDataSort?.map((data: any, index: any) => (
                 <div key={index}>
                   <Link
