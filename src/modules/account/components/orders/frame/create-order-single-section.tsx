@@ -279,7 +279,7 @@ const CreateOrderSingleSection = () => {
       });
       return false;
     }
-    if (!customerAccount?.ward) {
+    if (!customerAccount?.ward || ward === "Vui lòng chọn phường/xã") {
       toast({
         title: "",
         description:
@@ -491,6 +491,8 @@ const CreateOrderSingleSection = () => {
         ward: 0,
       }));
       setProvince(selectedProvince.name);
+      setDistrict("Vui lòng chọn quận/huyện");
+      setWard("Vui lòng chọn phường/xã");
       setOpenProvinces(false);
     } else {
       setDistricts([]);
@@ -510,6 +512,7 @@ const CreateOrderSingleSection = () => {
         ward: 0,
       }));
       setDistrict(selectedDistrict.name);
+      setWard("Vui lòng chọn phường/xã");
       setOpenDistrict(false);
     } else {
       setWards([]);
@@ -739,7 +742,7 @@ const CreateOrderSingleSection = () => {
                       </div>
                     )}
                   </div>
-                  <div
+                  {/* <div
                     onClick={() => setSelectedPayment("momo")}
                     className=" cursor-pointer p-4 flex items-center"
                   >
@@ -753,7 +756,7 @@ const CreateOrderSingleSection = () => {
                     <label htmlFor="momo" className="ml-2">
                       Thanh toán qua MOMO
                     </label>
-                  </div>
+                  </div> */}
                   {/* <div
                     onClick={() => setSelectedPayment("vnpay")}
                     className="p-4 flex items-center"
@@ -1253,7 +1256,7 @@ const CreateOrderSingleSection = () => {
                         </div>
                       )}
                     </div>
-                    <div
+                    {/* <div
                       onClick={() => setSelectedPayment("momo")}
                       className=" cursor-pointer p-4 flex items-center"
                     >
@@ -1267,7 +1270,7 @@ const CreateOrderSingleSection = () => {
                       <label htmlFor="momo" className="ml-2">
                         Thanh toán qua MOMO
                       </label>
-                    </div>
+                    </div> */}
                     {/* <div
                       onClick={() => setSelectedPayment("vnpay")}
                       className="p-4 flex items-center"
