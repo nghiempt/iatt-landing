@@ -14,14 +14,6 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
   Select,
   SelectContent,
   SelectItem,
@@ -90,13 +82,6 @@ export interface CustomerAccount {
 }
 
 export default function AccountAddress() {
-  const [openProvinces, setOpenProvinces] = useState(false);
-  const [openDistrict, setOpenDistrict] = useState(false);
-  const [openWard, setOpenWard] = useState(false);
-  const [province, setProvince] = useState("");
-  const [district, setDistrict] = useState("");
-  const [ward, setWard] = useState("");
-
   const isLogin = Cookies.get("isLogin");
 
   const [provinces, setProvinces] = React.useState<Province[]>([]);
@@ -144,26 +129,18 @@ export default function AccountAddress() {
       const selectedProvince = provinces.find(
         (p) => p.code === formData.province
       );
-
       if (selectedProvince) {
         setDistricts(selectedProvince.districts);
+
         const selectedDistrict = selectedProvince.districts.find(
           (d) => d.code === formData.district
         );
-        setProvince(selectedProvince.name);
         if (selectedDistrict) {
-          setDistrict(selectedDistrict.name);
           setWards(selectedDistrict.wards);
-          const selectedWard = selectedDistrict.wards.find(
-            (w) => w.code === Number(formData.ward)
-          );
-          if (selectedWard) {
-            setWard(selectedWard.name);
-          }
         }
       }
     }
-  }, [formData.province, formData.district, provinces, formData.ward]);
+  }, [formData.province, formData.district, provinces]);
 
   useEffect(() => {
     // if (emailCookie) {
@@ -199,6 +176,7 @@ export default function AccountAddress() {
       (p) => p.code === Number(provinceCode)
     );
     if (selectedProvince) {
+      console.log("selectedProvince: ", selectedProvince.districts);
       setDistricts(selectedProvince.districts);
       setWards([]);
       setFormData((prev) => ({
@@ -207,10 +185,6 @@ export default function AccountAddress() {
         district: 0,
         ward: 0,
       }));
-      setProvince(selectedProvince.name);
-      setDistrict("Vui lòng chọn quận/huyện");
-      setWard("Vui lòng chọn phường/xã");
-      setOpenProvinces(false);
     } else {
       setDistricts([]);
       setWards([]);
@@ -228,31 +202,16 @@ export default function AccountAddress() {
         district: Number(districtCode),
         ward: 0,
       }));
-      setDistrict(selectedDistrict.name);
-      setWard("Vui lòng chọn phường/xã");
-      setOpenDistrict(false);
     } else {
       setWards([]);
     }
   };
 
   const handleWardChange = (wardCode: String) => {
-    // setFormData((prev) => ({
-    //   ...prev,
-    //   ward: Number(wardCode),
-    // }));
-
-    const selectedWard = wards.find((w) => w.code === Number(wardCode));
-
-    if (selectedWard) {
-      setFormData((prev) => ({
-        ...prev,
-        ward: Number(wardCode),
-      }));
-
-      setWard(selectedWard.name);
-      setOpenWard(false);
-    }
+    setFormData((prev) => ({
+      ...prev,
+      ward: Number(wardCode),
+    }));
   };
 
   const getFullAddressName = () => {
@@ -339,112 +298,82 @@ export default function AccountAddress() {
                 <h1 className="text-2xl font-medium mb-6">Địa chỉ</h1>
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
-                    <Label htmlFor="province" className="text-gray-600">
+                    <Label
+                      htmlFor="province"
+                      className="text-gray-600 w-full lg:w-2/6"
+                    >
                       Tỉnh/Thành phố:
                     </Label>
-                    <Dialog
-                      open={openProvinces}
-                      onOpenChange={setOpenProvinces}
+                    <Select
+                      value={String(formData.province)}
+                      onValueChange={handleProvinceChange}
+                      disabled={loading}
                     >
-                      <DialogTrigger asChild>
-                        <Input
-                          readOnly
-                          value={province || "Vui lòng chọn thành phố"}
-                          className="text-left w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent cursor-pointer"
-                          onClick={() => setOpenProvinces(true)}
-                        />
-                      </DialogTrigger>
-                      <DialogContent>
-                        <DialogHeader>
-                          <DialogTitle>Vui lòng chọn thành phố</DialogTitle>
-                          <DialogDescription className="max-h-96 overflow-y-auto">
-                            <div className="my-3">
-                              {provinces.map((province) => (
-                                <div
-                                  key={province.code}
-                                  className="p-2"
-                                  onClick={() => {
-                                    handleProvinceChange(String(province.code));
-                                  }}
-                                >
-                                  {province.name}
-                                </div>
-                              ))}
-                            </div>
-                          </DialogDescription>
-                        </DialogHeader>
-                      </DialogContent>
-                    </Dialog>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Chọn tỉnh/thành phố" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {provinces.map((province) => (
+                          <SelectItem
+                            key={province.code}
+                            value={String(province.code)}
+                          >
+                            {province.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
                   <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
-                    <Label htmlFor="district" className="text-gray-600">
+                    <Label
+                      htmlFor="district"
+                      className="text-gray-600 w-full lg:w-2/6"
+                    >
                       Quận/Huyện:
                     </Label>
-                    <Dialog open={openDistrict} onOpenChange={setOpenDistrict}>
-                      <DialogTrigger asChild>
-                        <Input
-                          readOnly
-                          value={district || "Vui lòng chọn quận/huyện"}
-                          className="text-left w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent cursor-pointer"
-                          onClick={() => setOpenDistrict(true)}
-                        />
-                      </DialogTrigger>
-                      <DialogContent>
-                        <DialogHeader>
-                          <DialogTitle>Vui lòng chọn quận/huyện</DialogTitle>
-                          <DialogDescription className="max-h-96 overflow-y-auto">
-                            <div className="my-3">
-                              {districts.map((district) => (
-                                <div
-                                  key={district.code}
-                                  className="p-2"
-                                  onClick={() => {
-                                    handleDistrictChange(String(district.code));
-                                  }}
-                                >
-                                  {district.name}
-                                </div>
-                              ))}
-                            </div>
-                          </DialogDescription>
-                        </DialogHeader>
-                      </DialogContent>
-                    </Dialog>
+                    <Select
+                      value={String(formData.district)}
+                      onValueChange={handleDistrictChange}
+                      disabled={!formData.province || loading}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Chọn quận/huyện" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {districts.map((district) => (
+                          <SelectItem
+                            key={district.code}
+                            value={String(district.code)}
+                          >
+                            {district.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
                   <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
-                    <Label htmlFor="ward" className="text-gray-600">
+                    <Label
+                      htmlFor="ward"
+                      className="text-gray-600 w-full lg:w-2/6"
+                    >
                       Phường/Xã:
                     </Label>
-                    <Dialog open={openWard} onOpenChange={setOpenWard}>
-                      <DialogTrigger asChild>
-                        <Input
-                          readOnly
-                          value={ward || "Vui lòng chọn phường/xã"}
-                          className="text-left w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent cursor-pointer"
-                          onClick={() => setOpenWard(true)}
-                        />
-                      </DialogTrigger>
-                      <DialogContent>
-                        <DialogHeader>
-                          <DialogTitle>Vui lòng chọn phường/xã</DialogTitle>
-                          <DialogDescription className="max-h-96 overflow-y-auto">
-                            <div className="my-3">
-                              {wards.map((ward) => (
-                                <div
-                                  key={ward.code}
-                                  className="p-2"
-                                  onClick={() => {
-                                    handleWardChange(String(ward.code));
-                                  }}
-                                >
-                                  {ward.name}
-                                </div>
-                              ))}
-                            </div>
-                          </DialogDescription>
-                        </DialogHeader>
-                      </DialogContent>
-                    </Dialog>
+                    <Select
+                      value={String(formData.ward)}
+                      onValueChange={handleWardChange}
+                      disabled={!formData.district || loading}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Chọn phường/xã" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {wards.map((ward) => (
+                          <SelectItem key={ward.code} value={String(ward.code)}>
+                            {ward.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
                   <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 ">
                     <Label

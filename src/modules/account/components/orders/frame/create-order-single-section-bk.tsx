@@ -520,6 +520,11 @@ const CreateOrderSingleSection = () => {
   };
 
   const handleWardChange = (wardCode: String) => {
+    // setFormData((prev) => ({
+    //   ...prev,
+    //   ward: Number(wardCode),
+    // }));
+
     const selectedWard = wards.find((w) => w.code === Number(wardCode));
 
     if (selectedWard) {
@@ -991,6 +996,48 @@ const CreateOrderSingleSection = () => {
                 Địa chỉ nhận hàng
               </h2>
               <div className="grid grid-cols-1 gap-4 mb-4">
+                {/* <div>
+                  <Label htmlFor="province" className="text-gray-600">
+                    Tỉnh/Thành phố:
+                  </Label>
+                  <Dialog>
+                    <DialogTrigger>
+                      <Input
+                        // type="phone"
+                        // name="phone"
+                        value={String(formData.province)}
+                        onChange={handleInputChange}
+                        className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                      />
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Are you absolutely sure?</DialogTitle>
+                        <DialogDescription>
+                          <Select
+                            value={String(formData.province)}
+                            onValueChange={handleProvinceChange}
+                            disabled={loading}
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder="Chọn tỉnh/thành phố" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {provinces.map((province) => (
+                                <SelectItem
+                                  key={province.code}
+                                  value={String(province.code)}
+                                >
+                                  {province.name}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </DialogDescription>
+                      </DialogHeader>
+                    </DialogContent>
+                  </Dialog>
+                </div> */}
                 <div>
                   <Label htmlFor="province" className="text-gray-600">
                     Tỉnh/Thành phố:
@@ -999,7 +1046,10 @@ const CreateOrderSingleSection = () => {
                     <DialogTrigger asChild>
                       <Input
                         readOnly
-                        value={province || "Vui lòng chọn thành phố"}
+                        value={
+                          // String(formData.province)
+                          province || "Vui lòng chọn thành phố"
+                        }
                         className="text-left w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent cursor-pointer"
                         onClick={() => setOpenProvinces(true)}
                       />
@@ -1030,11 +1080,33 @@ const CreateOrderSingleSection = () => {
                   <Label htmlFor="district" className="text-gray-600">
                     Quận/Huyện:
                   </Label>
+                  {/* <Select
+                    value={String(formData.district)}
+                    onValueChange={handleDistrictChange}
+                    disabled={!formData.province || loading}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Chọn quận/huyện" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {districts.map((district) => (
+                        <SelectItem
+                          key={district.code}
+                          value={String(district.code)}
+                        >
+                          {district.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select> */}
                   <Dialog open={openDistrict} onOpenChange={setOpenDistrict}>
                     <DialogTrigger asChild>
                       <Input
                         readOnly
-                        value={district || "Vui lòng chọn quận/huyện"}
+                        value={
+                          // String(formData.district)
+                          district || "Vui lòng chọn quận/huyện"
+                        }
                         className="text-left w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent cursor-pointer"
                         onClick={() => setOpenDistrict(true)}
                       />
@@ -1066,11 +1138,30 @@ const CreateOrderSingleSection = () => {
                 <Label htmlFor="ward" className="text-gray-600">
                   Phường/Xã:
                 </Label>
+                {/* <Select
+                  value={String(formData.ward)}
+                  onValueChange={handleWardChange}
+                  disabled={!formData.district || loading}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Chọn phường/xã" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {wards.map((ward) => (
+                      <SelectItem key={ward.code} value={String(ward.code)}>
+                        {ward.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select> */}
                 <Dialog open={openWard} onOpenChange={setOpenWard}>
                   <DialogTrigger asChild>
                     <Input
                       readOnly
-                      value={ward || "Vui lòng chọn phường/xã"}
+                      value={
+                        // String(formData.ward)
+                        ward || "Vui lòng chọn phường/xã"
+                      }
                       className="text-left w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent cursor-pointer"
                       onClick={() => setOpenWard(true)}
                     />

@@ -195,9 +195,9 @@ export default function OrderHistory() {
                           </div>
                         </div>
                       </div>
-                      <div className="text-right space-y-2">
+                      <div className="flex flex-row justify-between text-right space-y-2 w-full">
                         <div
-                          className={`flex flex-row lg:flex-col gap-20 space-y-0 lg:space-y-4`}
+                          className={`flex flex-row justify-between lg:flex-col gap-20 space-y-0 lg:space-y-4 w-full`}
                         >
                           <div
                             className={`${
@@ -238,7 +238,7 @@ export default function OrderHistory() {
                               "Đang chuẩn bị đơn hàng"}
                             {order?.status === "waiting" && "Đợi phản hồi"}
                           </div>
-                          <div>
+                          <div className="">
                             <p className="text-md lg:text-xl font-medium">
                               Tổng đơn: <br />
                               {HELPER.formatVND(order?.total)}
