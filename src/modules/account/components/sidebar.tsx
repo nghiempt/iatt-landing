@@ -140,13 +140,13 @@ export default function Sidebar({ customerAccount }: SidebarProps) {
             Mật khẩu
           </Link>
         </div>
-        <a
+        {/* <a
           href="#"
           className="flex items-center space-x-3 px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-lg"
         >
           <Bell className="w-5 h-5" />
           <span>Thông báo</span>
-        </a>
+        </a> */}
         <a
           href={`${ROUTES.ACCOUNT}?tab=history`}
           className={`${

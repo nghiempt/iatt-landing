@@ -271,7 +271,7 @@ const CreateOrderSingleSection = () => {
       });
       return false;
     }
-    if (!customerAccount?.address) {
+    if (!formData?.address) {
       toast({
         title: "",
         description: "Vui lòng nhập địa chỉ giao hàng!",
@@ -279,7 +279,7 @@ const CreateOrderSingleSection = () => {
       });
       return false;
     }
-    if (!customerAccount?.ward || ward === "Vui lòng chọn phường/xã") {
+    if (!formData?.ward || ward === "Vui lòng chọn phường/xã") {
       toast({
         title: "",
         description:
@@ -288,7 +288,7 @@ const CreateOrderSingleSection = () => {
       });
       return false;
     }
-    if (!customerAccount?.phone) {
+    if (!formData?.phone) {
       toast({
         title: "",
         description: "Vui lòng nhập số điện thoại!",
@@ -297,7 +297,7 @@ const CreateOrderSingleSection = () => {
       return false;
     }
     const phoneRegex = /^\d{10,11}$/;
-    if (!phoneRegex.test(customerAccount.phone)) {
+    if (!phoneRegex.test(formData.phone)) {
       toast({
         title: "",
         description:
@@ -535,6 +535,7 @@ const CreateOrderSingleSection = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -560,7 +561,7 @@ const CreateOrderSingleSection = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md"
                 />
               </div>
             </div>
@@ -575,7 +576,7 @@ const CreateOrderSingleSection = () => {
                   name="email"
                   value={formData.email}
                   disabled={true}
-                  className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md"
                 />
               </div>
             </div>
@@ -589,7 +590,7 @@ const CreateOrderSingleSection = () => {
                   name="phone"
                   value={formData.phone}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md"
                 />
               </div>
             </div>
@@ -820,7 +821,7 @@ const CreateOrderSingleSection = () => {
             <h2 className="text-lg lg:text-xl font-medium mb-4">
               Thông tin sản phẩm
             </h2>
-            <div className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full my-4">
+            <div className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full my-4">
               <Select
                 value={selectedProduct}
                 onValueChange={setSelectedProduct}
@@ -952,7 +953,7 @@ const CreateOrderSingleSection = () => {
                     name="name"
                     value={formData.name}
                     onChange={handleInputChange}
-                    className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md"
                   />
                 </div>
               </div>
@@ -967,7 +968,7 @@ const CreateOrderSingleSection = () => {
                     name="email"
                     value={formData.email}
                     disabled={true}
-                    className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md"
                   />
                 </div>
               </div>
@@ -981,7 +982,7 @@ const CreateOrderSingleSection = () => {
                     name="phone"
                     value={formData.phone}
                     onChange={handleInputChange}
-                    className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md"
                   />
                 </div>
               </div>
@@ -1000,7 +1001,7 @@ const CreateOrderSingleSection = () => {
                       <Input
                         readOnly
                         value={province || "Vui lòng chọn thành phố"}
-                        className="text-left w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent cursor-pointer"
+                        className="text-left w-full px-3 py-2 pr-16 border border-gray-300 rounded-md cursor-pointer"
                         onClick={() => setOpenProvinces(true)}
                       />
                     </DialogTrigger>
@@ -1035,7 +1036,7 @@ const CreateOrderSingleSection = () => {
                       <Input
                         readOnly
                         value={district || "Vui lòng chọn quận/huyện"}
-                        className="text-left w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent cursor-pointer"
+                        className="text-left w-full px-3 py-2 pr-16 border border-gray-300 rounded-md cursor-pointer"
                         onClick={() => setOpenDistrict(true)}
                       />
                     </DialogTrigger>
@@ -1071,7 +1072,7 @@ const CreateOrderSingleSection = () => {
                     <Input
                       readOnly
                       value={ward || "Vui lòng chọn phường/xã"}
-                      className="text-left w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent cursor-pointer"
+                      className="text-left w-full px-3 py-2 pr-16 border border-gray-300 rounded-md cursor-pointer"
                       onClick={() => setOpenWard(true)}
                     />
                   </DialogTrigger>
