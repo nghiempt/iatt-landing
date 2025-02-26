@@ -554,45 +554,45 @@ const CreateOrderSingleSection = () => {
               <Label htmlFor="name" className="text-gray-600 ">
                 Họ và tên:
               </Label>
-              <div className="w-full">
-                <Input
-                  id="name"
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md"
-                />
-              </div>
+              {/* <div className="w-full"> */}
+              <Input
+                id="name"
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md"
+              />
+              {/* </div> */}
             </div>
             <div className="mb-4 ml-5">
               <Label htmlFor="email" className="text-gray-600">
                 Email:
               </Label>
-              <div className="w-full">
-                <Input
-                  id="email"
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  disabled={true}
-                  className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md"
-                />
-              </div>
+              {/* <div className="w-full"> */}
+              <Input
+                id="email"
+                type="email"
+                name="email"
+                value={formData.email}
+                disabled={true}
+                className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md"
+              />
+              {/* </div> */}
             </div>
             <div className="mb-4 ml-5">
               <Label htmlFor="phone" className="text-gray-600">
                 Số điện thoại:
               </Label>
-              <div className=" w-full">
-                <Input
-                  type="phone"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleInputChange}
-                  className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md"
-                />
-              </div>
+              {/* <div className=" w-full"> */}
+              <Input
+                type="phone"
+                name="phone"
+                value={formData.phone}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md"
+              />
+              {/* </div> */}
             </div>
           </div>
           <div>
@@ -946,45 +946,45 @@ const CreateOrderSingleSection = () => {
                 <Label htmlFor="name" className="text-gray-600 ">
                   Họ và tên:
                 </Label>
-                <div className="w-full">
-                  <Input
-                    id="name"
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md"
-                  />
-                </div>
+                {/* <div className="w-full"> */}
+                <Input
+                  id="name"
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md"
+                />
+                {/* </div> */}
               </div>
               <div className="mb-4">
                 <Label htmlFor="email" className="text-gray-600">
                   Email:
                 </Label>
-                <div className="w-full">
-                  <Input
-                    id="email"
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    disabled={true}
-                    className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md"
-                  />
-                </div>
+                {/* <div className="w-full"> */}
+                <Input
+                  id="email"
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  disabled={true}
+                  className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md"
+                />
+                {/* </div> */}
               </div>
               <div className="mb-4">
                 <Label htmlFor="phone" className="text-gray-600">
                   Số điện thoại:
                 </Label>
-                <div className=" w-full">
-                  <Input
-                    type="phone"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                    className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md"
-                  />
-                </div>
+                {/* <div className="w-full"> */}
+                <Input
+                  type="phone"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md"
+                />
+                {/* </div> */}
               </div>
             </div>
             <div>
@@ -1108,6 +1108,7 @@ const CreateOrderSingleSection = () => {
                   placeholder="Ví dụ: 123 Đường ABC"
                   value={formData.address}
                   onChange={handleInputChange}
+                  className="w-full"
                 />
               </div>
             </div>
