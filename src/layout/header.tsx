@@ -365,7 +365,7 @@ export default function Header() {
             </li>
             <li>
               <Link
-                href={ROUTES.HOME}
+                href={ROUTES.PRICE}
                 className="text-md font-medium flex justify-center items-center gap-1 hover:text-[rgb(var(--primary-rgb))]"
               >
                 BẢNG GIÁ
