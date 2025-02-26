@@ -9,6 +9,12 @@ import { Calendar } from "lucide-react";
 import "swiper/css";
 import { HELPER } from "@/utils/helper";
 import { ROUTES } from "@/utils/route";
+interface ButtonProps {
+  name: string;
+  icon: string;
+  link: string;
+  isRound?: boolean;
+}
 
 const BlogCard = ({
   id,
@@ -152,6 +158,59 @@ const CategoryCard = ({ title, icon }: any) => (
     <span className="text-xs lg:text-lg">{title}</span>
   </div>
 );
+
+// const StickyMessagingButtons = (
+//   const buttons: ButtonProps[] = [
+//     {
+//       name: 'Zalo',
+//       icon: '/zalo.png', // Replace with actual icon path
+//       link: 'https://zalo.me/yourusername',
+//     },
+//     {
+//       name: 'Messenger',
+//       icon: '/messenger.png', // Replace with actual icon path
+//       link: 'https://m.me/yourusername',
+//     },
+//     {
+//       name: 'Facebook',
+//       icon: '/facebook.png', // Replace with actual icon path
+//       link: 'https://facebook.com/yourusername',
+//     },
+//     {
+//       name: '',
+//       icon: '/headphones.png', // Replace with actual icon path
+//       link: 'tel:+1234567890',
+//       isRound: true,
+//     },
+//   ];
+// ) => (
+//   <div className="fixed right-6 top-1/3 z-50 flex flex-col items-center space-y-4">
+//       {buttons.map((button, index) => (
+//         <a 
+//           key={index} 
+//           href={button.link}
+//           className={`
+//             flex items-center justify-between
+//             bg-amber-400 text-white font-bold
+//             px-4 py-2 rounded-full
+//             shadow-md hover:bg-amber-500 transition-colors
+//             ${button.isRound ? 'w-16 h-16 justify-center' : 'min-w-40'}
+//           `}
+//         >
+//           {!button.isRound && <span className="mr-2">{button.name}</span>}
+//           <div className={`flex items-center justify-center ${button.name === 'Zalo' ? 'bg-white rounded-full p-1' : ''}`}>
+//             <Image 
+//               src={button.icon} 
+//               alt={button.name} 
+//               width={button.isRound ? 32 : 24} 
+//               height={button.isRound ? 32 : 24}
+//             />
+//           </div>
+//         </a>
+//       ))}
+//     </div>
+// );
+
 
 export const GlobalComponent = {
   BlogCard,

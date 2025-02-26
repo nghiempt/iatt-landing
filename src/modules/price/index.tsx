@@ -100,13 +100,14 @@ export default function PriceTable() {
   return (
     <div className="w-full flex flex-col justify-center items-center">
       <Header />
-      <div className="w-full md:w-3/4 lg:w-3/4 lg:mt-4 mb-10">
+      <div className="container px-5 lg:px-8 pb-10 lg:pb-20 pt-2">
         <div className="px-4 pt-4 pb-4 lg:pb-0 lg:px-0">
           <nav className="flex items-center gap-2 text-sm text-gray-600 mb-6">
             <Link href={`${ROUTES.HOME}`} className="hover:text-black text-md">Trang chủ</Link>
             <ChevronRight className="w-4 h-4" />
             <Link href={`${ROUTES.PRICE}`} className="hover:text-black text-md">Bảng giá</Link>
           </nav>
+          
           <div className="space-y-4">
             <div className="space-y-20 mb-8">
               <div className='grid grid-cols-2 gap-4 w-full'>
