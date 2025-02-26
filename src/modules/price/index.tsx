@@ -198,7 +198,7 @@ export default function PriceTable() {
                     >
                       Tra cứu
                     </Button>
-                    <div>
+                    <div className='flex items-center gap-2'>
                       <span>Giá sản phẩm:</span>
                       <span>
                         {selectedProduct === "Chon san pham"
