@@ -156,24 +156,76 @@ export default function AccountPassword() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    const formattedData = {
-      ...formData,
-    };
-    const response = await AccountService.updateAccount(
-      customerAccount?._id,
-      formattedData
-    );
-    if (response === false) {
+
+    if (formData.newPassword !== formData.confirmPassword) {
       toast({
-        title: "",
-        description: "Số điện thoại đã được sử dụng!",
+        title: "Lỗi",
+        description: "Mật khẩu mới và xác nhận mật khẩu không khớp.",
         variant: "destructive",
       });
       setLoading(false);
-    } else {
-      setLoading(false);
-      window.location.href = "/tai-khoan?tab=profile";
+      return;
     }
+
+    const formattedData = {
+      oldPassword: formData.password,
+      newPassword: formData.newPassword,
+    };
+
+    // const formattedData = {
+    //   ...formData,
+    // };
+    try {
+      const response = await AccountService.changePassword(
+        customerAccount?._id,
+        formattedData
+      );
+      // if (response === false) {
+      //   toast({
+      //     title: "",
+      //     description: "Mật khẩu cũ không chính xác.",
+      //     variant: "destructive",
+      //   });
+      //   console.log("Mật khẩu cũ không chính xác.");
+
+      //   setLoading(false);
+      // } else {
+      //   setLoading(false);
+      //   console.log("Mật khẩu thành công.");
+
+      //   // window.location.href = "/tai-khoan?tab=password";
+      // }
+
+      if (!response) {
+        toast({
+          title: "Lỗi",
+          description: "Mật khẩu cũ không chính xác.",
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Thành công",
+          description: "Mật khẩu đã được thay đổi thành công.",
+          variant: "default",
+        });
+
+        setFormData({
+          password: "",
+          newPassword: "",
+          confirmPassword: "",
+        });
+
+        // window.location.href = "/tai-khoan?tab=password";
+      }
+    } catch (error) {
+      toast({
+        title: "Lỗi",
+        description: "Đã xảy ra lỗi khi thay đổi mật khẩu.",
+        variant: "destructive",
+      });
+      console.error("Error changing password:", error);
+    }
+    setLoading(false);
   };
 
   return (
@@ -257,6 +309,7 @@ export default function AccountPassword() {
                         type="confirmPassword"
                         name="confirmPassword"
                         value={formData.confirmPassword}
+                        onChange={handleInputChange}
                         className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                       />
                     </div>
