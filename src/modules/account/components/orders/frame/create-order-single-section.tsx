@@ -954,6 +954,7 @@ const CreateOrderSingleSection = () => {
                   value={formData.name}
                   onChange={handleInputChange}
                   className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md"
+                  style={{ fontSize: "16px" }}
                 />
                 {/* </div> */}
               </div>
@@ -983,6 +984,7 @@ const CreateOrderSingleSection = () => {
                   value={formData.phone}
                   onChange={handleInputChange}
                   className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md"
+                  style={{ fontSize: "16px" }}
                 />
                 {/* </div> */}
               </div>
@@ -1109,6 +1111,7 @@ const CreateOrderSingleSection = () => {
                   value={formData.address}
                   onChange={handleInputChange}
                   className="w-full"
+                  style={{ fontSize: "16px" }}
                 />
               </div>
             </div>
