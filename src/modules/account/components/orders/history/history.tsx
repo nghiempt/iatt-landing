@@ -12,6 +12,20 @@ import Cookies from "js-cookie";
 import { AccountService } from "@/services/account";
 import { OrderService } from "@/services/order";
 import { HELPER } from "@/utils/helper";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogClose,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useCopyToClipboard } from "usehooks-ts";
+import { toast } from "@/hooks/use-toast";
 
 export type OrderStatus = "pending" | "success" | "cancelled" | "failed";
 
@@ -83,7 +97,14 @@ export interface CustomerAccount {
 }
 
 export default function OrderHistory() {
+  const [, copy] = useCopyToClipboard();
   const isLogin = Cookies.get("isLogin");
+
+  const pathParams = new URLSearchParams(location.search);
+  const tab = pathParams.get("orderNoLogin");
+
+  const [openDialog, setOpenDialog] = useState(false);
+
   const [customerAccount, setCustomerAccount] =
     useState<CustomerAccount | null>(null);
   const [orders, setOrders] = useState([] as any);
@@ -110,6 +131,12 @@ export default function OrderHistory() {
   useEffect(() => {
     init();
   }, []);
+
+  useEffect(() => {
+    if (tab === "true") {
+      setOpenDialog(true);
+    }
+  }, [tab]);
 
   return (
     <div className="w-full flex flex-col justify-center items-center">
@@ -190,14 +217,17 @@ export default function OrderHistory() {
                               {order?.product_name}
                             </h3>
                             <p className="text-sm text-gray-500">
-                              Phân loại: {order?.size}, {order?.color}
+                              Phân loại: {order?.product_price}
+                            </p>
+                            <p className="text-sm text-gray-500">
+                              Màu: {HELPER.renderColor(order?.color)}
                             </p>
                           </div>
                         </div>
                       </div>
                       <div className="flex flex-row justify-between text-right space-y-2 w-full">
                         <div
-                          className={`flex flex-row justify-between lg:flex-col gap-20 space-y-0 lg:space-y-4 w-full`}
+                          className={`flex flex-row lg:items-end justify-between lg:flex-col gap-20 space-y-0 lg:space-y-4 w-full`}
                         >
                           <div
                             className={`${
@@ -227,7 +257,7 @@ export default function OrderHistory() {
                       }
                       ${
                         order?.status === "paid" ? "bg-pink-200 text-white" : ""
-                      } lg:py-2 rounded-sm flex items-center justify-center text-center`}
+                      } lg:py-2 rounded-sm flex items-center justify-center text-center w-full lg:w-72`}
                           >
                             {order?.status === "completed" && "Hoàn thành"}
                             {order?.status === "paid pending" &&
@@ -254,6 +284,81 @@ export default function OrderHistory() {
           </div>
         )}
       </div>
+
+      <Dialog open={openDialog} onOpenChange={() => setOpenDialog(false)}>
+        <DialogTrigger asChild>
+          <Button className="hidden" variant="outline">
+            Edit Profile
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[600px]">
+          <DialogHeader>
+            <DialogTitle className="mb-3">Thông báo</DialogTitle>
+            <DialogDescription>
+              <p className="mb-3">
+                Đây là tài khoản được tạo để theo dõi đơn hàng của bạn. Vui lòng
+                sao chép mật khẩu bên dưới và cập nhật lại mật khẩu mới của bạn
+                để tiếp tục sử dụng tài khoản.
+              </p>
+              <p className="mb-3">
+                Để cập nhật mật khẩu mới vui lòng nhấn nút{" "}
+                <strong className="text-red-500">Sao chép</strong> mật khẩu bên
+                dưới
+              </p>
+              <p className="mb-3">
+                Sau đó nhấn nút{" "}
+                <strong className="text-red-500">Tiếp theo</strong> để chuyển
+                đến trang đổi mật khẩu.
+              </p>
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Input
+                disabled
+                id="username"
+                value={customerAccount?.password}
+                className="col-span-3"
+              />
+              <Button
+                onClick={() => {
+                  if (customerAccount?.password) {
+                    copy(customerAccount.password);
+                    toast({
+                      title: "Thành công",
+                      description: "Đã sao chép mật khẩu!",
+                      className: "bg-green-500 text-white border-green-600",
+                    });
+                  } else {
+                    toast({
+                      title: "Lỗi",
+                      description: "Không có mật khẩu để sao chép!",
+                      variant: "destructive",
+                    });
+                  }
+                }}
+                type="button"
+              >
+                Sao Chép
+              </Button>
+            </div>
+          </div>
+          <DialogFooter className="flex flex-row justify-end gap-4">
+            <DialogClose asChild>
+              <Button
+                type="button"
+                variant="secondary"
+                className="!px-10 !text-[16px]"
+              >
+                Đóng
+              </Button>
+            </DialogClose>
+            <Link href={`${ROUTES.ACCOUNT}?tab=password`}>
+              <Button type="submit">Tiếp theo</Button>
+            </Link>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
       <Footer />
     </div>
   );

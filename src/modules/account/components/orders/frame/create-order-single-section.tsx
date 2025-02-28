@@ -129,7 +129,9 @@ const CreateOrderSingleSection = () => {
   const [currentImage, setCurrentImage] = React.useState("");
   const [products, setProducts] = useState([] as any);
   const [productsData, setProductsData] = useState({} as any);
-  const isLogin = Cookies.get("isLogin");
+  const [isLogin, setIsLogin] = useState(Cookies.get("isLogin"));
+  const [orderNoLogin, setOrderNoLogin] = useState(false);
+  const [orderNewAccount, setOrderNewAccount] = useState(false);
   const [selectedSize, setSelectedSize] = React.useState<string>("15x21");
   const [customerAccount, setCustomerAccount] =
     useState<CustomerAccount | null>(null);
@@ -239,14 +241,6 @@ const CreateOrderSingleSection = () => {
       });
       return false;
     }
-    // if (!emailCookie) {
-    //   toast({
-    //     title: "",
-    //     description: "Vui lòng đăng nhập để tiếp tục!",
-    // variant: "destructive",
-    //   });
-    //   return false;
-    // }
     if (!uploadedFile) {
       toast({
         title: "",
@@ -319,7 +313,6 @@ const CreateOrderSingleSection = () => {
 
   const handleSubmit = async () => {
     if (!validateForm()) return;
-
     setLoading(true);
     try {
       const upload: any = await UploadService.uploadToCloudinary([
@@ -337,7 +330,6 @@ const CreateOrderSingleSection = () => {
       const commonAccountData = {
         name: formData?.name || "",
         phone: formData?.phone || "",
-        // avatar: formData?.avatar || "",
         address: formData?.address || "",
         role: "personal",
         ward: selectedWard?.code,
@@ -362,18 +354,54 @@ const CreateOrderSingleSection = () => {
       };
 
       let response;
-
       if (!isLogin) {
         response = await OrderService.createOrder_no_login({
           account: commonAccountData,
           order: orderData,
         });
+        setOrderNoLogin(true);
+        try {
+          let data;
+          if (/^\d+$/.test(response?.data?.phone)) {
+            data = await AccountService.loginAccountPhone(
+              response?.data?.phone,
+              response?.data?.password
+            );
+          } else {
+            data = await AccountService.loginAccountEmail(
+              response?.data?.phone,
+              response?.data?.password
+            );
+          }
+
+          // if (response?.data?.isAccountExisted === true) {
+          //   setOrderNewAccount(false);
+          // } else {
+          //   setOrderNewAccount(true);
+          // }
+
+          if (data?.message === "SUCCESS") {
+            Cookies.set("isLogin", data?.data, { expires: 7 });
+            Cookies.set("userLogin", data?.data, { expires: 7 });
+            setIsLogin(Cookies.set("isLogin", data?.data, { expires: 7 }));
+          } else {
+            throw new Error("Email hoặc mật khẩu chưa chính xác");
+          }
+        } catch (error) {
+          console.error("========= Error Login:", error);
+          toast({
+            variant: "destructive",
+            title: "Email hoặc mật khẩu chưa chính xác",
+          });
+        } finally {
+          // setIsLoading(false);
+        }
       } else {
         response = await OrderService.createOrder({
           account: { _id: isLogin, ...commonAccountData },
           order: orderData,
         });
-
+        setOrderNoLogin(false);
         if (response === false) {
           toast({
             title: "",
@@ -386,13 +414,17 @@ const CreateOrderSingleSection = () => {
 
       if (selectedPayment === "momo" && response?.data) {
         window.open(response.data, "_blank");
-        window.location.href = isLogin
+        window.location.href = orderNoLogin
           ? `${ROUTES.ACCOUNT}?tab=history`
-          : `${ROUTES.HOME}`;
+          : response?.data?.isAccountExisted === true
+          ? `${ROUTES.ACCOUNT}?tab=history`
+          : `${ROUTES.ACCOUNT}?tab=history&orderNoLogin=true`;
       } else {
-        window.location.href = isLogin
+        window.location.href = orderNoLogin
           ? `${ROUTES.ACCOUNT}?tab=history`
-          : `${ROUTES.HOME}`;
+          : response?.data?.isAccountExisted === true
+          ? `${ROUTES.ACCOUNT}?tab=history`
+          : `${ROUTES.ACCOUNT}?tab=history&orderNoLogin=true`;
       }
     } catch (error) {
       console.error("Error submitting order:", error);
@@ -554,7 +586,6 @@ const CreateOrderSingleSection = () => {
               <Label htmlFor="name" className="text-gray-600 ">
                 Họ và tên:
               </Label>
-              {/* <div className="w-full"> */}
               <Input
                 id="name"
                 type="text"
@@ -563,13 +594,11 @@ const CreateOrderSingleSection = () => {
                 onChange={handleInputChange}
                 className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md"
               />
-              {/* </div> */}
             </div>
             <div className="mb-4 ml-5">
               <Label htmlFor="email" className="text-gray-600">
                 Email:
               </Label>
-              {/* <div className="w-full"> */}
               <Input
                 id="email"
                 type="email"
@@ -578,13 +607,11 @@ const CreateOrderSingleSection = () => {
                 disabled={true}
                 className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md"
               />
-              {/* </div> */}
             </div>
             <div className="mb-4 ml-5">
               <Label htmlFor="phone" className="text-gray-600">
                 Số điện thoại:
               </Label>
-              {/* <div className=" w-full"> */}
               <Input
                 type="phone"
                 name="phone"
@@ -592,7 +619,6 @@ const CreateOrderSingleSection = () => {
                 onChange={handleInputChange}
                 className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md"
               />
-              {/* </div> */}
             </div>
           </div>
           <div>
@@ -844,10 +870,6 @@ const CreateOrderSingleSection = () => {
                 </SelectContent>
               </Select>
             </div>
-            {/* <div
-                        className="w-full h-full"
-                        style={getImageContainerStyle()}
-                        > */}
             {!currentImage.startsWith("http") ? (
               <>
                 <ImageUpload
@@ -885,7 +907,6 @@ const CreateOrderSingleSection = () => {
                 </div>
               </>
             )}
-            {/* </div> */}
           </div>
           {selectedProduct !== "Chon san pham" && (
             <>
@@ -946,7 +967,6 @@ const CreateOrderSingleSection = () => {
                 <Label htmlFor="name" className="text-gray-600 ">
                   Họ và tên:
                 </Label>
-                {/* <div className="w-full"> */}
                 <Input
                   id="name"
                   type="text"
@@ -956,13 +976,11 @@ const CreateOrderSingleSection = () => {
                   className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md"
                   style={{ fontSize: "16px" }}
                 />
-                {/* </div> */}
               </div>
               <div className="mb-4">
                 <Label htmlFor="email" className="text-gray-600">
                   Email:
                 </Label>
-                {/* <div className="w-full"> */}
                 <Input
                   id="email"
                   type="email"
@@ -971,13 +989,11 @@ const CreateOrderSingleSection = () => {
                   disabled={true}
                   className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md"
                 />
-                {/* </div> */}
               </div>
               <div className="mb-4">
                 <Label htmlFor="phone" className="text-gray-600">
                   Số điện thoại:
                 </Label>
-                {/* <div className="w-full"> */}
                 <Input
                   type="phone"
                   name="phone"
@@ -986,7 +1002,6 @@ const CreateOrderSingleSection = () => {
                   className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md"
                   style={{ fontSize: "16px" }}
                 />
-                {/* </div> */}
               </div>
             </div>
             <div>
