@@ -10,7 +10,7 @@ import React from "react";
 import { useSearchParams } from "next/navigation";
 import { AccountService } from "@/services/account";
 import { cn } from "@/lib/utils";
-import ImageUpload from "./image-upload";
+import ImageUpload from "../modules/account/components/orders/frame/image-upload";
 import { HELPER } from "@/utils/helper";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";

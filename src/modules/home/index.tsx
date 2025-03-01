@@ -7,13 +7,15 @@ import CategoryListSection from "./components/category-list";
 import ProductSection from "./components/product";
 import CategorySpecialSection from "./components/category-special";
 import BannerSlider from "./components/slider";
-import "../../styles/helper.css";
 import { IMAGES } from "@/utils/image";
+import Link from "next/link";
+import "../../styles/helper.css";
 
 export default function HomeClient() {
   return (
     <div className="relative w-full flex flex-col justify-center items-center">
-      <label className="main z-50">
+      {/* HELPER */}
+      <label className="main top-[92%] lg:top-[60%] z-50">
         <svg
           width="30"
           height="30"
@@ -37,27 +39,38 @@ export default function HomeClient() {
             stroke-linejoin="round"
           />
         </svg>
-
         <input className="inp" type="checkbox" />
         <section className="menu-container">
-          <div className="menu-list bg-[#FFB413] flex flex-row gap-3 items-center justify-end">
-            <p>Messenger</p>
-            <div>
-              <Image src={IMAGES.LOGO} alt="alt" width={30} height={30} />
-            </div>
-          </div>
-          <div className="menu-list bg-[#FFB413] flex flex-row gap-3 items-center justify-end">
-            <p>Facebook</p>
-            <div>
-              <Image src={IMAGES.LOGO} alt="alt" width={30} height={30} />
-            </div>
-          </div>
-          <div className="menu-list bg-[#FFB413] flex flex-row gap-3 items-center justify-end">
+          <Link
+            href="#"
+            target="_blank"
+            className="menu-list bg-[#FFB413] flex flex-row gap-3 items-center justify-end w-2/3 -right-[46px]"
+          >
             <p>Zalo</p>
             <div>
-              <Image src={IMAGES.LOGO} alt="alt" width={30} height={30} />
+              <Image src={IMAGES.ZALO} alt="alt" width={25} height={25} />
             </div>
-          </div>
+          </Link>
+          <Link
+            href="#"
+            target="_blank"
+            className="menu-list bg-[#FFB413] flex flex-row gap-3 items-center justify-end rounded-full"
+          >
+            <p>Messenger</p>
+            <div>
+              <Image src={IMAGES.MESSENGER} alt="alt" width={30} height={30} />
+            </div>
+          </Link>
+          <Link
+            href="#"
+            target="_blank"
+            className="menu-list bg-[#FFB413] flex flex-row gap-3 items-center justify-end w-[95%] -right-[7px]"
+          >
+            <p>Facebook</p>
+            <div>
+              <Image src={IMAGES.FACEBOOK} alt="alt" width={25} height={25} />
+            </div>
+          </Link>
         </section>
       </label>
       <div className="w-full bg-black p-2.5 text-center text-white text-sm font-semibold">

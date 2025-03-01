@@ -9,7 +9,7 @@ import { ChevronRight, Loader } from "lucide-react";
 import { ROUTES } from "@/utils/route";
 import { AccountService } from "@/services/account";
 import Cookies from "js-cookie";
-import Sidebar from "../sidebar";
+import Sidebar from "../modules/account/components/sidebar";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";

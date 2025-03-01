@@ -248,7 +248,7 @@ export default function Header() {
                       </DropdownItem>
                       <DropdownItem
                         key="delete"
-                        className="text-[rgb(var(--primary-rgb))] hover:text-white hover:bg-[rgb(var(--primary-rgb))] font-medium rounded-lg text-md px-3 py-2.5 text-left me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
+                        className="text-red-500 hover:text-white hover:bg-red-500 font-medium rounded-lg text-md px-3 py-2.5 text-left me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
                       >
                         <button
                           onClick={handleLogOut}
@@ -519,7 +519,7 @@ export default function Header() {
               <li className="font-bold ">
                 <button
                   onClick={handleLogOut}
-                  className="flex items-center justify-start gap-4 text-orange-700 hover:text-black"
+                  className="flex items-center justify-start gap-4 text-red-500 hover:text-black"
                 >
                   <LogOut size={18} /> Đăng xuất
                 </button>

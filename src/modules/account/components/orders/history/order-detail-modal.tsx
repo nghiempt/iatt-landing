@@ -1,39 +1,21 @@
 import React from "react";
+import { HELPER } from "@/utils/helper";
+import Image from "next/image";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { HELPER } from "@/utils/helper";
+import { Button } from "@/components/ui/button";
 
-const OrderDetailModal = ({ order }: any) => {
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "completed":
-        return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300";
-      case "cancelled":
-        return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300";
-      case "waiting":
-        return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300";
-      default:
-        return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300";
-    }
-  };
-
-  const getStatusText = (status: string) => {
-    switch (status) {
-      case "completed":
-        return "Hoàn thành";
-      case "cancelled":
-        return "Đã hủy";
-      case "waiting":
-        return "Đang giao";
-      default:
-        return status;
-    }
-  };
+const OrderDetailModal = ({ order, customerAccount }: any) => {
+  const productPrice = Number(order?.total) || 0;
+  const shippingFee = 30000;
+  const total = productPrice + shippingFee;
 
   return (
     <Dialog>
@@ -66,55 +48,168 @@ const OrderDetailModal = ({ order }: any) => {
         <DialogHeader>
           <DialogTitle>Chi tiết đơn hàng #{order?._id}</DialogTitle>
         </DialogHeader>
-        <div className="mt-4">
-          <div className="mb-6 grid grid-cols-2 gap-4">
-            <div>
-              <p className="text-sm font-medium text-gray-500">Ngày đặt hàng</p>
-              <p className="text-sm font-semibold text-gray-900">
-                {order?.date_create}
-              </p>
+        <div className="flex items-center justify-center">
+          <div className="bg-white rounded-lg w-full max-h-[70vh] overflow-y-auto scroll-bar-style">
+            <div className="border-b border-gray-200 flex flex-col lg:flex-row justify-between py-2">
+              <div className="flex justify-between items-center">
+                <div className="text-gray-600 mb-2">
+                  Ngày đặt đơn:{" "}
+                  <strong>{HELPER.formatDate(order?.created_at)}</strong>
+                </div>
+              </div>
+              <div className="flex justify-end ">
+                <div
+                  className={`${
+                    order?.status === "completed"
+                      ? "bg-green-700 text-white text-sm lg:text-base px-2"
+                      : ""
+                  }
+                      ${
+                        order?.status === "delivering"
+                          ? "bg-yellow-800 text-white text-sm lg:text-base px-2"
+                          : ""
+                      }
+                      ${
+                        order?.status === "waiting"
+                          ? "bg-blue-700 text-white text-sm lg:text-base px-2"
+                          : ""
+                      }
+                      ${
+                        order?.status === "pending"
+                          ? "bg-orange-600 text-white text-sm lg:text-base px-2"
+                          : ""
+                      }
+                      ${
+                        order?.status === "paid pending"
+                          ? "bg-yellow-400 text-white text-sm lg:text-base px-2"
+                          : ""
+                      }
+                      ${
+                        order?.status === "paid" ? "bg-pink-200 text-white" : ""
+                      } rounded-sm flex items-center justify-center text-center py-2 px-0 lg:px-4 w-full lg:w-full`}
+                >
+                  {order?.status === "completed" && "Hoàn thành"}
+                  {order?.status === "paid pending" && "Đang chờ thanh toán"}
+                  {order?.status === "paid" && "Đã thanh toán"}
+                  {order?.status === "delivering" && "Đang giao hàng"}
+                  {order?.status === "pending" && "Đang chuẩn bị đơn hàng"}
+                  {order?.status === "waiting" && "Đợi phản hồi"}
+                </div>
+              </div>
             </div>
-            <div>
-              <p className="text-sm font-medium text-gray-500">Trạng thái</p>
-              <span
-                className={`inline-flex items-center rounded px-2.5 py-0.5 text-xs font-medium ${getStatusColor(
-                  status
-                )}`}
+            <div className="px-0 py-4 border-b border-gray-200">
+              <div className="flex gap-4">
+                <div className="w-24 h-24 bg-gray-100 rounded">
+                  <Image
+                    src={order?.image}
+                    alt="detail product"
+                    width={1000}
+                    height={1000}
+                    className="w-full h-full object-cover rounded"
+                  />
+                </div>
+                <div className="flex-1">
+                  <div className="text-sm text-gray-500">
+                    {order?.product_category}
+                  </div>
+                  <div className="text-xl font-medium mb-2">
+                    {order?.product_name}
+                  </div>
+                  <div className="text-gray-600">
+                    Kích thước: {order?.size} | Màu sắc:{" "}
+                    {HELPER.renderColor(order?.color)}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="px-0 py-4 border-b border-gray-200">
+              <div className="mb-2 text-lg font-medium">
+                Thông tin nhận hàng
+              </div>
+              <div className="text-gray-800 mb-1">
+                Tên: {customerAccount?.name}
+              </div>
+              <div className="text-gray-700 mb-1">
+                Số điện thoại: {customerAccount?.phone}
+              </div>
+              <div className="text-gray-700">
+                {" "}
+                Địa chỉ: {customerAccount?.address}, {customerAccount?.wardName}
+                , {customerAccount?.districtName},{" "}
+                {customerAccount?.provinceName}
+              </div>
+            </div>
+            <div className="border-b border-gray-200">
+              <div className="flex justify-between py-2 border-b border-gray-200">
+                <div className="text-gray-600 px-0">Giá sản phẩm</div>
+                <div className="text-gray-800">
+                  {HELPER.formatVND(order?.total)}
+                </div>
+              </div>
+              <div className="flex justify-between py-2 border-b border-gray-200">
+                <div className="text-gray-600 px-0">Phí vận chuyển</div>
+                <div className="text-gray-800">
+                  {" "}
+                  {HELPER.formatVND("30000")}
+                </div>
+              </div>
+              <div className="flex justify-between py-2 border-b border-gray-200">
+                <div className="text-gray-600 px-0">Tạm tính</div>
+                <div className="text-gray-800">
+                  {HELPER.formatVND(String(total))}
+                </div>
+              </div>
+              <div className="flex justify-between py-2">
+                <div className="text-gray-600 px-0">Khuyến mãi</div>
+                <div className="text-red-500">{HELPER.formatVND("0")}</div>
+              </div>
+            </div>
+            <div className="px-0 py-4 border-b border-gray-200">
+              <div className="flex justify-between items-center">
+                <div className="text-lg font-medium">Tổng đơn:</div>
+                <div className="text-xl font-bold">
+                  {HELPER.formatVND(String(total))}
+                </div>
+              </div>
+            </div>
+            <div className="py-4 flex justify-end text-center text-gray-600">
+              <div
+                className={`
+                      ${
+                        order?.payment_method === "cash"
+                          ? "bg-green-700 text-white text-sm lg:text-base px-2"
+                          : ""
+                      }
+                      ${
+                        order?.payment_method === "momo"
+                          ? "bg-pink-500 text-white text-sm lg:text-base px-2"
+                          : ""
+                      }
+                      ${
+                        order?.payment_method === "vnpay"
+                          ? "bg-yellow-700 text-white text-sm lg:text-base px-2"
+                          : ""
+                      }
+                      lg:py-2 rounded-sm py-2 flex items-center justify-center text-center w-full lg:w-72`}
               >
-                {getStatusText(order?.status)}
-              </span>
-            </div>
-          </div>
-          <div className="mb-4">
-            {/* <div className="divide-y divide-gray-200">
-                            {products.map((product, index) => (
-                                <div key={index} className="py-4">
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <div className='w-full'>
-                                            <p className="text-sm font-semibold text-gray-900">{product.name}</p>
-                                            <div className="w-full mt-1 flex flex-col justify-center items-start gap-1">
-                                                <p className="text-sm text-gray-500">Màu khung: <span className="font-medium">{product.color}</span></p>
-                                                <p className="text-sm text-gray-500">Kích thước: <span className="font-medium">{product.size}</span></p>
-                                            </div>
-                                        </div>
-                                        <div className="text-right">
-                                            <p className="text-sm font-medium text-gray-900">{product.price.toLocaleString('vi-VN')} VND</p>
-                                            <p className="text-sm text-gray-500">Số lượng: {product.quantity}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div> */}
-          </div>
-          <div className="border-t border-gray-200 pt-4">
-            <div className="flex justify-between">
-              <p className="text-base font-semibold text-gray-900">Tổng tiền</p>
-              <p className="text-base font-semibold text-gray-900">
-                {HELPER.formatVND(order?.total)}
-              </p>
+                {order?.payment_method === "cash" && "Thanh toán bằng tiền mặt"}
+                {order?.payment_method === "momo" && "Thanh toán Momo"}
+                {order?.payment_method === "vnpay" && "Thanh toán VNPay"}
+              </div>
             </div>
           </div>
         </div>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button
+              type="button"
+              variant="secondary"
+              className="!px-10 !text-[16px]"
+            >
+              Đóng
+            </Button>
+          </DialogClose>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

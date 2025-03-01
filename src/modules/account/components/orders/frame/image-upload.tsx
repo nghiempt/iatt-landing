@@ -92,34 +92,36 @@ const ImageUpload = ({
         className="hidden"
       />
       {!preview ? (
-        <div
-          onClick={handleClick}
-          onDragOver={handleDragOver}
-          onDrop={handleDrop}
-          className="border-2 border-dashed border-gray-300 p-4 flex flex-col items-center justify-center h-64 mb-4"
-          style={getContainerStyle()}
-        >
-          <div className="text-gray-500 flex flex-col items-center">
-            <div className="flex flex-row justify-center items-center gap-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 4v16m8-8H4"
-                />
-              </svg>
-              <span>Tải hình ảnh lên</span>
+        <>
+          <div
+            onClick={handleClick}
+            onDragOver={handleDragOver}
+            onDrop={handleDrop}
+            className="border-2 border-dashed border-gray-300 p-4 flex flex-col items-center justify-center h-64 mb-4"
+            style={getContainerStyle()}
+          >
+            <div className="text-gray-500 flex flex-col items-center">
+              <div className="flex flex-row justify-center items-center gap-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 4v16m8-8H4"
+                  />
+                </svg>
+                <span>Tải hình ảnh lên</span>
+              </div>
+              <span className="text-xs mt-1">hoặc kéo thả ảnh vào đây</span>
             </div>
-            <span className="text-xs mt-1">hoặc kéo thả ảnh vào đây</span>
           </div>
-        </div>
+        </>
       ) : (
         <div className="relative group" style={getContainerStyle()}>
           <div
@@ -156,6 +158,14 @@ const ImageUpload = ({
               priority
               className="absolute top-0 left-0 w-full h-full object-cover"
             />
+          </div>
+          <div
+            onClick={handleClick}
+            className="flex w-full items-center justify-center gap-2 rounded-lg border-2 border-dashed border-gray-300 bg-white px-5 py-3 mt-5 text-sm font-medium text-gray-900 hover:bg-gray-50 hover:text-primary-700 cursor-pointer"
+          >
+            <div className="flex flex-col items-center">
+              <span className="text-xs text-gray-500">Thay đổi hình ảnh</span>
+            </div>
           </div>
         </div>
       )}
