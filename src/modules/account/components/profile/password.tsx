@@ -139,26 +139,11 @@ export default function AccountPassword() {
     fetchAccount();
   }, []);
 
-  const getFullAddressName = () => {
-    if (!customerAccount || !customerAccount.province)
-      return "Bạn chưa có địa chỉ giao hàng vui lòng bổ sung.";
-
-    const provinceObj = provinces.find(
-      (p) => p.code.toString() === customerAccount.province
-    );
-    const districtObj = provinceObj?.districts.find(
-      (d) => d.code.toString() === customerAccount.district
-    );
-    const wardObj = districtObj?.wards.find(
-      (w) => w.code.toString() === customerAccount.ward
-    );
-
-    return `${customerAccount.address}, ${wardObj?.name}, ${districtObj?.name}, ${provinceObj?.name}`;
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+
+    const passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])(.{8,})$/;
 
     if (formData.newPassword !== formData.confirmPassword) {
       toast({
@@ -170,34 +155,26 @@ export default function AccountPassword() {
       return;
     }
 
+    if (!passwordRegex.test(formData.newPassword)) {
+      toast({
+        title: "Lỗi bảo mật",
+        description:
+          "Mật khẩu mới phải có ít nhất 8 ký tự, 1 số và 1 ký tự đặc biệt.",
+        variant: "destructive",
+      });
+      setLoading(false);
+      return;
+    }
+
     const formattedData = {
       oldPassword: formData.password,
       newPassword: formData.newPassword,
     };
-
-    // const formattedData = {
-    //   ...formData,
-    // };
     try {
       const response = await AccountService.changePassword(
         customerAccount?._id,
         formattedData
       );
-      // if (response === false) {
-      //   toast({
-      //     title: "",
-      //     description: "Mật khẩu cũ không chính xác.",
-      //     variant: "destructive",
-      //   });
-      //   console.log("Mật khẩu cũ không chính xác.");
-
-      //   setLoading(false);
-      // } else {
-      //   setLoading(false);
-      //   console.log("Mật khẩu thành công.");
-
-      //   // window.location.href = "/tai-khoan?tab=password";
-      // }
 
       if (!response) {
         toast({
