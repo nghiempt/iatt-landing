@@ -12,13 +12,13 @@ const upPrice = (money: string) => {
     return "Invalid number";
   }
 
-  return (number+50000).toString();
+  return (number + 50000).toString();
 };
 
 const formatDate = (isoDate: string) => {
   const date = new Date(isoDate);
   const day = String(date.getUTCDate()).padStart(2, "0");
-  const month = String(date.getUTCMonth() + 1).padStart(2, "0"); // Months are 0-based
+  const month = String(date.getUTCMonth() + 1).padStart(2, "0");
   const year = date.getUTCFullYear();
   return `${day}/${month}/${year}`;
 };
@@ -42,6 +42,30 @@ const renderCategory2 = (category: string) => {
       break;
     case "Album":
       result = "Album";
+      break;
+    default:
+      break;
+  }
+  return result;
+};
+
+const renderColor = (color: string) => {
+  let result = "";
+  switch (color) {
+    case "black":
+      result = "Đen";
+      break;
+    case "white":
+      result = "Trắng";
+      break;
+    case "gold":
+      result = "Vàng Gold";
+      break;
+    case "silver":
+      result = "Bạc";
+      break;
+    case "wood":
+      result = "Gỗ";
       break;
     default:
       break;
@@ -73,5 +97,6 @@ export const HELPER = {
   convertSpacesToDash,
   upPrice,
   renderCategory2,
+  renderColor,
   calculateTotal,
 };

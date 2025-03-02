@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { Montserrat } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 
-const font = Montserrat({ subsets: ["latin"] });
+const font = Plus_Jakarta_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "IN ẢNH TRỰC TUYẾN",

@@ -12,6 +12,8 @@ import { HELPER } from "@/utils/helper";
 import Image from "next/image";
 import BannerSlider from "./components/slider";
 import { Card } from "@/components/ui/card";
+import { IMAGES } from "@/utils/image";
+import "../../styles/helper.css";
 
 export default function BlogClient() {
   const [blogs, setBlogs] = useState([] as Blog[]);
@@ -58,12 +60,71 @@ export default function BlogClient() {
 
   return (
     <div className="w-full flex flex-col justify-center items-center">
+      {/* HELPER */}
+      <label className="main top-[92%] lg:top-[60%] z-50">
+        <svg
+          width="30"
+          height="30"
+          viewBox="0 0 40 40"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className=""
+        >
+          <path
+            d="M5 18.3335H10C10.8841 18.3335 11.7319 18.6847 12.357 19.3098C12.9821 19.9349 13.3333 20.7828 13.3333 21.6668V26.6668C13.3333 27.5509 12.9821 28.3987 12.357 29.0239C11.7319 29.649 10.8841 30.0002 10 30.0002H8.33333C7.44928 30.0002 6.60143 29.649 5.97631 29.0239C5.35119 28.3987 5 27.5509 5 26.6668V18.3335ZM5 18.3335C5 16.3637 5.38799 14.4131 6.14181 12.5932C6.89563 10.7734 8.00052 9.11977 9.3934 7.72689C10.7863 6.33402 12.4399 5.22912 14.2597 4.4753C16.0796 3.72148 18.0302 3.3335 20 3.3335C21.9698 3.3335 23.9204 3.72148 25.7403 4.4753C27.5601 5.22912 29.2137 6.33402 30.6066 7.72689C31.9995 9.11977 33.1044 10.7734 33.8582 12.5932C34.612 14.4131 35 16.3637 35 18.3335M35 18.3335V26.6668C35 27.5509 34.6488 28.3987 34.0237 29.0239C33.3986 29.649 32.5507 30.0002 31.6667 30.0002H30C29.1159 30.0002 28.2681 29.649 27.643 29.0239C27.0179 28.3987 26.6667 27.5509 26.6667 26.6668V21.6668C26.6667 20.7828 27.0179 19.9349 27.643 19.3098C28.2681 18.6847 29.1159 18.3335 30 18.3335H35Z"
+            stroke="white"
+            stroke-width="3.33333"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M35 26.667V30.0003C35 31.7684 34.2976 33.4641 33.0474 34.7144C31.7971 35.9646 30.1014 36.667 28.3333 36.667H20"
+            stroke="white"
+            stroke-width="3.33333"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        <input className="inp" type="checkbox" />
+        <section className="menu-container">
+          <Link
+            href="#"
+            target="_blank"
+            className="menu-list bg-[#FFB413] flex flex-row gap-3 items-center justify-end w-2/3 -right-[46px]"
+          >
+            <p>Zalo</p>
+            <div>
+              <Image src={IMAGES.ZALO} alt="alt" width={25} height={25} />
+            </div>
+          </Link>
+          <Link
+            href="#"
+            target="_blank"
+            className="menu-list bg-[#FFB413] flex flex-row gap-3 items-center justify-end rounded-full"
+          >
+            <p>Messenger</p>
+            <div>
+              <Image src={IMAGES.MESSENGER} alt="alt" width={30} height={30} />
+            </div>
+          </Link>
+          <Link
+            href="#"
+            target="_blank"
+            className="menu-list bg-[#FFB413] flex flex-row gap-3 items-center justify-end w-[95%] -right-[7px]"
+          >
+            <p>Facebook</p>
+            <div>
+              <Image src={IMAGES.FACEBOOK} alt="alt" width={25} height={25} />
+            </div>
+          </Link>
+        </section>
+      </label>
       <div className="w-full bg-black p-2.5 text-center text-white text-sm font-semibold">
         <span>IN ẢNH TRỰC TUYẾN - In ảnh nhanh chóng, tiện lợi</span>
       </div>
       <Header />
-      <div className="container pb-20 pt-2">
-        <div className="px-4 py-4 pb-10 lg:px-0">
+      <div className="container px-5 lg:px-8 pb-10 lg:pb-20 pt-2">
+        <div className="pt-2 pb-4 lg:pb-0 lg:px-0">
           <nav className="flex items-center gap-2 text-sm text-gray-600 mb-6">
             <Link
               href={`${ROUTES.HOME}`}
@@ -79,13 +140,10 @@ export default function BlogClient() {
               Tin tức
             </Link>
           </nav>
-
           <BannerSlider />
-
-          <h1 className="text-3xl font-bold text-navy-900 py-8">
+          <h1 className="text-2xl lg:text-3xl font-bold text-navy-900 py-8">
             BÀI VIẾT MỚI NHẤT
           </h1>
-
           <Card
             onClick={() =>
               (window.location.href = `${ROUTES.BLOG}/${HELPER.getLastFourChars(
@@ -94,8 +152,21 @@ export default function BlogClient() {
             }
             className="cursor-pointer overflow-hidden mb-8"
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white rounded-lg overflow-hidden shadow-sm">
-              <div className="relative h-64 md:h-auto">
+            {" "}
+            <div className="grid lg:hidden">
+              <GlobalComponent.BlogCard
+                key={1}
+                id={featuredPost?._id}
+                image={featuredPost?.thumbnail}
+                title={featuredPost?.title}
+                excerpt={featuredPost?.excerpt}
+                date={HELPER.formatDate(featuredPost?.created_at)}
+                author={featuredPost?.author}
+                isMain={true}
+              />
+            </div>
+            <div className="hidden lg:grid grid-cols-1 md:grid-cols-2 gap-6 bg-white rounded-lg overflow-hidden shadow-sm">
+              <div className="relative h-auto">
                 <Image
                   src={featuredPost?.thumbnail}
                   alt={featuredPost?.title}
@@ -105,7 +176,7 @@ export default function BlogClient() {
                   priority
                 />
               </div>
-              <div className="p-4 md:p-6 flex flex-col ">
+              <div className="p-4 md:p-6 flex flex-col">
                 <div>
                   <h2 className="text-xl font-semibold mb-2">
                     <a className="text-gray-800 hover:text-gray-600">
@@ -127,7 +198,6 @@ export default function BlogClient() {
               </div>
             </div>
           </Card>
-
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {regularPosts.map((blog: any, index: any) => (
               <GlobalComponent.BlogCard
@@ -142,10 +212,9 @@ export default function BlogClient() {
               />
             ))}
           </div>
-          <h1 className="text-3xl font-bold text-navy-900 py-8">
+          <h1 className="text-2xl lg:text-3xl font-bold text-navy-900 py-8">
             TẤT CẢ BÀI VIẾT
           </h1>
-
           {isLoading ? (
             <div className="w-full flex justify-center items-center py-40">
               <Loader className="animate-spin" size={32} />
@@ -153,16 +222,18 @@ export default function BlogClient() {
           ) : (
             <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-x-6 lg:gap-y-2">
               {blogs?.map((blog: any, index: any) => (
-                <GlobalComponent.BlogCard
-                  key={index}
-                  id={blog?._id}
-                  image={blog?.thumbnail}
-                  title={blog?.title}
-                  excerpt={blog?.excerpt}
-                  date={HELPER.formatDate(blog?.created_at)}
-                  author={blog?.author}
-                  isMain={true}
-                />
+                <div key={index} className="mb-6">
+                  <GlobalComponent.BlogCard
+                    key={index}
+                    id={blog?._id}
+                    image={blog?.thumbnail}
+                    title={blog?.title}
+                    excerpt={blog?.excerpt}
+                    date={HELPER.formatDate(blog?.created_at)}
+                    author={blog?.author}
+                    isMain={true}
+                  />
+                </div>
               ))}
             </div>
           )}

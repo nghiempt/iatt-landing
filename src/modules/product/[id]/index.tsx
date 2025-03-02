@@ -11,6 +11,8 @@ import {
   ChevronLeft,
   Loader,
   ChevronUp,
+  Minus,
+  Plus,
 } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -20,6 +22,8 @@ import { ROUTES } from "@/utils/route";
 import { ProductService } from "@/services/product";
 import { HELPER } from "@/utils/helper";
 import { GlobalComponent } from "@/components/global";
+import { IMAGES } from "@/utils/image";
+import "../../../styles/helper.css";
 
 export default function ProductDetailClient() {
   const [isLoading, setIsLoading] = useState(false);
@@ -61,7 +65,7 @@ export default function ProductDetailClient() {
       id: 1,
       rating: 5,
       author: "Ngọc Quí",
-      date: "03/Feb/2023",
+      date: "03/03/2023",
       content:
         "Tôi rất hài lòng về sản phẩm và dịch vụ của bạn. Hy vọng chúng ta có nhiều cơ hội làm việc với nhau hơn. Sản phẩm tốt ngoài mong đợi, giá cả hợp lý lại giao hàng nhanh.",
       avatar:
@@ -71,7 +75,7 @@ export default function ProductDetailClient() {
       id: 2,
       rating: 4,
       author: "Ngọc Mai",
-      date: "02/Feb/2023",
+      date: "02/03/2023",
       content:
         "Tôi rất hài lòng về sản phẩm và dịch vụ của bạn. Hy vọng chúng ta có nhiều cơ hội làm việc với nhau hơn. Sản phẩm tốt ngoài mong đợi, giá cả hợp lý lại giao hàng nhanh.",
       avatar:
@@ -81,7 +85,7 @@ export default function ProductDetailClient() {
       id: 3,
       rating: 4,
       author: "Ngọc Mai",
-      date: "01/Feb/2023",
+      date: "01/03/2023",
       content:
         "Tôi rất hài lòng về sản phẩm và dịch vụ của bạn. Hy vọng chúng ta có nhiều cơ hội làm việc với nhau hơn. Sản phẩm tốt ngoài mong đợi, giá cả hợp lý lại giao hàng nhanh.",
       avatar:
@@ -91,7 +95,7 @@ export default function ProductDetailClient() {
       id: 4,
       rating: 5,
       author: "Ngọc Mai",
-      date: "01/Feb/2023",
+      date: "01/03/2023",
       content:
         "Tôi rất hài lòng về sản phẩm và dịch vụ của bạn. Hy vọng chúng ta có nhiều cơ hội làm việc với nhau hơn. Sản phẩm tốt ngoài mong đợi, giá cả hợp lý lại giao hàng nhanh.",
       avatar:
@@ -176,18 +180,77 @@ export default function ProductDetailClient() {
 
   return (
     <div className="w-full flex flex-col justify-center items-center">
+      {/* HELPER */}
+      <label className="main top-[92%] lg:top-[60%] z-50">
+        <svg
+          width="30"
+          height="30"
+          viewBox="0 0 40 40"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className=""
+        >
+          <path
+            d="M5 18.3335H10C10.8841 18.3335 11.7319 18.6847 12.357 19.3098C12.9821 19.9349 13.3333 20.7828 13.3333 21.6668V26.6668C13.3333 27.5509 12.9821 28.3987 12.357 29.0239C11.7319 29.649 10.8841 30.0002 10 30.0002H8.33333C7.44928 30.0002 6.60143 29.649 5.97631 29.0239C5.35119 28.3987 5 27.5509 5 26.6668V18.3335ZM5 18.3335C5 16.3637 5.38799 14.4131 6.14181 12.5932C6.89563 10.7734 8.00052 9.11977 9.3934 7.72689C10.7863 6.33402 12.4399 5.22912 14.2597 4.4753C16.0796 3.72148 18.0302 3.3335 20 3.3335C21.9698 3.3335 23.9204 3.72148 25.7403 4.4753C27.5601 5.22912 29.2137 6.33402 30.6066 7.72689C31.9995 9.11977 33.1044 10.7734 33.8582 12.5932C34.612 14.4131 35 16.3637 35 18.3335M35 18.3335V26.6668C35 27.5509 34.6488 28.3987 34.0237 29.0239C33.3986 29.649 32.5507 30.0002 31.6667 30.0002H30C29.1159 30.0002 28.2681 29.649 27.643 29.0239C27.0179 28.3987 26.6667 27.5509 26.6667 26.6668V21.6668C26.6667 20.7828 27.0179 19.9349 27.643 19.3098C28.2681 18.6847 29.1159 18.3335 30 18.3335H35Z"
+            stroke="white"
+            stroke-width="3.33333"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M35 26.667V30.0003C35 31.7684 34.2976 33.4641 33.0474 34.7144C31.7971 35.9646 30.1014 36.667 28.3333 36.667H20"
+            stroke="white"
+            stroke-width="3.33333"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        <input className="inp" type="checkbox" />
+        <section className="menu-container">
+          <Link
+            href="#"
+            target="_blank"
+            className="menu-list bg-[#FFB413] flex flex-row gap-3 items-center justify-end w-2/3 -right-[46px]"
+          >
+            <p>Zalo</p>
+            <div>
+              <Image src={IMAGES.ZALO} alt="alt" width={25} height={25} />
+            </div>
+          </Link>
+          <Link
+            href="#"
+            target="_blank"
+            className="menu-list bg-[#FFB413] flex flex-row gap-3 items-center justify-end rounded-full"
+          >
+            <p>Messenger</p>
+            <div>
+              <Image src={IMAGES.MESSENGER} alt="alt" width={30} height={30} />
+            </div>
+          </Link>
+          <Link
+            href="#"
+            target="_blank"
+            className="menu-list bg-[#FFB413] flex flex-row gap-3 items-center justify-end w-[95%] -right-[7px]"
+          >
+            <p>Facebook</p>
+            <div>
+              <Image src={IMAGES.FACEBOOK} alt="alt" width={25} height={25} />
+            </div>
+          </Link>
+        </section>
+      </label>
       <div className="w-full bg-black p-2.5 text-center text-white text-sm font-semibold">
         <span>IN ẢNH TRỰC TUYẾN - In ảnh nhanh chóng, tiện lợi</span>
       </div>
       <Header />
-      <div className="container pb-20 pt-2">
+      <div className="container px-5 lg:px-8 pb-10 lg:pb-20 pt-2">
         {isLoading ? (
           <div className="col-span-2 text-center w-full flex justify-center items-center py-40">
             <Loader className="animate-spin" size={32} />
           </div>
         ) : (
           <>
-            <div className="w-full px-4 py-4 lg:px-0 flex flex-col justify-center items-start">
+            <div className="w-full pt-2 pb-4 px-0 flex flex-col justify-center items-start">
               <nav className="flex items-center gap-2 text-sm text-gray-600 mb-6">
                 <Link
                   href={`${ROUTES.HOME}`}
@@ -207,7 +270,6 @@ export default function ProductDetailClient() {
                   {currentData?.name?.slice(0, 14)}...
                 </p>
               </nav>
-
               <div className="lg:mt-4">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
                   <div className="relative col-span-6">
@@ -288,29 +350,21 @@ export default function ProductDetailClient() {
                       </Swiper>
                     </div>
                   </div>
-                  <div className="col-span-6 ml-8">
+                  <div className="col-span-6 lg:ml-8">
                     <div className="flex flex-col w-full space-y-4 rounded-md ">
                       <div className="flex justify-between items-start">
-                        <div className="flex items-center gap-1 bg-red-500 text-white px-2 py-1">
+                        <div className="flex items-center gap-1 bg-red-500 text-white text-xs lg:text-base px-2 py-1">
                           Miễn phí Vận Chuyển
                         </div>
                       </div>
                       <h1 className="text-2xl font-bold text-navy-700">
                         {currentData?.name}
                       </h1>
-                      {/* <div className="flex flex-col gap-2">
-                          <span>
-                            Dòng sản phẩm:{" "}
-                            <strong>
-                              {HELPER.renderCategory2(currentData?.category)}
-                            </strong>
-                          </span>
-                        </div> */}
                       <div className="flex justify-start items-center gap-4">
-                        <div className="text-3xl font-medium text-brown-700">
+                        <div className="text-2xl lg:text-3xl font-medium text-brown-700">
                           {HELPER.formatVND(currentData?.price)}
                         </div>
-                        <div className="text-xl font-normal line-through text-brown-700">
+                        <div className="text-md lg:text-xl font-normal line-through text-brown-700">
                           {HELPER.formatVND(HELPER.upPrice(currentData?.price))}
                         </div>
                       </div>
@@ -319,42 +373,42 @@ export default function ProductDetailClient() {
                         <span>Số lượng</span>
                         <div className="flex border border-gray-400 rounded-sm">
                           <button
-                            className="px-3 py-1 border-r border-gray-400 items-center"
+                            className="px-2 py-1 border-r border-gray-400 items-center"
                             onClick={() => handleQuantityChange("decrease")}
                           >
-                            -
+                            <Minus size={17} />
                           </button>
                           <input
                             type="number"
-                            className="w-14 grid place-items-center ml-2"
+                            className="w-14 text-center grid place-items-center"
                             value={quantity}
                             readOnly
                           />
                           <button
-                            className="px-3 py-1 border-l border-gray-400 items-center"
+                            className="px-2 py-1 border-l border-gray-400 items-center"
                             onClick={() => handleQuantityChange("increase")}
                           >
-                            +
+                            <Plus size={17} />
                           </button>
                         </div>
                       </div>
 
                       <div className="flex space-x-4">
-                        <button className="px-6 py-2 w-52 border-2 border-[rgb(var(--primary-rgb))] text-[rgb(var(--primary-rgb))] hover:bg-orange-50">
+                        <button className="text-sm lg:text-base px-2 lg:px-6 py-2 w-52 border-2 border-[rgb(var(--primary-rgb))] text-[rgb(var(--primary-rgb))] hover:bg-orange-50">
                           Thêm Vào Giỏ Hàng
                         </button>
                         <button
                           onClick={() => {
                             window.location.href = `/tai-khoan?tab=order-single&product=${currentData?._id}`;
                           }}
-                          className="px-6 py-2 w-52 bg-[rgb(var(--primary-rgb))] text-white hover:bg-[rgb(var(--primary-rgb))]"
+                          className="text-sm lg:text-base px-2 lg:px-6 py-2 w-52 bg-[rgb(var(--primary-rgb))] text-white hover:bg-[rgb(var(--primary-rgb))]"
                         >
                           Mua Ngay
                         </button>
                       </div>
                     </div>
-                    <div className="hidden lg:flex flex-col w-full lg:px-6 py-6 space-y-4">
-                      <h2 className="text-2xl font-bold text-navy-700">
+                    <div className="flex flex-col w-full lg:px-6 pt-7 pb-1 space-y-4">
+                      <h2 className="text-xl lg:text-2xl font-bold text-navy-700">
                         CHI TIẾT SẢN PHẨM
                       </h2>
                       <div className="space-y-4">
@@ -369,16 +423,18 @@ export default function ProductDetailClient() {
                         </div>
                         <div className="flex justify-center relative">
                           <button
-                            className="text-black cursor-pointer font-semibold py-4 px-8 border border-gray-300 flex items-center gap-4 rounded-md"
+                            className="text-black cursor-pointer font-semibold px-4 py-2 lg:py-4 lg:px-8 border border-gray-300 flex items-center gap-4 rounded-md"
                             onClick={() => setExpanded(!expanded)}
                           >
                             {expanded ? (
                               <>
-                                <p>Thu gọn</p> <ChevronUp size={16} />
+                                <p className="text-sm lg:text-base">Thu gọn</p>{" "}
+                                <ChevronUp size={16} />
                               </>
                             ) : (
                               <>
-                                <p>Xem thêm</p> <ChevronDown size={16} />
+                                <p className="text-sm lg:text-base">Xem thêm</p>{" "}
+                                <ChevronDown size={16} />
                               </>
                             )}
                           </button>
@@ -399,9 +455,8 @@ export default function ProductDetailClient() {
                 </div>
               </div>
             </div>
-
-            <div className="py-14 grid grid-cols-1 lg:grid-cols-12 gap-4">
-              <div className="hidden lg:flex flex-col col-span-5">
+            <div className="pt-4 pb-7 lg:pb-14 lg:pt-14 grid grid-cols-1 lg:grid-cols-12 gap-4">
+              <div className="hidden lg:flex flex-col w-full col-span-5">
                 <div className="flex items-center gap-2 mb-4">
                   <h2 className="text-xl font-bold">Đánh giá</h2>
                   <span className="text-gray-500">(4)</span>
@@ -433,9 +488,8 @@ export default function ProductDetailClient() {
                   ))}
                 </div>
               </div>
-
-              <div className="col-span-7 pl-20 space-y-4">
-                <h2 className="text-2xl font-bold text-navy-700">
+              <div className="col-span-7 lg:pl-20 space-y-4">
+                <h2 className="text-xl lg:text-2xl font-bold text-navy-700">
                   MÔ TẢ SẢN PHẨM
                 </h2>
                 <div className="space-y-4">
@@ -450,24 +504,25 @@ export default function ProductDetailClient() {
                   </div>
                   <div className="flex justify-center relative">
                     <button
-                      className="text-black cursor-pointer font-semibold py-4 px-8 border border-gray-300 flex items-center gap-4 rounded-md"
+                      className="text-black cursor-pointer font-semibold px-4 py-2 lg:py-4 lg:px-8 border border-gray-300 flex items-center gap-4 rounded-md"
                       onClick={() => setExpanded1(!expanded1)}
                     >
-                      {expanded ? (
+                      {expanded1 ? (
                         <>
-                          <p>Thu gọn</p> <ChevronUp size={16} />
+                          <p className="text-sm lg:text-base">Thu gọn</p>{" "}
+                          <ChevronUp size={16} />
                         </>
                       ) : (
                         <>
-                          <p>Xem thêm</p> <ChevronDown size={16} />
+                          <p className="text-sm lg:text-base">Xem thêm</p>{" "}
+                          <ChevronDown size={16} />
                         </>
                       )}
                     </button>
                   </div>
                 </div>
               </div>
-
-              <div className="flex flex-col lg:hidden col-span-5">
+              <div className="flex flex-col lg:hidden col-span-5 mt-5">
                 <div className="flex items-center gap-2 mb-4">
                   <h2 className="text-xl font-bold">Đánh giá</h2>
                   <span className="text-gray-500">(4)</span>
@@ -500,8 +555,7 @@ export default function ProductDetailClient() {
                 </div>
               </div>
             </div>
-
-            <h2 className="text-2xl font-bold text-black mb-4">
+            <h2 className="text-2xl font-bold text-black mb-4 mt-2">
               Bạn cũng có thể thích
             </h2>
             <div className="w-full grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4">

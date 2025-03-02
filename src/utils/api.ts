@@ -11,6 +11,7 @@ const ACCOUNT = {
   GET_ALL: `${BASE_URL}/inanhtructuyen/account/`,
   GET_ACCOUNT_BY_ID: `${BASE_URL}/inanhtructuyen/account`,
   UPDATE: `${BASE_URL}/inanhtructuyen/account/update`,
+  CHANGE_PASSWORD: `${BASE_URL}/inanhtructuyen/account/change-password`,
 };
 
 const PRODUCT = {

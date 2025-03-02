@@ -1,5 +1,4 @@
 import { API } from "@/utils/api";
-import Cookies from "js-cookie";
 
 const getAll = async () => {
   try {
@@ -31,7 +30,26 @@ const updateAccount = async (id: any, payload: any) => {
       throw new Error(`Failed - Status: ${response.status}`);
     }
 
-    console.log("update profile success");
+    return true;
+  } catch (error: any) {
+    console.error("========= Error Update Account:", error);
+    return false;
+  }
+};
+
+const changePassword = async (id: any, payload: any) => {
+  try {
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    const response = await fetch(`${API.ACCOUNT.CHANGE_PASSWORD}/${id}`, {
+      method: "POST",
+      headers: myHeaders,
+      body: JSON.stringify(payload),
+      redirect: "follow",
+    });
+    if (!response.ok) {
+      throw new Error(`Failed - Status: ${response.status}`);
+    }
 
     return true;
   } catch (error: any) {
@@ -120,4 +138,5 @@ export const AccountService = {
   loginAccountEmail,
   getAccountById,
   loginAccountPhone,
+  changePassword,
 };
