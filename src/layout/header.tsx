@@ -122,7 +122,7 @@ export default function Header() {
               height={44}
             />
             <div className="flex flex-col justify-center items-start">
-              <span className="text-lg font-bold">IN ẢNH TRỰC TUYẾN</span>
+              <span className="text-md font-bold">IN ẢNH TRỰC TUYẾN</span>
               <span className="text-xs font-light text-[#f6842c]">In ảnh đẹp giá rể</span>
             </div>
           </Link>
