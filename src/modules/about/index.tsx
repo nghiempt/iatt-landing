@@ -72,12 +72,13 @@ export default function AboutClient() {
           </Link>
         </section>
       </label>
-      <div className="w-full bg-black p-2.5 text-center text-white text-sm font-semibold">
-        <span>IN ẢNH TRỰC TUYẾN - In ảnh nhanh chóng, tiện lợi</span>
+      <div className="flex flex-col justify-center items-center w-full bg-[#F0F0F0] py-1 text-center text-[#A98F57] text-sm font-semibold">
+        <span className="text-md font-light">Các phong cách</span>
+        <span className="text-lg font-semibold">THIẾT KẾ ALBUM CƯỚI HOT NHẤT</span>
       </div>
       <Header />
-      <div className="container px-5 lg:px-8 pb-10 lg:pb-20 pt-2">
-        <div className="pt-2 pb-4 lg:pb-0 lg:px-0">
+      <div className="w-full container !px-0 lg:px-8 pb-10 lg:pb-20 pt-2">
+        <div className="px-4 pt-2 pb-2 lg:pb-0 lg:px-0">
           <nav className="flex items-center gap-2 text-sm text-gray-600 mb-2">
             <Link
               href={`${ROUTES.HOME}`}

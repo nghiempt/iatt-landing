@@ -191,11 +191,12 @@ export default function ProductClient() {
           </Link>
         </section>
       </label>
-      <div className="w-full bg-black p-2.5 text-center text-white text-sm font-semibold">
-        <span>IN ẢNH TRỰC TUYẾN - In ảnh nhanh chóng, tiện lợi</span>
+      <div className="flex flex-col justify-center items-center w-full bg-[#F0F0F0] py-1 text-center text-[#A98F57] text-sm font-semibold">
+        <span className="text-md font-light">Các phong cách</span>
+        <span className="text-lg font-semibold">THIẾT KẾ ALBUM CƯỚI HOT NHẤT</span>
       </div>
       <Header />
-      <div className="container px-5 lg:px-8 pb-10 lg:pb-20 pt-2">
+      <div className="container px-5 lg:px-8 lg:pb-20 pt-2">
         <div className="pt-2 pb-4 px-0">
           <nav className="flex items-center gap-2 text-sm text-gray-600 mb-6">
             <Link
@@ -212,21 +213,20 @@ export default function ProductClient() {
               Tất cả sản phẩm
             </Link>
           </nav>
-          <BannerSlider />
           <h1 className="text-2xl lg:text-3xl font-bold text-navy-900 mt-6 ">
-            TẤT CẢ SẢN PHẨM
+            SẢN PHẨM CỦA CHÚNG TÔI
           </h1>
           <div className="grid grid-cols-1 space-y-2 lg:flex lg:flex-row justify-between items-center gap-4 pb-8 pt-3">
             <div className="grid lg:flex gap-2 lg:gap-4">
-              <div className="font-medium items-center text-black py-2">
-                Chọn theo:{" "}
+              <div className="items-center text-black pb-2">
+                Lọc theo:{" "}
               </div>
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 {categories.map((cate: any, index: any) =>
                   selectedCate === cate.tag ? (
                     <button
                       key={index}
-                      className="text-[rgb(var(--primary-rgb))] font-bold px-4 py-2 rounded-sm bg-gray-100 border border-gray-300"
+                      className="text-orange-600 font-bold px-4 py-2 rounded-sm bg-white border border-orange-600"
                     >
                       {cate.name}
                     </button>
@@ -236,7 +236,7 @@ export default function ProductClient() {
                       onClick={() => {
                         handleSelectCategory(cate.tag);
                       }}
-                      className="text-black font-medium px-4 py-2 rounded-sm bg-gray-100 border border-gray-300"
+                      className="text-black font-medium px-4 py-2 rounded-sm bg-gray-50 border border-gray-200"
                     >
                       {cate.name}
                     </button>
@@ -264,7 +264,7 @@ export default function ProductClient() {
                       selectedSort === sort ? (
                         <div
                           key={sort}
-                          className="bg-gray-100 text-[rgb(var(--primary-rgb))] font-medium flex items-center px-4 py-2"
+                          className="bg-gray-50 text-orange-600 font-medium flex items-center px-4 py-2"
                         >
                           <span>{label}</span>
                         </div>
@@ -292,7 +292,7 @@ export default function ProductClient() {
                       data?._id
                     )}?sp=${HELPER.convertSpacesToDash(data?.name)}`}
                   >
-                    <GlobalComponent.ProductCardSmall
+                    <GlobalComponent.ProductCardMobile
                       image={data?.thumbnail}
                       title={data?.name}
                       price={data?.price}

@@ -73,7 +73,7 @@ const AboutSection = () => {
     <div className="space-y-8">
       <div className="text-gray-600">
         <p className="mb-4 font-semibold text-xl">
-          Chào mừng bạn đến với INANHTHUCTUYEN.COM
+          Chào mừng bạn đến với In Ảnh Trực Tuyến (<strong>inanhtructuyen.com</strong>)
         </p>
         <p className="mb-4">
           Tại INANHTHUCTUYEN.COM, chúng tôi thấu hiểu rằng những khoảnh khắc
@@ -326,14 +326,14 @@ const AboutSection = () => {
   return (
     <div className=" bg-white">
       <BannerSlider />
-      <div className="lg:pb-0 lg:px-0">
+      <div className="px-4 pt-4 lg:pb-0 lg:px-0">
         {policies.map((policy) => (
           <div key={policy.title} className="">
             <button
               onClick={() => toggleSection(policy.title)}
               className="w-full pt-4 pb-2 flex justify-start items-center text-left border-b border-gray-300"
             >
-              <span className="text-xl lg:text-2xl font-bold text-gray-800 pr-2">
+              <span className="text-xl lg:text-2xl font-semibold text-gray-800 pr-2">
                 {policy.title}
               </span>
               <ChevronDown
@@ -343,7 +343,7 @@ const AboutSection = () => {
               />
             </button>
             {expandedSections[policy.title] && (
-              <div className=" pt-4 lg:py-4 text-gray-600">
+              <div className="text-justify pt-4 lg:py-4 text-gray-600">
                 {policy.content}
               </div>
             )}

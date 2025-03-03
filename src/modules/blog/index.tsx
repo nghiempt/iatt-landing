@@ -119,8 +119,9 @@ export default function BlogClient() {
           </Link>
         </section>
       </label>
-      <div className="w-full bg-black p-2.5 text-center text-white text-sm font-semibold">
-        <span>IN ẢNH TRỰC TUYẾN - In ảnh nhanh chóng, tiện lợi</span>
+      <div className="flex flex-col justify-center items-center w-full bg-[#F0F0F0] py-1 text-center text-[#A98F57] text-sm font-semibold">
+        <span className="text-md font-light">Các phong cách</span>
+        <span className="text-lg font-semibold">THIẾT KẾ ALBUM CƯỚI HOT NHẤT</span>
       </div>
       <Header />
       <div className="container px-5 lg:px-8 pb-10 lg:pb-20 pt-2">
@@ -140,8 +141,7 @@ export default function BlogClient() {
               Tin tức
             </Link>
           </nav>
-          <BannerSlider />
-          <h1 className="text-2xl lg:text-3xl font-bold text-navy-900 py-8">
+          <h1 className="text-2xl lg:text-3xl font-bold text-navy-900 pb-8">
             BÀI VIẾT MỚI NHẤT
           </h1>
           <Card

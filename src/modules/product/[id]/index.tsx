@@ -239,11 +239,12 @@ export default function ProductDetailClient() {
           </Link>
         </section>
       </label>
-      <div className="w-full bg-black p-2.5 text-center text-white text-sm font-semibold">
-        <span>IN ẢNH TRỰC TUYẾN - In ảnh nhanh chóng, tiện lợi</span>
+      <div className="flex flex-col justify-center items-center w-full bg-[#F0F0F0] py-1 text-center text-[#A98F57] text-sm font-semibold">
+        <span className="text-md font-light">Các phong cách</span>
+        <span className="text-lg font-semibold">THIẾT KẾ ALBUM CƯỚI HOT NHẤT</span>
       </div>
       <Header />
-      <div className="container px-5 lg:px-8 pb-10 lg:pb-20 pt-2">
+      <div className="container px-5 lg:px-8 pb-4 lg:pb-20 pt-2">
         {isLoading ? (
           <div className="col-span-2 text-center w-full flex justify-center items-center py-40">
             <Loader className="animate-spin" size={32} />
@@ -571,7 +572,7 @@ export default function ProductDetailClient() {
                         product?._id
                       )}?sp=${HELPER.convertSpacesToDash(product?.name)}`}
                     >
-                      <GlobalComponent.ProductCardSmall
+                      <GlobalComponent.ProductCardMobile
                         image={product?.thumbnail}
                         title={product?.name}
                         price={product?.price}
