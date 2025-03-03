@@ -122,11 +122,11 @@ export default function Header() {
               height={44}
             />
             <div className="flex flex-col justify-center items-start">
-              <span className="text-lg font-bold">IN ẢNH TRỰC TUYẾN</span>
-              <span className="text-xs font-light text-[#f6842c]">In ảnh đẹp giá rể</span>
+              <span className="text-md font-bold">IN ẢNH TRỰC TUYẾN</span>
+              <span className="text-xs font-medium text-[#f6842c]">In ảnh đẹp giá rể</span>
             </div>
           </Link>
-          <div className="flex lg:hidden gap-6">
+          <div className="flex lg:hidden gap-4">
             <Image
               src="https://cdn-icons-png.flaticon.com/128/555/555515.png"
               alt="alt"
@@ -289,7 +289,7 @@ export default function Header() {
               width={12}
               height={12}
             />
-            0939.xxx.xxx
+            0939.468.252
           </span>
           <span className="text-xs flex justify-start items-center gap-2">
             <Image
@@ -298,7 +298,7 @@ export default function Header() {
               width={12}
               height={12}
             />
-            Thứ 2 - Thứ 7 (Từ 8h - 17h30)
+            Thứ 2 - Chủ nhật (Từ 8h - 17h30)
           </span>
         </div>
         <div className="flex justify-center items-center border border-blue-500 rounded-md gap-2 p-1">
