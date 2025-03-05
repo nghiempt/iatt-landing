@@ -270,13 +270,13 @@ export default function OrderHistory() {
                     <div className="w-full h-[1px] bg-gray-300 mb-4"></div>
                     <div className="flex flex-col lg:flex-row gap-5 lg:gap-0 items-start justify-between">
                       <div className="flex flex-col gap-4 justify-center items-start">
-                        <div className="flex flex-row gap-4 items-center">
+                        <div className="flex flex-row gap-4 items-center w-full h-full">
                           <Image
                             src={order?.image}
                             alt={order?.product_name}
                             width={1000}
                             height={1000}
-                            className="object-cover w-32 h-32"
+                            className="object-cover w-40 h-40"
                           />
                           <div className="">
                             <div className="space-y-1">

@@ -73,7 +73,8 @@ const AboutSection = () => {
     <div className="space-y-8">
       <div className="text-gray-600">
         <p className="mb-4 font-semibold text-xl">
-          Chào mừng bạn đến với In Ảnh Trực Tuyến (<strong>inanhtructuyen.com</strong>)
+          Chào mừng bạn đến với In Ảnh Trực Tuyến (
+          <strong>inanhtructuyen.com</strong>)
         </p>
         <p className="mb-4">
           Tại INANHTHUCTUYEN.COM, chúng tôi thấu hiểu rằng những khoảnh khắc

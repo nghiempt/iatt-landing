@@ -83,7 +83,7 @@ const ImageUpload = ({
   };
 
   return (
-    <div className={cn(" flex justify-center", className)}>
+    <div className={cn("flex justify-center", className)}>
       <input
         type="file"
         ref={fileInputRef}
@@ -97,7 +97,7 @@ const ImageUpload = ({
             onClick={handleClick}
             onDragOver={handleDragOver}
             onDrop={handleDrop}
-            className="border-2 border-dashed border-gray-300 p-4 flex flex-col items-center justify-center h-64 mb-4"
+            className="cursor-pointer border-2 border-dashed border-gray-300 p-4 flex flex-col items-center justify-center !w-64 h-64 mb-4"
             style={getContainerStyle()}
           >
             <div className="text-gray-500 flex flex-col items-center">
@@ -123,7 +123,10 @@ const ImageUpload = ({
           </div>
         </>
       ) : (
-        <div className="relative group" style={getContainerStyle()}>
+        <div
+          className="relative group h-[365px] lg:h-full"
+          style={getContainerStyle()}
+        >
           <div
             className={cn(
               "relative w-full overflow-hidden rounded-md",
@@ -143,20 +146,22 @@ const ImageUpload = ({
             )}
           >
             <div
-              style={{
-                paddingBottom: `${
-                  (sizeMap[selectedSize as keyof typeof sizeMap].height /
-                    sizeMap[selectedSize as keyof typeof sizeMap].width) *
-                  100
-                }%`,
-              }}
+              // style={{
+              //   paddingBottom: `${
+              //     (sizeMap[selectedSize as keyof typeof sizeMap].height /
+              //       sizeMap[selectedSize as keyof typeof sizeMap].width) *
+              //     100
+              //   }%`,
+              // }}
+              className="relative !w-64 !h-64"
             />
             <Image
               src={preview}
               alt="Preview"
-              fill
+              width={1000}
+              height={1000}
               priority
-              className="absolute top-0 left-0 w-full h-full object-cover"
+              className="absolute top-0 left-0 !w-full !h-full object-cover"
             />
           </div>
           <div

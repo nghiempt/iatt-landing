@@ -3,7 +3,7 @@
 import Cookies from "js-cookie";
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ROUTES } from "@/utils/route";
 import { ProductService } from "@/services/product";
 import React from "react";
@@ -26,13 +26,18 @@ import { OrderService } from "@/services/order";
 import { UploadService } from "@/services/upload";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { DialogHeader } from "@/components/ui/dialog";
 import { Loader } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import Cropper from "react-easy-crop";
+import { IMAGES } from "@/utils/image";
 
 interface ColorOption {
   id: string;
@@ -628,6 +633,95 @@ const CreateOrderSingleSection = () => {
     }));
   };
 
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
+  const [croppedImage, setCroppedImage] = useState<string | null>(null);
+
+  // const onCropComplete = (croppedArea: any, croppedAreaPixels: any) => {
+  //   console.log(croppedArea, croppedAreaPixels);
+  // };
+
+  const onCropComplete = useCallback(
+    async (croppedArea: any, croppedAreaPixels: any) => {
+      if (!uploadedFile) return;
+
+      try {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        const image = new window.Image();
+
+        image.src = URL.createObjectURL(uploadedFile);
+
+        await new Promise((resolve) => {
+          image.onload = resolve;
+        });
+
+        canvas.width = croppedAreaPixels.width;
+        canvas.height = croppedAreaPixels.height;
+
+        ctx?.drawImage(
+          image,
+          croppedAreaPixels.x,
+          croppedAreaPixels.y,
+          croppedAreaPixels.width,
+          croppedAreaPixels.height,
+          0,
+          0,
+          croppedAreaPixels.width,
+          croppedAreaPixels.height
+        );
+
+        const croppedImageUrl = canvas.toDataURL("image/jpeg");
+        setCroppedImage(croppedImageUrl);
+      } catch (error) {
+        console.error("Error cropping image:", error);
+        toast({
+          title: "Lỗi",
+          description: "Không thể xử lý hình ảnh",
+          variant: "destructive",
+        });
+      }
+    },
+    [uploadedFile]
+  );
+
+  const handleCropSave = () => {
+    if (croppedImage) {
+      setCurrentImage(croppedImage);
+      const blob = dataURLtoBlob(croppedImage);
+      const file = new File([blob], uploadedFile?.name || "cropped-image.jpg", {
+        type: "image/jpeg",
+      });
+      setUploadedFile(file);
+    }
+    setIsLoading(false);
+  };
+
+  const dataURLtoBlob = (dataURL: string) => {
+    const arr = dataURL.split(",");
+    const mime = arr[0].match(/:(.*?);/)?.[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new Blob([u8arr], { type: mime });
+  };
+
+  const getAspectRatio = (sizeId: string) => {
+    switch (sizeId) {
+      case "15x21":
+        return 5 / 7;
+      case "20x30":
+        return 2 / 3;
+      case "40x20":
+        return 2 / 1;
+      default:
+        return 2 / 1;
+    }
+  };
+
   return (
     <div className="w-full mx-auto pb-8">
       <div className="flex flex-col md:flex-row gap-8">
@@ -890,6 +984,7 @@ const CreateOrderSingleSection = () => {
               className="w-1/2 py-4 bg-yellow-400 hover:bg-yellow-500 text-center rounded-md font-medium transition"
             >
               Đặt hàng
+              {isLoading && <Loader className="animate-spin" size={25} />}
             </button>
           </div>
         </div>
@@ -959,94 +1054,187 @@ const CreateOrderSingleSection = () => {
                 </SelectContent>
               </Select>
             </div>
-            {!currentImage.startsWith("http") ? (
-              <>
-                <ImageUpload
-                  onImageChange={setUploadedFile}
-                  selectedColor={selectedColor}
-                  selectedSize={selectedSize}
-                />
-              </>
-            ) : (
-              <>
-                <div
-                  className={cn(
-                    "relative w-full h-full overflow-hidden rounded-md",
-                    `border-8 ${
-                      selectedColor === "white"
-                        ? "border-gray-100"
-                        : selectedColor === "black"
-                        ? "border-black"
-                        : selectedColor === "gold"
-                        ? "border-yellow-400"
-                        : selectedColor === "silver"
-                        ? "border-gray-200"
-                        : selectedColor === "wood"
-                        ? "border-yellow-950"
-                        : "border-gray-200"
-                    }`
+            {selectedProduct !== "Chon san pham" && (
+              <div className="flex flex-col lg:flex-row justify-evenly h-full lg:h-[340px]">
+                <div>
+                  {!currentImage.startsWith("http") &&
+                  selectedProduct !== "Chon san pham" ? (
+                    <>
+                      <ImageUpload
+                        onImageChange={setUploadedFile}
+                        selectedColor={selectedColor}
+                        selectedSize={selectedSize}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <div
+                        className={cn(
+                          "relative w-full h-full overflow-hidden rounded-md",
+                          `${
+                            selectedProduct !== "Chon san pham"
+                              ? "border-8"
+                              : ""
+                          } ${
+                            selectedColor === "white"
+                              ? "border-gray-100"
+                              : selectedColor === "black"
+                              ? "border-black"
+                              : selectedColor === "gold"
+                              ? "border-yellow-400"
+                              : selectedColor === "silver"
+                              ? "border-gray-200"
+                              : selectedColor === "wood"
+                              ? "border-yellow-950"
+                              : "border-gray-200"
+                          }`
+                        )}
+                      >
+                        <Image
+                          src={currentImage}
+                          alt="img"
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                    </>
                   )}
-                >
-                  <Image
-                    src={currentImage}
-                    alt="img"
-                    fill
-                    className="object-cover"
-                  />
                 </div>
-              </>
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <div className="flex justify-center items-center">
+                      <div className="flex flex-row justify-center items-center gap-4 w-full py-2 px-7 lg:py-4 bg-yellow-400 hover:bg-yellow-500 text-center rounded-md font-medium transition cursor-pointer">
+                        Tùy chọn kích thước, màu sắc
+                      </div>
+                    </div>
+                  </DialogTrigger>
+                  <DialogContent
+                    className="sm:max-w-[1200px]"
+                    onOpenAutoFocus={(e) => e.preventDefault()}
+                  >
+                    <DialogHeader>
+                      <DialogTitle>
+                        <span className="!text-[20px]">Tùy chọn hình ảnh</span>
+                      </DialogTitle>
+                      <DialogDescription>
+                        <span className="!text-[16px]">
+                          Chọn kích thước, màu sắc và nhấn{" "}
+                          <strong className="text-orange-700">Lưu</strong> để
+                          tùy chọn hình ảnh.
+                        </span>
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="flex flex-col lg:flex-row justify-center items-start gap-4">
+                      <div className="relative h-[400px] w-full">
+                        <Cropper
+                          image={
+                            uploadedFile
+                              ? URL.createObjectURL(uploadedFile)
+                              : IMAGES.LOGO
+                          }
+                          crop={crop}
+                          zoom={zoom}
+                          aspect={getAspectRatio(selectedSize)}
+                          onCropChange={setCrop}
+                          onCropComplete={onCropComplete}
+                          onZoomChange={setZoom}
+                        />
+                      </div>
+                      <div className="flex flex-col gap-4">
+                        <div>
+                          <h2 className="text-lg lg:text-xl font-medium mb-2">
+                            Kích thước khung ảnh
+                          </h2>
+                          <div className="flex gap-4 mb-6">
+                            {sizeOptions.map((size) => (
+                              <button
+                                key={size.id}
+                                className={`border px-4 py-2 rounded-md ${
+                                  selectedSize === size.id
+                                    ? "border-yellow-500 bg-yellow-50"
+                                    : "border-gray-300"
+                                }`}
+                                onClick={() => setSelectedSize(size.id)}
+                              >
+                                {size.label}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                        <div>
+                          <h2 className="text-lg font-medium mb-2">Màu sắc</h2>
+                          <div className="flex gap-4 mb-6">
+                            {colorOptions
+                              .filter((color) =>
+                                productsData.color?.includes(color.id)
+                              )
+                              .map((color) => (
+                                <button
+                                  key={color.id}
+                                  type="button"
+                                  className={cn(
+                                    "w-8 h-8 rounded-full transition-all border-2",
+                                    color.bgColor,
+                                    color.borderColor,
+                                    selectedColor === color.id
+                                      ? "ring-2 ring-offset-2 ring-orange-700"
+                                      : ""
+                                  )}
+                                  onClick={() => setSelectedColor(color.id)}
+                                />
+                              ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <DialogFooter>
+                      <DialogClose asChild>
+                        <Button
+                          type="button"
+                          variant="secondary"
+                          className="!px-10 !text-[16px]"
+                        >
+                          Huỷ
+                        </Button>
+                      </DialogClose>
+                      <DialogClose asChild>
+                        <Button
+                          type="button"
+                          onClick={handleCropSave}
+                          className="!px-10 !text-[16px] !mb-5 lg:!mb-0"
+                          disabled={isLoading}
+                        >
+                          Lưu
+                          {isLoading && (
+                            <svg
+                              className="animate-spin ml-2 h-5 w-5"
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                            >
+                              <circle
+                                className="opacity-25"
+                                cx="12"
+                                cy="12"
+                                r="10"
+                                stroke="currentColor"
+                                strokeWidth="4"
+                              />
+                              <path
+                                className="opacity-75"
+                                fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                              />
+                            </svg>
+                          )}
+                        </Button>
+                      </DialogClose>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
+              </div>
             )}
           </div>
-          {selectedProduct !== "Chon san pham" && (
-            <>
-              <div>
-                <h2 className="text-lg lg:text-xl font-medium mb-2">
-                  Kích thước khung ảnh
-                </h2>
-                <div className="flex gap-4 mb-6">
-                  {sizeOptions.map((size) => (
-                    <button
-                      key={size.id}
-                      className={`border px-4 py-2 rounded-md ${
-                        selectedSize === size.id
-                          ? "border-yellow-500 bg-yellow-50"
-                          : "border-gray-300"
-                      }`}
-                      onClick={() => setSelectedSize(size.id)}
-                    >
-                      {size.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-              <div>
-                <h2 className="text-lg font-medium mb-2">Màu sắc</h2>
-                <div className="flex gap-4 mb-6">
-                  {colorOptions
-                    .filter((colorOptions) =>
-                      productsData.color?.includes(colorOptions.id)
-                    )
-                    .map((color) => (
-                      <button
-                        key={color.id}
-                        type="button"
-                        className={cn(
-                          "w-8 h-8 rounded-full transition-all border-2",
-                          color.bgColor,
-                          color.borderColor,
-                          selectedColor === color.id
-                            ? "ring-2 ring-offset-2 ring-orange-700"
-                            : ""
-                        )}
-                        onClick={() => {
-                          setSelectedColor(color.id);
-                        }}
-                      ></button>
-                    ))}
-                </div>
-              </div>
-            </>
-          )}
           <div className=" lg:hidden w-full md:w-1/2 space-y-6">
             <div>
               <h2 className="text-lg lg:text-xl font-medium mb-4">
