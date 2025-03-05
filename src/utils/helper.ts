@@ -90,6 +90,20 @@ const calculateTotal = (money: string, ship: any, voucher: any) => {
   return number.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
 };
 
+const calculateTotalNumber = (money: string, ship: any, voucher: any) => {
+  const number = Number(money);
+  if (ship || voucher) {
+    const money = Number(ship);
+    const discount = (number + money) * (Number(voucher) / 100);
+    const result = number + money - discount;
+    return result;
+  }
+  if (isNaN(number)) {
+    return "Invalid number";
+  }
+  return number;
+};
+
 export const HELPER = {
   formatVND,
   formatDate,
@@ -99,4 +113,5 @@ export const HELPER = {
   renderCategory2,
   renderColor,
   calculateTotal,
+  calculateTotalNumber,
 };

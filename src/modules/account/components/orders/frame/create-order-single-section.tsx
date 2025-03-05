@@ -135,8 +135,8 @@ const CreateOrderSingleSection = () => {
   const [products, setProducts] = useState([] as any);
   const [productsData, setProductsData] = useState({} as any);
   const [isLogin, setIsLogin] = useState(Cookies.get("isLogin"));
-  const [orderNoLogin, setOrderNoLogin] = useState(false);
-  const [orderNewAccount, setOrderNewAccount] = useState(false);
+  // const [orderNoLogin, setOrderNoLogin] = useState(false);
+  // const [orderNewAccount, setOrderNewAccount] = useState(false);
   const [selectedSize, setSelectedSize] = React.useState<string>("15x21");
   const [customerAccount, setCustomerAccount] =
     useState<CustomerAccount | null>(null);
@@ -362,6 +362,16 @@ const CreateOrderSingleSection = () => {
       });
       return false;
     }
+
+    // if (!isValid) {
+    //   toast({
+    //     title: "",
+    //     description:
+    //       "Vui lòng nhập đúng mã giảm giá hoặc không dùng mã giảm giá!",
+    //     variant: "destructive",
+    //   });
+    //   return false;
+    // }
     return true;
   };
 
@@ -405,9 +415,17 @@ const CreateOrderSingleSection = () => {
         address: formData?.address || "",
         payment_method: selectedPayment || "",
         discount_code: promoCode || "",
-        total: products.find(
-          (pro: any) => pro._id.toString() === selectedProduct
-        )?.price,
+        discount_price: discountPercent || 0,
+        total:
+          // products.find(
+          //   (pro: any) => pro._id.toString() === selectedProduct
+          // )?.price,
+          HELPER.calculateTotalNumber(
+            products.find((pro: any) => pro._id.toString() === selectedProduct)
+              ?.price,
+            "30000",
+            discountPercent
+          ),
       };
 
       let response;

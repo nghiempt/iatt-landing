@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { HELPER } from "@/utils/helper";
 import Image from "next/image";
 import {
@@ -12,11 +12,44 @@ import {
 import { Button } from "@/components/ui/button";
 import { OrderService } from "@/services/order";
 import { ROUTES } from "@/utils/route";
+import { ProductService } from "@/services/product";
+interface Product {
+  _id: string;
+  name: string;
+  description: string;
+  introduction: string;
+  price: string;
+  thumbnail: string;
+  category: string;
+  sold: number;
+  color: Array<string>;
+  images: Array<string>;
+  created_at: Date;
+}
 
 const CancelOrderModal = ({ order, customerAccount }: any) => {
-  const productPrice = Number(order?.total) || 0;
+  const [productPrice, setProductPrice] = useState<Number | 0>(0);
   const shippingFee = 30000;
-  const total = productPrice + shippingFee;
+  const total = Number(productPrice) + shippingFee;
+  const [product, setProduct] = useState<Product | null>(null);
+
+  const init = async () => {
+    const fetchProduct = async () => {
+      try {
+        const data = await ProductService.getProductById(order?.product_id);
+        setProduct(data.data);
+        setProductPrice(data.data.price);
+      } catch (error) {
+        console.error("Error fetching product:", error);
+      }
+    };
+
+    fetchProduct();
+  };
+
+  useEffect(() => {
+    init();
+  }, []);
 
   const handleUpdateStatus = async (id: string, status: string) => {
     const body = {
@@ -129,16 +162,15 @@ const CancelOrderModal = ({ order, customerAccount }: any) => {
               </div>
               <div className="text-gray-700">
                 {" "}
-                Địa chỉ: {customerAccount?.address}, {customerAccount?.wardName}
-                , {customerAccount?.districtName},{" "}
-                {customerAccount?.provinceName}
+                Địa chỉ: {order?.address}, {order?.wardName},{" "}
+                {order?.districtName}, {order?.provinceName}
               </div>
             </div>
             <div className="border-b border-gray-200">
               <div className="flex justify-between py-2 border-b border-gray-200">
                 <div className="text-gray-600 px-0">Giá sản phẩm</div>
                 <div className="text-gray-800">
-                  {HELPER.formatVND(order?.total)}
+                  {HELPER.formatVND(String(product?.price))}
                 </div>
               </div>
               <div className="flex justify-between py-2 border-b border-gray-200">
@@ -156,14 +188,14 @@ const CancelOrderModal = ({ order, customerAccount }: any) => {
               </div>
               <div className="flex justify-between py-2">
                 <div className="text-gray-600 px-0">Khuyến mãi</div>
-                <div className="text-red-500">{HELPER.formatVND("0")}</div>
+                <div className="text-red-500">{order?.discount_price}%</div>
               </div>
             </div>
             <div className="px-0 py-4 border-b border-gray-200">
               <div className="flex justify-between items-center">
                 <div className="text-lg font-medium">Tổng đơn:</div>
                 <div className="text-xl font-bold">
-                  {HELPER.formatVND(String(total))}
+                  {HELPER.formatVND(String(order?.total))}
                 </div>
               </div>
             </div>

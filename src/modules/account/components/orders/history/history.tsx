@@ -30,6 +30,7 @@ import { IMAGES } from "@/utils/image";
 import "../../../../../styles/helper.css";
 import OrderDetailModal from "./order-detail-modal";
 import CancelOrderModal from "./cancel-order-modal";
+import { ProductService } from "@/services/product";
 
 export type OrderStatus = "pending" | "success" | "cancelled" | "failed";
 
@@ -100,6 +101,20 @@ export interface CustomerAccount {
   wardName: string;
 }
 
+interface Product {
+  _id: string;
+  name: string;
+  description: string;
+  introduction: string;
+  price: string;
+  thumbnail: string;
+  category: string;
+  sold: number;
+  color: Array<string>;
+  images: Array<string>;
+  created_at: Date;
+}
+
 export default function OrderHistory() {
   const [, copy] = useCopyToClipboard();
   const isLogin = Cookies.get("isLogin");
@@ -110,10 +125,13 @@ export default function OrderHistory() {
 
   const [customerAccount, setCustomerAccount] =
     useState<CustomerAccount | null>(null);
+
+  const [product, setProduct] = useState<Product | null>(null);
   const [orders, setOrders] = useState([] as any);
 
   const init = async () => {
     const res = await OrderService.getOrderById(isLogin?.toString() ?? "");
+
     if (res && res.length > 0) {
       setOrders(res);
     }
@@ -128,6 +146,7 @@ export default function OrderHistory() {
         }
       }
     };
+
     fetchAccount();
   };
 
@@ -140,15 +159,6 @@ export default function OrderHistory() {
       setOpenDialog(true);
     }
   }, [tab]);
-
-  const handleUpdateStatus = async (id: string, status: string) => {
-    const body = {
-      status: status,
-    };
-
-    await OrderService.updateOrder(id, body);
-    window.location.href = `${ROUTES.ACCOUNT}?tab=history`;
-  };
 
   return (
     <div className="w-full flex flex-col justify-center items-center">
@@ -264,6 +274,7 @@ export default function OrderHistory() {
                         <OrderDetailModal
                           order={order}
                           customerAccount={customerAccount}
+                          product={product}
                         />
                       </div>
                     </div>
