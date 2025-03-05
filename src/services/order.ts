@@ -101,10 +101,38 @@ const getOrderById = async (id: string) => {
   }
 };
 
+const checkDiscount = async (code: string) => {
+  try {
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const payload = JSON.stringify({
+      code: code,
+    });
+
+    console.log("check payload: " + payload);
+
+    const response = await fetch(`${API.ORDER.DISCOUNT_CHECK}`, {
+      method: "POST",
+      headers: myHeaders,
+      body: payload,
+      redirect: "follow",
+    });
+    if (!response.ok) {
+      throw new Error(`Failed - Status: ${response.status}`);
+    }
+    return response.json();
+  } catch (error: any) {
+    console.error("========= Error Discount Check:", error);
+    return false;
+  }
+};
+
 export const OrderService = {
   getAll,
   createOrder,
   createOrder_no_login,
   getOrderById,
   updateOrder,
+  checkDiscount,
 };

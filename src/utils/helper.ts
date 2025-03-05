@@ -76,8 +76,8 @@ const renderColor = (color: string) => {
 const calculateTotal = (money: string, ship: any, voucher: any) => {
   const number = Number(money);
   if (ship || voucher) {
-    const discount = Number(voucher);
     const money = Number(ship);
+    const discount = (number + money) * (Number(voucher) / 100);
     const result = number + money - discount;
     return result.toLocaleString("vi-VN", {
       style: "currency",

@@ -29,6 +29,7 @@ const ORDER = {
   UPDATE_ORDER: `${BASE_URL}/inanhtructuyen/order`,
   CREATE: `${BASE_URL}/inanhtructuyen/order/`,
   CREATE_NO_LOGIN: `${BASE_URL}/inanhtructuyen/order/no-login`,
+  DISCOUNT_CHECK: `${BASE_URL}/inanhtructuyen/discount/`,
 };
 
 export const API = {

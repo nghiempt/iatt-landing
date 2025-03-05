@@ -32,6 +32,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { DialogHeader } from "@/components/ui/dialog";
+import { Loader } from "lucide-react";
 
 interface ColorOption {
   id: string;
@@ -117,14 +118,13 @@ const CreateOrderSingleSection = () => {
   const [district, setDistrict] = useState("");
   const [ward, setWard] = useState("");
 
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [selectedPayment, setSelectedPayment] = React.useState<string>("cash");
   const [provinces, setProvinces] = React.useState<Province[]>([]);
   const [districts, setDistricts] = React.useState<District[]>([]);
   const [wards, setWards] = React.useState<Ward[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const param = useSearchParams();
-  const [frameSize, setFrameSize] = useState("20x30");
-  const [frameColor, setFrameColor] = useState("red");
   const [promoCode, setPromoCode] = useState("");
   const [currentImage, setCurrentImage] = React.useState("");
   const [products, setProducts] = useState([] as any);
@@ -191,6 +191,55 @@ const CreateOrderSingleSection = () => {
     { id: "20x30", label: "20x30", dimensions: { width: 200, height: 300 } },
     { id: "40x20", label: "40x20", dimensions: { width: 400, height: 200 } },
   ];
+
+  const [isValid, setIsValid] = useState<boolean | null>(null);
+  const [isChecking, setIsChecking] = useState(false);
+  const [discountPercent, setDiscountPercent] = useState(0);
+
+  const handleCheckDiscount = async () => {
+    if (promoCode === "") {
+      toast({
+        title: "",
+        description: "Vui lòng nhập mã giảm giá!",
+        variant: "destructive",
+      });
+      setIsValid(false);
+      setDiscountPercent(0);
+      return false;
+    }
+
+    try {
+      setIsChecking(true);
+      const valid = await OrderService.checkDiscount(promoCode);
+
+      if (valid?.data === "Discount code not found") {
+        setIsChecking(false);
+        setIsValid(false);
+        setDiscountPercent(0);
+        toast({
+          title: "",
+          description: "Mã giảm giá không tồn tại!",
+          variant: "destructive",
+        });
+        return false;
+      } else {
+        setIsValid(true);
+        setIsChecking(false);
+        setDiscountPercent(valid?.data?.percent);
+        toast({
+          title: "",
+          description: "Sử dụng mã giảm giá thành công!",
+          style: {
+            backgroundColor: "#22c55e",
+            color: "white",
+          },
+        });
+        return false;
+      }
+    } catch (error) {
+      console.error("Error checking discount:", error);
+    }
+  };
 
   useEffect(() => {
     const fetchProductData = async () => {
@@ -314,7 +363,9 @@ const CreateOrderSingleSection = () => {
   const handleSubmit = async () => {
     if (!validateForm()) return;
     setLoading(true);
+    let accountOrderLogin = false;
     try {
+      setIsLoading(true);
       const upload: any = await UploadService.uploadToCloudinary([
         uploadedFile,
       ]);
@@ -348,6 +399,7 @@ const CreateOrderSingleSection = () => {
         size: selectedSize,
         address: formData?.address || "",
         payment_method: selectedPayment || "",
+        discount_code: promoCode || "",
         total: products.find(
           (pro: any) => pro._id.toString() === selectedProduct
         )?.price,
@@ -359,7 +411,8 @@ const CreateOrderSingleSection = () => {
           account: commonAccountData,
           order: orderData,
         });
-        setOrderNoLogin(true);
+        // setOrderNoLogin(true);
+        accountOrderLogin = false;
         try {
           let data;
           if (/^\d+$/.test(response?.data?.phone)) {
@@ -373,13 +426,11 @@ const CreateOrderSingleSection = () => {
               response?.data?.password
             );
           }
-
           // if (response?.data?.isAccountExisted === true) {
           //   setOrderNewAccount(false);
           // } else {
           //   setOrderNewAccount(true);
           // }
-
           if (data?.message === "SUCCESS") {
             Cookies.set("isLogin", data?.data, { expires: 7 });
             Cookies.set("userLogin", data?.data, { expires: 7 });
@@ -387,6 +438,7 @@ const CreateOrderSingleSection = () => {
           } else {
             throw new Error("Email hoặc mật khẩu chưa chính xác");
           }
+          setIsLoading(false);
         } catch (error) {
           console.error("========= Error Login:", error);
           toast({
@@ -401,7 +453,8 @@ const CreateOrderSingleSection = () => {
           account: { _id: isLogin, ...commonAccountData },
           order: orderData,
         });
-        setOrderNoLogin(false);
+        // setOrderNoLogin(false);
+        accountOrderLogin = true;
         if (response === false) {
           toast({
             title: "",
@@ -410,17 +463,18 @@ const CreateOrderSingleSection = () => {
           });
           return;
         }
+        setIsLoading(false);
       }
 
       if (selectedPayment === "momo" && response?.data) {
         window.open(response.data, "_blank");
-        window.location.href = orderNoLogin
+        window.location.href = accountOrderLogin
           ? `${ROUTES.ACCOUNT}?tab=history`
           : response?.data?.isAccountExisted === true
           ? `${ROUTES.ACCOUNT}?tab=history`
           : `${ROUTES.ACCOUNT}?tab=history&orderNoLogin=true`;
       } else {
-        window.location.href = orderNoLogin
+        window.location.href = accountOrderLogin
           ? `${ROUTES.ACCOUNT}?tab=history`
           : response?.data?.isAccountExisted === true
           ? `${ROUTES.ACCOUNT}?tab=history`
@@ -718,16 +772,16 @@ const CreateOrderSingleSection = () => {
                 <div className="border border-gray-300 rounded divide-y ml-5">
                   <div
                     onClick={() => setSelectedPayment("cash")}
-                    className=" cursor-pointer p-4 flex items-center"
+                    className="cursor-pointer p-4 flex items-center"
                   >
-                    <input
-                      type="radio"
-                      id="cash"
-                      name="payment"
-                      className="mr-2 w-4 h-4 accent-yellow-500"
-                      checked={selectedPayment === "cash"}
-                    />
-                    <label htmlFor="cash" className="ml-2">
+                    <div
+                      className={`cursor-pointer w-5 h-5 rounded-full mr-2 ${
+                        selectedPayment === "cash"
+                          ? "border border-gray-700 bg-yellow-500"
+                          : "border border-gray-200"
+                      }`}
+                    ></div>
+                    <label htmlFor="cash" className="cursor-pointer ml-2">
                       Thanh toán khi nhận hàng
                     </label>
                   </div>
@@ -735,15 +789,16 @@ const CreateOrderSingleSection = () => {
                     onClick={() => setSelectedPayment("bank")}
                     className="cursor-pointer p-4 items-center"
                   >
-                    <div className="flex items-center">
-                      <input
-                        type="radio"
-                        id="bank"
-                        name="payment"
-                        className="mr-2 w-4 h-4 accent-yellow-500"
-                        checked={selectedPayment === "bank"}
-                      />
-                      <label htmlFor="bank" className="ml-2">
+                    <div className="cursor-pointer flex items-center">
+                      <div
+                        className={`cursor-pointer w-5 h-5 rounded-full mr-2 ${
+                          selectedPayment === "bank"
+                            ? "border border-gray-700 bg-yellow-500"
+                            : "border border-gray-200"
+                        }`}
+                      ></div>
+
+                      <label htmlFor="bank" className="cursor-pointer ml-2">
                         Thanh toán qua chuyển khoản ngân hàng
                       </label>
                     </div>
@@ -848,19 +903,57 @@ const CreateOrderSingleSection = () => {
                 value={selectedProduct}
                 onValueChange={setSelectedProduct}
               >
-                <SelectTrigger>
-                  {selectedProduct === "Chon san pham" ? "Chọn sản phẩm" : ""}
-                  <SelectValue placeholder="Chọn sản phẩm" />
+                <SelectTrigger className="flex flex-row items-center gap-2">
+                  <SelectValue placeholder="Chọn sản phẩm">
+                    {selectedProduct && selectedProduct !== "Chon san pham" ? (
+                      products?.find(
+                        (item: any) => String(item?._id) === selectedProduct
+                      ) ? (
+                        <div className="flex flex-row items-center gap-2">
+                          <Image
+                            src={
+                              products?.find(
+                                (item: any) =>
+                                  String(item?._id) === selectedProduct
+                              )?.thumbnail
+                            }
+                            alt=""
+                            width={1000}
+                            height={1000}
+                            className="object-cover w-8 h-8 shrink-0"
+                          />
+                          <p className="text-xs whitespace-nowrap">
+                            {
+                              products?.find(
+                                (item: any) =>
+                                  String(item?._id) === selectedProduct
+                              )?.name
+                            }
+                          </p>
+                        </div>
+                      ) : (
+                        "Chọn sản phẩm"
+                      )
+                    ) : (
+                      "Chọn sản phẩm"
+                    )}
+                  </SelectValue>
                 </SelectTrigger>
-
-                <SelectContent className="">
+                <SelectContent>
                   {products?.map((item: any, index: any) => (
-                    <SelectItem
-                      className="text-xs"
-                      key={index}
-                      value={String(item?._id)}
-                    >
-                      {item?.name}
+                    <SelectItem key={index} value={String(item?._id)}>
+                      <div className="flex flex-row items-center gap-2">
+                        <Image
+                          src={item?.thumbnail}
+                          alt=""
+                          width={1000}
+                          height={1000}
+                          className="object-cover w-8 h-8 shrink-0"
+                        />
+                        <p className="text-xs whitespace-nowrap">
+                          {item?.name}
+                        </p>
+                      </div>
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -1246,9 +1339,9 @@ const CreateOrderSingleSection = () => {
               </div>
               <div className="flex justify-between">
                 <span>Phí vận chuyển</span>
-                <span>{HELPER.formatVND("30000")}</span>
+                <span>+ {HELPER.formatVND("30000")}</span>
               </div>
-              <div className="flex justify-between font-medium">
+              <div className="flex justify-between font-base">
                 <span>Tạm tính</span>
                 <span>
                   {selectedProduct &&
@@ -1267,12 +1360,38 @@ const CreateOrderSingleSection = () => {
                   <input
                     type="text"
                     placeholder="Nhập mã khuyến mãi"
-                    className="border border-gray-300 rounded p-2 text-sm"
+                    className={`border border-gray-300 rounded p-2 text-sm ${
+                      isValid === false
+                        ? "border-red-500"
+                        : isValid === true
+                        ? "border-green-500"
+                        : ""
+                    }`}
                     value={promoCode}
-                    onChange={(e) => setPromoCode(e.target.value)}
+                    onChange={(e) => {
+                      setPromoCode(e.target.value);
+                    }}
                   />
+                  <div
+                    className={`w-full px-5 py-2 bg-yellow-400 hover:bg-yellow-500 text-center rounded-md font-base cursor-pointer ${
+                      isChecking ? "opacity-50 cursor-not-allowed" : ""
+                    }`}
+                    onClick={!isChecking ? handleCheckDiscount : undefined}
+                  >
+                    {isChecking ? "Đang kiểm tra..." : "Dùng mã"}
+                  </div>
                 </div>
               </div>
+
+              {isValid && (
+                <div className="flex justify-between items-center pt-2">
+                  <span>Mã giảm giá</span>
+                  <div className="flex gap-2">
+                    <div className={`text-red-500`}>- {discountPercent}%</div>
+                  </div>
+                </div>
+              )}
+
               <div className="flex justify-between font-bold text-xl pt-4">
                 <span>Tổng</span>
                 <span>
@@ -1282,16 +1401,16 @@ const CreateOrderSingleSection = () => {
                         (pro: any) => pro._id.toString() === selectedProduct
                       )?.price,
                       "30000",
-                      "0"
+                      discountPercent
                     )}
                 </span>
               </div>
             </div>
           )}
           <p className="text-sm text-gray-600">
-                  Bằng cách tiến hành mua hàng, bạn đã đồng ý với các điều khoản và
-                  chính sách của chúng tôi.
-                </p>
+            Bằng cách tiến hành mua hàng, bạn đã đồng ý với các điều khoản và
+            chính sách của chúng tôi.
+          </p>
           <div className="flex flex-row justify-between items-center mt-6">
             <Link
               href={`${ROUTES.HOME}`}
@@ -1315,9 +1434,10 @@ const CreateOrderSingleSection = () => {
             </Link>
             <button
               onClick={() => handleSubmit()}
-              className="w-2/5 lg:w-1/2 py-2 lg:py-4 bg-yellow-400 hover:bg-yellow-500 text-center rounded-md font-medium transition"
+              className="flex flex-row justify-center items-center gap-4 w-2/5 lg:w-1/2 py-2 lg:py-4 bg-yellow-400 hover:bg-yellow-500 text-center rounded-md font-medium transition"
             >
               Đặt hàng
+              {isLoading && <Loader className="animate-spin" size={25} />}
             </button>
           </div>
         </div>
