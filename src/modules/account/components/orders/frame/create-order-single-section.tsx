@@ -807,10 +807,6 @@ const CreateOrderSingleSection = () => {
               </div>
             </>
           )}
-          <p className="text-sm text-gray-600">
-            Bằng cách tiến hành mua hàng, bạn đã đồng ý với các điều khoản và
-            chính sách của chúng tôi.
-          </p>
 
           <div className="hidden flex-row justify-between items-center mt-6">
             <Link
@@ -1292,6 +1288,10 @@ const CreateOrderSingleSection = () => {
               </div>
             </div>
           )}
+          <p className="text-sm text-gray-600">
+                  Bằng cách tiến hành mua hàng, bạn đã đồng ý với các điều khoản và
+                  chính sách của chúng tôi.
+                </p>
           <div className="flex flex-row justify-between items-center mt-6">
             <Link
               href={`${ROUTES.HOME}`}
