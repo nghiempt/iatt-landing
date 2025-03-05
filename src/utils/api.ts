@@ -26,6 +26,7 @@ const BLOG = {
 const ORDER = {
   GET_ALL: `${BASE_URL}/inanhtructuyen/order/`,
   GET_ORDER_BY_ID: `${BASE_URL}/inanhtructuyen/order/get-all`,
+  UPDATE_ORDER: `${BASE_URL}/inanhtructuyen/order`,
   CREATE: `${BASE_URL}/inanhtructuyen/order/`,
   CREATE_NO_LOGIN: `${BASE_URL}/inanhtructuyen/order/no-login`,
 };

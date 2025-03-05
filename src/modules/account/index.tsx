@@ -95,7 +95,7 @@ export default function AccountClient() {
 
     fetchAccount();
     setTab(param.get("tab") || "profile");
-  }, [param]);
+  }, [param, isLogin]);
 
   return <div className="w-full">{renderTab()}</div>;
 }

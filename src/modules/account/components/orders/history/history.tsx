@@ -29,6 +29,7 @@ import { toast } from "@/hooks/use-toast";
 import { IMAGES } from "@/utils/image";
 import "../../../../../styles/helper.css";
 import OrderDetailModal from "./order-detail-modal";
+import CancelOrderModal from "./cancel-order-modal";
 
 export type OrderStatus = "pending" | "success" | "cancelled" | "failed";
 
@@ -140,6 +141,15 @@ export default function OrderHistory() {
     }
   }, [tab]);
 
+  const handleUpdateStatus = async (id: string, status: string) => {
+    const body = {
+      status: status,
+    };
+
+    await OrderService.updateOrder(id, body);
+    window.location.href = `${ROUTES.ACCOUNT}?tab=history`;
+  };
+
   return (
     <div className="w-full flex flex-col justify-center items-center">
       {/* HELPER */}
@@ -241,7 +251,7 @@ export default function OrderHistory() {
                       <div className="text-sm lg:text-base flex flex-col lg:flex-row justify-between items-start lg:items-center lg:gap-16">
                         <span>
                           Mã đơn hàng: <br />
-                          <strong>#{order?._id?.slice(0, 6)}</strong>
+                          <strong>#{order?._id?.slice(-6)}</strong>
                         </span>
                         <span>
                           Ngày đặt hàng: <br />
@@ -259,69 +269,85 @@ export default function OrderHistory() {
                     </div>
                     <div className="w-full h-[1px] bg-gray-300 mb-4"></div>
                     <div className="flex flex-col lg:flex-row gap-5 lg:gap-0 items-start justify-between">
-                      <div className="flex gap-4 justify-center items-center">
-                        <div className="relative w-24 h-24">
+                      <div className="flex flex-col gap-4 justify-center items-start">
+                        <div className="flex flex-row gap-4 items-center">
                           <Image
                             src={order?.image}
                             alt={order?.product_name}
-                            fill
-                            className="object-cover rounded-md border"
+                            width={1000}
+                            height={1000}
+                            className="object-cover w-32 h-32"
                           />
-                        </div>
-                        <div>
-                          <div className="space-y-1">
-                            <p className="text-sm text-gray-500">
-                              {order?.product_category === "Frame" &&
-                                "Khung ảnh"}
-                              {order?.product_category === "Plastic" && "In ấn"}
-                              {order?.product_category === "Album" &&
-                                "Photobook"}
-                            </p>
-                            <h3 className="text-sm lg:text-xl font-medium">
-                              {order?.product_name}
-                            </h3>
-                            <p className="text-sm text-gray-500">
-                              Phân loại: {order?.product_price}
-                            </p>
-                            <p className="text-sm text-gray-500">
-                              Màu: {HELPER.renderColor(order?.color)}
-                            </p>
+                          <div className="">
+                            <div className="space-y-1">
+                              <p className="text-sm text-gray-500">
+                                {order?.product_category === "Frame" &&
+                                  "Khung ảnh"}
+                                {order?.product_category === "Plastic" &&
+                                  "In ấn"}
+                                {order?.product_category === "Album" &&
+                                  "Photobook"}
+                              </p>
+                              <h3 className="text-sm lg:text-xl font-medium">
+                                {order?.product_name}
+                              </h3>
+                              <p className="text-sm text-gray-500">
+                                Phân loại: {order?.product_price}
+                              </p>
+                              <p className="text-sm text-gray-500">
+                                Màu: {HELPER.renderColor(order?.color)}
+                              </p>
+                            </div>
                           </div>
                         </div>
+                        {order?.status === "waiting" && (
+                          <CancelOrderModal
+                            order={order}
+                            customerAccount={customerAccount}
+                          />
+                        )}
                       </div>
                       <div className="flex flex-row justify-between text-right space-y-2 w-full">
                         <div
                           className={`flex flex-row lg:items-end justify-between lg:flex-col gap-20 space-y-0 lg:space-y-4 w-full`}
                         >
                           <div
-                            className={`${
-                              order?.status === "completed"
-                                ? "bg-green-700 text-white text-sm lg:text-base px-2"
-                                : ""
-                            }
-                      ${
-                        order?.status === "delivering"
-                          ? "bg-yellow-800 text-white text-sm lg:text-base px-2"
-                          : ""
-                      }
-                      ${
-                        order?.status === "waiting"
-                          ? "bg-blue-700 text-white text-sm lg:text-base px-2"
-                          : ""
-                      }
-                      ${
-                        order?.status === "pending"
-                          ? "bg-orange-600 text-white text-sm lg:text-base px-2"
-                          : ""
-                      }
-                      ${
-                        order?.status === "paid pending"
-                          ? "bg-yellow-400 text-white text-sm lg:text-base px-2"
-                          : ""
-                      }
-                      ${
-                        order?.status === "paid" ? "bg-pink-200 text-white" : ""
-                      } lg:py-2 rounded-sm flex items-center justify-center text-center w-full lg:w-72`}
+                            className={`
+                              ${
+                                order?.status === "completed"
+                                  ? "bg-green-700 text-white text-sm lg:text-base px-2"
+                                  : ""
+                              }
+                              ${
+                                order?.status === "delivering"
+                                  ? "bg-yellow-800 text-white text-sm lg:text-base px-2"
+                                  : ""
+                              }
+                              ${
+                                order?.status === "waiting"
+                                  ? "bg-blue-700 text-white text-sm lg:text-base px-2"
+                                  : ""
+                              }
+                              ${
+                                order?.status === "pending"
+                                  ? "bg-orange-600 text-white text-sm lg:text-base px-2"
+                                  : ""
+                              }
+                              ${
+                                order?.status === "paid pending"
+                                  ? "bg-yellow-400 text-white text-sm lg:text-base px-2"
+                                  : ""
+                              }
+                              ${
+                                order?.status === "paid"
+                                  ? "bg-pink-200 text-white"
+                                  : ""
+                              }
+                               ${
+                                 order?.status === "cancelled"
+                                   ? "bg-red-500 text-white"
+                                   : ""
+                               } lg:py-2 rounded-sm flex items-center justify-center text-center w-full lg:w-72`}
                           >
                             {order?.status === "completed" && "Hoàn thành"}
                             {order?.status === "paid pending" &&
@@ -331,8 +357,9 @@ export default function OrderHistory() {
                             {order?.status === "pending" &&
                               "Đang chuẩn bị đơn hàng"}
                             {order?.status === "waiting" && "Đợi phản hồi"}
+                            {order?.status === "cancelled" && "Đã hủy đơn hàng"}
                           </div>
-                          <div className="">
+                          <div className="flex flex-row justify-between items-center gap-4">
                             <p className="text-md lg:text-xl font-medium">
                               Tổng đơn: <br />
                               {HELPER.formatVND(order?.total)}

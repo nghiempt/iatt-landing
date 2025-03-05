@@ -3,7 +3,6 @@ import { HELPER } from "@/utils/helper";
 import Image from "next/image";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogFooter,
   DialogHeader,
@@ -11,42 +10,38 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { OrderService } from "@/services/order";
+import { ROUTES } from "@/utils/route";
 
-const OrderDetailModal = ({ order, customerAccount }: any) => {
+const CancelOrderModal = ({ order, customerAccount }: any) => {
   const productPrice = Number(order?.total) || 0;
   const shippingFee = 30000;
   const total = productPrice + shippingFee;
+
+  const handleUpdateStatus = async (id: string, status: string) => {
+    const body = {
+      status: status,
+    };
+
+    await OrderService.updateOrder(id, body);
+    window.location.href = `${ROUTES.ACCOUNT}?tab=history`;
+  };
 
   return (
     <Dialog>
       <DialogTrigger asChild>
         <button
           type="button"
-          className="flex w-full items-center justify-center rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700 md:w-auto"
+          className="cursor-pointer bg-red-500 text-white text-sm lg:text-base px-2 lg:py-2 rounded-sm flex items-center justify-center text-center w-full lg:w-44"
         >
-          Xem chi tiết
-          <svg
-            className="-me-0.5 ms-1.5 h-4 w-4"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="m19 9-7 7-7-7"
-            />
-          </svg>
+          Hủy đơn hàng
         </button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
-          <DialogTitle>Chi tiết đơn hàng #{order?._id?.slice(-6)}</DialogTitle>
+          <DialogTitle>
+            Xác nhận hủy đơn hàng #{order?._id?.slice(-6)}
+          </DialogTitle>
         </DialogHeader>
         <div className="flex items-center justify-center">
           <div className="bg-white rounded-lg w-full max-h-[70vh] overflow-y-auto scroll-bar-style">
@@ -200,19 +195,18 @@ const OrderDetailModal = ({ order, customerAccount }: any) => {
           </div>
         </div>
         <DialogFooter>
-          <DialogClose asChild>
-            <Button
-              type="button"
-              variant="secondary"
-              className="!px-10 !text-[16px]"
-            >
-              Đóng
-            </Button>
-          </DialogClose>
+          <Button
+            type="button"
+            variant="destructive"
+            className="!px-10 !text-[16px]"
+            onClick={() => handleUpdateStatus(order?._id, "cancelled")}
+          >
+            Xác nhận hủy
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
   );
 };
 
-export default OrderDetailModal;
+export default CancelOrderModal;
