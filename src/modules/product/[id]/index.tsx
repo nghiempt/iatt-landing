@@ -241,7 +241,9 @@ export default function ProductDetailClient() {
       </label>
       <div className="flex flex-col justify-center items-center w-full bg-[#F0F0F0] py-1 text-center text-[#A98F57] text-sm font-semibold">
         <span className="text-md font-light">Các phong cách</span>
-        <span className="text-lg font-semibold">THIẾT KẾ ALBUM CƯỚI HOT NHẤT</span>
+        <span className="text-lg font-semibold">
+          THIẾT KẾ ALBUM CƯỚI HOT NHẤT
+        </span>
       </div>
       <Header />
       <div className="container px-5 lg:px-8 pb-4 lg:pb-20 pt-2">
@@ -251,8 +253,8 @@ export default function ProductDetailClient() {
           </div>
         ) : (
           <>
-            <div className="w-full pt-2 pb-4 px-0 flex flex-col justify-center items-start">
-              <nav className="flex items-center gap-2 text-sm text-gray-600 mb-6">
+            <div className="w-full pt-4 pb-4 px-0 flex flex-col justify-center items-start">
+              <nav className="flex items-center gap-2 text-sm text-gray-600 mb-1">
                 <Link
                   href={`${ROUTES.HOME}`}
                   className="hover:text-[rgb(var(--primary-rgb))] text-md"
@@ -271,7 +273,7 @@ export default function ProductDetailClient() {
                   {currentData?.name?.slice(0, 14)}...
                 </p>
               </nav>
-              <div className="lg:mt-4">
+              <div className="mt-3 lg:mt-3">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
                   <div className="relative col-span-6">
                     <Swiper
@@ -281,20 +283,20 @@ export default function ProductDetailClient() {
                       spaceBetween={10}
                       navigation={false}
                     >
-                      <Image
+                      {/* <Image
                         src={currentData?.thumbnail}
                         alt="Product Image"
                         className="object-cover rounded-sm"
                         fill
                         priority
-                      />
+                      /> */}
                       {currentData?.images?.map((proImg: any, index: any) => (
                         <SwiperSlide key={index}>
                           <div className="aspect-square w-full relative bg-gray-50">
                             <Image
                               src={proImg}
                               alt="Product Image"
-                              className="object-cover rounded-sm"
+                              className="object-cover rounded-sm border border-gray-200"
                               fill
                               priority
                             />
@@ -342,7 +344,7 @@ export default function ProductDetailClient() {
                               <Image
                                 src={proImg}
                                 alt={`variant ${index + 1}`}
-                                className="object-cover"
+                                className="object-cover border border-gray-200"
                                 layout="fill"
                               />
                             </div>
@@ -370,23 +372,25 @@ export default function ProductDetailClient() {
                         </div>
                       </div>
 
-                      <div className="flex items-center space-x-4 ">
-                        <span>Số lượng</span>
-                        <div className="flex border border-gray-400 rounded-sm">
+                      <div className="flex items-center space-x-4">
+                        <span className="w-1/4">Số lượng</span>
+                        <div className="flex rounded-sm">
                           <button
-                            className="px-2 py-1 border-r border-gray-400 items-center"
+                            className="px-2 py-1 border border-gray-400 items-center"
                             onClick={() => handleQuantityChange("decrease")}
                           >
                             <Minus size={17} />
                           </button>
-                          <input
-                            type="number"
-                            className="w-14 text-center grid place-items-center"
-                            value={quantity}
-                            readOnly
-                          />
+                          <div className="w-1/4 pl-0 lg:pl-3 text-center border-y border-gray-400">
+                            <input
+                              type="number"
+                              className="w-full text-center"
+                              value={quantity}
+                              readOnly
+                            />
+                          </div>
                           <button
-                            className="px-2 py-1 border-l border-gray-400 items-center"
+                            className="px-2 py-1 border border-gray-400 items-center"
                             onClick={() => handleQuantityChange("increase")}
                           >
                             <Plus size={17} />
@@ -394,15 +398,15 @@ export default function ProductDetailClient() {
                         </div>
                       </div>
 
-                      <div className="flex space-x-4">
-                        <button className="text-sm lg:text-base px-2 lg:px-6 py-2 w-52 border-2 border-[rgb(var(--primary-rgb))] text-[rgb(var(--primary-rgb))] hover:bg-orange-50">
+                      <div className="flex space-x-2 lg:space-x-4">
+                        <button className="text-sm lg:text-base px-1 lg:px-6 py-2 w-52 lg:w-60 border-2 border-[rgb(var(--primary-rgb))] text-[rgb(var(--primary-rgb))] hover:bg-orange-50">
                           Thêm Vào Giỏ Hàng
                         </button>
                         <button
                           onClick={() => {
                             window.location.href = `/tai-khoan?tab=order-single&product=${currentData?._id}`;
                           }}
-                          className="text-sm lg:text-base px-2 lg:px-6 py-2 w-52 bg-[rgb(var(--primary-rgb))] text-white hover:bg-[rgb(var(--primary-rgb))]"
+                          className="text-sm lg:text-base px-1 lg:px-6 py-2 w-52 lg:w-60 bg-[rgb(var(--primary-rgb))] text-white hover:bg-[rgb(var(--primary-rgb))]"
                         >
                           Mua Ngay
                         </button>

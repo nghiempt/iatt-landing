@@ -13,7 +13,6 @@ import { GlobalComponent } from "@/components/global";
 import { HELPER } from "@/utils/helper";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
-import BannerSlider from "./components/slider";
 import Image from "next/image";
 import { IMAGES } from "@/utils/image";
 import "../../styles/helper.css";
@@ -193,12 +192,14 @@ export default function ProductClient() {
       </label>
       <div className="flex flex-col justify-center items-center w-full bg-[#F0F0F0] py-1 text-center text-[#A98F57] text-sm font-semibold">
         <span className="text-md font-light">Các phong cách</span>
-        <span className="text-lg font-semibold">THIẾT KẾ ALBUM CƯỚI HOT NHẤT</span>
+        <span className="text-lg font-semibold">
+          THIẾT KẾ ALBUM CƯỚI HOT NHẤT
+        </span>
       </div>
       <Header />
-      <div className="container px-5 lg:px-8 lg:pb-20 pt-2">
+      <div className="container px-5 lg:px-8 lg:pb-20 pt-4">
         <div className="pt-2 pb-4 px-0">
-          <nav className="flex items-center gap-2 text-sm text-gray-600 mb-6">
+          <nav className="flex items-center gap-2 text-sm text-gray-600 mb-0">
             <Link
               href={`${ROUTES.HOME}`}
               className="hover:text-[rgb(var(--primary-rgb))] text-md"
@@ -213,14 +214,12 @@ export default function ProductClient() {
               Tất cả sản phẩm
             </Link>
           </nav>
-          <h1 className="text-2xl lg:text-3xl font-bold text-navy-900 mt-6 ">
+          <h1 className="text-2xl lg:text-3xl font-bold text-navy-900 mt-3">
             SẢN PHẨM CỦA CHÚNG TÔI
           </h1>
           <div className="grid grid-cols-1 space-y-2 lg:flex lg:flex-row justify-between items-center gap-4 pb-8 pt-3">
-            <div className="grid lg:flex gap-2 lg:gap-4">
-              <div className="items-center text-black pb-2">
-                Lọc theo:{" "}
-              </div>
+            <div className="grid lg:flex justify-start items-center gap-2 lg:gap-4">
+              <div className="items-center text-black">Lọc theo: </div>
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 {categories.map((cate: any, index: any) =>
                   selectedCate === cate.tag ? (
@@ -259,7 +258,7 @@ export default function ProductClient() {
               </Button>
               {openSort && (
                 <div className="absolute top-20 left-0 lg:top-12 lg:left-auto lg:right-0 w-56 bg-white shadow-md border border-gray-100 z-10 transition-opacity duration-300 ease-in-out">
-                  <div className="flex flex-col space-y-2">
+                  <div className="flex flex-col space-y-2 py-2">
                     {sortOptions.map(({ label, sort }) =>
                       selectedSort === sort ? (
                         <div

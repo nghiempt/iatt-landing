@@ -4,7 +4,6 @@ import Link from "next/link";
 import Image from "next/image";
 import {
   CircleDollarSign,
-  CircleUserRound,
   Dot,
   Download,
   FolderPlus,
@@ -12,11 +11,10 @@ import {
   History,
   House,
   Info,
-  Loader,
+  KeyRound,
   LogOut,
+  MapPinHouse,
   NotepadText,
-  Phone,
-  PhoneCall,
   Search,
   UserRound,
 } from "lucide-react";
@@ -118,27 +116,49 @@ export default function Header() {
             <Image
               src={IMAGES.LOGO}
               alt="In Ảnh Trực Tuyến"
-              width={44}
-              height={44}
+              width={40}
+              height={40}
             />
             <div className="flex flex-col justify-center items-start">
-              <span className="text-md font-bold">IN ẢNH TRỰC TUYẾN</span>
-              <span className="text-xs font-medium text-[#f6842c]">In ảnh đẹp giá rể</span>
+              <span className="text-sm font-bold">IN ẢNH TRỰC TUYẾN</span>
+              <span className="text-xs font-medium text-[#f6842c]">
+                In ảnh đẹp giá rể
+              </span>
             </div>
           </Link>
           <div className="flex lg:hidden gap-4">
-            <Image
-              src="https://cdn-icons-png.flaticon.com/128/555/555515.png"
-              alt="alt"
-              width={24}
-              height={24}
-            />
-            <Image
-              src={"https://cdn-icons-png.flaticon.com/128/16470/16470836.png"}
-              alt="alt"
-              width={24}
-              height={24}
-            />
+            {logined ? (
+              <>
+                <div className="flex lg:hidden">
+                  <Image
+                    src={customerAccount?.avatar || ""}
+                    alt="avatar"
+                    width={1000}
+                    height={1000}
+                    className="w-10 h-10 object-cover rounded-full cursor-pointer"
+                  />
+                </div>
+              </>
+            ) : (
+              <>
+                <Image
+                  src="https://cdn-icons-png.flaticon.com/128/555/555515.png"
+                  alt="alt"
+                  width={24}
+                  height={24}
+                />
+                <Link href={`${ROUTES.LOGIN}`}>
+                  <Image
+                    src={
+                      "https://cdn-icons-png.flaticon.com/128/16470/16470836.png"
+                    }
+                    alt="alt"
+                    width={24}
+                    height={24}
+                  />
+                </Link>
+              </>
+            )}
           </div>
           <div className="hidden lg:flex-1 max-w-xl mx-8">
             <div className="relative">
@@ -302,23 +322,23 @@ export default function Header() {
           </span>
         </div>
         <div className="flex justify-center items-center border border-blue-500 rounded-md gap-2 p-1">
-          <div className="flex gap-2">
+          <div className="flex justify-center items-center gap-2">
             <Image
               src="https://static.wikia.nocookie.net/logos/images/9/98/Google_Play_%28Favicon%29.png/revision/latest/scale-to-width-down/512?cb=20240508121626&path-prefix=vi"
               alt="alt"
               width={24}
               height={24}
+              className="w-5 h-5 object-cover"
             />
             <Image
               src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/App_Store_%28iOS%29.svg/1024px-App_Store_%28iOS%29.svg.png"
               alt="alt"
               width={24}
               height={24}
+              className="w-5 h-5 object-cover"
             />
           </div>
-          <div className="text-blue-500 font-semibold">
-            Tải app
-          </div>
+          <div className="text-blue-500 font-semibold text-xs">Tải app</div>
         </div>
       </div>
       {pathname === "/dang-nhap" || pathname === "/dang-ky" ? null : (
@@ -327,10 +347,11 @@ export default function Header() {
             <li>
               <Link
                 href="/"
-                className={`${checkTabEnable("/", pathname)
-                  ? "text-[rgb(var(--primary-rgb))] font-semibold"
-                  : "text-black"
-                  } text-md font-medium hover:text-[rgb(var(--primary-rgb))]`}
+                className={`${
+                  checkTabEnable("/", pathname)
+                    ? "text-[rgb(var(--primary-rgb))] font-semibold"
+                    : "text-black"
+                } text-md font-medium hover:text-[rgb(var(--primary-rgb))]`}
               >
                 TRANG CHỦ
               </Link>
@@ -338,70 +359,73 @@ export default function Header() {
             <li>
               <Link
                 href={`${ROUTES.ABOUT}`}
-                className={`${checkTabEnable(ROUTES.ABOUT, pathname)
-                  ? "text-[rgb(var(--primary-rgb))] font-semibold"
-                  : "text-black"
-                  } text-md font-medium flex justify-center items-center gap-1 hover:text-[rgb(var(--primary-rgb))]`}
+                className={`${
+                  checkTabEnable(ROUTES.ABOUT, pathname)
+                    ? "text-[rgb(var(--primary-rgb))] font-semibold"
+                    : "text-black"
+                } text-md font-medium flex justify-center items-center gap-1 hover:text-[rgb(var(--primary-rgb))]`}
               >
                 VỀ CHÚNG TÔI
-                {/* <ChevronDown size={16} /> */}
               </Link>
             </li>
             <li>
               <Link
                 href={`${ROUTES.PLASTIC}?tag=Plastic`}
-                className={`${checkTabEnable(ROUTES.PLASTIC, pathname)
-                  ? "text-[rgb(var(--primary-rgb))] font-semibold"
-                  : "text-black"
-                  }text-md font-medium flex justify-center items-center gap-1 hover:text-[rgb(var(--primary-rgb))]`}
+                className={`${
+                  checkTabEnable(ROUTES.PLASTIC, pathname)
+                    ? "text-[rgb(var(--primary-rgb))] font-semibold"
+                    : "text-black"
+                }text-md font-medium flex justify-center items-center gap-1 hover:text-[rgb(var(--primary-rgb))]`}
               >
                 IN ẤN
-                {/* <ChevronDown size={16} /> */}
               </Link>
             </li>
             <li>
               <Link
                 href={`${ROUTES.FRAME}?tag=Frame`}
-                className={`${checkTabEnable(ROUTES.FRAME, pathname)
-                  ? "text-[rgb(var(--primary-rgb))] font-semibold"
-                  : "text-black"
-                  }text-md font-medium flex justify-center items-center gap-1 hover:text-[rgb(var(--primary-rgb))]`}
+                className={`${
+                  checkTabEnable(ROUTES.FRAME, pathname)
+                    ? "text-[rgb(var(--primary-rgb))] font-semibold"
+                    : "text-black"
+                }text-md font-medium flex justify-center items-center gap-1 hover:text-[rgb(var(--primary-rgb))]`}
               >
                 KHUNG ẢNH
-                {/* <ChevronDown size={16} /> */}
               </Link>
             </li>
             <li>
               <Link
                 href={`${ROUTES.ALBUM}?tag=Album`}
-                className={`${checkTabEnable(ROUTES.ALBUM, pathname)
-                  ? "text-[rgb(var(--primary-rgb))] font-semibold"
-                  : "text-black"
-                  }text-md font-medium flex justify-center items-center gap-1 hover:text-[rgb(var(--primary-rgb))]`}
+                className={`${
+                  checkTabEnable(ROUTES.ALBUM, pathname)
+                    ? "text-[rgb(var(--primary-rgb))] font-semibold"
+                    : "text-black"
+                }text-md font-medium flex justify-center items-center gap-1 hover:text-[rgb(var(--primary-rgb))]`}
               >
                 PHOTOBOOK
-                {/* <ChevronDown size={16} /> */}
               </Link>
             </li>
             <li>
               <Link
-                href="/"
-                className="text-md font-medium flex justify-center items-center gap-1 hover:text-[rgb(var(--primary-rgb))]"
+                href={ROUTES.PRICE}
+                className={`${
+                  checkTabEnable(ROUTES.PRICE, pathname)
+                    ? "text-[rgb(var(--primary-rgb))] font-semibold"
+                    : "text-black"
+                }text-md font-medium flex justify-center items-center gap-1 hover:text-[rgb(var(--primary-rgb))]`}
               >
                 BẢNG GIÁ
-                {/* <ChevronDown size={16} /> */}
               </Link>
             </li>
             <li>
               <Link
                 href={`${ROUTES.BLOG}`}
-                className={`${checkTabEnable(ROUTES.BLOG, pathname)
-                  ? "text-[rgb(var(--primary-rgb))] font-semibold"
-                  : "text-black"
-                  }text-md font-medium flex justify-center items-center gap-1 hover:text-[rgb(var(--primary-rgb))]`}
+                className={`${
+                  checkTabEnable(ROUTES.BLOG, pathname)
+                    ? "text-[rgb(var(--primary-rgb))] font-semibold"
+                    : "text-black"
+                }text-md font-medium flex justify-center items-center gap-1 hover:text-[rgb(var(--primary-rgb))]`}
               >
                 TIN TỨC
-                {/* <ChevronDown size={16} /> */}
               </Link>
             </li>
           </ul>
@@ -475,6 +499,27 @@ export default function Header() {
                   className="flex items-center justify-start gap-4 text-gray-700 hover:text-black"
                 >
                   <UserRound size={18} /> Hồ sơ cá nhân
+                </a>
+              </li>
+            )}
+            {logined && (
+              <li className="font-bold ">
+                <a
+                  href={`${ROUTES.ACCOUNT}?tab=address`}
+                  className="flex items-center justify-start gap-4 text-gray-700 hover:text-black"
+                >
+                  <MapPinHouse size={18} /> Địa chỉ
+                </a>
+              </li>
+            )}
+            {logined && (
+              <li className="font-bold ">
+                <a
+                  href={`${ROUTES.ACCOUNT}?tab=password`}
+                  className="flex items-center justify-start gap-4 text-gray-700 hover:text-black"
+                >
+                  <KeyRound size={18} />
+                  Mật khẩu
                 </a>
               </li>
             )}

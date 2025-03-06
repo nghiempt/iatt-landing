@@ -12,6 +12,7 @@ import Cookies from "js-cookie";
 import Link from "next/link";
 import { IMAGES } from "@/utils/image";
 import "../../styles/helper.css";
+import { Loader } from "lucide-react";
 
 export default function LoginClient() {
   const [username, setUsername] = useState("");
@@ -207,9 +208,10 @@ export default function LoginClient() {
               <button
                 type="submit"
                 onClick={handleSubmit}
-                className="w-full py-2 px-4 bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-md transition-colors"
+                className="flex flex-row justify-center items-center gap-4 w-full py-2 px-4 bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-md transition-colors"
               >
                 Đăng nhập
+                {isLoading && <Loader className="animate-spin" size={22} />}
               </button>
             </div>
             <p className="text-center text-sm text-gray-600">

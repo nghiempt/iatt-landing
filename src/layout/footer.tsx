@@ -1,41 +1,74 @@
-import { ChevronDown } from 'lucide-react'
-import Image from 'next/image'
-import Link from 'next/link'
-import FacebookPageEmbed from './facebook'
+import { ChevronDown } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import FacebookPageEmbed from "./facebook";
 
 const Footer = () => {
   return (
     <footer className="w-full bg-[#F7F4EF] pt-12 pb-6 flex justify-center items-center">
-      <div className="container !px-4 !mx-0">
+      <div className="container !px-5 lg:!px-0 !mx-0">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
           <div className="space-y-4">
-            <h3 className="text-md font-semibold text-gray-900">KÉT NỐI & CHIA SẼ</h3>
-            <ul className="space-y-2">
-              <li><Link href="/" className="text-gray-600 hover:text-gray-900">Hãy đăng ký nhận bản tin & LIKE trên Facebook để xem tại sao mọi người lại yêu thích & lựa chọn <strong className='text-orange-600'>In Ảnh Trực Tuyến</strong> là nhà in tin cậy của Photographer.</Link></li>
+            <h3 className="text-md font-semibold text-gray-900">
+              KẾT NỐI & CHIA SẺ
+            </h3>
+            <ul className="space-y-2 w-5/6">
+              <li>
+                <Link href="/" className="text-gray-600 hover:text-gray-900">
+                  Hãy đăng ký nhận bản tin & LIKE trên Facebook để xem tại sao
+                  mọi người lại yêu thích & lựa chọn{" "}
+                  <strong className="text-orange-600">In Ảnh Trực Tuyến</strong>{" "}
+                  là nhà in tin cậy của Photographer.
+                </Link>
+              </li>
             </ul>
           </div>
-          <div className='w-full'>
+          <div className="w-full">
             <FacebookPageEmbed />
           </div>
           <div className="space-y-4">
-            <h3 className="text-md font-semibold text-gray-900">THEO DÕI CHÚNG TÔI</h3>
+            <h3 className="text-md font-semibold text-gray-900">
+              THEO DÕI CHÚNG TÔI
+            </h3>
             <div className="flex space-x-4">
               <Link href="/" className="text-blue-600 hover:text-blue-700">
-                <Image src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/768px-Facebook_Logo_%282019%29.png" alt="alt" width={24} height={24} />
+                <Image
+                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/768px-Facebook_Logo_%282019%29.png"
+                  alt="alt"
+                  width={24}
+                  height={24}
+                />
               </Link>
               <Link href="/" className="text-gray-900 hover:text-gray-700">
-                <Image src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Icon_of_Zalo.svg/2048px-Icon_of_Zalo.svg.png" alt="alt" width={24} height={24} />
+                <Image
+                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Icon_of_Zalo.svg/2048px-Icon_of_Zalo.svg.png"
+                  alt="alt"
+                  width={24}
+                  height={24}
+                />
               </Link>
               <Link href="/">
-                <Image src="https://banner2.cleanpng.com/20231123/xjc/transparent-tiktok-logo-black-and-white-logo-tiktok-app-minima-minimalist-black-and-white-tiktok-app-1711004158896.webp" alt="alt" width={24} height={24} />
+                <Image
+                  src="https://banner2.cleanpng.com/20231123/xjc/transparent-tiktok-logo-black-and-white-logo-tiktok-app-minima-minimalist-black-and-white-tiktok-app-1711004158896.webp"
+                  alt="alt"
+                  width={24}
+                  height={24}
+                />
               </Link>
               <Link href="/">
-                <Image src="https://tiemquatiko.com/wp-content/uploads/2022/08/shopee-circle-logo-design-shopping-bag-13.png" alt="alt" width={24} height={24} />
+                <Image
+                  src="https://tiemquatiko.com/wp-content/uploads/2022/08/shopee-circle-logo-design-shopping-bag-13.png"
+                  alt="alt"
+                  width={24}
+                  height={24}
+                />
               </Link>
             </div>
           </div>
           <div className="space-y-4">
-            <h3 className="text-md font-semibold text-gray-900 flex">THÔNG TIN CHUNG <ChevronDown className='ml-2' /></h3>
+            <h3 className="text-md font-semibold text-gray-900 flex">
+              THÔNG TIN CHUNG <ChevronDown className="ml-2" />
+            </h3>
             {/* <ul className="space-y-2">
               <li><Link href="/" className="text-gray-600 hover:text-gray-900">Hỏi đáp</Link></li>
               <li><Link href="/" className="text-gray-600 hover:text-gray-900">Thông tin vận chuyển</Link></li>
@@ -48,7 +81,9 @@ const Footer = () => {
             </ul> */}
           </div>
           <div className="space-y-4">
-            <h3 className="text-md font-semibold text-gray-900 flex">IN ẢNH TRỰC TUYẾN <ChevronDown className='ml-2' /></h3>
+            <h3 className="text-md font-semibold text-gray-900 flex">
+              IN ẢNH TRỰC TUYẾN <ChevronDown className="ml-2" />
+            </h3>
             {/* <ul className="space-y-2">
               <li><Link href="/" className="text-gray-600 hover:text-gray-900">Trang chủ</Link></li>
               <li><Link href="/" className="text-gray-600 hover:text-gray-900">Về chúng tôi</Link></li>
@@ -62,7 +97,9 @@ const Footer = () => {
             </ul> */}
           </div>
           <div className="space-y-4">
-            <h3 className="text-md font-semibold text-gray-900 flex">CÁC TỈNH THÀNH <ChevronDown className='ml-2' /></h3>
+            <h3 className="text-md font-semibold text-gray-900 flex">
+              CÁC TỈNH THÀNH <ChevronDown className="ml-2" />
+            </h3>
             {/* <ul className="space-y-2">
               <li><Link href="/" className="text-gray-600 hover:text-gray-900">TP. Hồ Chí Minh</Link></li>
               <li><Link href="/" className="text-gray-600 hover:text-gray-900">Cần Thơ</Link></li>
@@ -74,29 +111,53 @@ const Footer = () => {
             </ul> */}
           </div>
           <div className="space-y-4">
-            <h3 className="text-md font-semibold text-gray-900">PHƯƠNG THỨC THANH TOÁN</h3>
+            <h3 className="text-md font-semibold text-gray-900">
+              PHƯƠNG THỨC THANH TOÁN
+            </h3>
             <ul className="space-y-2">
               <li className="flex items-center space-x-2">
-                <Image src="https://cdn-icons-png.flaticon.com/128/7630/7630510.png" alt="Tiền mặt" width={24} height={24} />
+                <Image
+                  src="https://cdn-icons-png.flaticon.com/128/7630/7630510.png"
+                  alt="Tiền mặt"
+                  width={24}
+                  height={24}
+                />
                 <span className="text-gray-600">Tiền mặt</span>
               </li>
               <li className="flex items-center space-x-2">
-                <Image src="https://cdn-icons-png.flaticon.com/128/15953/15953021.png" alt="Chuyển khoản" width={24} height={24} />
+                <Image
+                  src="https://cdn-icons-png.flaticon.com/128/15953/15953021.png"
+                  alt="Chuyển khoản"
+                  width={24}
+                  height={24}
+                />
                 <span className="text-gray-600">Chuyển khoản</span>
               </li>
               <li className="flex items-center space-x-2">
-                <Image src="https://upload.wikimedia.org/wikipedia/vi/f/fe/MoMo_Logo.png" alt="Momo" width={24} height={24} />
+                <Image
+                  src="https://upload.wikimedia.org/wikipedia/vi/f/fe/MoMo_Logo.png"
+                  alt="Momo"
+                  width={24}
+                  height={24}
+                />
                 <span className="text-gray-600">Momo</span>
               </li>
               <li className="flex items-center space-x-2">
-                <Image src="https://cdn.haitrieu.com/wp-content/uploads/2022/10/Icon-VNPAY-QR.png" alt="VNPay" width={24} height={24} />
+                <Image
+                  src="https://cdn.haitrieu.com/wp-content/uploads/2022/10/Icon-VNPAY-QR.png"
+                  alt="VNPay"
+                  width={24}
+                  height={24}
+                />
                 <span className="text-gray-600">VNPay</span>
               </li>
             </ul>
           </div>
           <div className="space-y-4">
-            <h3 className="text-md font-semibold text-gray-900">CHỨNG CHỈ UY TÍN</h3>
-            <div className="flex justify-start items-center gap-10">
+            <h3 className="text-md font-semibold text-gray-900">
+              CHỨNG CHỈ UY TÍN
+            </h3>
+            <div className="flex flex-col justify-start items-start gap-7">
               <Image
                 src="https://www.dmca.com/img/dmca-website-logo-2022.png"
                 alt="DMCA Protected"
@@ -138,7 +199,7 @@ const Footer = () => {
         </div>
       </div>
     </footer>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;

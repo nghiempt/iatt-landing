@@ -28,7 +28,7 @@ const getLastFourChars = (input: any) => {
 };
 
 const convertSpacesToDash = (input: string) => {
-  return input.trim().replace(/\s+/g, "-");
+  return input?.trim()?.replace(/\s+/g, "-");
 };
 
 const renderCategory2 = (category: string) => {

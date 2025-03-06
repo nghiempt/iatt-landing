@@ -65,16 +65,14 @@ const CancelOrderModal = ({ order, customerAccount }: any) => {
       <DialogTrigger asChild>
         <button
           type="button"
-          className="cursor-pointer bg-red-500 text-white text-sm lg:text-base px-2 lg:py-2 rounded-sm flex items-center justify-center text-center w-full lg:w-44"
+          className="cursor-pointer bg-red-500 text-white text-sm lg:text-base px-2 py-3 lg:py-2 rounded-sm flex items-center justify-center text-center w-1/2 lg:w-44"
         >
           Hủy đơn hàng
         </button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
-          <DialogTitle>
-            Xác nhận hủy đơn hàng #{order?._id?.slice(-6)}
-          </DialogTitle>
+          <DialogTitle>Hủy đơn hàng #{order?._id?.slice(-6)}</DialogTitle>
         </DialogHeader>
         <div className="flex items-center justify-center">
           <div className="bg-white rounded-lg w-full max-h-[70vh] overflow-y-auto scroll-bar-style">

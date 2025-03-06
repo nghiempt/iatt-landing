@@ -1,7 +1,6 @@
 import { ChevronDown } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
-import BannerSlider from "./slider";
 
 interface PolicySection {
   title: string;
@@ -17,7 +16,7 @@ interface ServiceCard {
 const AboutSection = () => {
   const [expandedSections, setExpandedSections] = useState<{
     [key: string]: boolean;
-  }>({});
+  }>({ "Giới thiệu": true });
   const services: ServiceCard[] = [
     {
       title: "ALBUM CƯỚI, TIỆC",
@@ -41,6 +40,7 @@ const AboutSection = () => {
         "https://s3-alpha-sig.figma.com/img/5ecd/4f30/190e30f2678eadaebfb8b81adc635251?Expires=1740960000&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=Ffim5jo0Wq70zfm8bQC0pIwEnhpqzbHqYqi0YQ3lqYvKE4N18xzSj~PvyP6Vt799nnZFDYds710dRdFswoTRWIJ8Fpe0sA9jCdAUCMgd4wy-XwDclN9j0qtRmH8xnS10kr24bpOpahAFn2BO-4wrO7W~wcNnuezYVkkGvzYPJAUo2ozmpE1xr8NC1gr-o54KGViaYAarjkqtB70ULmbKedfTBpfBdONcrfSj6nv-5UUH1pSfzlD1blSGTVyXE-~fjRugqSjQJ3pakzFn6Hvq1PU4CXxuXA0hJfvbJ2v714bGB6TAwBeu0IRHapllSz86kjcme336BiqK-kHNpJKcEw__",
     },
   ];
+
   const paymentContent = (
     <div className="space-y-4 text-gray-600">
       <p className="mb-4">
@@ -69,10 +69,11 @@ const AboutSection = () => {
       </div>
     </div>
   );
+
   const introductionContent = (
     <div className="space-y-8">
       <div className="text-gray-600">
-        <p className="mb-4 font-semibold text-xl">
+        <p className="mb-4 font-semibold text-left text-xl">
           Chào mừng bạn đến với In Ảnh Trực Tuyến (
           <strong>inanhtructuyen.com</strong>)
         </p>
@@ -93,9 +94,8 @@ const AboutSection = () => {
           trân trọng và được hiện diện theo cách đặc biệt nhất.
         </p>
       </div>
-
       <div>
-        <h2 className="text-2xl font-semibold mb-6 text-gray-800">
+        <h2 className="text-2xl font-semibold text-left mb-6 text-gray-800">
           DỊCH VỤ NỔI BẬT CỦA CHÚNG TÔI
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -119,7 +119,6 @@ const AboutSection = () => {
                   </h3>
                 </div>
               </div>
-
               <div className="pt-4">
                 <p className="text-gray-600 text-sm">{service.description}</p>
               </div>
@@ -129,16 +128,16 @@ const AboutSection = () => {
       </div>
     </div>
   );
+
   const privacyContent = (
     <div className="space-y-4 text-gray-600">
-      <p className="mb-4">
+      <p className="mb-4 text-justify">
         Khi truy cập website INANHTHUCTUYEN.COM, quý khách đồng ý và chấp nhận
         thực hiện những mô tả trong Chính sách bảo mật thông tin. Nếu quý khách
         không đồng ý với các điều khoản của Chính sách này, vui lòng không sử
         dụng website của chúng tôi. Chính sách này được đưa ra nhằm bảo vệ quyền
         lợi của quý khách khi sử dụng dịch vụ và mua hàng.
       </p>
-
       <div className="space-y-2">
         <h3 className="text-lg font-bold text-gray-800">
           1. Mục đích và phạm vi thu thập thông tin
@@ -157,7 +156,6 @@ const AboutSection = () => {
           và hoàn thiện đơn hàng.
         </p>
       </div>
-
       <div className="space-y-2">
         <h3 className="text-lg font-bold text-gray-800">
           2. Phạm vi sử dụng thông tin
@@ -176,7 +174,6 @@ const AboutSection = () => {
           </li>
         </ul>
       </div>
-
       <div className="space-y-2">
         <h3 className="text-lg font-bold text-gray-800">
           3. Cam kết bảo mật thông tin cá nhân khách hàng
@@ -193,7 +190,6 @@ const AboutSection = () => {
           </li>
         </ul>
       </div>
-
       <div className="space-y-2">
         <h3 className="text-lg font-bold text-gray-800">
           4. Thời gian lưu trữ thông tin
@@ -203,7 +199,6 @@ const AboutSection = () => {
           trình cung cấp dịch vụ hoặc cho đến khi quý khách yêu cầu hủy bỏ.
         </p>
       </div>
-
       <div className="space-y-2">
         <h3 className="text-lg font-bold text-gray-800">
           5. Địa chỉ đơn vị thu thập và quản lý thông tin cá nhân
@@ -214,7 +209,6 @@ const AboutSection = () => {
           <li>Điện thoại: 0939.468.252</li>
         </ul>
       </div>
-
       <div className="space-y-2">
         <h3 className="text-lg font-bold text-gray-800">
           6. Phương tiện và công cụ để người dùng tiếp cận và chỉnh sửa dữ liệu
@@ -231,6 +225,7 @@ const AboutSection = () => {
       </div>
     </div>
   );
+
   const shippingContent = (
     <div className="space-y-4 text-gray-600">
       <p className="mb-4">
@@ -276,7 +271,6 @@ const AboutSection = () => {
           </li>
         </ul>
       </div>
-
       <div className="space-y-2">
         <h3 className="text-lg font-bold text-gray-800">Yêu cầu trả hàng:</h3>
         <ul className="list-disc pl-6">
@@ -285,7 +279,6 @@ const AboutSection = () => {
           <li>Không có dấu hiệu đã qua sử dụng.</li>
         </ul>
       </div>
-
       <div className="space-y-2">
         <h3 className="text-lg font-bold text-gray-800">Thời gian đổi trả:</h3>
         <p className="pl-6">
@@ -294,7 +287,6 @@ const AboutSection = () => {
           </span>
         </p>
       </div>
-
       <div className="space-y-2">
         <h3 className="text-lg font-bold text-gray-800">Chi phí đổi trả:</h3>
         <ul className="list-disc pl-6 ">
@@ -306,6 +298,7 @@ const AboutSection = () => {
       </div>
     </div>
   );
+
   const policies: PolicySection[] = [
     {
       title: "Giới thiệu",
@@ -325,8 +318,7 @@ const AboutSection = () => {
   };
 
   return (
-    <div className=" bg-white">
-      <BannerSlider />
+    <div className="bg-white">
       <div className="px-4 pt-4 lg:pb-0 lg:px-0">
         {policies.map((policy) => (
           <div key={policy.title} className="">

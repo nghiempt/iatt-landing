@@ -9,6 +9,7 @@ import AboutSection from "./components/about-section";
 import Image from "next/image";
 import { IMAGES } from "@/utils/image";
 import "../../styles/helper.css";
+import BannerSlider from "./components/slider";
 
 export default function AboutClient() {
   return (
@@ -74,12 +75,14 @@ export default function AboutClient() {
       </label>
       <div className="flex flex-col justify-center items-center w-full bg-[#F0F0F0] py-1 text-center text-[#A98F57] text-sm font-semibold">
         <span className="text-md font-light">Các phong cách</span>
-        <span className="text-lg font-semibold">THIẾT KẾ ALBUM CƯỚI HOT NHẤT</span>
+        <span className="text-lg font-semibold">
+          THIẾT KẾ ALBUM CƯỚI HOT NHẤT
+        </span>
       </div>
       <Header />
-      <div className="w-full container !px-0 lg:px-8 pb-10 lg:pb-20 pt-2">
-        <div className="px-4 pt-2 pb-2 lg:pb-0 lg:px-0">
-          <nav className="flex items-center gap-2 text-sm text-gray-600 mb-2">
+      <div className="w-full container !px-0 pt-4">
+        <div className="!px-5 pt-2 pb-4 lg:pb-0 lg:px-0">
+          <nav className="flex items-center gap-2 text-sm text-gray-600 ml-0 lg:ml-3">
             <Link
               href={`${ROUTES.HOME}`}
               className="hover:text-[rgb(var(--primary-rgb))] text-md"
@@ -95,6 +98,9 @@ export default function AboutClient() {
             </Link>
           </nav>
         </div>
+      </div>
+      <BannerSlider />
+      <div className="w-full container !px-1 lg:!px-7 pt-0 pb-10 lg:pt-10 lg:pb-10">
         <AboutSection />
       </div>
       <Footer />

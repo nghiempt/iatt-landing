@@ -362,12 +362,15 @@ export default function AccountAddress() {
           </Link>
         </section>
       </label>
-      <div className="w-full bg-black p-2.5 text-center text-white text-sm font-semibold">
-        <span>IN ẢNH TRỰC TUYẾN - In ảnh nhanh chóng, tiện lợi</span>
+      <div className="flex flex-col justify-center items-center w-full bg-[#F0F0F0] py-1 text-center text-[#A98F57] text-sm font-semibold">
+        <span className="text-md font-light">Các phong cách</span>
+        <span className="text-lg font-semibold">
+          THIẾT KẾ ALBUM CƯỚI HOT NHẤT
+        </span>
       </div>
       <Header />
-      <div className="container px-5 lg:px-8 pb-6 pt-2">
-        <nav className="flex items-center gap-2 text-sm text-gray-600 pt-2 pb-4">
+      <div className="container px-5 lg:px-8 pb-6 pt-4">
+        <nav className="flex items-center gap-2 text-sm text-gray-600 pt-2 pb-2 lg:pb-4">
           <Link href={`${ROUTES.HOME}`} className="hover:text-black">
             Trang chủ
           </Link>
@@ -387,14 +390,17 @@ export default function AccountAddress() {
           </Link>
         </nav>
         {customerAccount && (
-          <div className=" grid lg:grid-cols-12 gap-4 pb-10 lg:pb-24">
+          <div className=" grid lg:grid-cols-12 gap-4 pb-0 lg:pb-24">
             <Sidebar customerAccount={customerAccount} />
-            <div className="flex-1 lg:col-span-8">
+            <div className="flex-1 lg:col-span-8 ml-0 lg:ml-5">
               <div className="max-w-2xl">
                 <h1 className="text-2xl font-medium mb-6">Địa chỉ</h1>
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
-                    <Label htmlFor="province" className="text-gray-600">
+                    <Label
+                      htmlFor="province"
+                      className="text-gray-600 w-full lg:w-2/6"
+                    >
                       Tỉnh/Thành phố:
                     </Label>
                     <Dialog
@@ -432,7 +438,10 @@ export default function AccountAddress() {
                     </Dialog>
                   </div>
                   <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
-                    <Label htmlFor="district" className="text-gray-600">
+                    <Label
+                      htmlFor="district"
+                      className="text-gray-600 w-full lg:w-2/6"
+                    >
                       Quận/Huyện:
                     </Label>
                     <Dialog open={openDistrict} onOpenChange={setOpenDistrict}>
@@ -467,7 +476,10 @@ export default function AccountAddress() {
                     </Dialog>
                   </div>
                   <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
-                    <Label htmlFor="ward" className="text-gray-600">
+                    <Label
+                      htmlFor="ward"
+                      className="text-gray-600 w-full lg:w-2/6"
+                    >
                       Phường/Xã:
                     </Label>
                     <Dialog open={openWard} onOpenChange={setOpenWard}>
@@ -501,7 +513,7 @@ export default function AccountAddress() {
                       </DialogContent>
                     </Dialog>
                   </div>
-                  <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 ">
+                  <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
                     <Label
                       htmlFor="address"
                       className="text-gray-600 w-full lg:w-2/6"
@@ -512,6 +524,7 @@ export default function AccountAddress() {
                       id="address"
                       name="address"
                       placeholder="Ví dụ: 123 Đường ABC"
+                      className="text-left w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent cursor-pointer"
                       value={formData.address}
                       onChange={handleInputChange}
                     />

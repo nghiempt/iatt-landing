@@ -74,10 +74,12 @@ export default function CreateOrderSingle() {
       </label>
       <div className="flex flex-col justify-center items-center w-full bg-[#F0F0F0] py-1 text-center text-[#A98F57] text-sm font-semibold">
         <span className="text-md font-light">Các phong cách</span>
-        <span className="text-lg font-semibold">THIẾT KẾ ALBUM CƯỚI HOT NHẤT</span>
+        <span className="text-lg font-semibold">
+          THIẾT KẾ ALBUM CƯỚI HOT NHẤT
+        </span>
       </div>
       <Header />
-      <div className="container px-5 lg:px-8 pb-6 pt-2">
+      <div className="container px-5 lg:px-8 pb-0 lg:pb-6 pt-2">
         <div className="lg:pb-0 lg:px-0">
           <nav className="flex items-center gap-2 text-sm text-gray-600 pt-2 pb-4">
             <Link

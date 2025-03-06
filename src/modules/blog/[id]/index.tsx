@@ -113,12 +113,14 @@ export default function BlogDetailClient() {
       </label>
       <div className="flex flex-col justify-center items-center w-full bg-[#F0F0F0] py-1 text-center text-[#A98F57] text-sm font-semibold">
         <span className="text-md font-light">Các phong cách</span>
-        <span className="text-lg font-semibold">THIẾT KẾ ALBUM CƯỚI HOT NHẤT</span>
+        <span className="text-lg font-semibold">
+          THIẾT KẾ ALBUM CƯỚI HOT NHẤT
+        </span>
       </div>
       <Header />
       <div className="container px-5 lg:px-8 pb-10 lg:pb-20 pt-2">
-        <div className="w-full pt-2 pb-4 lg:px-0 lg:pb-0 flex flex-col justify-center items-start">
-          <nav className="flex items-center gap-2 text-sm text-gray-600 mb-6">
+        <div className="w-full pt-4 pb-4 lg:px-0 lg:pb-0 flex flex-col justify-center items-start">
+          <nav className="flex items-center gap-2 text-sm text-gray-600 mb-2 lg:mb-0">
             <Link
               href={`${ROUTES.HOME}`}
               className="hover:text-[rgb(var(--primary-rgb))] text-md"
@@ -137,9 +139,9 @@ export default function BlogDetailClient() {
               {currentData?.title?.slice(0, 20)}...
             </p>
           </nav>
-          <div className="w-full grid grid-cols-1 lg:grid-cols-12 items-start gap-10 lg:gap-20">
-            <div className="mt-0 lg:mt-10 pt-0 lg:pt-4 pb-4 z-10 lg:col-span-8 border-b border-gray-300">
-              <div className="mb-3">
+          <div className="w-full grid grid-cols-1 lg:grid-cols-12 items-start gap-3 lg:gap-20">
+            <div className="mt-0 lg:mt-3 pt-0 pb-4 z-10 lg:col-span-8 border-b border-gray-300">
+              <div className="mb-1">
                 <p>
                   Đăng bởi: {currentData?.author} -{" "}
                   {HELPER.formatDate(currentData?.created_at)}
@@ -169,7 +171,7 @@ export default function BlogDetailClient() {
               <Image
                 src="https://s3-alpha-sig.figma.com/img/9f8e/17f8/0d6b3369d3a841ae41f699ffbe191bbf?Expires=1740960000&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=dQhpBYG6d3d0hXipXWeyelqAIhU6jhxM0dDJ5jdNIpq1ehjUS2X2RS1iSHWcQZkUGtYPmLgyX~Ouav~wFju4mF7fm7X80w~JbuRLZkp6Nx8h0nLiSwOYpsu7yvG2X~FdagZ4NzPv5ZI3DtL9nslmlcHPKDsx~lKEJcGA8Gbnn61scEtEIH7yZUi~pqiF7Wmb1vRYhplIeXHYUWOEWQG9Tr~x4WoOY3TVerdjniHI9vqxgErEwc97mMasvUmvLDYOPBQoOeHhkrn5f5f4hQN8mROTBokByXtyPjslx571PlmXdmwis7X8cL7tKqDRcZY09RQ6X0YEVRENBE9f5nYr8A__"
                 alt="Products Banner"
-                className="w-[400px] h-[140px] object-cover rounded-md mb-10 lg:mb-0"
+                className="hidden lg:flex w-[400px] h-[140px] object-cover rounded-md mb-10 lg:mb-0"
                 width={400}
                 height={140}
               />
@@ -208,13 +210,15 @@ export default function BlogDetailClient() {
                             <div className="flex flex-col lg:flex-row items-start lg:items-center text-sm text-gray-500 gap-2 lg:gap-4">
                               <div className="flex items-center gap-1">
                                 <Calendar className="w-4 h-4" />
-                                <span className="text-md">
+                                <span className="text-md ml-0.5">
                                   {HELPER.formatDate(blogs?.created_at)}
                                 </span>
                               </div>
                               <div className="flex items-center gap-1">
                                 <PencilLine className="w-4 h-4" />
-                                <span className="text-md">{blogs?.author}</span>
+                                <span className="text-md ml-0.5">
+                                  {blogs?.author}
+                                </span>
                               </div>
                             </div>
                           </div>

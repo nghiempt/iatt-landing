@@ -221,11 +221,14 @@ export default function OrderHistory() {
           </Link>
         </section>
       </label>
-      <div className="w-full bg-black p-2.5 text-center text-white text-sm font-semibold">
-        <span>IN ẢNH TRỰC TUYẾN - In ảnh nhanh chóng, tiện lợi</span>
+      <div className="flex flex-col justify-center items-center w-full bg-[#F0F0F0] py-1 text-center text-[#A98F57] text-sm font-semibold">
+        <span className="text-md font-light">Các phong cách</span>
+        <span className="text-lg font-semibold">
+          THIẾT KẾ ALBUM CƯỚI HOT NHẤT
+        </span>
       </div>
       <Header />
-      <div className="container px-5 lg:px-8 pb-10 lg:pb-20 pt-2">
+      <div className="container px-5 lg:px-8 pb-5 lg:pb-20 pt-4">
         <div className="lg:pb-0 lg:px-0">
           <nav className="flex items-center gap-2 text-sm text-gray-600 pt-2 pb-4">
             <Link
@@ -256,7 +259,10 @@ export default function OrderHistory() {
                 </div>
               ) : (
                 orders.map(async (order: any, index: any) => (
-                  <div key={index} className="border border-gray-300 p-4">
+                  <div
+                    key={index}
+                    className="border border-gray-200 p-4 rounded-md"
+                  >
                     <div className="flex items-center justify-between mb-4">
                       <div className="text-sm lg:text-base flex flex-col lg:flex-row justify-between items-start lg:items-center lg:gap-16">
                         <span>
@@ -279,7 +285,7 @@ export default function OrderHistory() {
                       </div>
                     </div>
                     <div className="w-full h-[1px] bg-gray-300 mb-4"></div>
-                    <div className="flex flex-col lg:flex-row gap-5 lg:gap-0 items-start justify-between">
+                    <div className="flex flex-col lg:flex-row gap-3 lg:gap-0 items-start justify-between">
                       <div className="flex flex-col gap-4 justify-center items-start">
                         <div className="flex flex-row gap-4 items-center w-full h-full">
                           <Image
@@ -320,7 +326,7 @@ export default function OrderHistory() {
                       </div>
                       <div className="flex flex-row justify-between text-right space-y-2 w-full">
                         <div
-                          className={`flex flex-row lg:items-end justify-between lg:flex-col gap-20 space-y-0 lg:space-y-4 w-full`}
+                          className={`flex flex-row lg:items-end justify-between lg:flex-col gap-5 lg:gap-20 space-y-0 lg:space-y-4 w-full`}
                         >
                           <div
                             className={`
@@ -358,7 +364,7 @@ export default function OrderHistory() {
                                  order?.status === "cancelled"
                                    ? "bg-red-500 text-white"
                                    : ""
-                               } lg:py-2 rounded-sm flex items-center justify-center text-center w-full lg:w-72`}
+                               } lg:py-2 rounded-sm flex items-center justify-center text-center w-1/2 lg:w-72`}
                           >
                             {order?.status === "completed" && "Hoàn thành"}
                             {order?.status === "paid pending" &&

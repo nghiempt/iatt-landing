@@ -251,7 +251,6 @@ export default function PriceTable() {
 
   return (
     <div className="w-full flex flex-col justify-center items-center">
-      <Header />
       {/* HELPER */}
       <label className="main top-[92%] lg:top-[60%] z-50">
         <svg
@@ -311,9 +310,16 @@ export default function PriceTable() {
           </Link>
         </section>
       </label>
-      <div className="container px-5 lg:px-8 pb-10 lg:pb-20 pt-2">
+      <div className="flex flex-col justify-center items-center w-full bg-[#F0F0F0] py-1 text-center text-[#A98F57] text-sm font-semibold">
+        <span className="text-md font-light">Các phong cách</span>
+        <span className="text-lg font-semibold">
+          THIẾT KẾ ALBUM CƯỚI HOT NHẤT
+        </span>
+      </div>
+      <Header />
+      <div className="container px-1 lg:px-8 pb-10 lg:pb-20 pt-2">
         <div className="px-4 pt-4 pb-4 lg:pb-0 lg:px-0">
-          <nav className="flex items-center gap-2 text-sm text-gray-600 mb-6">
+          <nav className="flex items-center gap-2 text-sm text-gray-600 mb-3">
             <Link href={`${ROUTES.HOME}`} className="hover:text-black text-md">
               Trang chủ
             </Link>
@@ -322,13 +328,12 @@ export default function PriceTable() {
               Bảng giá
             </Link>
           </nav>
-
           <div className="space-y-4">
             <div className="space-y-10 mb-8">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 w-full">
                 <div className="grid grid-cols-1">
-                  <div className="text-black font-bold text-2xl pb-5 lg:pb-0">
-                    Tìm nhanh sản phẩm
+                  <div className="text-black font-bold text-2xl lg:text-3xl pb-3 lg:pb-0">
+                    TÌM NHANH SẢN PHẨM
                   </div>
                   <div className="w-full pb-5 lg:pb-0">
                     <div>
@@ -445,9 +450,9 @@ export default function PriceTable() {
                 <Image
                   src="https://s3-alpha-sig.figma.com/img/7479/3b7c/552593d478f203548cca72b01b50b862?Expires=1741564800&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=bQ5JxELqv2CgiAetbE-cxqZ6X3n3N~EWsuA4CWnttGkYIUWJl9H7iUg985vn4zCnMtdOfx0FUJVLPLIA3syaNI6WpSPnO0q8dV6DEAF8upH2qSPE2oLCOtqPeNQmZYkEUPGxd4ULGa0whwGNVC2IARSIM1Oow0yVl6GWkCaq7WjKMWw8z004M4hPManBarNEk98Y8cL7sVCafJKk5NXYte2-64qeKaan2xhJF16NFfNjzUd~RxKSuzAoHE5yj1AtlzohK-SrTRM6vcVGYcgD902vgpNgmYt99Z1Kmgm2-tARp3qPc66D1dxxG-WHOCXV~Zn25aY9j~vkfXxxQfe1PQ__"
                   alt="price-banner"
-                  className="hidden lg:flex w-full h-full object-contain"
-                  width={1200}
-                  height={400}
+                  className="hidden lg:flex mx-auto w-4/5 h-full object-contain"
+                  width={1000}
+                  height={1000}
                 />
               </div>
               <div className="space-y-4 mt-8">

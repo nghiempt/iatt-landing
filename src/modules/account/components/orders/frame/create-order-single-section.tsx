@@ -748,7 +748,7 @@ const CreateOrderSingleSection = () => {
             <h2 className="text-lg lg:text-xl font-medium mb-4">
               Thông tin khách hàng
             </h2>
-            <div className="mb-4 ml-5">
+            <div className="mb-4">
               <Label htmlFor="name" className="text-gray-600 ">
                 Họ và tên:
               </Label>
@@ -761,7 +761,7 @@ const CreateOrderSingleSection = () => {
                 className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md"
               />
             </div>
-            <div className="mb-4 ml-5">
+            <div className="mb-4">
               <Label htmlFor="email" className="text-gray-600">
                 Email:
               </Label>
@@ -774,7 +774,7 @@ const CreateOrderSingleSection = () => {
                 className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md"
               />
             </div>
-            <div className="mb-4 ml-5">
+            <div className="mb-4">
               <Label htmlFor="phone" className="text-gray-600">
                 Số điện thoại:
               </Label>
@@ -791,7 +791,7 @@ const CreateOrderSingleSection = () => {
             <h2 className="text-lg lg:text-xl font-medium mb-4">
               Địa chỉ nhận hàng
             </h2>
-            <div className="grid grid-cols-2 gap-4 mb-4 ml-5">
+            <div className="grid grid-cols-2 gap-4 mb-4">
               <div>
                 <Label htmlFor="province" className="text-gray-600">
                   Tỉnh/Thành phố:
@@ -841,7 +841,7 @@ const CreateOrderSingleSection = () => {
                 </Select>
               </div>
             </div>
-            <div className="mb-4 ml-5">
+            <div className="mb-4">
               <Label htmlFor="ward" className="text-gray-600">
                 Phường/Xã:
               </Label>
@@ -862,7 +862,7 @@ const CreateOrderSingleSection = () => {
                 </SelectContent>
               </Select>
             </div>
-            <div className="mb-4 ml-5">
+            <div className="mb-4">
               <Label htmlFor="address" className="text-gray-600">
                 Số nhà, tên đường:
               </Label>
@@ -881,7 +881,7 @@ const CreateOrderSingleSection = () => {
                 <h2 className="text-lg lg:text-xl font-medium mb-4">
                   Tùy chọn thanh toán
                 </h2>
-                <div className="border border-gray-300 rounded divide-y ml-5">
+                <div className="border border-gray-300 rounded divide-y">
                   <div
                     onClick={() => setSelectedPayment("cash")}
                     className="cursor-pointer p-4 flex items-center"
@@ -969,42 +969,11 @@ const CreateOrderSingleSection = () => {
                 </h2>
                 <textarea
                   placeholder="Ghi chú về đơn hàng (Nếu có)"
-                  className="w-full p-3 border border-gray-300 rounded h-24 ml-5 mx-10"
+                  className="w-full p-3 border border-gray-300 rounded h-24 ml-0 mx-10"
                 ></textarea>
               </div>
             </>
           )}
-
-          <div className="hidden flex-row justify-between items-center mt-6">
-            <Link
-              href={`${ROUTES.HOME}`}
-              className="flex items-center text-gray-600"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4 mr-1"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 19l-7-7 7-7"
-                />
-              </svg>
-              Quay lại Giỏ hàng
-            </Link>
-
-            <button
-              onClick={() => handleSubmit()}
-              className="w-1/2 py-4 bg-yellow-400 hover:bg-yellow-500 text-center rounded-md font-medium transition"
-            >
-              Đặt hàng
-              {isLoading && <Loader className="animate-spin" size={25} />}
-            </button>
-          </div>
         </div>
         <div className="w-full lg:w-1/2 space-y-6">
           <div>
@@ -1120,7 +1089,7 @@ const CreateOrderSingleSection = () => {
                 </div>
                 <Dialog>
                   <DialogTrigger asChild>
-                    <div className="flex justify-center items-center">
+                    <div className="flex justify-center items-center mt-5 lg:mt-0">
                       <div className="flex flex-row justify-center items-center gap-4 w-full py-2 px-7 lg:py-4 bg-yellow-400 hover:bg-yellow-500 text-center rounded-md font-medium transition cursor-pointer">
                         Tùy chọn kích thước, màu sắc
                       </div>
@@ -1434,32 +1403,35 @@ const CreateOrderSingleSection = () => {
                   <div className="border border-gray-300 rounded divide-y">
                     <div
                       onClick={() => setSelectedPayment("cash")}
-                      className=" cursor-pointer p-4 flex items-center"
+                      className="cursor-pointer p-4 flex items-center"
                     >
-                      <input
-                        type="radio"
-                        id="cod"
-                        name="payment"
-                        className="mr-2 w-4 h-4 accent-yellow-500"
-                        checked={selectedPayment === "cash"}
-                      />
-                      <label htmlFor="cod" className="ml-2">
+                      <div
+                        className={`cursor-pointer w-5 h-5 rounded-full mr-2 ${
+                          selectedPayment === "cash"
+                            ? "border border-gray-700 bg-yellow-500"
+                            : "border border-gray-200"
+                        }`}
+                      ></div>
+                      <label htmlFor="cash" className="cursor-pointer ml-2">
                         Thanh toán khi nhận hàng
                       </label>
                     </div>
                     <div
                       onClick={() => setSelectedPayment("bank")}
-                      className=" cursor-pointer p-4 items-center"
+                      className="cursor-pointer p-4 items-center"
                     >
-                      <div className="flex items-center">
-                        <input
-                          type="radio"
-                          id="bank"
-                          name="payment"
-                          className="mr-2 w-4 h-4 accent-yellow-500"
-                          checked={selectedPayment === "bank"}
-                        />
-                        <label htmlFor="bank" className="ml-2">
+                      <div className="cursor-pointer flex items-center">
+                        <div>
+                          <div
+                            className={`cursor-pointer w-5 h-5 rounded-full mr-2 ${
+                              selectedPayment === "bank"
+                                ? "border border-gray-700 bg-yellow-500"
+                                : "border border-gray-200"
+                            }`}
+                          ></div>
+                        </div>
+
+                        <label htmlFor="bank" className="cursor-pointer ml-2">
                           Thanh toán qua chuyển khoản ngân hàng
                         </label>
                       </div>
@@ -1481,35 +1453,35 @@ const CreateOrderSingleSection = () => {
                       )}
                     </div>
                     {/* <div
-                      onClick={() => setSelectedPayment("momo")}
-                      className=" cursor-pointer p-4 flex items-center"
-                    >
-                      <input
-                        type="radio"
-                        id="momo"
-                        name="payment"
-                        className="mr-2 w-4 h-4 accent-yellow-500"
-                        checked={selectedPayment === "momo"}
-                      />
-                      <label htmlFor="momo" className="ml-2">
-                        Thanh toán qua MOMO
-                      </label>
-                    </div> */}
+                    onClick={() => setSelectedPayment("momo")}
+                    className=" cursor-pointer p-4 flex items-center"
+                  >
+                    <input
+                      type="radio"
+                      id="momo"
+                      name="payment"
+                      className="mr-2 w-4 h-4 accent-yellow-500"
+                      checked={selectedPayment === "momo"}
+                    />
+                    <label htmlFor="momo" className="ml-2">
+                      Thanh toán qua MOMO
+                    </label>
+                  </div> */}
                     {/* <div
-                      onClick={() => setSelectedPayment("vnpay")}
-                      className="p-4 flex items-center"
-                    >
-                      <input
-                        type="radio"
-                        id="vnpay"
-                        name="payment"
-                        className="mr-2 w-4 h-4 accent-yellow-500"
-                        checked={selectedPayment === "vnpay"}
-                      />
-                      <label htmlFor="vnpay" className="ml-2">
-                        Thanh toán qua VNPay
-                      </label>
-                    </div> */}
+                    onClick={() => setSelectedPayment("vnpay")}
+                    className="p-4 flex items-center"
+                  >
+                    <input
+                      type="radio"
+                      id="vnpay"
+                      name="payment"
+                      className="mr-2 w-4 h-4 accent-yellow-500"
+                      checked={selectedPayment === "vnpay"}
+                    />
+                    <label htmlFor="vnpay" className="ml-2">
+                      Thanh toán qua VNPay
+                    </label>
+                  </div> */}
                   </div>
                 </div>
                 <div>
@@ -1523,10 +1495,6 @@ const CreateOrderSingleSection = () => {
                 </div>
               </>
             )}
-            <p className="text-sm text-gray-600">
-              Bằng cách tiến hành mua hàng, bạn đã đồng ý với các điều khoản và
-              chính sách của chúng tôi.
-            </p>
 
             {/* ORDER BUTTON  */}
           </div>
@@ -1566,7 +1534,7 @@ const CreateOrderSingleSection = () => {
                   <input
                     type="text"
                     placeholder="Nhập mã khuyến mãi"
-                    className={`border border-gray-300 rounded p-2 text-sm ${
+                    className={`w-2/3 border border-gray-300 rounded p-2 text-sm ${
                       isValid === false
                         ? "border-red-500"
                         : isValid === true
@@ -1579,7 +1547,7 @@ const CreateOrderSingleSection = () => {
                     }}
                   />
                   <div
-                    className={`w-full px-5 py-2 bg-yellow-400 hover:bg-yellow-500 text-center rounded-md font-base cursor-pointer ${
+                    className={`w-1/3 px-5 py-2 bg-yellow-400 hover:bg-yellow-500 text-center rounded-md font-base cursor-pointer ${
                       isChecking ? "opacity-50 cursor-not-allowed" : ""
                     }`}
                     onClick={!isChecking ? handleCheckDiscount : undefined}
@@ -1618,29 +1586,9 @@ const CreateOrderSingleSection = () => {
             chính sách của chúng tôi.
           </p>
           <div className="flex flex-row justify-between items-center mt-6">
-            <Link
-              href={`${ROUTES.HOME}`}
-              className="flex items-center text-gray-600"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4 mr-1"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 19l-7-7 7-7"
-                />
-              </svg>
-              Quay lại Giỏ hàng
-            </Link>
             <button
               onClick={() => handleSubmit()}
-              className="flex flex-row justify-center items-center gap-4 w-2/5 lg:w-1/2 py-2 lg:py-4 bg-yellow-400 hover:bg-yellow-500 text-center rounded-md font-medium transition"
+              className="flex flex-row justify-center items-center gap-4 w-full mx-auto py-2 lg:py-4 bg-yellow-400 hover:bg-yellow-500 text-center rounded-md font-medium transition"
             >
               Đặt hàng
               {isLoading && <Loader className="animate-spin" size={25} />}

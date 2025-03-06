@@ -218,12 +218,15 @@ export default function AccountProfile() {
           </Link>
         </section>
       </label>
-      <div className="w-full bg-black p-2.5 text-center text-white text-sm font-semibold">
-        <span>IN ẢNH TRỰC TUYẾN - In ảnh nhanh chóng, tiện lợi</span>
+      <div className="flex flex-col justify-center items-center w-full bg-[#F0F0F0] py-1 text-center text-[#A98F57] text-sm font-semibold">
+        <span className="text-md font-light">Các phong cách</span>
+        <span className="text-lg font-semibold">
+          THIẾT KẾ ALBUM CƯỚI HOT NHẤT
+        </span>
       </div>
       <Header />
-      <div className="container px-5 lg:px-8 pb-6 pt-2">
-        <nav className="flex items-center gap-2 text-sm text-gray-600 pt-2 pb-4">
+      <div className="container px-5 lg:px-8 pb-6 pt-4">
+        <nav className="flex items-center gap-2 text-sm text-gray-600 pt-2 pb-2 lg:pb-4">
           <Link href={`${ROUTES.HOME}`} className="hover:text-black">
             Trang chủ
           </Link>
@@ -243,9 +246,9 @@ export default function AccountProfile() {
           </Link>
         </nav>
         {customerAccount && (
-          <div className=" grid lg:grid-cols-12 gap-4 pb-10 lg:pb-24">
+          <div className="grid lg:grid-cols-12 gap-4 pb-0 lg:pb-24">
             <Sidebar customerAccount={customerAccount} />
-            <div className="flex-1 lg:col-span-8">
+            <div className="flex-1 lg:col-span-8 ml-0 lg:ml-5">
               <div className="max-w-2xl">
                 <h1 className="text-2xl font-medium mb-6">Hồ sơ cá nhân</h1>
                 <form onSubmit={handleSubmit} className="space-y-6">
