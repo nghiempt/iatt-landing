@@ -234,7 +234,7 @@ const OrderDetailModal = ({ order, customerAccount }: any) => {
                           ? "bg-blue-600 text-white text-sm lg:text-base px-2"
                           : ""
                       }
-                      lg:py-2 rounded-md py-2 text-center w-1/3 lg:w-[34.5%]`}
+                      lg:py-2 rounded-md py-2 text-center w-1/2 lg:w-[34.5%]`}
               >
                 {order?.payment_method === "cash" && (
                   <div className="flex flex-row items-center justify-center gap-3">

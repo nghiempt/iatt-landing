@@ -395,8 +395,11 @@ export default function AccountAddress() {
             <div className="flex-1 lg:col-span-8 ml-0 lg:ml-5">
               <div className="max-w-2xl">
                 <h1 className="text-2xl font-medium mb-6">Địa chỉ</h1>
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+                <form
+                  onSubmit={handleSubmit}
+                  className="space-y-4 lg:space-y-6"
+                >
+                  <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-2">
                     <Label
                       htmlFor="province"
                       className="text-black w-full lg:w-2/6"
@@ -439,7 +442,7 @@ export default function AccountAddress() {
                       </DialogContent>
                     </Dialog>
                   </div>
-                  <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+                  <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-2">
                     <Label
                       htmlFor="district"
                       className="text-black w-full lg:w-2/6"
@@ -477,7 +480,7 @@ export default function AccountAddress() {
                       </DialogContent>
                     </Dialog>
                   </div>
-                  <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+                  <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-2">
                     <Label
                       htmlFor="ward"
                       className="text-black w-full lg:w-2/6"
@@ -515,7 +518,7 @@ export default function AccountAddress() {
                       </DialogContent>
                     </Dialog>
                   </div>
-                  <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+                  <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-2">
                     <Label
                       htmlFor="address"
                       className="text-black w-full lg:w-2/6"

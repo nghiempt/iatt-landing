@@ -1,7 +1,6 @@
 "use client";
 
 import Cookies from "js-cookie";
-import Link from "next/link";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import { ROUTES } from "@/utils/route";
@@ -758,7 +757,7 @@ const CreateOrderSingleSection = () => {
                 name="name"
                 value={formData.name}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md"
+                className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md mt-1"
               />
             </div>
             {/* <div className="mb-4">
@@ -783,7 +782,7 @@ const CreateOrderSingleSection = () => {
                 name="phone"
                 value={formData.phone}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md"
+                className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md mt-1"
               />
             </div>
           </div>
@@ -792,7 +791,7 @@ const CreateOrderSingleSection = () => {
               Địa chỉ nhận hàng
             </h2>
             <div className="grid grid-cols-2 gap-4 mb-4">
-              <div>
+              <div className="flex flex-col gap-2">
                 <Label htmlFor="province" className="text-black">
                   Tỉnh/Thành phố:
                 </Label>
@@ -816,7 +815,7 @@ const CreateOrderSingleSection = () => {
                   </SelectContent>
                 </Select>
               </div>
-              <div>
+              <div className="flex flex-col gap-2">
                 <Label htmlFor="district" className="text-black">
                   Quận/Huyện:
                 </Label>
@@ -841,7 +840,7 @@ const CreateOrderSingleSection = () => {
                 </Select>
               </div>
             </div>
-            <div className="mb-4">
+            <div className="flex flex-col gap-2 mb-3">
               <Label htmlFor="ward" className="text-black">
                 Phường/Xã:
               </Label>
@@ -872,6 +871,7 @@ const CreateOrderSingleSection = () => {
                 placeholder="Ví dụ: 123 Đường ABC"
                 value={formData.address}
                 onChange={handleInputChange}
+                className="mt-1"
               />
             </div>
           </div>
@@ -1243,7 +1243,7 @@ const CreateOrderSingleSection = () => {
           </div>
           <div className=" lg:hidden w-full md:w-1/2 space-y-6">
             <div>
-              <h2 className="text-lg lg:text-xl font-medium mb-4">
+              <h2 className="text-lg lg:text-xl font-medium mb-3 lg:mb-4">
                 Thông tin khách hàng
               </h2>
               <div className="mb-4">
@@ -1256,7 +1256,7 @@ const CreateOrderSingleSection = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md"
+                  className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md mt-1"
                   style={{ fontSize: "16px" }}
                 />
               </div>
@@ -1282,7 +1282,7 @@ const CreateOrderSingleSection = () => {
                   name="phone"
                   value={formData.phone}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md"
+                  className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md mt-1"
                   style={{ fontSize: "16px" }}
                 />
               </div>
@@ -1301,7 +1301,7 @@ const CreateOrderSingleSection = () => {
                       <Input
                         readOnly
                         value={province || "Vui lòng chọn Tỉnh/Thành phố"}
-                        className="text-left w-full px-3 py-2 pr-16 border border-gray-300 rounded-md cursor-pointer"
+                        className="text-left w-full px-3 py-2 pr-16 border border-gray-300 rounded-md cursor-pointer mt-1"
                         onClick={() => setOpenProvinces(true)}
                       />
                     </DialogTrigger>
@@ -1336,7 +1336,7 @@ const CreateOrderSingleSection = () => {
                       <Input
                         readOnly
                         value={district || "Vui lòng chọn Quận/Huyện"}
-                        className="text-left w-full px-3 py-2 pr-16 border border-gray-300 rounded-md cursor-pointer"
+                        className="text-left w-full px-3 py-2 pr-16 border border-gray-300 rounded-md cursor-pointer mt-1"
                         onClick={() => setOpenDistrict(true)}
                       />
                     </DialogTrigger>
@@ -1372,7 +1372,7 @@ const CreateOrderSingleSection = () => {
                     <Input
                       readOnly
                       value={ward || "Vui lòng chọn Phường/Xã"}
-                      className="text-left w-full px-3 py-2 pr-16 border border-gray-300 rounded-md cursor-pointer"
+                      className="text-left w-full px-3 py-2 pr-16 border border-gray-300 rounded-md cursor-pointer mt-1"
                       onClick={() => setOpenWard(true)}
                     />
                   </DialogTrigger>
@@ -1408,7 +1408,7 @@ const CreateOrderSingleSection = () => {
                   placeholder="Ví dụ: 123 Đường ABC"
                   value={formData.address}
                   onChange={handleInputChange}
-                  className="w-full"
+                  className="w-full mt-1"
                   style={{ fontSize: "16px" }}
                 />
               </div>

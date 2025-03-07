@@ -23,6 +23,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { ProductService } from "@/services/product";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -344,31 +354,91 @@ export default function PriceTable() {
                         Tên sản phẩm
                       </Label>
                       <div className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full my-2">
-                        <Select
-                          value={selectedProduct}
-                          onValueChange={setSelectedProduct}
-                        >
-                          <SelectTrigger>
-                            {selectedProduct === "Chon san pham"
-                              ? "Chọn sản phẩm"
-                              : ""}
-                            <SelectValue placeholder="Chọn sản phẩm" />
-                          </SelectTrigger>
-                          <SelectContent className="">
-                            {products?.map((item: any, index: any) => (
-                              <SelectItem
-                                className="text-xs"
-                                key={index}
-                                value={String(item?._id)}
-                              >
-                                {item?.name}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <div className="cursor-pointer flex flex-row justify-between items-center gap-4 p-2 bg-white rounded-md border border-gray-200">
+                              {selectedProduct &&
+                              selectedProduct !== "Chon san pham" ? (
+                                products?.find(
+                                  (item: any) =>
+                                    String(item?._id) === selectedProduct
+                                ) ? (
+                                  <div className="cursor-pointer flex flex-row items-center gap-2">
+                                    <Image
+                                      src={
+                                        products?.find(
+                                          (item: any) =>
+                                            String(item?._id) ===
+                                            selectedProduct
+                                        )?.thumbnail
+                                      }
+                                      alt=""
+                                      width={1000}
+                                      height={1000}
+                                      className="object-cover w-8 h-8 shrink-0"
+                                    />
+                                    <p className="text-xs whitespace-nowrap">
+                                      {
+                                        products?.find(
+                                          (item: any) =>
+                                            String(item?._id) ===
+                                            selectedProduct
+                                        )?.name
+                                      }
+                                    </p>
+                                  </div>
+                                ) : (
+                                  "Chọn sản phẩm"
+                                )
+                              ) : (
+                                "Chọn sản phẩm"
+                              )}
+                            </div>
+                          </DialogTrigger>
+                          <DialogContent>
+                            <DialogHeader>
+                              <DialogTitle className="mb-3">
+                                Vui lòng chọn sản phẩm
+                              </DialogTitle>
+                              <DialogDescription className="max-h-96 overflow-y-auto scroll-bar-style">
+                                <div className="">
+                                  {products?.length > 0 ? (
+                                    products.map((item: any) => (
+                                      <DialogClose asChild key={item._id}>
+                                        <div
+                                          className="mb-0 cursor-pointer hover:bg-gray-100 py-2 rounded-md"
+                                          onClick={() =>
+                                            setSelectedProduct(item._id)
+                                          }
+                                        >
+                                          <div className="flex flex-row items-center gap-4">
+                                            <Image
+                                              src={item.thumbnail}
+                                              alt={item.name}
+                                              width={1000}
+                                              height={1000}
+                                              className="object-cover border border-gray-200 w-8 h-8 shrink-0"
+                                            />
+                                            <p className="text-xs text-left w-full">
+                                              {item.name}
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </DialogClose>
+                                    ))
+                                  ) : (
+                                    <p className="text-gray-500">
+                                      Không có sản phẩm nào để chọn.
+                                    </p>
+                                  )}
+                                </div>
+                              </DialogDescription>
+                            </DialogHeader>
+                          </DialogContent>
+                        </Dialog>
                       </div>
                     </div>
-                    <div>
+                    <div className="pt-1">
                       <Label
                         htmlFor="name"
                         className="text-[#484848] font-bold"
