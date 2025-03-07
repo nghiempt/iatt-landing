@@ -600,8 +600,8 @@ const CreateOrderSingleSection = () => {
         ward: 0,
       }));
       setProvince(selectedProvince.name);
-      setDistrict("Vui lòng chọn quận/huyện");
-      setWard("Vui lòng chọn phường/xã");
+      setDistrict("Vui lòng chọn Quận/Huyện");
+      setWard("Vui lòng chọn Phường/Xã");
       setOpenProvinces(false);
     } else {
       setDistricts([]);
@@ -621,7 +621,7 @@ const CreateOrderSingleSection = () => {
         ward: 0,
       }));
       setDistrict(selectedDistrict.name);
-      setWard("Vui lòng chọn phường/xã");
+      setWard("Vui lòng chọn Phường/Xã");
       setOpenDistrict(false);
     } else {
       setWards([]);
@@ -749,7 +749,7 @@ const CreateOrderSingleSection = () => {
               Thông tin khách hàng
             </h2>
             <div className="mb-4">
-              <Label htmlFor="name" className="text-gray-600 ">
+              <Label htmlFor="name" className="text-black">
                 Họ và tên:
               </Label>
               <Input
@@ -761,7 +761,7 @@ const CreateOrderSingleSection = () => {
                 className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md"
               />
             </div>
-            <div className="mb-4">
+            {/* <div className="mb-4">
               <Label htmlFor="email" className="text-gray-600">
                 Email:
               </Label>
@@ -773,9 +773,9 @@ const CreateOrderSingleSection = () => {
                 disabled={true}
                 className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md"
               />
-            </div>
+            </div> */}
             <div className="mb-4">
-              <Label htmlFor="phone" className="text-gray-600">
+              <Label htmlFor="phone" className="text-black">
                 Số điện thoại:
               </Label>
               <Input
@@ -793,7 +793,7 @@ const CreateOrderSingleSection = () => {
             </h2>
             <div className="grid grid-cols-2 gap-4 mb-4">
               <div>
-                <Label htmlFor="province" className="text-gray-600">
+                <Label htmlFor="province" className="text-black">
                   Tỉnh/Thành phố:
                 </Label>
                 <Select
@@ -802,7 +802,7 @@ const CreateOrderSingleSection = () => {
                   disabled={loading}
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="Chọn tỉnh/thành phố" />
+                    <SelectValue placeholder="Chọn Tỉnh/Thành phố" />
                   </SelectTrigger>
                   <SelectContent>
                     {provinces.map((province) => (
@@ -817,7 +817,7 @@ const CreateOrderSingleSection = () => {
                 </Select>
               </div>
               <div>
-                <Label htmlFor="district" className="text-gray-600">
+                <Label htmlFor="district" className="text-black">
                   Quận/Huyện:
                 </Label>
                 <Select
@@ -826,7 +826,7 @@ const CreateOrderSingleSection = () => {
                   disabled={!formData.province || loading}
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="Chọn quận/huyện" />
+                    <SelectValue placeholder="Chọn Quận/Huyện" />
                   </SelectTrigger>
                   <SelectContent>
                     {districts.map((district) => (
@@ -842,7 +842,7 @@ const CreateOrderSingleSection = () => {
               </div>
             </div>
             <div className="mb-4">
-              <Label htmlFor="ward" className="text-gray-600">
+              <Label htmlFor="ward" className="text-black">
                 Phường/Xã:
               </Label>
               <Select
@@ -851,7 +851,7 @@ const CreateOrderSingleSection = () => {
                 disabled={!formData.district || loading}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Chọn phường/xã" />
+                  <SelectValue placeholder="Chọn Phường/Xã" />
                 </SelectTrigger>
                 <SelectContent>
                   {wards.map((ward) => (
@@ -863,7 +863,7 @@ const CreateOrderSingleSection = () => {
               </Select>
             </div>
             <div className="mb-4">
-              <Label htmlFor="address" className="text-gray-600">
+              <Label htmlFor="address" className="text-black">
                 Số nhà, tên đường:
               </Label>
               <Input
@@ -980,18 +980,15 @@ const CreateOrderSingleSection = () => {
             <h2 className="text-lg lg:text-xl font-medium mb-4">
               Thông tin sản phẩm
             </h2>
-            <div className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full my-4">
-              <Select
-                value={selectedProduct}
-                onValueChange={setSelectedProduct}
-              >
-                <SelectTrigger className="flex flex-row items-center gap-2">
-                  <SelectValue placeholder="Chọn sản phẩm">
+            <div className="bg-gray-50 border border-gray-300 text-black rounded-lg block w-full my-4">
+              <Dialog>
+                <DialogTrigger asChild>
+                  <div className="cursor-pointer flex flex-row justify-between items-center gap-4 p-2 bg-white rounded-lg">
                     {selectedProduct && selectedProduct !== "Chon san pham" ? (
                       products?.find(
                         (item: any) => String(item?._id) === selectedProduct
                       ) ? (
-                        <div className="flex flex-row items-center gap-2">
+                        <div className="cursor-pointer flex flex-row items-center gap-2">
                           <Image
                             src={
                               products?.find(
@@ -1019,27 +1016,47 @@ const CreateOrderSingleSection = () => {
                     ) : (
                       "Chọn sản phẩm"
                     )}
-                  </SelectValue>
-                </SelectTrigger>
-                <SelectContent>
-                  {products?.map((item: any, index: any) => (
-                    <SelectItem key={index} value={String(item?._id)}>
-                      <div className="flex flex-row items-center gap-2">
-                        <Image
-                          src={item?.thumbnail}
-                          alt=""
-                          width={1000}
-                          height={1000}
-                          className="object-cover w-8 h-8 shrink-0"
-                        />
-                        <p className="text-xs whitespace-nowrap">
-                          {item?.name}
-                        </p>
+                  </div>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle className="mb-3">
+                      Vui lòng chọn sản phẩm
+                    </DialogTitle>
+                    <DialogDescription className="max-h-96 overflow-y-auto scroll-bar-style">
+                      <div className="">
+                        {products?.length > 0 ? (
+                          products.map((item: any) => (
+                            <DialogClose asChild key={item._id}>
+                              <div
+                                className="mb-0 cursor-pointer hover:bg-gray-100 py-2 rounded-md"
+                                onClick={() => setSelectedProduct(item._id)}
+                              >
+                                <div className="flex flex-row items-center gap-4">
+                                  <Image
+                                    src={item.thumbnail}
+                                    alt={item.name}
+                                    width={1000}
+                                    height={1000}
+                                    className="object-cover border border-gray-200 w-8 h-8 shrink-0"
+                                  />
+                                  <p className="text-xs text-left w-full">
+                                    {item.name}
+                                  </p>
+                                </div>
+                              </div>
+                            </DialogClose>
+                          ))
+                        ) : (
+                          <p className="text-gray-500">
+                            Không có sản phẩm nào để chọn.
+                          </p>
+                        )}
                       </div>
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+                    </DialogDescription>
+                  </DialogHeader>
+                </DialogContent>
+              </Dialog>
             </div>
             {selectedProduct !== "Chon san pham" && (
               <div className="flex flex-col lg:flex-row justify-evenly h-full lg:h-[340px]">
@@ -1130,7 +1147,7 @@ const CreateOrderSingleSection = () => {
                       <div className="flex flex-col gap-4">
                         <div>
                           <h2 className="text-lg lg:text-xl font-medium mb-2">
-                            Kích thước khung ảnh
+                            Kích thước khung ảnh:
                           </h2>
                           <div className="flex gap-4 mb-6">
                             {sizeOptions.map((size) => (
@@ -1149,7 +1166,9 @@ const CreateOrderSingleSection = () => {
                           </div>
                         </div>
                         <div>
-                          <h2 className="text-lg font-medium mb-2">Màu sắc</h2>
+                          <h2 className="text-lg font-medium mb-2">
+                            Màu sắc khung viền:
+                          </h2>
                           <div className="flex gap-4 mb-6">
                             {colorOptions
                               .filter((color) =>
@@ -1228,7 +1247,7 @@ const CreateOrderSingleSection = () => {
                 Thông tin khách hàng
               </h2>
               <div className="mb-4">
-                <Label htmlFor="name" className="text-gray-600 ">
+                <Label htmlFor="name" className="text-black">
                   Họ và tên:
                 </Label>
                 <Input
@@ -1241,7 +1260,7 @@ const CreateOrderSingleSection = () => {
                   style={{ fontSize: "16px" }}
                 />
               </div>
-              <div className="mb-4">
+              {/* <div className="mb-4">
                 <Label htmlFor="email" className="text-gray-600">
                   Email:
                 </Label>
@@ -1253,9 +1272,9 @@ const CreateOrderSingleSection = () => {
                   disabled={true}
                   className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md"
                 />
-              </div>
+              </div> */}
               <div className="mb-4">
-                <Label htmlFor="phone" className="text-gray-600">
+                <Label htmlFor="phone" className="text-black">
                   Số điện thoại:
                 </Label>
                 <Input
@@ -1274,21 +1293,21 @@ const CreateOrderSingleSection = () => {
               </h2>
               <div className="grid grid-cols-1 gap-4 mb-4">
                 <div>
-                  <Label htmlFor="province" className="text-gray-600">
+                  <Label htmlFor="province" className="text-black">
                     Tỉnh/Thành phố:
                   </Label>
                   <Dialog open={openProvinces} onOpenChange={setOpenProvinces}>
                     <DialogTrigger asChild>
                       <Input
                         readOnly
-                        value={province || "Vui lòng chọn thành phố"}
+                        value={province || "Vui lòng chọn Tỉnh/Thành phố"}
                         className="text-left w-full px-3 py-2 pr-16 border border-gray-300 rounded-md cursor-pointer"
                         onClick={() => setOpenProvinces(true)}
                       />
                     </DialogTrigger>
                     <DialogContent>
                       <DialogHeader>
-                        <DialogTitle>Vui lòng chọn thành phố</DialogTitle>
+                        <DialogTitle>Vui lòng chọn Tỉnh/Thành phố</DialogTitle>
                         <DialogDescription className="max-h-96 overflow-y-auto">
                           <div className="my-3">
                             {provinces.map((province) => (
@@ -1309,21 +1328,21 @@ const CreateOrderSingleSection = () => {
                   </Dialog>
                 </div>
                 <div>
-                  <Label htmlFor="district" className="text-gray-600">
+                  <Label htmlFor="district" className="text-black">
                     Quận/Huyện:
                   </Label>
                   <Dialog open={openDistrict} onOpenChange={setOpenDistrict}>
                     <DialogTrigger asChild>
                       <Input
                         readOnly
-                        value={district || "Vui lòng chọn quận/huyện"}
+                        value={district || "Vui lòng chọn Quận/Huyện"}
                         className="text-left w-full px-3 py-2 pr-16 border border-gray-300 rounded-md cursor-pointer"
                         onClick={() => setOpenDistrict(true)}
                       />
                     </DialogTrigger>
                     <DialogContent>
                       <DialogHeader>
-                        <DialogTitle>Vui lòng chọn quận/huyện</DialogTitle>
+                        <DialogTitle>Vui lòng chọn Quận/Huyện</DialogTitle>
                         <DialogDescription className="max-h-96 overflow-y-auto">
                           <div className="my-3">
                             {districts.map((district) => (
@@ -1345,21 +1364,21 @@ const CreateOrderSingleSection = () => {
                 </div>
               </div>
               <div className="mb-4">
-                <Label htmlFor="ward" className="text-gray-600">
+                <Label htmlFor="ward" className="text-black">
                   Phường/Xã:
                 </Label>
                 <Dialog open={openWard} onOpenChange={setOpenWard}>
                   <DialogTrigger asChild>
                     <Input
                       readOnly
-                      value={ward || "Vui lòng chọn phường/xã"}
+                      value={ward || "Vui lòng chọn Phường/Xã"}
                       className="text-left w-full px-3 py-2 pr-16 border border-gray-300 rounded-md cursor-pointer"
                       onClick={() => setOpenWard(true)}
                     />
                   </DialogTrigger>
                   <DialogContent>
                     <DialogHeader>
-                      <DialogTitle>Vui lòng chọn phường/xã</DialogTitle>
+                      <DialogTitle>Vui lòng chọn Phường/Xã</DialogTitle>
                       <DialogDescription className="max-h-96 overflow-y-auto">
                         <div className="my-3">
                           {wards.map((ward) => (
@@ -1380,7 +1399,7 @@ const CreateOrderSingleSection = () => {
                 </Dialog>
               </div>
               <div className="mb-4">
-                <Label htmlFor="address" className="text-gray-600">
+                <Label htmlFor="address" className="text-black">
                   Số nhà, tên đường:
                 </Label>
                 <Input
@@ -1530,31 +1549,63 @@ const CreateOrderSingleSection = () => {
               </div>
               <div className="flex justify-between items-center pt-2">
                 <span>Khuyến mãi</span>
-                <div className="flex gap-2">
-                  <input
-                    type="text"
-                    placeholder="Nhập mã khuyến mãi"
-                    className={`w-2/3 border border-gray-300 rounded p-2 text-sm ${
-                      isValid === false
-                        ? "border-red-500"
-                        : isValid === true
-                        ? "border-green-500"
-                        : ""
-                    }`}
-                    value={promoCode}
-                    onChange={(e) => {
-                      setPromoCode(e.target.value);
-                    }}
-                  />
-                  <div
-                    className={`w-1/3 px-5 py-2 bg-yellow-400 hover:bg-yellow-500 text-center rounded-md font-base cursor-pointer ${
-                      isChecking ? "opacity-50 cursor-not-allowed" : ""
-                    }`}
-                    onClick={!isChecking ? handleCheckDiscount : undefined}
-                  >
-                    {isChecking ? "Đang kiểm tra..." : "Dùng mã"}
-                  </div>
-                </div>
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <div className="">
+                      <input
+                        type="text"
+                        placeholder="Nhập mã khuyến mãi"
+                        className={`w-full border border-gray-300 rounded p-2 text-sm ${
+                          isValid === false
+                            ? "border-red-500"
+                            : isValid === true
+                            ? "border-green-500"
+                            : ""
+                        }`}
+                        value={promoCode}
+                        onChange={(e) => {
+                          setPromoCode(e.target.value);
+                        }}
+                        style={{ fontSize: "16px" }}
+                      />
+                    </div>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Vui lòng nhập mã giảm giá</DialogTitle>
+                      <DialogDescription className="max-h-96 overflow-y-auto">
+                        <div className="flex flex-col justify-center items-center gap-2 mt-5">
+                          <input
+                            type="text"
+                            placeholder="Nhập mã khuyến mãi"
+                            className={`w-full border border-gray-300 rounded text-black p-2 text-sm ${
+                              isValid === false
+                                ? "border-red-500"
+                                : isValid === true
+                                ? "border-green-500"
+                                : ""
+                            }`}
+                            value={promoCode}
+                            onChange={(e) => {
+                              setPromoCode(e.target.value);
+                            }}
+                            style={{ fontSize: "16px" }}
+                          />
+                        </div>
+                      </DialogDescription>
+                    </DialogHeader>
+                    <DialogClose>
+                      <div
+                        className={`w-2/3 px-5 py-2 mx-auto text-black bg-yellow-400 hover:bg-yellow-500 text-center rounded-md font-base cursor-pointer ${
+                          isChecking ? "opacity-50 cursor-not-allowed" : ""
+                        }`}
+                        onClick={!isChecking ? handleCheckDiscount : undefined}
+                      >
+                        {isChecking ? "Đang kiểm tra..." : "Dùng mã"}
+                      </div>
+                    </DialogClose>
+                  </DialogContent>
+                </Dialog>
               </div>
 
               {isValid && (
@@ -1581,7 +1632,7 @@ const CreateOrderSingleSection = () => {
               </div>
             </div>
           )}
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-black">
             Bằng cách tiến hành mua hàng, bạn đã đồng ý với các điều khoản và
             chính sách của chúng tôi.
           </p>

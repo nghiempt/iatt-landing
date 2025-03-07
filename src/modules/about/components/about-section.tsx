@@ -42,13 +42,13 @@ const AboutSection = () => {
   ];
 
   const paymentContent = (
-    <div className="space-y-4 text-gray-600">
+    <div className="space-y-4 text-black">
       <p className="mb-4">
         Khách hàng có thể đặt hàng qua website hoặc liên hệ{" "}
         <span className="font-semibold">đường dây nóng: 0123456789</span>.
       </p>
       <div className="space-y-2">
-        <h3 className="text-lg font-medium text-gray-800">
+        <h3 className="text-lg font-medium text-black">
           Phương thức thanh toán:
         </h3>
         <ul className="list-disc pl-6 ">
@@ -72,7 +72,7 @@ const AboutSection = () => {
 
   const introductionContent = (
     <div className="space-y-8">
-      <div className="text-gray-600">
+      <div className="text-black">
         <p className="mb-4 font-semibold text-left text-xl">
           Chào mừng bạn đến với In Ảnh Trực Tuyến (
           <strong>inanhtructuyen.com</strong>)
@@ -95,7 +95,7 @@ const AboutSection = () => {
         </p>
       </div>
       <div>
-        <h2 className="text-2xl font-semibold text-left mb-6 text-gray-800">
+        <h2 className="text-2xl font-semibold text-left mb-6 text-black">
           DỊCH VỤ NỔI BẬT CỦA CHÚNG TÔI
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -120,7 +120,7 @@ const AboutSection = () => {
                 </div>
               </div>
               <div className="pt-4">
-                <p className="text-gray-600 text-sm">{service.description}</p>
+                <p className="text-black text-sm">{service.description}</p>
               </div>
             </div>
           ))}
@@ -130,7 +130,7 @@ const AboutSection = () => {
   );
 
   const privacyContent = (
-    <div className="space-y-4 text-gray-600">
+    <div className="space-y-4 text-black">
       <p className="mb-4 text-justify">
         Khi truy cập website INANHTHUCTUYEN.COM, quý khách đồng ý và chấp nhận
         thực hiện những mô tả trong Chính sách bảo mật thông tin. Nếu quý khách
@@ -139,7 +139,7 @@ const AboutSection = () => {
         lợi của quý khách khi sử dụng dịch vụ và mua hàng.
       </p>
       <div className="space-y-2">
-        <h3 className="text-lg font-bold text-gray-800">
+        <h3 className="text-lg font-bold text-black">
           1. Mục đích và phạm vi thu thập thông tin
         </h3>
         <p>Việc thu thập dữ liệu trên website INANHTHUCTUYEN.COM bao gồm:</p>
@@ -157,7 +157,7 @@ const AboutSection = () => {
         </p>
       </div>
       <div className="space-y-2">
-        <h3 className="text-lg font-bold text-gray-800">
+        <h3 className="text-lg font-bold text-black">
           2. Phạm vi sử dụng thông tin
         </h3>
         <p>Chúng tôi sử dụng thông tin quý khách cung cấp để:</p>
@@ -175,7 +175,7 @@ const AboutSection = () => {
         </ul>
       </div>
       <div className="space-y-2">
-        <h3 className="text-lg font-bold text-gray-800">
+        <h3 className="text-lg font-bold text-black">
           3. Cam kết bảo mật thông tin cá nhân khách hàng
         </h3>
         <ul className="list-disc pl-6">
@@ -191,7 +191,7 @@ const AboutSection = () => {
         </ul>
       </div>
       <div className="space-y-2">
-        <h3 className="text-lg font-bold text-gray-800">
+        <h3 className="text-lg font-bold text-black">
           4. Thời gian lưu trữ thông tin
         </h3>
         <p>
@@ -200,7 +200,7 @@ const AboutSection = () => {
         </p>
       </div>
       <div className="space-y-2">
-        <h3 className="text-lg font-bold text-gray-800">
+        <h3 className="text-lg font-bold text-black">
           5. Địa chỉ đơn vị thu thập và quản lý thông tin cá nhân
         </h3>
         <p>Cở sở kinh doanh INANH THUC TUYEN</p>
@@ -210,7 +210,7 @@ const AboutSection = () => {
         </ul>
       </div>
       <div className="space-y-2">
-        <h3 className="text-lg font-bold text-gray-800">
+        <h3 className="text-lg font-bold text-black">
           6. Phương tiện và công cụ để người dùng tiếp cận và chỉnh sửa dữ liệu
           cá nhân
         </h3>
@@ -227,7 +227,7 @@ const AboutSection = () => {
   );
 
   const shippingContent = (
-    <div className="space-y-4 text-gray-600">
+    <div className="space-y-4 text-black">
       <p className="mb-4">
         Sau khi khách hàng đặt hàng trên trang web INANHTRUCTUYEN.COM, hệ thống
         sẽ tự động gửi thông báo xác nhận đã đặt hàng. Đội ngũ hỗ trợ của chúng
@@ -237,9 +237,7 @@ const AboutSection = () => {
         hàng tận nơi trên toàn quốc
       </p>
       <div className="space-y-2">
-        <h3 className="text-lg font-bold text-gray-800">
-          Thời gian giao hàng:
-        </h3>
+        <h3 className="text-lg font-bold text-black">Thời gian giao hàng:</h3>
         <ul className="list-disc pl-6">
           <li>Nội thành TP.HCM: 1-2 ngày (không tính thứ 7, chủ nhật).</li>
           <li>
@@ -249,7 +247,7 @@ const AboutSection = () => {
         </ul>
       </div>
       <div className="space-y-2">
-        <h3 className="text-lg font-bold text-gray-800">Chi phí giao hàng:</h3>
+        <h3 className="text-lg font-bold text-black">Chi phí giao hàng:</h3>
         <ul className="list-disc pl-6">
           <li>Miễn phí vận chuyển cho đơn hàng từ ... VNĐ.</li>
           <li>Phí ... VNĐ cho các đơn hàng dưới ... VNĐ.</li>
@@ -259,9 +257,9 @@ const AboutSection = () => {
   );
 
   const returnContent = (
-    <div className="space-y-4 text-gray-600">
+    <div className="space-y-4 text-black">
       <div className="space-y-2">
-        <h3 className="text-lg font-bold text-gray-800">
+        <h3 className="text-lg font-bold text-black">
           Lý do chấp nhận đổi trả:
         </h3>
         <ul className="list-disc pl-6 ">
@@ -272,7 +270,7 @@ const AboutSection = () => {
         </ul>
       </div>
       <div className="space-y-2">
-        <h3 className="text-lg font-bold text-gray-800">Yêu cầu trả hàng:</h3>
+        <h3 className="text-lg font-bold text-black">Yêu cầu trả hàng:</h3>
         <ul className="list-disc pl-6">
           <li>Sản phẩm còn đóng gói nguyên vẹn.</li>
           <li>Đầy đủ phụ kiện và quà tặng (nếu có).</li>
@@ -280,7 +278,7 @@ const AboutSection = () => {
         </ul>
       </div>
       <div className="space-y-2">
-        <h3 className="text-lg font-bold text-gray-800">Thời gian đổi trả:</h3>
+        <h3 className="text-lg font-bold text-black">Thời gian đổi trả:</h3>
         <p className="pl-6">
           <span className="text-yellow-500 font-bold">
             Trong vòng 24h kể từ khi nhận hàng.
@@ -288,7 +286,7 @@ const AboutSection = () => {
         </p>
       </div>
       <div className="space-y-2">
-        <h3 className="text-lg font-bold text-gray-800">Chi phí đổi trả:</h3>
+        <h3 className="text-lg font-bold text-black">Chi phí đổi trả:</h3>
         <ul className="list-disc pl-6 ">
           <li>Đổi lỗi của chúng tôi: Miễn phí vận chuyển hai chiều.</li>
           <li>
@@ -326,7 +324,7 @@ const AboutSection = () => {
               onClick={() => toggleSection(policy.title)}
               className="w-full pt-4 pb-2 flex justify-start items-center text-left border-b border-gray-300"
             >
-              <span className="text-xl lg:text-2xl font-semibold text-gray-800 pr-2">
+              <span className="text-xl lg:text-2xl font-semibold text-black pr-2">
                 {policy.title}
               </span>
               <ChevronDown
@@ -336,7 +334,7 @@ const AboutSection = () => {
               />
             </button>
             {expandedSections[policy.title] && (
-              <div className="text-justify pt-4 lg:py-4 text-gray-600">
+              <div className="text-justify pt-4 lg:py-4 text-black">
                 {policy.content}
               </div>
             )}

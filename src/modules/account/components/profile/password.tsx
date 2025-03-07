@@ -195,7 +195,7 @@ export default function AccountPassword() {
           confirmPassword: "",
         });
 
-        // window.location.href = "/tai-khoan?tab=password";
+        window.location.href = "/tai-khoan?tab=password";
       }
     } catch (error) {
       toast({

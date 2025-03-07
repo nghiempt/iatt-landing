@@ -97,7 +97,7 @@ export default function Header() {
   };
   return (
     <header className="relative flex flex-col w-full bg-white shadow-md">
-      <div className="container pt-4 pb-2 lg:py-4 px-4 lg:px-8">
+      <div className="container pt-4 pb-2 lg:py-5 px-5 lg:px-8">
         <div className="flex items-center justify-between">
           <div className="lg:hidden flex flex-col justify-center">
             <button
@@ -120,9 +120,11 @@ export default function Header() {
               height={40}
             />
             <div className="flex flex-col justify-center items-start">
-              <span className="text-sm font-bold">IN ẢNH TRỰC TUYẾN</span>
+              <span className="text-sm lg:text-xl font-bold">
+                IN ẢNH TRỰC TUYẾN
+              </span>
               <span className="text-xs font-medium text-[#f6842c]">
-                In ảnh đẹp giá rể
+                In ảnh đẹp giá rẻ
               </span>
             </div>
           </Link>
@@ -155,6 +157,7 @@ export default function Header() {
                     alt="alt"
                     width={24}
                     height={24}
+                    className="object-contain"
                   />
                 </Link>
               </>
@@ -300,7 +303,7 @@ export default function Header() {
           </div>
         </div>
       </div>
-      <div className="flex lg:hidden flex-row justify-between pt-2.5 pb-4 px-4">
+      <div className="flex lg:hidden flex-row justify-between pt-2.5 pb-4 px-5">
         <div className="flex flex-col justify-center items-start gap-1">
           <span className="text-xs flex justify-start items-center gap-2">
             <Image
@@ -328,14 +331,14 @@ export default function Header() {
               alt="alt"
               width={24}
               height={24}
-              className="w-5 h-5 object-cover"
+              className="w-5 h-5 object-contain"
             />
             <Image
               src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/App_Store_%28iOS%29.svg/1024px-App_Store_%28iOS%29.svg.png"
               alt="alt"
               width={24}
               height={24}
-              className="w-5 h-5 object-cover"
+              className="w-5 h-5 object-contain"
             />
           </div>
           <div className="text-blue-500 font-semibold text-xs">Tải app</div>

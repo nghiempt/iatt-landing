@@ -204,8 +204,8 @@ export default function AccountAddress() {
         ward: 0,
       }));
       setProvince(selectedProvince.name);
-      setDistrict("Vui lòng chọn quận/huyện");
-      setWard("Vui lòng chọn phường/xã");
+      setDistrict("Vui lòng chọn Quận/Huyện");
+      setWard("Vui lòng chọn Phường/Xã");
       setOpenProvinces(false);
     } else {
       setDistricts([]);
@@ -225,7 +225,7 @@ export default function AccountAddress() {
         ward: 0,
       }));
       setDistrict(selectedDistrict.name);
-      setWard("Vui lòng chọn phường/xã");
+      setWard("Vui lòng chọn Phường/Xã");
       setOpenDistrict(false);
     } else {
       setWards([]);
@@ -297,7 +297,7 @@ export default function AccountAddress() {
       setLoading(false);
     } else {
       setLoading(false);
-      window.location.href = "/tai-khoan?tab=profile";
+      window.location.href = "/tai-khoan?tab=address";
     }
   };
 
@@ -399,7 +399,7 @@ export default function AccountAddress() {
                   <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
                     <Label
                       htmlFor="province"
-                      className="text-gray-600 w-full lg:w-2/6"
+                      className="text-black w-full lg:w-2/6"
                     >
                       Tỉnh/Thành phố:
                     </Label>
@@ -410,14 +410,16 @@ export default function AccountAddress() {
                       <DialogTrigger asChild>
                         <Input
                           readOnly
-                          value={province || "Vui lòng chọn thành phố"}
+                          value={province || "Vui lòng chọn Tỉnh/Thành phố"}
                           className="text-left w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent cursor-pointer"
                           onClick={() => setOpenProvinces(true)}
                         />
                       </DialogTrigger>
                       <DialogContent>
                         <DialogHeader>
-                          <DialogTitle>Vui lòng chọn thành phố</DialogTitle>
+                          <DialogTitle>
+                            Vui lòng chọn Tỉnh/Thành phố
+                          </DialogTitle>
                           <DialogDescription className="max-h-96 overflow-y-auto">
                             <div className="my-3">
                               {provinces.map((province) => (
@@ -440,7 +442,7 @@ export default function AccountAddress() {
                   <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
                     <Label
                       htmlFor="district"
-                      className="text-gray-600 w-full lg:w-2/6"
+                      className="text-black w-full lg:w-2/6"
                     >
                       Quận/Huyện:
                     </Label>
@@ -448,14 +450,14 @@ export default function AccountAddress() {
                       <DialogTrigger asChild>
                         <Input
                           readOnly
-                          value={district || "Vui lòng chọn quận/huyện"}
+                          value={district || "Vui lòng chọn Quận/Huyện"}
                           className="text-left w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent cursor-pointer"
                           onClick={() => setOpenDistrict(true)}
                         />
                       </DialogTrigger>
                       <DialogContent>
                         <DialogHeader>
-                          <DialogTitle>Vui lòng chọn quận/huyện</DialogTitle>
+                          <DialogTitle>Vui lòng chọn Quận/Huyện</DialogTitle>
                           <DialogDescription className="max-h-96 overflow-y-auto">
                             <div className="my-3">
                               {districts.map((district) => (
@@ -478,7 +480,7 @@ export default function AccountAddress() {
                   <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
                     <Label
                       htmlFor="ward"
-                      className="text-gray-600 w-full lg:w-2/6"
+                      className="text-black w-full lg:w-2/6"
                     >
                       Phường/Xã:
                     </Label>
@@ -486,14 +488,14 @@ export default function AccountAddress() {
                       <DialogTrigger asChild>
                         <Input
                           readOnly
-                          value={ward || "Vui lòng chọn phường/xã"}
+                          value={ward || "Vui lòng chọn Phường/Xã"}
                           className="text-left w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent cursor-pointer"
                           onClick={() => setOpenWard(true)}
                         />
                       </DialogTrigger>
                       <DialogContent>
                         <DialogHeader>
-                          <DialogTitle>Vui lòng chọn phường/xã</DialogTitle>
+                          <DialogTitle>Vui lòng chọn Phường/Xã</DialogTitle>
                           <DialogDescription className="max-h-96 overflow-y-auto">
                             <div className="my-3">
                               {wards.map((ward) => (
@@ -516,7 +518,7 @@ export default function AccountAddress() {
                   <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
                     <Label
                       htmlFor="address"
-                      className="text-gray-600 w-full lg:w-2/6"
+                      className="text-black w-full lg:w-2/6"
                     >
                       Số nhà, tên đường:
                     </Label>
@@ -527,6 +529,7 @@ export default function AccountAddress() {
                       className="text-left w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent cursor-pointer"
                       value={formData.address}
                       onChange={handleInputChange}
+                      style={{ fontSize: "16px" }}
                     />
                   </div>
                   <div className="mt-8 flex justify-center items-center">
