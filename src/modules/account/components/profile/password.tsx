@@ -335,6 +335,7 @@ export default function AccountPassword() {
                         value={formData.password}
                         onChange={handleInputChange}
                         className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        style={{ fontSize: "16px" }}
                       />
                     </div>
                   </div>
@@ -352,6 +353,7 @@ export default function AccountPassword() {
                         value={formData.newPassword}
                         onChange={handleInputChange}
                         className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        style={{ fontSize: "16px" }}
                       />
                     </div>
                   </div>
@@ -370,6 +372,7 @@ export default function AccountPassword() {
                         value={formData.confirmPassword}
                         onChange={handleInputChange}
                         className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        style={{ fontSize: "16px" }}
                       />
                     </div>
                   </div>
