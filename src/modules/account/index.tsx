@@ -95,6 +95,7 @@ export interface Order {
   total: string;
   status: string;
   product_id: string;
+  product_price: string;
   image: string;
   size: string;
   color: string;

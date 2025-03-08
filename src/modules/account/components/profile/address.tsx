@@ -414,7 +414,7 @@ export default function AccountAddress() {
                         <Input
                           readOnly
                           value={province || "Vui lòng chọn Tỉnh/Thành phố"}
-                          className="text-left w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent cursor-pointer"
+                          className="text-left w-full px-3 py-2 pr-16 text-[16px] border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent cursor-pointer"
                           onClick={() => setOpenProvinces(true)}
                         />
                       </DialogTrigger>
@@ -454,7 +454,7 @@ export default function AccountAddress() {
                         <Input
                           readOnly
                           value={district || "Vui lòng chọn Quận/Huyện"}
-                          className="text-left w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent cursor-pointer"
+                          className="text-left w-full px-3 py-2 pr-16 text-[16px] border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent cursor-pointer"
                           onClick={() => setOpenDistrict(true)}
                         />
                       </DialogTrigger>
@@ -492,7 +492,7 @@ export default function AccountAddress() {
                         <Input
                           readOnly
                           value={ward || "Vui lòng chọn Phường/Xã"}
-                          className="text-left w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent cursor-pointer"
+                          className="text-left w-full px-3 py-2 pr-16 text-[16px] border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent cursor-pointer"
                           onClick={() => setOpenWard(true)}
                         />
                       </DialogTrigger>

@@ -522,7 +522,7 @@ export default function PriceTable() {
                 />
               </div>
               <div className="space-y-4 !mt-8">
-                <h1 className="text-2xl font-bold text-navy-900">
+                <h1 className="text-xl font-bold text-black">
                   Bảng giá chi tiết
                 </h1>
                 <Card className="border-none shadow-none">
