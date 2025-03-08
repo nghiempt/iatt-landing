@@ -254,7 +254,7 @@ const CreateOrderSingleSection = () => {
         const res = await ProductService.getProductById(selectedProduct);
         if (res && res.data) {
           setProductsData(res.data);
-          setSelectedColor(res.data.color[0]);
+          // setSelectedColor(res.data.color[0]);
         }
       } catch (error) {
         console.error("Error fetching product by ID:", error);
@@ -1166,115 +1166,123 @@ const CreateOrderSingleSection = () => {
                         </span>
                       </DialogDescription>
                     </DialogHeader>
-                    <div className="flex flex-col lg:flex-row justify-center items-start gap-4 min-h-[500px]">
-                      <div className="relative w-full h-full">
-                        <Cropper
-                          image={
-                            originalImage ||
-                            (uploadedFile
-                              ? URL.createObjectURL(uploadedFile)
-                              : IMAGES.LOGO)
-                          }
-                          crop={crop}
-                          zoom={zoom}
-                          aspect={getAspectRatio(selectedSize)}
-                          onCropChange={setCrop}
-                          onCropComplete={onCropComplete}
-                          onZoomChange={setZoom}
-                        />
+                    {!currentImage.startsWith("http") && !uploadedFile ? (
+                      <div className="w-full h-full flex justify-center items-center">
+                        Vui lòng chọn hình ảnh để tùy chỉnh!
                       </div>
-                      <div className="flex flex-col gap-0">
-                        <div>
-                          <h2 className="text-lg lg:text-xl font-medium mb-2">
-                            Kích thước khung ảnh:
-                          </h2>
-                          <div className="flex gap-4 mb-4">
-                            {sizeOptions.map((size) => (
-                              <button
-                                key={size.id}
-                                className={`border px-4 py-2 rounded-md ${
-                                  selectedSize === size.id
-                                    ? "border-yellow-500 bg-yellow-50"
-                                    : "border-gray-300"
-                                }`}
-                                onClick={() => setSelectedSize(size.id)}
-                              >
-                                {size.label}
-                              </button>
-                            ))}
+                    ) : (
+                      <>
+                        <div className="flex flex-col lg:flex-row justify-center items-start gap-4 min-h-[500px]">
+                          <div className="relative w-full h-full">
+                            <Cropper
+                              image={
+                                originalImage ||
+                                (uploadedFile
+                                  ? URL.createObjectURL(uploadedFile)
+                                  : IMAGES.LOGO)
+                              }
+                              crop={crop}
+                              zoom={zoom}
+                              aspect={getAspectRatio(selectedSize)}
+                              onCropChange={setCrop}
+                              onCropComplete={onCropComplete}
+                              onZoomChange={setZoom}
+                            />
+                          </div>
+                          <div className="flex flex-col gap-0">
+                            <div>
+                              <h2 className="text-lg lg:text-xl font-medium mb-2">
+                                Kích thước khung ảnh:
+                              </h2>
+                              <div className="flex gap-4 mb-4">
+                                {sizeOptions.map((size) => (
+                                  <button
+                                    key={size.id}
+                                    className={`border px-4 py-2 rounded-md ${
+                                      selectedSize === size.id
+                                        ? "border-yellow-500 bg-yellow-50"
+                                        : "border-gray-300"
+                                    }`}
+                                    onClick={() => setSelectedSize(size.id)}
+                                  >
+                                    {size.label}
+                                  </button>
+                                ))}
+                              </div>
+                            </div>
+                            <div>
+                              <h2 className="text-lg font-medium mb-2">
+                                Màu sắc khung viền:
+                              </h2>
+                              <div className="flex gap-4 mb-6">
+                                {colorOptions
+                                  .filter((color) =>
+                                    productsData.color?.includes(color.id)
+                                  )
+                                  .map((color) => (
+                                    <button
+                                      key={color.id}
+                                      type="button"
+                                      className={cn(
+                                        "w-8 h-8 rounded-full transition-all border-2",
+                                        color.bgColor,
+                                        color.borderColor,
+                                        selectedColor === color.id
+                                          ? "ring-2 ring-offset-2 ring-orange-700"
+                                          : ""
+                                      )}
+                                      onClick={() => setSelectedColor(color.id)}
+                                    />
+                                  ))}
+                              </div>
+                            </div>
                           </div>
                         </div>
-                        <div>
-                          <h2 className="text-lg font-medium mb-2">
-                            Màu sắc khung viền:
-                          </h2>
-                          <div className="flex gap-4 mb-6">
-                            {colorOptions
-                              .filter((color) =>
-                                productsData.color?.includes(color.id)
-                              )
-                              .map((color) => (
-                                <button
-                                  key={color.id}
-                                  type="button"
-                                  className={cn(
-                                    "w-8 h-8 rounded-full transition-all border-2",
-                                    color.bgColor,
-                                    color.borderColor,
-                                    selectedColor === color.id
-                                      ? "ring-2 ring-offset-2 ring-orange-700"
-                                      : ""
-                                  )}
-                                  onClick={() => setSelectedColor(color.id)}
-                                />
-                              ))}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <DialogFooter>
-                      <DialogClose asChild>
-                        <Button
-                          type="button"
-                          variant="secondary"
-                          className="!px-10 !text-[16px]"
-                        >
-                          Huỷ
-                        </Button>
-                      </DialogClose>
-                      <DialogClose asChild>
-                        <Button
-                          type="button"
-                          onClick={handleCropSave}
-                          className="!px-10 !text-[16px] !mb-3 lg:!mb-0"
-                          disabled={isLoading}
-                        >
-                          Lưu
-                          {isLoading && (
-                            <svg
-                              className="animate-spin ml-2 h-5 w-5"
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
+                        <DialogFooter>
+                          <DialogClose asChild>
+                            <Button
+                              type="button"
+                              variant="secondary"
+                              className="!px-10 !text-[16px]"
                             >
-                              <circle
-                                className="opacity-25"
-                                cx="12"
-                                cy="12"
-                                r="10"
-                                stroke="currentColor"
-                                strokeWidth="4"
-                              />
-                              <path
-                                className="opacity-75"
-                                fill="currentColor"
-                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                              />
-                            </svg>
-                          )}
-                        </Button>
-                      </DialogClose>
-                    </DialogFooter>
+                              Huỷ
+                            </Button>
+                          </DialogClose>
+                          <DialogClose asChild>
+                            <Button
+                              type="button"
+                              onClick={handleCropSave}
+                              className="!px-10 !text-[16px] !mb-3 lg:!mb-0"
+                              disabled={isLoading}
+                            >
+                              Lưu
+                              {isLoading && (
+                                <svg
+                                  className="animate-spin ml-2 h-5 w-5"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <circle
+                                    className="opacity-25"
+                                    cx="12"
+                                    cy="12"
+                                    r="10"
+                                    stroke="currentColor"
+                                    strokeWidth="4"
+                                  />
+                                  <path
+                                    className="opacity-75"
+                                    fill="currentColor"
+                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                                  />
+                                </svg>
+                              )}
+                            </Button>
+                          </DialogClose>
+                        </DialogFooter>
+                      </>
+                    )}
                   </DialogContent>
                 </Dialog>
               </div>
