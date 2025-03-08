@@ -1143,8 +1143,8 @@ const CreateOrderSingleSection = () => {
                         </span>
                       </DialogDescription>
                     </DialogHeader>
-                    <div className="flex flex-col lg:flex-row justify-center items-start gap-4">
-                      <div className="relative h-[400px] w-full">
+                    <div className="flex flex-col lg:flex-row justify-center items-start gap-4 min-h-[500px]">
+                      <div className="relative w-full h-full">
                         <Cropper
                           image={
                             originalImage ||
@@ -1594,11 +1594,11 @@ const CreateOrderSingleSection = () => {
                           <input
                             type="text"
                             placeholder="Nhập mã khuyến mãi"
-                            className={`w-full border border-gray-300 rounded text-black p-2 text-sm ${
+                            className={`w-full border border-gray-300 rounded p-2 text-sm no-focus-ring ${
                               isValid === false
-                                ? "border-red-500"
+                                ? "border-none"
                                 : isValid === true
-                                ? "border-green-500"
+                                ? "border-none"
                                 : ""
                             }`}
                             value={promoCode}

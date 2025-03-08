@@ -213,10 +213,8 @@ export default function OrderHistory({
           customerAccount && (
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
               <Sidebar customerAccount={customerAccount} />
-              <div className="space-y-4 lg:col-span-8">
-                <h1 className="text-2xl font-semibold mb-3">
-                  Đơn hàng của bạn
-                </h1>
+              <div className="space-y-3 lg:col-span-8">
+                <h1 className="text-2xl font-semibold">Đơn hàng của bạn</h1>
                 {orders?.length === 0 ? (
                   <div className="col-span-2 text-center w-full flex justify-center items-center py-4">
                     <p className="text-gray-500 text-lg">

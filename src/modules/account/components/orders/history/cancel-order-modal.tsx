@@ -158,19 +158,22 @@ const CancelOrderModal = ({ order, customerAccount }: any) => {
               </div>
             </div>
             <div className="px-0 py-4 border-b border-gray-200">
-              <div className="mb-2 text-lg font-medium">
+              <div className="mb-2 text-lg font-medium text-black">
                 Thông tin nhận hàng
               </div>
               <div className="text-black mb-1">
-                Tên: {customerAccount?.name}
+                Tên: <strong>{customerAccount?.name}</strong>
               </div>
               <div className="text-black mb-1">
-                Số điện thoại: {customerAccount?.phone}
+                Số điện thoại: <strong>{customerAccount?.phone}</strong>
               </div>
               <div className="text-black">
                 {" "}
-                Địa chỉ: {order?.address}, {order?.wardName},{" "}
-                {order?.districtName}, {order?.provinceName}
+                Địa chỉ:{" "}
+                <strong>
+                  {order?.address}, {order?.wardName}, {order?.districtName},{" "}
+                  {order?.provinceName}
+                </strong>
               </div>
             </div>
             <div className="border-b border-gray-200">
