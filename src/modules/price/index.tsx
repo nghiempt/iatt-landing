@@ -356,7 +356,7 @@ export default function PriceTable() {
                       <div className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full my-2">
                         <Dialog>
                           <DialogTrigger asChild>
-                            <div className="cursor-pointer flex flex-row justify-between items-center gap-4 p-2 bg-white rounded-md border border-gray-200">
+                            <div className="text-sm cursor-pointer flex flex-row justify-between items-center gap-4 p-2 bg-white rounded-md border border-gray-200">
                               {selectedProduct &&
                               selectedProduct !== "Chon san pham" ? (
                                 products?.find(
@@ -377,7 +377,7 @@ export default function PriceTable() {
                                       height={1000}
                                       className="object-cover w-8 h-8 shrink-0"
                                     />
-                                    <p className="text-xs whitespace-nowrap">
+                                    <p className="text-xs line-clamp-2">
                                       {
                                         products?.find(
                                           (item: any) =>
@@ -452,9 +452,9 @@ export default function PriceTable() {
                         >
                           <SelectTrigger>
                             {selectedSize === "Chon kich thuoc"
-                              ? "Chọn Kích Thước"
+                              ? "Chọn kích thước"
                               : ""}
-                            <SelectValue placeholder="Chọn Kích Thước" />
+                            <SelectValue placeholder="Chọn kích thước" />
                           </SelectTrigger>
                           <SelectContent className="">
                             {sizeOptions?.map((item: any, index: any) => (
@@ -499,11 +499,13 @@ export default function PriceTable() {
                     </div>
                   </div> */}
                   <div className="flex flex-row justify-between items-center gap-4">
-                    <Button className="w-1/2 py-2 lg:py-4 bg-[rgb(var(--primary-rgb))] hover:bg-[rgb(var(--secondary-rgb))] text-center rounded-md font-medium transition">
+                    <Button className="w-1/3 lg:w-1/2 py-2 lg:py-4 bg-[rgb(var(--primary-rgb))] hover:bg-[rgb(var(--secondary-rgb))] text-center rounded-md font-medium transition">
                       Tra cứu
                     </Button>
                     <div className="flex items-center gap-2">
-                      <span>Giá sản phẩm:</span>
+                      <span className="text-sm lg:text-base">
+                        Giá sản phẩm:
+                      </span>
                       <span>
                         {selectedProduct === "Chon san pham"
                           ? HELPER.formatVND("0")

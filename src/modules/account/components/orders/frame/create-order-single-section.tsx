@@ -1001,7 +1001,7 @@ const CreateOrderSingleSection = () => {
                             height={1000}
                             className="object-cover w-8 h-8 shrink-0"
                           />
-                          <p className="text-xs whitespace-nowrap">
+                          <p className="text-xs line-clamp-2">
                             {
                               products?.find(
                                 (item: any) =>

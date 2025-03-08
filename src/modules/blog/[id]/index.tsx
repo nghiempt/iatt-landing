@@ -123,19 +123,19 @@ export default function BlogDetailClient() {
           <nav className="flex items-center gap-2 text-sm text-gray-600 mb-2 lg:mb-0">
             <Link
               href={`${ROUTES.HOME}`}
-              className="hover:text-[rgb(var(--primary-rgb))] text-md"
+              className="hover:text-[rgb(var(--primary-rgb))] text-[12px] lg:text-md"
             >
               Trang chủ
             </Link>
             <ChevronRight className="w-4 h-4" />
             <Link
               href={`${ROUTES.BLOG}`}
-              className="hover:text-[rgb(var(--primary-rgb))] text-md"
+              className="hover:text-[rgb(var(--primary-rgb))] text-[12px] lg:text-md"
             >
               Tin Tức
             </Link>
             <ChevronRight className="w-4 h-4" />
-            <p className="hover:text-[rgb(var(--primary-rgb))] text-md truncate text-md">
+            <p className="hover:text-[rgb(var(--primary-rgb))] text-[12px] lg:text-md truncate text-md">
               {currentData?.title?.slice(0, 20)}...
             </p>
           </nav>

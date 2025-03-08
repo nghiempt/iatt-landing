@@ -50,6 +50,7 @@ export interface Order {
   total: string;
   status: string;
   product_id: string;
+  product_price: string;
   image: string;
   size: string;
   color: string;
@@ -340,7 +341,7 @@ export default function OrderHistory({
                               <p className="text-sm text-black">
                                 Phân loại:{" "}
                                 <strong>
-                                  {/* {HELPER.renderCategory2(order?.product_price)} */}
+                                  {HELPER.renderCategory2(order?.product_price)}
                                 </strong>
                               </p>
                               <p className="text-sm text-black">
