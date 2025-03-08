@@ -96,6 +96,11 @@ export default function AccountPassword() {
     newPassword: "",
     confirmPassword: "",
   });
+  const [oldformData, setOldFormData] = React.useState<FormData>({
+    password: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
 
   React.useEffect(() => {
     const fetchProvinces = async () => {
@@ -142,7 +147,20 @@ export default function AccountPassword() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-
+    const areEqual = (
+          formData.password === oldformData.password &&
+          formData.newPassword === oldformData.newPassword &&
+          formData.confirmPassword === oldformData.confirmPassword 
+        );
+        if (areEqual) {
+          toast({
+            title: "",
+            description: "Không có thay đổi nào được thực hiện!",
+            variant: "destructive",
+          });
+          setLoading(false);
+          return;
+        }
     const passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])(.{8,})$/;
 
     if (formData.newPassword !== formData.confirmPassword) {

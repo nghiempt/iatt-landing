@@ -111,6 +111,16 @@ export default function AccountAddress() {
     district: 0,
     province: 0,
   });
+  const [oldformData, setOldFormData] = React.useState<FormData>({
+    name: "",
+    email: "",
+    avatar: "",
+    phone: "",
+    address: "",
+    ward: 0,
+    district: 0,
+    province: 0,
+  });
 
   React.useEffect(() => {
     const fetchProvinces = async () => {
@@ -172,6 +182,16 @@ export default function AccountAddress() {
           const data = await AccountService.getAccountById(isLogin);
           setCustomerAccount(data);
           setFormData({
+            name: data.name,
+            email: data.email,
+            avatar: data.avatar,
+            phone: data.phone,
+            address: data.address,
+            ward: data.ward,
+            district: data.district,
+            province: data.province,
+          });
+          setOldFormData({
             name: data.name,
             email: data.email,
             avatar: data.avatar,
@@ -271,6 +291,25 @@ export default function AccountAddress() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    const areEqual = (
+      formData.name === oldformData.name &&
+      formData.email === oldformData.email &&
+      formData.avatar === oldformData.avatar &&
+      formData.phone === oldformData.phone &&
+      formData.address === oldformData.address &&
+      formData.ward === oldformData.ward &&
+      formData.district === oldformData.district &&
+      formData.province === oldformData.province
+    );
+    if (areEqual) {
+      toast({
+        title: "",
+        description: "Không có thay đổi nào được thực hiện!",
+        variant: "destructive",
+      });
+      setLoading(false);
+      return;
+    }
     const selectedProvince = provinces.find(
       (p) => p.code === formData.province
     );
@@ -463,6 +502,8 @@ export default function AccountAddress() {
                           <DialogTitle>Vui lòng chọn Quận/Huyện</DialogTitle>
                           <DialogDescription className="max-h-96 overflow-y-auto">
                             <div className="my-3">
+                              {districts.length > 0 ?
+                              <>
                               {districts.map((district) => (
                                 <div
                                   key={district.code}
@@ -474,6 +515,13 @@ export default function AccountAddress() {
                                   {district.name}
                                 </div>
                               ))}
+                              </>
+                              : <>
+                              <div className="p-2">
+                                Bạn chưa chọn Tỉnh/Thành phố
+                              </div>
+                              </>
+                            }
                             </div>
                           </DialogDescription>
                         </DialogHeader>
@@ -501,6 +549,8 @@ export default function AccountAddress() {
                           <DialogTitle>Vui lòng chọn Phường/Xã</DialogTitle>
                           <DialogDescription className="max-h-96 overflow-y-auto">
                             <div className="my-3">
+                              { wards.length > 0 ?
+                              <>
                               {wards.map((ward) => (
                                 <div
                                   key={ward.code}
@@ -512,6 +562,13 @@ export default function AccountAddress() {
                                   {ward.name}
                                 </div>
                               ))}
+                              </> : 
+                              <>
+                                <div className="p-2">
+                                Bạn chưa chọn Quận/Huyện
+                              </div>
+                              </>
+                            }
                             </div>
                           </DialogDescription>
                         </DialogHeader>
