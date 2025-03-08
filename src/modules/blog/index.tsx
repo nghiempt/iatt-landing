@@ -125,9 +125,9 @@ export default function BlogClient() {
         </span>
       </div>
       <Header />
-      <div className="container px-5 lg:px-8 pb-10 lg:pb-20 pt-2">
-        <div className="pt-4 pb-4 lg:pb-0 lg:px-0">
-          <nav className="flex items-center gap-2 text-sm text-gray-600 mb-3">
+      <div className="container px-5 lg:px-8 pb-0 lg:pb-20 pt-2">
+        <div className="pt-3 pb-0 lg:pb-0 lg:px-0">
+          <nav className="flex items-center gap-2 text-sm text-gray-600 mb-2">
             <Link
               href={`${ROUTES.HOME}`}
               className="hover:text-[rgb(var(--primary-rgb))] text-md"
@@ -142,7 +142,7 @@ export default function BlogClient() {
               Tin tức
             </Link>
           </nav>
-          <h1 className="text-2xl lg:text-3xl font-bold text-navy-900 pb-5">
+          <h1 className="text-xl lg:text-3xl font-bold text-navy-900 pb-3">
             BÀI VIẾT MỚI NHẤT
           </h1>
           <Link
@@ -218,7 +218,7 @@ export default function BlogClient() {
               </Link>
             ))}
           </div>
-          <h1 className="text-2xl lg:text-3xl font-bold text-navy-900 py-8">
+          <h1 className="text-xl lg:text-3xl font-bold text-navy-900 pt-8 pb-4">
             TẤT CẢ BÀI VIẾT
           </h1>
           {isLoading ? (

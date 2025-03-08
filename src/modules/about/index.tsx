@@ -80,7 +80,7 @@ export default function AboutClient() {
         </span>
       </div>
       <Header />
-      <div className="w-full container !px-0 pt-4">
+      <div className="w-full container !px-0 pt-3">
         <div className="!px-5 pt-2 pb-4 lg:pb-0 lg:px-0">
           <nav className="flex items-center gap-2 text-sm text-gray-600 ml-0 lg:ml-3">
             <Link

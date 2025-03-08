@@ -246,14 +246,14 @@ export default function ProductDetailClient() {
         </span>
       </div>
       <Header />
-      <div className="container px-5 lg:px-8 pb-4 lg:pb-20 pt-2">
+      <div className="container px-5 lg:px-8 pb-5 lg:pb-20 pt-2">
         {isLoading ? (
           <div className="col-span-2 text-center w-full flex justify-center items-center py-40">
             <Loader className="animate-spin" size={32} />
           </div>
         ) : (
           <>
-            <div className="w-full pt-4 pb-4 px-0 flex flex-col justify-center items-start">
+            <div className="w-full pt-3 pb-4 px-0 flex flex-col justify-center items-start">
               <nav className="flex items-center gap-2 text-sm text-gray-600 mb-1">
                 <Link
                   href={`${ROUTES.HOME}`}

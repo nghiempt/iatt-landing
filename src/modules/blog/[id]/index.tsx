@@ -118,37 +118,37 @@ export default function BlogDetailClient() {
         </span>
       </div>
       <Header />
-      <div className="container px-5 lg:px-8 pb-10 lg:pb-20 pt-2">
-        <div className="w-full pt-4 pb-4 lg:px-0 lg:pb-0 flex flex-col justify-center items-start">
+      <div className="container px-5 lg:px-8 pb-2 lg:pb-20 pt-2">
+        <div className="w-full pt-3 pb-4 lg:px-0 lg:pb-0 flex flex-col justify-center items-start">
           <nav className="flex items-center gap-2 text-sm text-gray-600 mb-2 lg:mb-0">
             <Link
               href={`${ROUTES.HOME}`}
-              className="hover:text-[rgb(var(--primary-rgb))] text-[12px] lg:text-md"
+              className="hover:text-[rgb(var(--primary-rgb))] text-md"
             >
               Trang chủ
             </Link>
             <ChevronRight className="w-4 h-4" />
             <Link
               href={`${ROUTES.BLOG}`}
-              className="hover:text-[rgb(var(--primary-rgb))] text-[12px] lg:text-md"
+              className="hover:text-[rgb(var(--primary-rgb))] text-md"
             >
               Tin Tức
             </Link>
             <ChevronRight className="w-4 h-4" />
-            <p className="hover:text-[rgb(var(--primary-rgb))] text-[12px] lg:text-md truncate text-md">
-              {currentData?.title?.slice(0, 20)}...
+            <p className="hover:text-[rgb(var(--primary-rgb))] text-md truncate text-md">
+              {currentData?.title?.slice(0, 15)}...
             </p>
           </nav>
           <div className="w-full grid grid-cols-1 lg:grid-cols-12 items-start gap-3 lg:gap-20">
             <div className="mt-0 lg:mt-3 pt-0 pb-4 z-10 lg:col-span-8 border-b border-gray-300">
-              <div className="mb-1">
+              <div className="text-sm lg:text-base mb-1">
                 <p>
                   Đăng bởi: {currentData?.author} -{" "}
                   {HELPER.formatDate(currentData?.created_at)}
                 </p>
               </div>
               <div>
-                <h1 className="text-3xl font-bold text-navy-900 mb-3">
+                <h1 className="text-2xl lg:text-3xl font-bold text-navy-900 mb-3">
                   {currentData?.title}
                 </h1>
               </div>
@@ -175,7 +175,7 @@ export default function BlogDetailClient() {
                 width={400}
                 height={140}
               />
-              <div className="font-semibold text-xl my-4">
+              <div className="font-semibold text-xl mb-4 mt-1">
                 BÀI VIẾT LIÊN QUAN
               </div>
               <div className="grid grid-flow-col grid-rows-4 gap-4">

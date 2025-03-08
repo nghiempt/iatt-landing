@@ -145,6 +145,8 @@ const CreateOrderSingleSection = () => {
   const [selectedColor, setSelectedColor] = React.useState<string>(
     productsData.color?.[0] || "white"
   );
+  const [originalImage, setOriginalImage] = React.useState<string | null>(null);
+
   const [uploadedFile, setUploadedFile] = React.useState<File | null>(null);
   const [formData, setFormData] = React.useState<FormData>({
     name: "",
@@ -374,6 +376,16 @@ const CreateOrderSingleSection = () => {
     return true;
   };
 
+  const handleImageUpload = (file: File | null) => {
+    if (file) {
+      setUploadedFile(file);
+      const originalUrl = URL.createObjectURL(file);
+      setOriginalImage(originalUrl);
+      setCurrentImage(originalUrl);
+      setCroppedImage(null);
+    }
+  };
+
   const handleSubmit = async () => {
     if (!validateForm()) return;
     setLoading(true);
@@ -415,16 +427,12 @@ const CreateOrderSingleSection = () => {
         payment_method: selectedPayment || "",
         discount_code: promoCode || "",
         discount_price: discountPercent || 0,
-        total:
-          // products.find(
-          //   (pro: any) => pro._id.toString() === selectedProduct
-          // )?.price,
-          HELPER.calculateTotalNumber(
-            products.find((pro: any) => pro._id.toString() === selectedProduct)
-              ?.price,
-            "30000",
-            discountPercent
-          ),
+        total: HELPER.calculateTotalNumber(
+          products.find((pro: any) => pro._id.toString() === selectedProduct)
+            ?.price,
+          "30000",
+          discountPercent
+        ),
       };
 
       let response;
@@ -654,10 +662,6 @@ const CreateOrderSingleSection = () => {
   const [zoom, setZoom] = useState(1);
   const [croppedImage, setCroppedImage] = useState<string | null>(null);
 
-  // const onCropComplete = (croppedArea: any, croppedAreaPixels: any) => {
-  //   console.log(croppedArea, croppedAreaPixels);
-  // };
-
   const onCropComplete = useCallback(
     async (croppedArea: any, croppedAreaPixels: any) => {
       if (!uploadedFile) return;
@@ -666,8 +670,7 @@ const CreateOrderSingleSection = () => {
         const canvas = document.createElement("canvas");
         const ctx = canvas.getContext("2d");
         const image = new window.Image();
-
-        image.src = URL.createObjectURL(uploadedFile);
+        image.src = originalImage || URL.createObjectURL(uploadedFile);
 
         await new Promise((resolve) => {
           image.onload = resolve;
@@ -699,7 +702,7 @@ const CreateOrderSingleSection = () => {
         });
       }
     },
-    [uploadedFile]
+    [uploadedFile, originalImage]
   );
 
   const handleCropSave = () => {
@@ -977,10 +980,10 @@ const CreateOrderSingleSection = () => {
         </div>
         <div className="w-full lg:w-1/2 space-y-6">
           <div>
-            <h2 className="text-lg lg:text-xl font-medium mb-4">
+            <h2 className="text-lg lg:text-xl font-medium mb-1">
               Thông tin sản phẩm
             </h2>
-            <div className="bg-gray-50 border border-gray-300 text-black rounded-lg block w-full my-4">
+            <div className="bg-gray-50 border border-gray-300 text-black rounded-lg block w-full my-1">
               <Dialog>
                 <DialogTrigger asChild>
                   <div className="cursor-pointer flex flex-row justify-between items-center gap-4 p-2 bg-white rounded-lg">
@@ -1062,19 +1065,21 @@ const CreateOrderSingleSection = () => {
               <div className="flex flex-col lg:flex-row justify-evenly h-full lg:h-[340px]">
                 <div>
                   {!currentImage.startsWith("http") &&
-                  selectedProduct !== "Chon san pham" ? (
-                    <>
+                  selectedProduct !== "Chon san pham" &&
+                  !uploadedFile ? (
+                    <div className="mt-3 lg:mt-0">
                       <ImageUpload
-                        onImageChange={setUploadedFile}
+                        // onImageChange={setUploadedFile}
+                        onImageChange={handleImageUpload}
                         selectedColor={selectedColor}
                         selectedSize={selectedSize}
                       />
-                    </>
+                    </div>
                   ) : (
                     <>
                       <div
                         className={cn(
-                          "relative w-full h-full overflow-hidden rounded-md",
+                          "relative w-full h-64 overflow-hidden rounded-md mt-3",
                           `${
                             selectedProduct !== "Chon san pham"
                               ? "border-8"
@@ -1093,12 +1098,22 @@ const CreateOrderSingleSection = () => {
                               : "border-gray-200"
                           }`
                         )}
+                        style={getImageContainerStyle()}
                       >
                         <Image
-                          src={currentImage}
-                          alt="img"
+                          src={
+                            croppedImage
+                              ? croppedImage
+                              : uploadedFile
+                              ? URL.createObjectURL(uploadedFile)
+                              : currentImage || IMAGES.LOGO
+                          }
+                          alt="Selected product image"
                           fill
-                          className="object-cover"
+                          className="object-contain w-full h-full"
+                          onError={(e) => {
+                            e.currentTarget.src = IMAGES.LOGO;
+                          }}
                         />
                       </div>
                     </>
@@ -1113,7 +1128,7 @@ const CreateOrderSingleSection = () => {
                     </div>
                   </DialogTrigger>
                   <DialogContent
-                    className="sm:max-w-[1200px]"
+                    className="sm:max-w-[1000px] max-h-[48rem] overflow-y-auto"
                     onOpenAutoFocus={(e) => e.preventDefault()}
                   >
                     <DialogHeader>
@@ -1132,9 +1147,10 @@ const CreateOrderSingleSection = () => {
                       <div className="relative h-[400px] w-full">
                         <Cropper
                           image={
-                            uploadedFile
+                            originalImage ||
+                            (uploadedFile
                               ? URL.createObjectURL(uploadedFile)
-                              : IMAGES.LOGO
+                              : IMAGES.LOGO)
                           }
                           crop={crop}
                           zoom={zoom}
@@ -1144,12 +1160,12 @@ const CreateOrderSingleSection = () => {
                           onZoomChange={setZoom}
                         />
                       </div>
-                      <div className="flex flex-col gap-4">
+                      <div className="flex flex-col gap-0">
                         <div>
                           <h2 className="text-lg lg:text-xl font-medium mb-2">
                             Kích thước khung ảnh:
                           </h2>
-                          <div className="flex gap-4 mb-6">
+                          <div className="flex gap-4 mb-4">
                             {sizeOptions.map((size) => (
                               <button
                                 key={size.id}
@@ -1207,7 +1223,7 @@ const CreateOrderSingleSection = () => {
                         <Button
                           type="button"
                           onClick={handleCropSave}
-                          className="!px-10 !text-[16px] !mb-5 lg:!mb-0"
+                          className="!px-10 !text-[16px] !mb-3 lg:!mb-0"
                           disabled={isLoading}
                         >
                           Lưu
@@ -1243,7 +1259,7 @@ const CreateOrderSingleSection = () => {
           </div>
           <div className=" lg:hidden w-full md:w-1/2 space-y-6">
             <div>
-              <h2 className="text-lg lg:text-xl font-medium mb-3 lg:mb-4">
+              <h2 className="text-lg lg:text-xl font-medium mb-1 lg:mb-4">
                 Thông tin khách hàng
               </h2>
               <div className="mb-4">
@@ -1288,11 +1304,11 @@ const CreateOrderSingleSection = () => {
               </div>
             </div>
             <div>
-              <h2 className="text-lg lg:text-xl font-medium mb-4">
+              <h2 className="text-lg lg:text-xl font-medium mb-2">
                 Địa chỉ nhận hàng
               </h2>
-              <div className="grid grid-cols-1 gap-4 mb-4">
-                <div>
+              <div className="grid grid-cols-1 gap-2 mb-3">
+                <div className="mb-1">
                   <Label htmlFor="province" className="text-black">
                     Tỉnh/Thành phố:
                   </Label>
@@ -1301,7 +1317,7 @@ const CreateOrderSingleSection = () => {
                       <Input
                         readOnly
                         value={province || "Vui lòng chọn Tỉnh/Thành phố"}
-                        className="text-left w-full px-3 py-2 pr-16 border border-gray-300 rounded-md cursor-pointer mt-1"
+                        className="text-left w-full px-3 py-2 pr-16 border border-gray-300 rounded-md cursor-pointer mt-1 text-[16px]"
                         onClick={() => setOpenProvinces(true)}
                       />
                     </DialogTrigger>
@@ -1336,7 +1352,7 @@ const CreateOrderSingleSection = () => {
                       <Input
                         readOnly
                         value={district || "Vui lòng chọn Quận/Huyện"}
-                        className="text-left w-full px-3 py-2 pr-16 border border-gray-300 rounded-md cursor-pointer mt-1"
+                        className="text-left w-full px-3 py-2 pr-16 border border-gray-300 rounded-md cursor-pointer mt-1 text-[16px]"
                         onClick={() => setOpenDistrict(true)}
                       />
                     </DialogTrigger>
@@ -1363,7 +1379,7 @@ const CreateOrderSingleSection = () => {
                   </Dialog>
                 </div>
               </div>
-              <div className="mb-4">
+              <div className="mb-3">
                 <Label htmlFor="ward" className="text-black">
                   Phường/Xã:
                 </Label>
@@ -1372,7 +1388,7 @@ const CreateOrderSingleSection = () => {
                     <Input
                       readOnly
                       value={ward || "Vui lòng chọn Phường/Xã"}
-                      className="text-left w-full px-3 py-2 pr-16 border border-gray-300 rounded-md cursor-pointer mt-1"
+                      className="text-left w-full px-3 py-2 pr-16 border border-gray-300 rounded-md cursor-pointer mt-1 text-[16px]"
                       onClick={() => setOpenWard(true)}
                     />
                   </DialogTrigger>
@@ -1504,7 +1520,7 @@ const CreateOrderSingleSection = () => {
                   </div>
                 </div>
                 <div>
-                  <h2 className="text-sm font-medium mb-2">
+                  <h2 className="text-lg font-medium mb-2">
                     Thêm ghi chú cho đơn hàng
                   </h2>
                   <textarea
@@ -1570,7 +1586,7 @@ const CreateOrderSingleSection = () => {
                       />
                     </div>
                   </DialogTrigger>
-                  <DialogContent>
+                  <DialogContent className="-translate-y-52">
                     <DialogHeader>
                       <DialogTitle>Vui lòng nhập mã giảm giá</DialogTitle>
                       <DialogDescription className="max-h-96 overflow-y-auto">
@@ -1596,7 +1612,7 @@ const CreateOrderSingleSection = () => {
                     </DialogHeader>
                     <DialogClose>
                       <div
-                        className={`w-2/3 px-5 py-2 mx-auto text-black bg-yellow-400 hover:bg-yellow-500 text-center rounded-md font-base cursor-pointer ${
+                        className={`w-full px-5 py-2 mx-auto text-black bg-yellow-400 hover:bg-yellow-500 text-center rounded-md font-base cursor-pointer ${
                           isChecking ? "opacity-50 cursor-not-allowed" : ""
                         }`}
                         onClick={!isChecking ? handleCheckDiscount : undefined}
@@ -1610,7 +1626,7 @@ const CreateOrderSingleSection = () => {
 
               {isValid && (
                 <div className="flex justify-between items-center pt-2">
-                  <span>Mã giảm giá</span>
+                  <span>Giảm giá</span>
                   <div className="flex gap-2">
                     <div className={`text-red-500`}>- {discountPercent}%</div>
                   </div>

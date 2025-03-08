@@ -105,80 +105,7 @@ export default function OrderHistory({
   const tab = pathParams.get("orderNoLogin");
 
   const [openDialog, setOpenDialog] = useState(false);
-
-  // const [customerAccount, setCustomerAccount] =
-  //   useState<CustomerAccount | null>(null);
-
-  // const [product, setProduct] = useState<Product | null>(null);
-  // const [orders, setOrders] = useState([] as any);
-
   const [isLoading, setIsLoading] = useState(false);
-
-  // const init = async () => {
-  //   setIsLoading(true);
-  //   const res = await OrderService.getOrderById(isLogin?.toString() ?? "");
-
-  //   if (res && res.length > 0) {
-  //     setOrders(res);
-  //   }
-
-  //   const fetchAccount = async () => {
-  //     if (isLogin) {
-  //       try {
-  //         const data = await AccountService.getAccountById(isLogin);
-  //         setCustomerAccount(data);
-  //       } catch (error) {
-  //         console.error("Error fetching account:", error);
-  //       }
-  //     }
-  //   };
-
-  //   fetchAccount();
-  //   setIsLoading(false);
-  // };
-
-  // useEffect(() => {
-  //   init();
-  // }, []);
-
-  // useEffect(() => {
-  //   if (tab === "true") {
-  //     setOpenDialog(true);
-  //   }
-  // }, [tab]);
-
-  // const fetchOrdersAndAccount = async (loginId: string) => {
-  //   setIsLoading(true);
-  //   try {
-  //     const res = await OrderService.getOrderById(loginId);
-  //     if (res && res.length > 0) {
-  //       setOrders(res);
-  //     } else {
-  //       setOrders([]);
-  //     }
-
-  //     if (loginId) {
-  //       const data = await AccountService.getAccountById(loginId);
-  //       setCustomerAccount(data);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching data:", error);
-  //     setOrders([]);
-  //     setCustomerAccount(null);
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (isLogin) {
-  //     fetchOrdersAndAccount(isLogin);
-  //   } else {
-  //     setOrders([]);
-  //     setCustomerAccount(null);
-  //     setIsLoading(false);
-  //   }
-  // }, [isLogin]);
 
   useEffect(() => {
     if (tab === "true") {
@@ -254,9 +181,9 @@ export default function OrderHistory({
         </span>
       </div>
       <Header />
-      <div className="container px-5 lg:px-8 pb-5 lg:pb-20 pt-4">
+      <div className="container px-5 lg:px-8 pb-5 lg:pb-20 pt-3">
         <div className="lg:pb-0 lg:px-0">
-          <nav className="flex items-center gap-2 text-sm text-gray-600 pt-2 pb-4">
+          <nav className="flex items-center gap-2 text-sm text-gray-600 pt-2 pb-2">
             <Link
               href={`${ROUTES.HOME}`}
               className="hover:text-[rgb(var(--primary-rgb))] text-md"
@@ -287,7 +214,7 @@ export default function OrderHistory({
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
               <Sidebar customerAccount={customerAccount} />
               <div className="space-y-4 lg:col-span-8">
-                <h1 className="text-2xl font-semibold mb-6">
+                <h1 className="text-2xl font-semibold mb-3">
                   Đơn hàng của bạn
                 </h1>
                 {orders?.length === 0 ? (
@@ -332,7 +259,7 @@ export default function OrderHistory({
                               alt={order?.product_name}
                               width={1000}
                               height={1000}
-                              className="object-cover w-40 h-40"
+                              className="object-contain border border-gray-300 w-40 h-40"
                             />
                             <div className="space-y-1 lg:w-96">
                               <h3 className="text-base lg:text-xl font-medium">

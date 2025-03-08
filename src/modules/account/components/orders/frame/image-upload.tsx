@@ -124,7 +124,7 @@ const ImageUpload = ({
         </>
       ) : (
         <div
-          className="relative group h-[365px] lg:h-full"
+          className="relative group h-[340px] lg:h-full"
           style={getContainerStyle()}
         >
           <div
@@ -161,7 +161,7 @@ const ImageUpload = ({
               width={1000}
               height={1000}
               priority
-              className="absolute top-0 left-0 !w-full !h-full object-cover"
+              className="absolute top-0 left-0 !w-full !h-full object-contain"
             />
           </div>
           <div

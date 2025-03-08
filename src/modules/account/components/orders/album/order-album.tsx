@@ -7,11 +7,17 @@ import Link from "next/link";
 import { ChevronRight, Frame, Images } from "lucide-react";
 import { ROUTES } from "@/utils/route";
 import Image from "next/image";
-import Cookies from "js-cookie"
+import Cookies from "js-cookie";
 import ImageUploadAlbum from "./image-upload-album";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { ProductService } from "@/services/product";
 import { toast } from "@/hooks/use-toast";
 import { UploadService } from "@/services/upload";
@@ -19,8 +25,14 @@ import { OrderService } from "@/services/order";
 import { AccountService } from "@/services/account";
 import ImageUpload from "../frame/image-upload";
 import { HELPER } from "@/utils/helper";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 export interface Province {
   code: number;
@@ -81,15 +93,11 @@ export default function OrderAlbumCreate() {
   const [wards, setWards] = React.useState<Ward[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [currentImage, setCurrentImage] = React.useState("");
-  const [selectedProduct, setSelectedProduct] = React.useState<any>(
-    "Chon san pham"
-  );
-  const [selectedPage, setSelectedPage] = React.useState<any>(
-    "Chon loai ruot"
-  );
-  const [selectedCover, setSelectedCover] = React.useState<any>(
-    "Chon loai bia"
-  );
+  const [selectedProduct, setSelectedProduct] =
+    React.useState<any>("Chon san pham");
+  const [selectedPage, setSelectedPage] = React.useState<any>("Chon loai ruot");
+  const [selectedCover, setSelectedCover] =
+    React.useState<any>("Chon loai bia");
   const [formData, setFormData] = React.useState<FormData>({
     name: "",
     email: "",
@@ -107,13 +115,13 @@ export default function OrderAlbumCreate() {
     },
     {
       id: 2,
-      name: "Ruột không cán màng"
+      name: "Ruột không cán màng",
     },
     {
       id: 3,
-      name: "Ruột tráng gương"
+      name: "Ruột tráng gương",
     },
-  ]
+  ];
 
   const covers = [
     {
@@ -122,13 +130,13 @@ export default function OrderAlbumCreate() {
     },
     {
       id: 2,
-      name: "Bìa da"
+      name: "Bìa da",
     },
     {
       id: 3,
-      name: "Bìa cứng"
+      name: "Bìa cứng",
     },
-  ]
+  ];
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -323,14 +331,14 @@ export default function OrderAlbumCreate() {
         window.location.href = orderNoLogin
           ? `${ROUTES.ACCOUNT}?tab=history`
           : response?.data?.isAccountExisted === true
-            ? `${ROUTES.ACCOUNT}?tab=history`
-            : `${ROUTES.ACCOUNT}?tab=history&orderNoLogin=true`;
+          ? `${ROUTES.ACCOUNT}?tab=history`
+          : `${ROUTES.ACCOUNT}?tab=history&orderNoLogin=true`;
       } else {
         window.location.href = orderNoLogin
           ? `${ROUTES.ACCOUNT}?tab=history`
           : response?.data?.isAccountExisted === true
-            ? `${ROUTES.ACCOUNT}?tab=history`
-            : `${ROUTES.ACCOUNT}?tab=history&orderNoLogin=true`;
+          ? `${ROUTES.ACCOUNT}?tab=history`
+          : `${ROUTES.ACCOUNT}?tab=history&orderNoLogin=true`;
       }
     } catch (error) {
       console.error("Error submitting order:", error);
@@ -432,7 +440,6 @@ export default function OrderAlbumCreate() {
     }
   };
 
-
   return (
     <div className="w-full">
       <Header />
@@ -453,10 +460,10 @@ export default function OrderAlbumCreate() {
         <div className="">
           <div className="w-full mx-auto pb-8">
             <div className="flex flex-col md:flex-row gap-8">
-              <div className="hidden lg:grid w-full md:w-1/2">
+              <div className="hidden lg:grid w-full h-full md:w-1/2">
                 <div>
                   <h2 className="text-lg lg:text-xl font-medium mb-4">
-                    Thông tin khách hàng
+                    Thông tin khách hàng k
                   </h2>
                   <div className="mb-4 ml-5">
                     <Label htmlFor="name" className="text-gray-600 ">
@@ -683,7 +690,6 @@ export default function OrderAlbumCreate() {
                   </div>
                 </>
                 {/* )} */}
-                
               </div>
               <div className="w-full lg:w-1/2 space-y-6">
                 <div>
@@ -760,7 +766,9 @@ export default function OrderAlbumCreate() {
                           onValueChange={setSelectedCover}
                         >
                           <SelectTrigger>
-                            {selectedCover === "Chon loai bia" ? "Chọn loại bìa" : ""}
+                            {selectedCover === "Chon loai bia"
+                              ? "Chọn loại bìa"
+                              : ""}
                             <SelectValue placeholder="Chọn loại bìa" />
                           </SelectTrigger>
 
@@ -784,7 +792,9 @@ export default function OrderAlbumCreate() {
                           onValueChange={setSelectedPage}
                         >
                           <SelectTrigger>
-                            {selectedPage === "Chon loai ruot" ? "Chọn loại ruột" : ""}
+                            {selectedPage === "Chon loai ruot"
+                              ? "Chọn loại ruột"
+                              : ""}
                             <SelectValue placeholder="Chọn loại ruột" />
                           </SelectTrigger>
 
@@ -806,15 +816,13 @@ export default function OrderAlbumCreate() {
                           <ImageUploadAlbum onImageChange={setUploadedFile} />
                         </div>
                       )}
-
                     </div>
-
                   </div>
                 </div>
                 <div className=" lg:hidden w-full md:w-1/2 space-y-6">
                   <div>
                     <h2 className="text-lg lg:text-xl font-medium mb-4">
-                      Thông tin khách hàng
+                      Thông tin khách hàng k
                     </h2>
                     <div className="mb-4">
                       <Label htmlFor="name" className="text-gray-600 ">
@@ -866,7 +874,10 @@ export default function OrderAlbumCreate() {
                         <Label htmlFor="province" className="text-gray-600">
                           Tỉnh/Thành phố:
                         </Label>
-                        <Dialog open={openProvinces} onOpenChange={setOpenProvinces}>
+                        <Dialog
+                          open={openProvinces}
+                          onOpenChange={setOpenProvinces}
+                        >
                           <DialogTrigger asChild>
                             <Input
                               readOnly
@@ -885,7 +896,9 @@ export default function OrderAlbumCreate() {
                                       key={province.code}
                                       className="p-2"
                                       onClick={() => {
-                                        handleProvinceChange(String(province.code));
+                                        handleProvinceChange(
+                                          String(province.code)
+                                        );
                                       }}
                                     >
                                       {province.name}
@@ -901,7 +914,10 @@ export default function OrderAlbumCreate() {
                         <Label htmlFor="district" className="text-gray-600">
                           Quận/Huyện:
                         </Label>
-                        <Dialog open={openDistrict} onOpenChange={setOpenDistrict}>
+                        <Dialog
+                          open={openDistrict}
+                          onOpenChange={setOpenDistrict}
+                        >
                           <DialogTrigger asChild>
                             <Input
                               readOnly
@@ -912,7 +928,9 @@ export default function OrderAlbumCreate() {
                           </DialogTrigger>
                           <DialogContent>
                             <DialogHeader>
-                              <DialogTitle>Vui lòng chọn quận/huyện</DialogTitle>
+                              <DialogTitle>
+                                Vui lòng chọn quận/huyện
+                              </DialogTitle>
                               <DialogDescription className="max-h-96 overflow-y-auto">
                                 <div className="my-3">
                                   {districts.map((district) => (
@@ -920,7 +938,9 @@ export default function OrderAlbumCreate() {
                                       key={district.code}
                                       className="p-2"
                                       onClick={() => {
-                                        handleDistrictChange(String(district.code));
+                                        handleDistrictChange(
+                                          String(district.code)
+                                        );
                                       }}
                                     >
                                       {district.name}
@@ -1082,8 +1102,8 @@ export default function OrderAlbumCreate() {
                   </>
                   {/* )} */}
                   <p className="text-sm text-gray-600">
-                    Bằng cách tiến hành mua hàng, bạn đã đồng ý với các điều khoản và
-                    chính sách của chúng tôi.
+                    Bằng cách tiến hành mua hàng, bạn đã đồng ý với các điều
+                    khoản và chính sách của chúng tôi.
                   </p>
 
                   {/* ORDER BUTTON  */}
@@ -1149,8 +1169,8 @@ export default function OrderAlbumCreate() {
                 </div>
                 {/* )} */}
                 <p className="text-sm text-gray-600">
-                  Bằng cách tiến hành mua hàng, bạn đã đồng ý với các điều khoản và
-                  chính sách của chúng tôi.
+                  Bằng cách tiến hành mua hàng, bạn đã đồng ý với các điều khoản
+                  và chính sách của chúng tôi.
                 </p>
                 <div className="flex flex-row justify-between items-center mt-6">
                   <Link
@@ -1183,9 +1203,6 @@ export default function OrderAlbumCreate() {
               </div>
             </div>
           </div>
-
-
-
 
           {/* <section className="bg-white antialiased">
             <form action="#" className="">

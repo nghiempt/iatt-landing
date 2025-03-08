@@ -126,31 +126,33 @@ const CancelOrderModal = ({ order, customerAccount }: any) => {
             </div>
             <div className="px-0 py-4 border-b border-gray-200">
               <div className="flex gap-4">
-                <div className="w-24 h-24 bg-gray-100 rounded">
+                <div className="w-24 h-24 border border-gary-300 rounded">
                   <Image
                     src={order?.image}
                     alt="detail product"
                     width={1000}
                     height={1000}
-                    className="w-full h-full object-cover rounded"
+                    className="w-full h-full object-contain rounded"
                   />
                 </div>
                 <div className="flex-1">
-                  <div className="text-sm text-black">
+                  <div className="text-sm text-gray-500">
                     {order?.product_category}
                   </div>
                   <div className="text-xl font-medium mb-2">
                     {order?.product_name}
                   </div>
-                  <div className="font-base mb-2">
+                  <div className="font-base">
                     Phân loại:{" "}
                     <strong>
                       {HELPER.renderCategory2(order?.product_price)}
                     </strong>
                   </div>
                   <div className="text-black">
-                    Kích thước: <strong>{order?.size}</strong> | Màu sắc:{" "}
-                    <strong>{HELPER.renderColor(order?.color)}</strong>
+                    Kích thước: <strong>{order?.size}</strong>
+                  </div>
+                  <div className="font-base ">
+                    Màu sắc: <strong>{HELPER.renderColor(order?.color)}</strong>
                   </div>
                 </div>
               </div>

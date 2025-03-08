@@ -327,9 +327,9 @@ export default function PriceTable() {
         </span>
       </div>
       <Header />
-      <div className="container px-1 lg:px-8 pb-10 lg:pb-20 pt-2">
-        <div className="px-4 pt-4 pb-4 lg:pb-0 lg:px-0">
-          <nav className="flex items-center gap-2 text-sm text-gray-600 mb-3">
+      <div className="container px-1 lg:px-8 pb-0 lg:pb-20 pt-2">
+        <div className="px-4 pt-3 pb-0 lg:pb-0 lg:px-0">
+          <nav className="flex items-center gap-2 text-sm text-gray-600 mb-2">
             <Link href={`${ROUTES.HOME}`} className="hover:text-black text-md">
               Trang chủ
             </Link>
@@ -342,15 +342,12 @@ export default function PriceTable() {
             <div className="space-y-10 mb-8">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 w-full">
                 <div className="grid grid-cols-1">
-                  <div className="text-black font-bold text-2xl lg:text-3xl pb-3 lg:pb-0">
+                  <div className="text-black font-bold text-xl lg:text-3xl pb-3 lg:pb-0">
                     TÌM NHANH SẢN PHẨM
                   </div>
-                  <div className="w-full pb-5 lg:pb-0">
+                  <div className="w-full pb-3 lg:pb-0">
                     <div>
-                      <Label
-                        htmlFor="name"
-                        className="text-[#484848] font-bold"
-                      >
+                      <Label htmlFor="name" className="text-black font-bold">
                         Tên sản phẩm
                       </Label>
                       <div className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full my-2">
@@ -439,10 +436,7 @@ export default function PriceTable() {
                       </div>
                     </div>
                     <div className="pt-1">
-                      <Label
-                        htmlFor="name"
-                        className="text-[#484848] font-bold"
-                      >
+                      <Label htmlFor="name" className="text-black font-bold">
                         Kích thước sản phẩm
                       </Label>
                       <div className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full my-2">
@@ -527,7 +521,7 @@ export default function PriceTable() {
                   height={1000}
                 />
               </div>
-              <div className="space-y-4 mt-8">
+              <div className="space-y-4 !mt-8">
                 <h1 className="text-2xl font-bold text-navy-900">
                   Bảng giá chi tiết
                 </h1>
@@ -536,23 +530,25 @@ export default function PriceTable() {
                     <Table>
                       <TableHeader className="bg-[#FFEFCB]">
                         <TableRow>
-                          <TableHead className="text-black">
+                          <TableHead className="text-black px-1 lg:px-2 text-center">
                             Kích thước
                           </TableHead>
-                          <TableHead className="text-black">In Ảnh</TableHead>
-                          <TableHead className="text-black">
+                          <TableHead className="text-black px-1 lg:px-2 text-center">
+                            In Ảnh
+                          </TableHead>
+                          <TableHead className="text-black px-1 lg:px-2 text-center">
                             Phủ UV hoặc lụa mờ
                           </TableHead>
-                          <TableHead className="text-black">
+                          <TableHead className="text-black px-1 lg:px-2 text-center">
                             Ép Plastic
                           </TableHead>
-                          <TableHead className="text-black">
+                          <TableHead className="text-black px-1 lg:px-2 text-center">
                             Ảnh gỗ Composite
                           </TableHead>
-                          <TableHead className="text-black">
+                          <TableHead className="text-black px-1 lg:px-2 text-center">
                             Ảnh gỗ Meka
                           </TableHead>
-                          <TableHead className="text-black">
+                          <TableHead className="text-black px-1 lg:px-2 text-center">
                             Bóc cạnh ghép nhựa
                           </TableHead>
                         </TableRow>
@@ -560,19 +556,25 @@ export default function PriceTable() {
                       <TableBody>
                         {priceData.map((item) => (
                           <TableRow key={item.size}>
-                            <TableCell>{item.size}</TableCell>
-                            <TableCell>{item.inAnh.toLocaleString()}</TableCell>
-                            <TableCell>
+                            <TableCell className="text-center">
+                              {item.size}
+                            </TableCell>
+                            <TableCell className="text-center">
+                              {item.inAnh.toLocaleString()}
+                            </TableCell>
+                            <TableCell className="text-center">
                               {item["Phủ UV hoặc lụa mờ"].toLocaleString()}
                             </TableCell>
-                            <TableCell>{item.inAnh.toLocaleString()}</TableCell>
-                            <TableCell>
+                            <TableCell className="text-center">
+                              {item.inAnh.toLocaleString()}
+                            </TableCell>
+                            <TableCell className="text-center">
                               {item["Ảnh gỗ Composite"].toLocaleString()}
                             </TableCell>
-                            <TableCell>
+                            <TableCell className="text-center">
                               {item["Ảnh gỗ Meka"].toLocaleString()}
                             </TableCell>
-                            <TableCell>
+                            <TableCell className="text-center">
                               {item["Bóc cạnh ghép nhựa"].toLocaleString()}
                             </TableCell>
                           </TableRow>

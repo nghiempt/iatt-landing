@@ -13,7 +13,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { ProductService } from "@/services/product";
 import { IMAGES } from "@/utils/image";
-import { Truck } from "lucide-react";
 
 interface Product {
   _id: string;
@@ -93,7 +92,7 @@ const OrderDetailModal = ({ order, customerAccount }: any) => {
                   <strong>{HELPER.formatDate(order?.created_at)}</strong>
                 </div>
               </div>
-              <div className="flex justify-end ">
+              <div className="flex justify-end">
                 <div
                   className={`${
                     order?.status === "completed"
@@ -121,6 +120,11 @@ const OrderDetailModal = ({ order, customerAccount }: any) => {
                           : ""
                       }
                       ${
+                        order?.status === "cancelled"
+                          ? "bg-red-500 text-white text-sm lg:text-base px-2"
+                          : ""
+                      }
+                      ${
                         order?.status === "paid" ? "bg-pink-200 text-white" : ""
                       } rounded-sm flex items-center justify-center text-center py-2 px-0 lg:px-4 w-full lg:w-full`}
                 >
@@ -130,18 +134,19 @@ const OrderDetailModal = ({ order, customerAccount }: any) => {
                   {order?.status === "delivering" && "Đang giao hàng"}
                   {order?.status === "pending" && "Đang chuẩn bị đơn hàng"}
                   {order?.status === "waiting" && "Đợi phản hồi"}
+                  {order?.status === "cancelled" && "Đã hủy đơn hàng"}
                 </div>
               </div>
             </div>
             <div className="px-0 py-4 border-b border-gray-200">
-              <div className="flex gap-4">
-                <div className="w-24 h-24 bg-gray-100 rounded">
+              <div className="flex justify-center items-start gap-4">
+                <div className="w-24 h-24 border border-gray-300 rounded">
                   <Image
                     src={order?.image}
                     alt="detail product"
                     width={1000}
                     height={1000}
-                    className="w-full h-full object-cover rounded"
+                    className="w-full h-full object-contain rounded"
                   />
                 </div>
                 <div className="flex-1">
@@ -151,15 +156,17 @@ const OrderDetailModal = ({ order, customerAccount }: any) => {
                   <div className="text-xl font-medium mb-2">
                     {order?.product_name}
                   </div>
-                  <div className="font-base mb-2">
+                  <div className="font-base">
                     Phân loại:{" "}
                     <strong>
                       {HELPER.renderCategory2(order?.product_price)}
                     </strong>
                   </div>
                   <div className="text-black">
-                    Kích thước: <strong>{order?.size}</strong> | Màu sắc:{" "}
-                    <strong>{HELPER.renderColor(order?.color)}</strong>
+                    Kích thước: <strong>{order?.size}</strong>
+                  </div>
+                  <div className="font-base ">
+                    Màu sắc: <strong>{HELPER.renderColor(order?.color)}</strong>
                   </div>
                 </div>
               </div>
@@ -169,15 +176,18 @@ const OrderDetailModal = ({ order, customerAccount }: any) => {
                 Thông tin nhận hàng
               </div>
               <div className="text-black mb-1">
-                Tên: {customerAccount?.name}
+                Tên: <strong>{customerAccount?.name}</strong>
               </div>
               <div className="text-black mb-1">
-                Số điện thoại: {customerAccount?.phone}
+                Số điện thoại: <strong>{customerAccount?.phone}</strong>
               </div>
               <div className="text-black">
                 {" "}
-                Địa chỉ: {order?.address}, {order?.wardName},{" "}
-                {order?.districtName}, {order?.provinceName}
+                Địa chỉ:{" "}
+                <strong>
+                  {order?.address}, {order?.wardName}, {order?.districtName},{" "}
+                  {order?.provinceName}
+                </strong>
               </div>
             </div>
             <div className="border-b border-gray-200">

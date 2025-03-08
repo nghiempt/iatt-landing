@@ -276,7 +276,7 @@ export default function AccountPassword() {
         </span>
       </div>
       <Header />
-      <div className="container px-5 lg:px-8 pb-6 pt-4">
+      <div className="container px-5 lg:px-8 pb-6 pt-3">
         <nav className="flex items-center gap-2 text-sm text-gray-600 pt-2 pb-2 lg:pb-4">
           <Link href={`${ROUTES.HOME}`} className="hover:text-black">
             Trang chủ
@@ -293,7 +293,7 @@ export default function AccountPassword() {
             href={`${ROUTES.ACCOUNT}`}
             className="hover:text-[rgb(var(--primary-rgb))] text-md"
           >
-            Hồ sơ cá nhân
+            Mật khẩu
           </Link>
         </nav>
         {customerAccount && (
@@ -301,9 +301,9 @@ export default function AccountPassword() {
             <Sidebar customerAccount={customerAccount} />
             <div className="flex-1 lg:col-span-8 ml-0 lg:ml-5">
               <div className="max-w-2xl">
-                <h1 className="text-2xl font-medium mb-6">Đổi Mật khẩu</h1>
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+                <h1 className="text-2xl font-medium mb-3">Đổi Mật khẩu</h1>
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-2">
                     <Label
                       htmlFor="password"
                       className="text-gray-600 w-full lg:w-2/6"
@@ -321,7 +321,7 @@ export default function AccountPassword() {
                       />
                     </div>
                   </div>
-                  <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+                  <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-2">
                     <Label
                       htmlFor="newPassword"
                       className="text-gray-600 w-full lg:w-2/6"
@@ -338,7 +338,7 @@ export default function AccountPassword() {
                       />
                     </div>
                   </div>
-                  <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+                  <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-2">
                     <Label
                       htmlFor="confirmPassword"
                       className="text-gray-600 w-full lg:w-2/6"
@@ -359,7 +359,7 @@ export default function AccountPassword() {
                   <div className="mt-8 flex justify-center items-center">
                     <Button
                       type="submit"
-                      className="w-full lg:w-64 py-2 px-4 bg-[rgb(var(--primary-rgb))]  hover:bg-[rgb(var(--secondary-rgb))] text-white font-medium rounded-md transition-colors"
+                      className="w-full lg:w-64 py-2 px-4 mt-2 bg-[rgb(var(--primary-rgb))]  hover:bg-[rgb(var(--secondary-rgb))] text-white font-medium rounded-md transition-colors"
                     >
                       Lưu thay đổi
                       {loading && <Loader className="animate-spin" size={48} />}

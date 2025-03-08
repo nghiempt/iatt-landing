@@ -43,7 +43,7 @@ const AboutSection = () => {
 
   const paymentContent = (
     <div className="space-y-4 text-black">
-      <p className="mb-4">
+      <p className="mb-4 text-left">
         Khách hàng có thể đặt hàng qua website hoặc liên hệ{" "}
         <span className="font-semibold">đường dây nóng: 0123456789</span>.
       </p>
@@ -51,7 +51,7 @@ const AboutSection = () => {
         <h3 className="text-lg font-medium text-black">
           Phương thức thanh toán:
         </h3>
-        <ul className="list-disc pl-6 ">
+        <ul className="list-disc pl-6 text-left">
           <li>
             Thanh toán khi nhận hàng: Quý khách thanh toán đầy đủ giá trị đơn
             hàng ngay sau khi kiểm tra hàng hóa.
@@ -262,7 +262,7 @@ const AboutSection = () => {
         <h3 className="text-lg font-bold text-black">
           Lý do chấp nhận đổi trả:
         </h3>
-        <ul className="list-disc pl-6 ">
+        <ul className="list-disc pl-6 text-left">
           <li>Sản phẩm giao sai về số lượng, thông tin hoặc mẫu mã.</li>
           <li>
             Sản phẩm bị hỏng do lỗi sản xuất hoặc trong quá trình vận chuyển.
@@ -287,7 +287,7 @@ const AboutSection = () => {
       </div>
       <div className="space-y-2">
         <h3 className="text-lg font-bold text-black">Chi phí đổi trả:</h3>
-        <ul className="list-disc pl-6 ">
+        <ul className="list-disc pl-6 text-left">
           <li>Đổi lỗi của chúng tôi: Miễn phí vận chuyển hai chiều.</li>
           <li>
             Do nhu cầu của khách: Khách hàng thanh toán chi phí vận chuyển.

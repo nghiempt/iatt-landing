@@ -369,7 +369,7 @@ export default function AccountAddress() {
         </span>
       </div>
       <Header />
-      <div className="container px-5 lg:px-8 pb-6 pt-4">
+      <div className="container px-5 lg:px-8 pb-6 pt-3">
         <nav className="flex items-center gap-2 text-sm text-gray-600 pt-2 pb-2 lg:pb-4">
           <Link href={`${ROUTES.HOME}`} className="hover:text-black">
             Trang chủ
@@ -386,7 +386,7 @@ export default function AccountAddress() {
             href={`${ROUTES.ACCOUNT}`}
             className="hover:text-[rgb(var(--primary-rgb))] text-md"
           >
-            Hồ sơ cá nhân
+            Địa chỉ
           </Link>
         </nav>
         {customerAccount && (
@@ -394,7 +394,7 @@ export default function AccountAddress() {
             <Sidebar customerAccount={customerAccount} />
             <div className="flex-1 lg:col-span-8 ml-0 lg:ml-5">
               <div className="max-w-2xl">
-                <h1 className="text-2xl font-medium mb-6">Địa chỉ</h1>
+                <h1 className="text-2xl font-medium mb-3">Địa chỉ</h1>
                 <form
                   onSubmit={handleSubmit}
                   className="space-y-4 lg:space-y-6"
@@ -538,7 +538,7 @@ export default function AccountAddress() {
                   <div className="mt-8 flex justify-center items-center">
                     <Button
                       type="submit"
-                      className="w-full lg:w-64 py-2 px-4 bg-[rgb(var(--primary-rgb))]  hover:bg-[rgb(var(--secondary-rgb))] text-white font-medium rounded-md transition-colors"
+                      className="w-full lg:w-64 py-2 px-4 mt-2 bg-[rgb(var(--primary-rgb))]  hover:bg-[rgb(var(--secondary-rgb))] text-white font-medium rounded-md transition-colors"
                     >
                       Lưu thay đổi
                       {loading && <Loader className="animate-spin" size={48} />}

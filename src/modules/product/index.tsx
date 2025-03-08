@@ -197,8 +197,8 @@ export default function ProductClient() {
         </span>
       </div>
       <Header />
-      <div className="container px-5 lg:px-8 lg:pb-20 pt-4">
-        <div className="pt-2 pb-4 px-0">
+      <div className="container px-5 lg:px-8 lg:pb-20 pt-3">
+        <div className="pt-2 pb-5 px-0">
           <nav className="flex items-center gap-2 text-sm text-gray-600 mb-0">
             <Link
               href={`${ROUTES.HOME}`}
@@ -214,7 +214,7 @@ export default function ProductClient() {
               Tất cả sản phẩm
             </Link>
           </nav>
-          <h1 className="text-2xl lg:text-3xl font-bold text-navy-900 mt-3">
+          <h1 className="text-xl lg:text-3xl font-bold text-navy-900 mt-3">
             SẢN PHẨM CỦA CHÚNG TÔI
           </h1>
           <div className="grid grid-cols-1 space-y-2 lg:flex lg:flex-row justify-between items-center gap-4 pb-8 pt-3">
@@ -244,7 +244,7 @@ export default function ProductClient() {
               </div>
             </div>
             <div
-              className="relative flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4"
+              className="relative flex flex-col lg:flex-row justify-between items-start lg:items-center gap-2"
               ref={sortRef}
             >
               Sắp xếp theo:
