@@ -249,7 +249,7 @@ export default function ProductClient() {
               className="relative flex flex-col lg:flex-row justify-between items-start lg:items-center gap-2"
               ref={sortRef}
             >
-              Sắp xếp theo:
+              Sắp xếp theo giá:
               <Button
                 onClick={() => setOpenSort(!openSort)}
                 variant="outline"
