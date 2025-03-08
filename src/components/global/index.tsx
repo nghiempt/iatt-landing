@@ -33,13 +33,15 @@ const BlogCard = ({
       <Image
         src={image}
         alt={title}
-        className={`w-full ${isMain ? "h-48 lg:h-80" : "h-28"} object-cover`}
+        className={`w-full ${
+          isMain ? "h-48 lg:h-80" : "h-28"
+        } object-cover rounded-lg border border-gray-200`}
         width={200}
         height={200}
         priority
       />
     </div>
-    <div className={`${isMain ? "p-4" : "py-2 pr-4"}`}>
+    <div className={`${isMain ? "p-0" : "py-2 pr-4"} mt-2`}>
       <h3
         className={`font-medium line-clamp-2 text-navy-900 ${
           isMain ? "text-lg mb-2" : "text-sm mb-2"
@@ -138,21 +140,21 @@ const ProductCardSmall = ({ image, title, price }: any) => (
 
 const ProductCardMobile = ({ image, title, price }: any) => (
   <Card className="bg-white h-full rounded-lg overflow-hidden flex flex-col">
-    <div className="relative px-4 pt-4">
+    <div className="relative">
       <Image
         src={image}
         alt={title}
-        className="w-full h-40 lg:h-64 object-cover "
+        className="w-full h-40 lg:h-64 object-cover rounded-lg border border-gray-200"
         width={200}
         height={200}
         priority
       />
     </div>
-    <div className="flex flex-col text-center justify-between h-full p-4">
+    <div className="flex flex-col text-center justify-between h-full mt-2">
       <h3 className="lg:text-[16px] font-semibold text-gray-900 line-clamp-2">
         {title}
       </h3>
-      <div className="flex items-center justify-center text-center mt-4">
+      <div className="flex items-center justify-center text-center mt-1">
         <span className="lg:text-[20px] font-light text-black text-center">
           {HELPER.formatVND(price)}
         </span>

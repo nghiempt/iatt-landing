@@ -173,6 +173,7 @@ export default function BlogClient() {
                     height={200}
                     objectFit="cover"
                     priority
+                    className=""
                   />
                 </div>
                 <div className="p-4 md:p-6 flex flex-col">

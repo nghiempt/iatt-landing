@@ -912,7 +912,7 @@ const CreateOrderSingleSection = () => {
                     <div
                       className={`cursor-pointer w-5 h-5 rounded-full mr-2 ${
                         selectedPayment === "cash"
-                          ? "border border-gray-700 bg-yellow-500"
+                          ? "border border-gray-200 bg-yellow-500"
                           : "border border-gray-200"
                       }`}
                     ></div>
@@ -928,7 +928,7 @@ const CreateOrderSingleSection = () => {
                       <div
                         className={`cursor-pointer w-5 h-5 rounded-full mr-2 ${
                           selectedPayment === "bank"
-                            ? "border border-gray-700 bg-yellow-500"
+                            ? "border border-gray-200 bg-yellow-500"
                             : "border border-gray-200"
                         }`}
                       ></div>
@@ -1089,7 +1089,6 @@ const CreateOrderSingleSection = () => {
                   !uploadedFile ? (
                     <div className="mt-3 lg:mt-0">
                       <ImageUpload
-                        // onImageChange={setUploadedFile}
                         onImageChange={handleImageUpload}
                         selectedColor={selectedColor}
                         selectedSize={selectedSize}
@@ -1098,9 +1097,27 @@ const CreateOrderSingleSection = () => {
                   ) : (
                     <>
                       <div
-                        className={cn(
-                          "relative w-full h-64 overflow-hidden rounded-md mt-3",
-                          `${
+                        className={`relative w-full ${
+                          selectedSize === "40x20" ? "h-full" : "h-60"
+                        }  flex items-center justify-center overflow-hidden rounded-md mt-3`}
+                        style={getImageContainerStyle()}
+                      >
+                        <Image
+                          src={
+                            croppedImage
+                              ? croppedImage
+                              : uploadedFile
+                              ? URL.createObjectURL(uploadedFile)
+                              : currentImage || IMAGES.LOGO
+                          }
+                          alt="Selected product image"
+                          width={1000}
+                          height={1000}
+                          className={`object-cover ${
+                            selectedSize === "40x20"
+                              ? "w-full h-full"
+                              : "w-1/2 h-full"
+                          } ${
                             selectedProduct !== "Chon san pham"
                               ? "border-8"
                               : ""
@@ -1116,21 +1133,7 @@ const CreateOrderSingleSection = () => {
                               : selectedColor === "wood"
                               ? "border-yellow-950"
                               : "border-gray-200"
-                          }`
-                        )}
-                        style={getImageContainerStyle()}
-                      >
-                        <Image
-                          src={
-                            croppedImage
-                              ? croppedImage
-                              : uploadedFile
-                              ? URL.createObjectURL(uploadedFile)
-                              : currentImage || IMAGES.LOGO
-                          }
-                          alt="Selected product image"
-                          fill
-                          className="object-contain w-full h-full"
+                          } rounded-md`}
                           onError={(e) => {
                             e.currentTarget.src = IMAGES.LOGO;
                           }}
@@ -1145,7 +1148,7 @@ const CreateOrderSingleSection = () => {
                       className="flex justify-center items-center mt-5 lg:mt-0"
                       onClick={handleCheckChange}
                     >
-                      <div className="flex flex-row justify-center items-center gap-4 w-full py-2 px-7 lg:py-4 bg-yellow-400 hover:bg-yellow-500 text-center rounded-md font-medium transition cursor-pointer">
+                      <div className="text-white flex flex-row justify-center items-center gap-4 w-full py-2 px-7 lg:py-4 bg-yellow-400 hover:bg-yellow-500 text-center rounded-md font-medium transition cursor-pointer">
                         Tùy chọn kích thước, màu sắc
                       </div>
                     </div>
@@ -1158,17 +1161,26 @@ const CreateOrderSingleSection = () => {
                       <DialogTitle>
                         <span className="!text-[20px]">Tùy chọn hình ảnh</span>
                       </DialogTitle>
-                      <DialogDescription>
-                        <span className="!text-[16px]">
-                          Chọn kích thước, màu sắc và nhấn{" "}
-                          <strong className="text-orange-700">Lưu</strong> để
-                          tùy chọn hình ảnh.
-                        </span>
-                      </DialogDescription>
+                      {currentImage.startsWith("http") && uploadedFile && (
+                        <DialogDescription>
+                          <span className="!text-[16px]">
+                            Chọn kích thước, màu sắc và nhấn{" "}
+                            <strong className="text-orange-700">Lưu</strong> để
+                            tùy chọn hình ảnh.
+                          </span>
+                        </DialogDescription>
+                      )}
                     </DialogHeader>
                     {!currentImage.startsWith("http") && !uploadedFile ? (
-                      <div className="w-full h-full flex justify-center items-center">
-                        Vui lòng chọn hình ảnh để tùy chỉnh!
+                      <div className="flex flex-col justify-center items-center gap-3">
+                        <div className="w-full h-full flex justify-center text-gray-500 font-semibold items-center">
+                          Vui lòng chọn hình ảnh để tùy chỉnh!
+                        </div>
+                        <DialogClose>
+                          <div className="text-black bg-gray-100 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500">
+                            Quay về
+                          </div>
+                        </DialogClose>
                       </div>
                     ) : (
                       <>
@@ -1474,7 +1486,7 @@ const CreateOrderSingleSection = () => {
                       <div
                         className={`cursor-pointer w-5 h-5 rounded-full mr-2 ${
                           selectedPayment === "cash"
-                            ? "border border-gray-700 bg-yellow-500"
+                            ? "border border-gray-200 bg-yellow-500"
                             : "border border-gray-200"
                         }`}
                       ></div>
@@ -1491,7 +1503,7 @@ const CreateOrderSingleSection = () => {
                           <div
                             className={`cursor-pointer w-5 h-5 rounded-full mr-2 ${
                               selectedPayment === "bank"
-                                ? "border border-gray-700 bg-yellow-500"
+                                ? "border border-gray-200 bg-yellow-500"
                                 : "border border-gray-200"
                             }`}
                           ></div>
@@ -1599,7 +1611,7 @@ const CreateOrderSingleSection = () => {
                 <Dialog>
                   <DialogTrigger asChild>
                     <div className="">
-                      <input
+                      {/* <input
                         type="text"
                         placeholder="Nhập mã khuyến mãi"
                         className={`w-full border border-gray-300 rounded p-2 text-sm ${
@@ -1614,7 +1626,21 @@ const CreateOrderSingleSection = () => {
                           setPromoCode(e.target.value);
                         }}
                         style={{ fontSize: "16px" }}
-                      />
+                      /> */}
+                      {!isValid ? (
+                        <div className="text-white text-sm flex flex-row justify-center items-center gap-4 w-full mx-auto py-2 px-5 lg:py-4 bg-yellow-400 hover:bg-yellow-500 text-center rounded-md font-medium transition">
+                          Nhập mã
+                        </div>
+                      ) : (
+                        <div className="flex flex-row gap-2">
+                          <div className="text-white text-sm flex flex-row justify-center items-center gap-4 mx-auto py-2 px-2 lg:py-4 bg-green-400 hover:bg-yellow-500 text-center rounded-md font-medium transition">
+                            Đã áp dụng mã
+                          </div>
+                          <div className="text-white text-sm flex flex-row justify-center items-center gap-4 mx-auto py-2 px-2 lg:py-4 bg-yellow-400 hover:bg-yellow-500 text-center rounded-md font-medium transition">
+                            Đổi mã
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </DialogTrigger>
                   <DialogContent className="-translate-y-52">
@@ -1686,7 +1712,7 @@ const CreateOrderSingleSection = () => {
           <div className="flex flex-row justify-between items-center mt-6">
             <button
               onClick={() => handleSubmit()}
-              className="flex flex-row justify-center items-center gap-4 w-full mx-auto py-2 lg:py-4 bg-yellow-400 hover:bg-yellow-500 text-center rounded-md font-medium transition"
+              className="text-white flex flex-row justify-center items-center gap-4 w-full mx-auto py-2 lg:py-4 bg-yellow-400 hover:bg-yellow-500 text-center rounded-md font-medium transition"
             >
               Đặt hàng
               {isLoading && <Loader className="animate-spin" size={25} />}

@@ -157,9 +157,10 @@ const Footer = () => {
             <h3 className="text-md font-semibold text-gray-900">
               CHỨNG CHỈ UY TÍN
             </h3>
-            <div className="flex flex-col justify-start items-start gap-7">
+            <div className="flex flex-row lg:flex-col justify-start items-center gap-7 !m-0">
               <Image
-                src="https://www.dmca.com/img/dmca-website-logo-2022.png"
+                // src="https://www.dmca.com/img/dmca-website-logo-2022.png"
+                src="https://res.cloudinary.com/farmcode/image/upload/v1741450139/iatt/Untitled_design_1_qj4hfg.png"
                 alt="DMCA Protected"
                 width={128}
                 height={0}

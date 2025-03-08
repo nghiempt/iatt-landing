@@ -109,7 +109,7 @@ export default function ProductDetailClient() {
       .map((_, index) => (
         <span
           key={index}
-          className={`text-sm ${
+          className={`text-base ${
             index < rating ? "text-yellow-400" : "text-gray-300"
           }`}
         >
@@ -165,6 +165,7 @@ export default function ProductDetailClient() {
 
   const [expanded, setExpanded] = useState(false);
   const [expanded1, setExpanded1] = useState(false);
+  const [expanded2, setExpanded2] = useState(false);
   const description = currentData?.description || "";
   const introduction = currentData?.introduction || "";
 
@@ -283,13 +284,6 @@ export default function ProductDetailClient() {
                       spaceBetween={10}
                       navigation={false}
                     >
-                      {/* <Image
-                        src={currentData?.thumbnail}
-                        alt="Product Image"
-                        className="object-cover rounded-sm"
-                        fill
-                        priority
-                      /> */}
                       {currentData?.images?.map((proImg: any, index: any) => (
                         <SwiperSlide key={index}>
                           <div className="aspect-square w-full relative bg-gray-50">
@@ -427,18 +421,25 @@ export default function ProductDetailClient() {
                           />
                         </div>
                         <div className="flex justify-center relative">
+                          {!expanded && (
+                            <div className="absolute bottom-[140%] left-0 right-0 h-20 bg-gradient-to-t from-gray-50 to-transparent pointer-events-none" />
+                          )}
                           <button
                             className="text-black cursor-pointer font-semibold px-4 py-2 lg:py-4 lg:px-8 border border-gray-300 flex items-center gap-4 rounded-md"
                             onClick={() => setExpanded(!expanded)}
                           >
                             {expanded ? (
                               <>
-                                <p className="text-sm lg:text-base">Thu gọn</p>{" "}
+                                <p className="text-[12px] lg:text-base">
+                                  Thu gọn
+                                </p>{" "}
                                 <ChevronUp size={16} />
                               </>
                             ) : (
                               <>
-                                <p className="text-sm lg:text-base">Xem thêm</p>{" "}
+                                <p className="text-[12px] lg:text-base">
+                                  Xem thêm
+                                </p>{" "}
                                 <ChevronDown size={16} />
                               </>
                             )}
@@ -488,12 +489,14 @@ export default function ProductDetailClient() {
                           </div>
                         </div>
                       </div>
-                      <p className="text-gray-700">{review.content}</p>
+                      <p className="text-gray-700 text-justify">
+                        {review.content}
+                      </p>
                     </div>
                   ))}
                 </div>
               </div>
-              <div className="col-span-7 lg:pl-20 space-y-4">
+              <div className="col-span-12 lg:col-span-7 lg:pl-20 space-y-4">
                 <h2 className="text-xl lg:text-2xl font-bold text-navy-700">
                   MÔ TẢ SẢN PHẨM
                 </h2>
@@ -508,18 +511,21 @@ export default function ProductDetailClient() {
                     />
                   </div>
                   <div className="flex justify-center relative">
+                    {!expanded1 && (
+                      <div className="absolute bottom-[140%] left-0 right-0 h-20 bg-gradient-to-t from-gray-50 to-transparent pointer-events-none" />
+                    )}
                     <button
                       className="text-black cursor-pointer font-semibold px-4 py-2 lg:py-4 lg:px-8 border border-gray-300 flex items-center gap-4 rounded-md"
                       onClick={() => setExpanded1(!expanded1)}
                     >
                       {expanded1 ? (
                         <>
-                          <p className="text-sm lg:text-base">Thu gọn</p>{" "}
+                          <p className="text-[12px] lg:text-base">Thu gọn</p>{" "}
                           <ChevronUp size={16} />
                         </>
                       ) : (
                         <>
-                          <p className="text-sm lg:text-base">Xem thêm</p>{" "}
+                          <p className="text-[12px] lg:text-base">Xem thêm</p>{" "}
                           <ChevronDown size={16} />
                         </>
                       )}
@@ -527,36 +533,68 @@ export default function ProductDetailClient() {
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col lg:hidden col-span-5 mt-5">
+              <div className="flex flex-col lg:hidden col-span-12 mt-5">
                 <div className="flex items-center gap-2 mb-4">
                   <h2 className="text-xl font-bold">Đánh giá</h2>
                   <span className="text-gray-500">(4)</span>
                 </div>
-                <div className="max-h-[500px] space-y-2 overflow-y-auto scroll-bar-style scrollbar-thumb-gray-100 scrollbar-track-gray-100">
-                  {reviews.map((review) => (
-                    <div key={review.id} className="bg-gray-50 p-4 rounded-lg">
-                      <div className="flex items-center gap-2 mb-2">
-                        <Image
-                          src={review.avatar}
-                          alt="Avatar"
-                          width={32}
-                          height={32}
-                          className="rounded-full"
-                        />
-                        <div>
-                          <div className="flex items-center gap-2">
-                            {renderStars(review.rating)}
-                          </div>
-                          <div className="text-sm text-gray-500">
-                            <span>{review.author}</span>
-                            <span> , </span>
-                            <span>{review.date}</span>
+                <div>
+                  <div
+                    className={`space-y-2 overflow-hidden transition-all duration-300 ease-in-out ${
+                      expanded2 ? "max-h-[1000px]" : "max-h-[300px]"
+                    }`}
+                  >
+                    {reviews.map((review) => (
+                      <div
+                        key={review.id}
+                        className="bg-gray-50 p-4 rounded-lg"
+                      >
+                        <div className="flex items-center gap-2 mb-2">
+                          <Image
+                            src={review.avatar}
+                            alt="Avatar"
+                            width={1000}
+                            height={1000}
+                            className="rounded-full w-9 h-9"
+                          />
+                          <div>
+                            <div className="flex items-center gap-2">
+                              {renderStars(review.rating)}
+                            </div>
+                            <div className="text-[12.5px] text-gray-600">
+                              <span>{review.author}</span>
+                              <span> , </span>
+                              <span>{review.date}</span>
+                            </div>
                           </div>
                         </div>
+                        <p className="text-gray-700 text-justify">
+                          {review.content}
+                        </p>
                       </div>
-                      <p className="text-gray-700">{review.content}</p>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
+                  <div className="flex justify-center relative mt-5">
+                    {!expanded2 && (
+                      <div className="absolute bottom-[140%] left-0 right-0 h-20 bg-gradient-to-t from-gray-50 to-transparent pointer-events-none" />
+                    )}
+                    <button
+                      className="text-black cursor-pointer font-base px-4 py-2 lg:py-4 lg:px-8 flex items-center gap-4"
+                      onClick={() => setExpanded2(!expanded2)}
+                    >
+                      {expanded2 ? (
+                        <>
+                          <p className="text-[12px] lg:text-base">Thu gọn</p>{" "}
+                          <ChevronUp size={16} />
+                        </>
+                      ) : (
+                        <>
+                          <p className="text-[12px] lg:text-base">Xem thêm</p>{" "}
+                          <ChevronDown size={16} />
+                        </>
+                      )}
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

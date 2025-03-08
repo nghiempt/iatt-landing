@@ -158,15 +158,19 @@ const OrderDetailModal = ({ order, customerAccount }: any) => {
                   </div>
                   <div className="font-base">
                     Phân loại:{" "}
-                    <strong>
+                    <span className="font-semibold">
                       {HELPER.renderCategory2(order?.product_price)}
-                    </strong>
+                    </span>
                   </div>
                   <div className="text-black">
-                    Kích thước: <strong>{order?.size}</strong>
+                    Kích thước:{" "}
+                    <span className="font-semibold">{order?.size}</span>
                   </div>
                   <div className="font-base ">
-                    Màu sắc: <strong>{HELPER.renderColor(order?.color)}</strong>
+                    Màu sắc:{" "}
+                    <span className="font-semibold">
+                      {HELPER.renderColor(order?.color)}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -176,18 +180,20 @@ const OrderDetailModal = ({ order, customerAccount }: any) => {
                 Thông tin nhận hàng
               </div>
               <div className="text-black mb-1">
-                Tên: <strong>{customerAccount?.name}</strong>
+                Tên:{" "}
+                <span className="font-semibold">{customerAccount?.name}</span>
               </div>
               <div className="text-black mb-1">
-                Số điện thoại: <strong>{customerAccount?.phone}</strong>
+                Số điện thoại:{" "}
+                <span className="font-semibold">{customerAccount?.phone}</span>
               </div>
               <div className="text-black">
                 {" "}
                 Địa chỉ:{" "}
-                <strong>
+                <span className="font-semibold">
                   {order?.address}, {order?.wardName}, {order?.districtName},{" "}
                   {order?.provinceName}
-                </strong>
+                </span>
               </div>
             </div>
             <div className="border-b border-gray-200">

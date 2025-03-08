@@ -101,7 +101,7 @@ export default function Header() {
         <div className="flex items-center justify-between">
           <div className="lg:hidden flex flex-col justify-center">
             <button
-              className="text-gray-800 w-10 h-10 relative focus:outline-none"
+              className="text-gray-800 w-full h-full relative focus:outline-none"
               onClick={() => setOpen(!open)}
             >
               <Image
@@ -547,11 +547,8 @@ export default function Header() {
               </li>
             )}
             {logined && (
-              <li className="font-bold ">
-                <button
-                  onClick={handleLogOut}
-                  className="flex items-center justify-start gap-4 text-orange-700 hover:text-black"
-                >
+              <li className="font-bold " onClick={handleLogOut}>
+                <button className="flex items-center justify-start gap-4 text-orange-700 hover:text-black">
                   <LogOut size={18} /> Đăng xuất
                 </button>
               </li>

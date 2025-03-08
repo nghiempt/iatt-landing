@@ -157,7 +157,7 @@ export default function AccountProfile() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    const areEqual = (
+    const areEqual =
       formData.name === oldformData.name &&
       formData.email === oldformData.email &&
       formData.avatar === oldformData.avatar &&
@@ -165,9 +165,8 @@ export default function AccountProfile() {
       formData.address === oldformData.address &&
       formData.ward === oldformData.ward &&
       formData.district === oldformData.district &&
-      formData.province === oldformData.province
-    );
-    if(areEqual) {
+      formData.province === oldformData.province;
+    if (areEqual) {
       toast({
         title: "",
         description: "Không có thay đổi nào được thực hiện!",
@@ -289,13 +288,13 @@ export default function AccountProfile() {
             <Sidebar customerAccount={customerAccount} />
             <div className="flex-1 lg:col-span-8 ml-0 lg:ml-5">
               <div className="max-w-2xl">
-                <h1 className="text-2xl font-medium mb-3">Hồ sơ cá nhân</h1>
+                <h1 className="text-2xl font-semibold mb-3">Hồ sơ cá nhân</h1>
                 <form
                   onSubmit={handleSubmit}
                   className="space-y-4 lg:space-y-6"
                 >
                   <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-2">
-                    <Label htmlFor="name" className="text-gray-600 w-2/6">
+                    <Label htmlFor="name" className="text-black w-2/6">
                       Họ và tên:
                     </Label>
                     <div className="w-full">
@@ -305,13 +304,13 @@ export default function AccountProfile() {
                         name="name"
                         value={formData.name}
                         onChange={handleInputChange}
-                        className="w-full py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        className="w-full py-2 pr-16 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                         style={{ fontSize: "16px" }}
                       />
                     </div>
                   </div>
                   <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-2">
-                    <Label htmlFor="phone" className="text-gray-600 w-2/6">
+                    <Label htmlFor="phone" className="text-black w-2/6">
                       Số điện thoại:
                     </Label>
                     <div className=" w-full">
@@ -320,13 +319,13 @@ export default function AccountProfile() {
                         name="phone"
                         value={formData.phone}
                         onChange={handleInputChange}
-                        className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        className="w-full px-3 py-2 pr-16 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                         style={{ fontSize: "16px" }}
                       />
                     </div>
                   </div>
                   <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-2">
-                    <Label htmlFor="email" className="text-gray-600 w-2/6">
+                    <Label htmlFor="email" className="text-black w-2/6">
                       Email:
                     </Label>
                     <div className="w-full">
@@ -337,13 +336,14 @@ export default function AccountProfile() {
                         value={formData.email}
                         disabled={true}
                         className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        style={{ fontSize: "16px" }}
                       />
                     </div>
                   </div>
                   <div className="mt-8 flex justify-center items-center">
                     <Button
                       type="submit"
-                      className="w-full lg:w-64 py-2 px-4 mt-2 bg-[rgb(var(--primary-rgb))]  hover:bg-[rgb(var(--secondary-rgb))] text-white font-medium rounded-md transition-colors"
+                      className="text-md w-full lg:w-64 py-2 px-4 mt-2 bg-[rgb(var(--primary-rgb))]  hover:bg-[rgb(var(--secondary-rgb))] text-white font-medium rounded-md transition-colors"
                     >
                       Lưu thay đổi
                       {loading && <Loader className="animate-spin" size={48} />}

@@ -347,10 +347,10 @@ export default function PriceTable() {
                   </div>
                   <div className="w-full pb-3 lg:pb-0">
                     <div>
-                      <Label htmlFor="name" className="text-black font-bold">
+                      <Label htmlFor="name" className="text-black font-base">
                         Tên sản phẩm
                       </Label>
-                      <div className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full my-2">
+                      <div className="bg-gray-50 border border-gray-100 text-gray-900 rounded-lg block w-full my-2">
                         <Dialog>
                           <DialogTrigger asChild>
                             <div className="text-sm cursor-pointer flex flex-row justify-between items-center gap-4 p-2 bg-white rounded-md border border-gray-200">
@@ -436,10 +436,10 @@ export default function PriceTable() {
                       </div>
                     </div>
                     <div className="pt-1">
-                      <Label htmlFor="name" className="text-black font-bold">
+                      <Label htmlFor="name" className="text-black font-base">
                         Kích thước sản phẩm
                       </Label>
-                      <div className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full my-2">
+                      <div className="bg-gray-50 border border-gray-100 text-gray-900 rounded-lg block w-full my-2">
                         <Select
                           value={selectedSize}
                           onValueChange={setSelectedSize}
@@ -492,25 +492,18 @@ export default function PriceTable() {
                       ))}
                     </div>
                   </div> */}
-                  <div className="flex flex-row justify-between items-center gap-4">
-                    <Button className="w-1/3 lg:w-1/2 py-2 lg:py-4 bg-[rgb(var(--primary-rgb))] hover:bg-[rgb(var(--secondary-rgb))] text-center rounded-md font-medium transition">
-                      Tra cứu
-                    </Button>
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm lg:text-base">
-                        Giá sản phẩm:
-                      </span>
-                      <span>
-                        {selectedProduct === "Chon san pham"
-                          ? HELPER.formatVND("0")
-                          : HELPER.formatVND(
-                              products.find(
-                                (pro: any) =>
-                                  pro._id.toString() === selectedProduct
-                              )?.price
-                            )}
-                      </span>
-                    </div>
+                  <div className="flex justify-end items-center gap-2">
+                    <span className="text-sm lg:text-base">Giá sản phẩm:</span>
+                    <span>
+                      {selectedProduct === "Chon san pham"
+                        ? HELPER.formatVND("0")
+                        : HELPER.formatVND(
+                            products.find(
+                              (pro: any) =>
+                                pro._id.toString() === selectedProduct
+                            )?.price
+                          )}
+                    </span>
                   </div>
                 </div>
                 <Image
@@ -522,8 +515,8 @@ export default function PriceTable() {
                 />
               </div>
               <div className="space-y-4 !mt-8">
-                <h1 className="text-xl font-bold text-black">
-                  Bảng giá chi tiết
+                <h1 className="text-xl font-bold text-black ">
+                  BẢNG GIÁ CHI TIẾT
                 </h1>
                 <Card className="border-none shadow-none">
                   <CardContent className="p-0">

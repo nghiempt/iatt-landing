@@ -147,20 +147,19 @@ export default function AccountPassword() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    const areEqual = (
-          formData.password === oldformData.password &&
-          formData.newPassword === oldformData.newPassword &&
-          formData.confirmPassword === oldformData.confirmPassword 
-        );
-        if (areEqual) {
-          toast({
-            title: "",
-            description: "Không có thay đổi nào được thực hiện!",
-            variant: "destructive",
-          });
-          setLoading(false);
-          return;
-        }
+    const areEqual =
+      formData.password === oldformData.password &&
+      formData.newPassword === oldformData.newPassword &&
+      formData.confirmPassword === oldformData.confirmPassword;
+    if (areEqual) {
+      toast({
+        title: "",
+        description: "Không có thay đổi nào được thực hiện!",
+        variant: "destructive",
+      });
+      setLoading(false);
+      return;
+    }
     const passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])(.{8,})$/;
 
     if (formData.newPassword !== formData.confirmPassword) {
@@ -319,12 +318,12 @@ export default function AccountPassword() {
             <Sidebar customerAccount={customerAccount} />
             <div className="flex-1 lg:col-span-8 ml-0 lg:ml-5">
               <div className="max-w-2xl">
-                <h1 className="text-2xl font-medium mb-3">Đổi Mật khẩu</h1>
+                <h1 className="text-2xl font-semibold mb-3">Đổi Mật khẩu</h1>
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-2">
                     <Label
                       htmlFor="password"
-                      className="text-gray-600 w-full lg:w-2/6"
+                      className="text-black w-full lg:w-2/6"
                     >
                       Nhập mật khẩu cũ:
                     </Label>
@@ -342,7 +341,7 @@ export default function AccountPassword() {
                   <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-2">
                     <Label
                       htmlFor="newPassword"
-                      className="text-gray-600 w-full lg:w-2/6"
+                      className="text-black w-full lg:w-2/6"
                     >
                       Nhập mật khẩu mới:
                     </Label>
@@ -359,7 +358,7 @@ export default function AccountPassword() {
                   <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-2">
                     <Label
                       htmlFor="confirmPassword"
-                      className="text-gray-600 w-full lg:w-2/6"
+                      className="text-black w-full lg:w-2/6"
                     >
                       Nhập lại mật khẩu mới:
                     </Label>

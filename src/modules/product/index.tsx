@@ -217,10 +217,12 @@ export default function ProductClient() {
           <h1 className="text-xl lg:text-3xl font-bold text-navy-900 mt-3">
             SẢN PHẨM CỦA CHÚNG TÔI
           </h1>
-          <div className="grid grid-cols-1 space-y-2 lg:flex lg:flex-row justify-between items-center gap-4 pb-8 pt-3">
-            <div className="grid lg:flex justify-start items-center gap-2 lg:gap-4">
-              <div className="items-center text-black">Lọc theo: </div>
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="w-full grid grid-cols-1 space-y-2 lg:flex lg:flex-row justify-between items-center gap-4 pb-8 pt-3">
+            <div className="w-full lg:flex justify-start items-center gap-2 lg:gap-4 ">
+              <div className="w-full items-center text-black mb-2">
+                Lọc theo:{" "}
+              </div>
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 w-full">
                 {categories.map((cate: any, index: any) =>
                   selectedCate === cate.tag ? (
                     <button
@@ -251,7 +253,7 @@ export default function ProductClient() {
               <Button
                 onClick={() => setOpenSort(!openSort)}
                 variant="outline"
-                className="border border-gray-300 flex justify-between items-center w-56 gap-4"
+                className="w-full border border-gray-300 flex justify-between items-center gap-4"
               >
                 <span>{selectedSortLabel}</span>
                 <ChevronDown className="w-4 h-4" />

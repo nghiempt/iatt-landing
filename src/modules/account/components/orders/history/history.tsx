@@ -265,27 +265,24 @@ export default function OrderHistory({
                               </h3>
                               <p className="text-sm text-black">
                                 Phân loại:{" "}
-                                <strong>
+                                <span className="font-semibold">
                                   {HELPER.renderCategory2(order?.product_price)}
-                                </strong>
+                                </span>
                               </p>
                               <p className="text-sm text-black">
-                                Kích cỡ: <strong>{order?.size}</strong>
+                                Kích cỡ:{" "}
+                                <span className="font-semibold">
+                                  {order?.size}
+                                </span>
                               </p>
                               <p className="text-sm text-black">
                                 Màu:{" "}
-                                <strong>
+                                <span className="font-semibold">
                                   {HELPER.renderColor(order?.color)}
-                                </strong>
+                                </span>
                               </p>
                             </div>
                           </div>
-                          {order?.status === "waiting" && (
-                            <CancelOrderModal
-                              order={order}
-                              customerAccount={customerAccount}
-                            />
-                          )}
                         </div>
                         <div className="flex flex-row justify-between text-right space-y-2 w-full">
                           <div
@@ -327,7 +324,7 @@ export default function OrderHistory({
                                   order?.status === "cancelled"
                                     ? "bg-red-500 text-white"
                                     : ""
-                                } lg:py-2 rounded-sm flex items-center justify-center text-center w-1/2 lg:w-72`}
+                                } lg:py-2 py-2 rounded-sm flex items-center justify-center text-center w-1/2 lg:w-72`}
                             >
                               {order?.status === "completed" && "Hoàn thành"}
                               {order?.status === "paid pending" &&
@@ -342,13 +339,18 @@ export default function OrderHistory({
                                 "Đã hủy đơn hàng"}
                             </div>
                             <div className="flex flex-row justify-between items-center gap-4">
-                              <p className="text-md lg:text-xl font-medium">
-                                Tổng đơn: <br />
+                              <p className="text-xl lg:text-xl font-semibold">
                                 {HELPER.formatVND(order?.total)}
                               </p>
                             </div>
                           </div>
                         </div>
+                        {order?.status === "waiting" && (
+                          <CancelOrderModal
+                            order={order}
+                            customerAccount={customerAccount}
+                          />
+                        )}
                       </div>
                     </div>
                   ))

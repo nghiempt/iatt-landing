@@ -288,10 +288,26 @@ export default function AccountAddress() {
     return `${customerAccount.address}, ${wardObj?.name}, ${districtObj?.name}, ${provinceObj?.name}`;
   };
 
+  const validateForm = () => {
+    if (!formData?.ward || ward === "Vui lòng chọn Phường/Xã") {
+      toast({
+        title: "",
+        description:
+          "Vui lòng chọn đầy đủ Tỉnh/Thành phố, Quận/Huyện, Phường/Xã.",
+        variant: "destructive",
+      });
+      return false;
+    }
+
+    return true;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
+    if (!validateForm()) return false;
+
     e.preventDefault();
     setLoading(true);
-    const areEqual = (
+    const areEqual =
       formData.name === oldformData.name &&
       formData.email === oldformData.email &&
       formData.avatar === oldformData.avatar &&
@@ -299,8 +315,7 @@ export default function AccountAddress() {
       formData.address === oldformData.address &&
       formData.ward === oldformData.ward &&
       formData.district === oldformData.district &&
-      formData.province === oldformData.province
-    );
+      formData.province === oldformData.province;
     if (areEqual) {
       toast({
         title: "",
@@ -433,7 +448,7 @@ export default function AccountAddress() {
             <Sidebar customerAccount={customerAccount} />
             <div className="flex-1 lg:col-span-8 ml-0 lg:ml-5">
               <div className="max-w-2xl">
-                <h1 className="text-2xl font-medium mb-3">Địa chỉ</h1>
+                <h1 className="text-2xl font-semibold mb-3">Địa chỉ</h1>
                 <form
                   onSubmit={handleSubmit}
                   className="space-y-4 lg:space-y-6"
@@ -502,26 +517,29 @@ export default function AccountAddress() {
                           <DialogTitle>Vui lòng chọn Quận/Huyện</DialogTitle>
                           <DialogDescription className="max-h-96 overflow-y-auto">
                             <div className="my-3">
-                              {districts.length > 0 ?
-                              <>
-                              {districts.map((district) => (
-                                <div
-                                  key={district.code}
-                                  className="p-2"
-                                  onClick={() => {
-                                    handleDistrictChange(String(district.code));
-                                  }}
-                                >
-                                  {district.name}
-                                </div>
-                              ))}
-                              </>
-                              : <>
-                              <div className="p-2">
-                                Bạn chưa chọn Tỉnh/Thành phố
-                              </div>
-                              </>
-                            }
+                              {districts.length > 0 ? (
+                                <>
+                                  {districts.map((district) => (
+                                    <div
+                                      key={district.code}
+                                      className="p-2"
+                                      onClick={() => {
+                                        handleDistrictChange(
+                                          String(district.code)
+                                        );
+                                      }}
+                                    >
+                                      {district.name}
+                                    </div>
+                                  ))}
+                                </>
+                              ) : (
+                                <>
+                                  <div className="p-2">
+                                    Bạn chưa chọn Tỉnh/Thành phố
+                                  </div>
+                                </>
+                              )}
                             </div>
                           </DialogDescription>
                         </DialogHeader>
@@ -549,26 +567,27 @@ export default function AccountAddress() {
                           <DialogTitle>Vui lòng chọn Phường/Xã</DialogTitle>
                           <DialogDescription className="max-h-96 overflow-y-auto">
                             <div className="my-3">
-                              { wards.length > 0 ?
-                              <>
-                              {wards.map((ward) => (
-                                <div
-                                  key={ward.code}
-                                  className="p-2"
-                                  onClick={() => {
-                                    handleWardChange(String(ward.code));
-                                  }}
-                                >
-                                  {ward.name}
-                                </div>
-                              ))}
-                              </> : 
-                              <>
-                                <div className="p-2">
-                                Bạn chưa chọn Quận/Huyện
-                              </div>
-                              </>
-                            }
+                              {wards.length > 0 ? (
+                                <>
+                                  {wards.map((ward) => (
+                                    <div
+                                      key={ward.code}
+                                      className="p-2"
+                                      onClick={() => {
+                                        handleWardChange(String(ward.code));
+                                      }}
+                                    >
+                                      {ward.name}
+                                    </div>
+                                  ))}
+                                </>
+                              ) : (
+                                <>
+                                  <div className="p-2">
+                                    Bạn chưa chọn Quận/Huyện
+                                  </div>
+                                </>
+                              )}
                             </div>
                           </DialogDescription>
                         </DialogHeader>
