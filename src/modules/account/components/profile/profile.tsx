@@ -96,6 +96,16 @@ export default function AccountProfile() {
     district: customerAccount?.district || "",
     province: customerAccount?.province || "",
   });
+  const [oldformData, setOldFormData] = React.useState<FormData>({
+    name: customerAccount?.name || "",
+    email: customerAccount?.email || "",
+    avatar: customerAccount?.avatar || "",
+    phone: customerAccount?.phone || "",
+    address: customerAccount?.address || "",
+    ward: customerAccount?.ward || "",
+    district: customerAccount?.district || "",
+    province: customerAccount?.province || "",
+  });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -125,6 +135,16 @@ export default function AccountProfile() {
             district: data.district,
             province: data.province,
           });
+          setOldFormData({
+            name: data.name,
+            email: data.email,
+            avatar: data.avatar,
+            phone: data.phone,
+            address: data.address,
+            ward: data.ward,
+            district: data.district,
+            province: data.province,
+          });
         } catch (error) {
           console.error("Error fetching account:", error);
         }
@@ -137,6 +157,25 @@ export default function AccountProfile() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    const areEqual = (
+      formData.name === oldformData.name &&
+      formData.email === oldformData.email &&
+      formData.avatar === oldformData.avatar &&
+      formData.phone === oldformData.phone &&
+      formData.address === oldformData.address &&
+      formData.ward === oldformData.ward &&
+      formData.district === oldformData.district &&
+      formData.province === oldformData.province
+    );
+    if(areEqual) {
+      toast({
+        title: "",
+        description: "Không có thay đổi nào được thực hiện!",
+        variant: "destructive",
+      });
+      setLoading(false);
+      return;
+    }
     const formattedData = {
       ...formData,
     };

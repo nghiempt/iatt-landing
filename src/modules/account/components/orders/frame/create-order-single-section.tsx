@@ -136,15 +136,15 @@ const CreateOrderSingleSection = () => {
   const [isLogin, setIsLogin] = useState(Cookies.get("isLogin"));
   // const [orderNoLogin, setOrderNoLogin] = useState(false);
   // const [orderNewAccount, setOrderNewAccount] = useState(false);
-  const [selectedSize, setSelectedSize] = React.useState<string>("15x21");
+  const [selectedSize, setSelectedSize] = React.useState<string>("");
   const [customerAccount, setCustomerAccount] =
     useState<CustomerAccount | null>(null);
   const [selectedProduct, setSelectedProduct] = React.useState<any>(
     param.get("product") || "Chon san pham"
   );
-  const [selectedColor, setSelectedColor] = React.useState<string>(
-    productsData.color?.[0] || "white"
-  );
+  const [selectedColor, setSelectedColor] = React.useState<string>("");
+  const [confirmColor, setConfirmColor] = React.useState<string>("");
+  const [confirmSize, setConfirmSize] = React.useState<string>("");
   const [uploadedFile, setUploadedFile] = React.useState<File | null>(null);
   const [formData, setFormData] = React.useState<FormData>({
     name: "",
@@ -292,6 +292,7 @@ const CreateOrderSingleSection = () => {
         description: "Vui lòng chọn một sản phẩm!",
         variant: "destructive",
       });
+      setIsLoading(false);
       return false;
     }
     if (!uploadedFile) {
@@ -300,22 +301,25 @@ const CreateOrderSingleSection = () => {
         description: "Vui lòng tải lên một hình ảnh!",
         variant: "destructive",
       });
+      setIsLoading(false);
       return false;
     }
-    if (!selectedColor) {
+    if (confirmColor === "") {
       toast({
         title: "",
         description: "Vui lòng chọn màu sắc!",
         variant: "destructive",
       });
+      setIsLoading(false);
       return false;
     }
-    if (!selectedSize) {
+    if (confirmSize === "") {
       toast({
         title: "",
         description: "Vui lòng chọn kích thước!",
         variant: "destructive",
       });
+      setIsLoading(false);
       return false;
     }
     if (!formData?.address) {
@@ -324,6 +328,7 @@ const CreateOrderSingleSection = () => {
         description: "Vui lòng nhập địa chỉ giao hàng!",
         variant: "destructive",
       });
+      setIsLoading(false);
       return false;
     }
     if (!formData?.ward || ward === "Vui lòng chọn phường/xã") {
@@ -333,6 +338,7 @@ const CreateOrderSingleSection = () => {
           "Vui lòng chọn đầy đủ Tỉnh/Thành phố, Quận/Huyện, Phường/Xã.",
         variant: "destructive",
       });
+      setIsLoading(false);
       return false;
     }
     if (!formData?.phone) {
@@ -341,6 +347,7 @@ const CreateOrderSingleSection = () => {
         description: "Vui lòng nhập số điện thoại!",
         variant: "destructive",
       });
+      setIsLoading(false);
       return false;
     }
     const phoneRegex = /^\d{10,11}$/;
@@ -351,6 +358,7 @@ const CreateOrderSingleSection = () => {
           "Số điện thoại phải là một dãy số hợp lệ (10 đến 11 chữ số)! ",
         variant: "destructive",
       });
+      setIsLoading(false);
       return false;
     }
     if (!selectedPayment) {
@@ -359,6 +367,7 @@ const CreateOrderSingleSection = () => {
         description: "Vui lòng chọn phương thức thanh toán!",
         variant: "destructive",
       });
+      setIsLoading(false);
       return false;
     }
 
@@ -409,8 +418,8 @@ const CreateOrderSingleSection = () => {
       const orderData = {
         product_id: selectedProduct,
         image: upload[0]?.secure_url,
-        color: selectedColor,
-        size: selectedSize,
+        color: confirmColor,
+        size: confirmSize,
         address: formData?.address || "",
         payment_method: selectedPayment || "",
         discount_code: promoCode || "",
@@ -468,7 +477,7 @@ const CreateOrderSingleSection = () => {
             title: "Email hoặc mật khẩu chưa chính xác",
           });
         } finally {
-          // setIsLoading(false);
+          setIsLoading(false);
         }
       } else {
         response = await OrderService.createOrder({
@@ -483,6 +492,7 @@ const CreateOrderSingleSection = () => {
             description: "Số điện thoại đã được sử dụng!",
             variant: "destructive",
           });
+          setIsLoading(false);
           return;
         }
         setIsLoading(false);
@@ -710,6 +720,16 @@ const CreateOrderSingleSection = () => {
         type: "image/jpeg",
       });
       setUploadedFile(file);
+    }
+    setConfirmColor(selectedColor);
+    setConfirmSize(selectedSize);
+    setIsLoading(false);
+  };
+
+  const handleCheckChange = () => {
+    if(confirmSize === "" && confirmColor === "") {
+      setSelectedSize("");
+      setSelectedColor(""); 
     }
     setIsLoading(false);
   };
@@ -1106,7 +1126,10 @@ const CreateOrderSingleSection = () => {
                 </div>
                 <Dialog>
                   <DialogTrigger asChild>
-                    <div className="flex justify-center items-center mt-5 lg:mt-0">
+                    <div 
+                    className="flex justify-center items-center mt-5 lg:mt-0"
+                    onClick={handleCheckChange}
+                    >
                       <div className="flex flex-row justify-center items-center gap-4 w-full py-2 px-7 lg:py-4 bg-yellow-400 hover:bg-yellow-500 text-center rounded-md font-medium transition cursor-pointer">
                         Tùy chọn kích thước, màu sắc
                       </div>
