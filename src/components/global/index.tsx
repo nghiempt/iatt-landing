@@ -144,7 +144,7 @@ const ProductCardMobile = ({ image, title, price }: any) => (
       <Image
         src={image}
         alt={title}
-        className="w-full h-40 lg:h-64 object-cover rounded-lg border border-gray-200"
+        className="w-full h-40 lg:h-80 object-cover rounded-lg border border-gray-200"
         width={200}
         height={200}
         priority

@@ -2,12 +2,17 @@ import { ChevronDown } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import FacebookPageEmbed from "./facebook";
+import { useState } from "react";
 
 const Footer = () => {
+  const [toggle1, setToggle1] = useState(false);
+  const [toggle2, setToggle2] = useState(false);
+  const [toggle3, setToggle3] = useState(false);
+
   return (
     <footer className="w-full bg-[#F7F4EF] pt-12 pb-6 flex justify-center items-center">
       <div className="container !px-5 lg:!px-0 !mx-0">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 lg:gap-10">
           <div className="space-y-4">
             <h3 className="text-md font-semibold text-gray-900">
               KẾT NỐI & CHIA SẺ
@@ -66,49 +71,175 @@ const Footer = () => {
             </div>
           </div>
           <div className="space-y-4">
-            <h3 className="text-md font-semibold text-gray-900 flex">
-              THÔNG TIN CHUNG <ChevronDown className="ml-2" />
+            <h3
+              onClick={() => setToggle1(!toggle1)}
+              className="text-md font-semibold text-gray-900 flex"
+            >
+              THÔNG TIN CHUNG{" "}
+              <ChevronDown
+                className={`w-5 h-5 ml-2 transition-transform ${
+                  toggle1 ? "rotate-180" : ""
+                }`}
+              />
             </h3>
-            {/* <ul className="space-y-2">
-              <li><Link href="/" className="text-gray-600 hover:text-gray-900">Hỏi đáp</Link></li>
-              <li><Link href="/" className="text-gray-600 hover:text-gray-900">Thông tin vận chuyển</Link></li>
-              <li><Link href="/" className="text-gray-600 hover:text-gray-900">Hướng dẫn trực tiếp mua hàng trực tuyến</Link></li>
-              <li><Link href="/" className="text-gray-600 hover:text-gray-900">Phương thức giao hàng COD</Link></li>
-              <li><Link href="/" className="text-gray-600 hover:text-gray-900">Chính sách kiểm tra hàng hóa</Link></li>
-              <li><Link href="/" className="text-gray-600 hover:text-gray-900">Chính sách đổi trả</Link></li>
-              <li><Link href="/" className="text-gray-600 hover:text-gray-900">Điều khoản sử dụng</Link></li>
-              <li><Link href="/" className="text-gray-600 hover:text-gray-900">Chính sách bảo mật</Link></li>
-            </ul> */}
+            {toggle1 && (
+              <ul className="space-y-2">
+                <li>
+                  <Link href="/" className="text-gray-600 hover:text-gray-900">
+                    Hỏi đáp
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/" className="text-gray-600 hover:text-gray-900">
+                    Thông tin vận chuyển
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/" className="text-gray-600 hover:text-gray-900">
+                    Hướng dẫn trực tiếp mua hàng trực tuyến
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/" className="text-gray-600 hover:text-gray-900">
+                    Phương thức giao hàng COD
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/" className="text-gray-600 hover:text-gray-900">
+                    Chính sách kiểm tra hàng hóa
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/" className="text-gray-600 hover:text-gray-900">
+                    Chính sách đổi trả
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/" className="text-gray-600 hover:text-gray-900">
+                    Điều khoản sử dụng
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/" className="text-gray-600 hover:text-gray-900">
+                    Chính sách bảo mật
+                  </Link>
+                </li>
+              </ul>
+            )}
           </div>
           <div className="space-y-4">
-            <h3 className="text-md font-semibold text-gray-900 flex">
-              IN ẢNH TRỰC TUYẾN <ChevronDown className="ml-2" />
+            <h3
+              onClick={() => setToggle2(!toggle2)}
+              className="text-md font-semibold text-gray-900 flex"
+            >
+              IN ẢNH TRỰC TUYẾN{" "}
+              <ChevronDown
+                className={`w-5 h-5 ml-2 transition-transform ${
+                  toggle2 ? "rotate-180" : ""
+                }`}
+              />
             </h3>
-            {/* <ul className="space-y-2">
-              <li><Link href="/" className="text-gray-600 hover:text-gray-900">Trang chủ</Link></li>
-              <li><Link href="/" className="text-gray-600 hover:text-gray-900">Về chúng tôi</Link></li>
-              <li><Link href="/" className="text-gray-600 hover:text-gray-900">In ấn</Link></li>
-              <li><Link href="/" className="text-gray-600 hover:text-gray-900">Khung ảnh</Link></li>
-              <li><Link href="/" className="text-gray-600 hover:text-gray-900">Photobook</Link></li>
-              <li><Link href="/" className="text-gray-600 hover:text-gray-900">Bảng giá</Link></li>
-              <li><Link href="/" className="text-gray-600 hover:text-gray-900">Tin tức</Link></li>
-              <li><Link href="/" className="text-gray-600 hover:text-gray-900">Liên hệ với chúng tôi</Link></li>
-              <li><Link href="/" className="text-gray-600 hover:text-gray-900">Vị trí cửa hàng</Link></li>
-            </ul> */}
+            {toggle2 && (
+              <ul className="space-y-2">
+                <li>
+                  <Link href="/" className="text-gray-600 hover:text-gray-900">
+                    Trang chủ
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/" className="text-gray-600 hover:text-gray-900">
+                    Về chúng tôi
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/" className="text-gray-600 hover:text-gray-900">
+                    In ấn
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/" className="text-gray-600 hover:text-gray-900">
+                    Khung ảnh
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/" className="text-gray-600 hover:text-gray-900">
+                    Photobook
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/" className="text-gray-600 hover:text-gray-900">
+                    Bảng giá
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/" className="text-gray-600 hover:text-gray-900">
+                    Tin tức
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/" className="text-gray-600 hover:text-gray-900">
+                    Liên hệ với chúng tôi
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/" className="text-gray-600 hover:text-gray-900">
+                    Vị trí cửa hàng
+                  </Link>
+                </li>
+              </ul>
+            )}
           </div>
           <div className="space-y-4">
-            <h3 className="text-md font-semibold text-gray-900 flex">
-              CÁC TỈNH THÀNH <ChevronDown className="ml-2" />
+            <h3
+              onClick={() => setToggle3(!toggle3)}
+              className="text-md font-semibold text-gray-900 flex"
+            >
+              CÁC TỈNH THÀNH{" "}
+              <ChevronDown
+                className={`w-5 h-5 ml-2 transition-transform ${
+                  toggle3 ? "rotate-180" : ""
+                }`}
+              />
             </h3>
-            {/* <ul className="space-y-2">
-              <li><Link href="/" className="text-gray-600 hover:text-gray-900">TP. Hồ Chí Minh</Link></li>
-              <li><Link href="/" className="text-gray-600 hover:text-gray-900">Cần Thơ</Link></li>
-              <li><Link href="/" className="text-gray-600 hover:text-gray-900">Hà Nội</Link></li>
-              <li><Link href="/" className="text-gray-600 hover:text-gray-900">Đà Nẵng</Link></li>
-              <li><Link href="/" className="text-gray-600 hover:text-gray-900">Hải Phòng</Link></li>
-              <li><Link href="/" className="text-gray-600 hover:text-gray-900">Nha Trang</Link></li>
-              <li><Link href="/" className="text-gray-600 hover:text-gray-900">Vĩnh Long</Link></li>
-            </ul> */}
+            {toggle3 && (
+              <ul className="space-y-2">
+                <li>
+                  <Link href="/" className="text-gray-600 hover:text-gray-900">
+                    TP. Hồ Chí Minh
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/" className="text-gray-600 hover:text-gray-900">
+                    Cần Thơ
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/" className="text-gray-600 hover:text-gray-900">
+                    Hà Nội
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/" className="text-gray-600 hover:text-gray-900">
+                    Đà Nẵng
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/" className="text-gray-600 hover:text-gray-900">
+                    Hải Phòng
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/" className="text-gray-600 hover:text-gray-900">
+                    Nha Trang
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/" className="text-gray-600 hover:text-gray-900">
+                    Vĩnh Long
+                  </Link>
+                </li>
+              </ul>
+            )}
           </div>
           <div className="space-y-4">
             <h3 className="text-md font-semibold text-gray-900">
