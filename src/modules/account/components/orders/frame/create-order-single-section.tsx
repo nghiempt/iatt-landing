@@ -1713,8 +1713,7 @@ const CreateOrderSingleSection = () => {
               onClick={() => handleSubmit()}
               className="text-white flex flex-row justify-center items-center gap-4 w-full mx-auto py-2 lg:py-4 bg-yellow-400 hover:bg-yellow-500 text-center rounded-md font-medium transition"
             >
-              Đặt hàng
-              {isLoading && <Loader className="animate-spin" size={25} />}
+              {isLoading ? "Đang xử lí đơn hàng..." : "Đặt hàng"}
             </button>
           </div>
         </div>

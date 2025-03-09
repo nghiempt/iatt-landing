@@ -3,7 +3,7 @@
 import Footer from "@/layout/footer";
 import Header from "@/layout/header";
 import { ROUTES } from "@/utils/route";
-import { ChevronRight, Loader } from "lucide-react";
+import { ChevronRight, Copy, Loader } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import Sidebar from "../../sidebar";
@@ -214,6 +214,89 @@ export default function OrderHistory({
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
               <Sidebar customerAccount={customerAccount} />
               <div className="space-y-3 lg:col-span-8">
+                {openDialog && (
+                  <div
+                    id="alert-additional-content-4"
+                    className="p-4 mb-4 text-yellow-800 border border-yellow-300 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300 dark:border-yellow-800"
+                    role="alert"
+                  >
+                    <div className="flex items-center">
+                      <svg
+                        className="shrink-0 w-4 h-4 me-2"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                      </svg>
+                      <span className="sr-only">Info</span>
+                      <h3 className="text-lg font-medium">
+                        Thông báo tài khoản mới
+                      </h3>
+                    </div>
+                    <div className="mt-2 mb-3 text-sm text-justify">
+                      Đây là tài khoản mới được tạo để quản lí đơn hàng của bạn.
+                      Vui lòng cập nhật mật khẩu mới để tiếp tục sử dụng tài
+                      khoản.
+                    </div>
+                    <div className="mt-2 mb-3 text-sm">
+                      Hãy sử dụng mật khẩu dưới đây để cập nhật mật khẩu mới.
+                    </div>
+                    <div className="mt-2 mb-4 text-sm flex flex-row justify-start items-center gap-2">
+                      <div className="flex justify-center items-center gap-2">
+                        <div className="text-sm">
+                          {customerAccount?.password}
+                        </div>
+
+                        <div
+                          onClick={() => {
+                            if (customerAccount?.password) {
+                              copy(customerAccount.password);
+                              toast({
+                                title: "Thành công",
+                                description: "Đã sao chép mật khẩu!",
+                                className:
+                                  "bg-green-500 text-white border-green-600",
+                              });
+                            } else {
+                              toast({
+                                title: "Lỗi",
+                                description: "Không có mật khẩu để sao chép!",
+                                variant: "destructive",
+                              });
+                            }
+                          }}
+                          className="cursor-pointer "
+                        >
+                          <Copy size={22} />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex w-full justify-end gap-1">
+                      <button
+                        type="button"
+                        className="text-yellow-800 bg-transparent border border-yellow-800 hover:bg-yellow-900 hover:text-white focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-xs px-3 h-8 text-center dark:hover:bg-yellow-300 dark:border-yellow-300 dark:text-yellow-300 dark:hover:text-gray-800 dark:focus:ring-yellow-800"
+                        data-dismiss-target="#alert-additional-content-4"
+                        aria-label="Close"
+                        onClick={() => setOpenDialog(false)}
+                      >
+                        Bỏ qua
+                      </button>
+                      <Link
+                        href={`${ROUTES.ACCOUNT}?tab=password`}
+                        className=""
+                      >
+                        <button
+                          type="button"
+                          className="text-white bg-yellow-800 hover:bg-yellow-900 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-xs px-3 h-8 text-center inline-flex items-center dark:bg-yellow-300 dark:text-gray-800 dark:hover:bg-yellow-400 dark:focus:ring-yellow-800"
+                        >
+                          Cập nhật mật khẩu
+                        </button>
+                      </Link>
+                    </div>
+                  </div>
+                )}
                 <h1 className="text-2xl font-semibold">Đơn hàng của bạn</h1>
                 {orders?.length === 0 ? (
                   <div className="col-span-2 text-center w-full flex justify-center items-center py-4">
@@ -360,80 +443,6 @@ export default function OrderHistory({
           )
         )}
       </div>
-      <Dialog open={openDialog} onOpenChange={() => setOpenDialog(false)}>
-        <DialogTrigger asChild>
-          <Button className="hidden" variant="outline">
-            Edit Profile
-          </Button>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-[600px]">
-          <DialogHeader>
-            <DialogTitle className="mb-3">Thông báo</DialogTitle>
-            <DialogDescription>
-              <p className="mb-3">
-                Đây là tài khoản được tạo để theo dõi đơn hàng của bạn. Vui lòng
-                sao chép mật khẩu bên dưới và cập nhật lại mật khẩu mới của bạn
-                để tiếp tục sử dụng tài khoản.
-              </p>
-              <p className="mb-3">
-                Để cập nhật mật khẩu mới vui lòng nhấn nút{" "}
-                <strong className="text-red-500">Sao chép</strong> mật khẩu bên
-                dưới
-              </p>
-              <p className="mb-3">
-                Sau đó nhấn nút{" "}
-                <strong className="text-red-500">Tiếp theo</strong> để chuyển
-                đến trang đổi mật khẩu.
-              </p>
-            </DialogDescription>
-          </DialogHeader>
-          <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Input
-                disabled
-                id="username"
-                value={customerAccount?.password}
-                className="col-span-3"
-              />
-              <Button
-                onClick={() => {
-                  if (customerAccount?.password) {
-                    copy(customerAccount.password);
-                    toast({
-                      title: "Thành công",
-                      description: "Đã sao chép mật khẩu!",
-                      className: "bg-green-500 text-white border-green-600",
-                    });
-                  } else {
-                    toast({
-                      title: "Lỗi",
-                      description: "Không có mật khẩu để sao chép!",
-                      variant: "destructive",
-                    });
-                  }
-                }}
-                type="button"
-              >
-                Sao Chép
-              </Button>
-            </div>
-          </div>
-          <DialogFooter className="flex flex-row justify-end gap-4">
-            <DialogClose asChild>
-              <Button
-                type="button"
-                variant="secondary"
-                className="!px-10 !text-[16px]"
-              >
-                Đóng
-              </Button>
-            </DialogClose>
-            <Link href={`${ROUTES.ACCOUNT}?tab=password`}>
-              <Button type="submit">Tiếp theo</Button>
-            </Link>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
       <Footer />
     </div>
   );
