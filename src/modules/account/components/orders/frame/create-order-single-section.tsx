@@ -201,6 +201,17 @@ const CreateOrderSingleSection = () => {
   const [isValid, setIsValid] = useState<boolean | null>(null);
   const [isChecking, setIsChecking] = useState(false);
   const [discountPercent, setDiscountPercent] = useState(0);
+  const discountPrice =
+    (Number(
+      HELPER.calculateTotalNumber(
+        products.find((pro: any) => pro._id.toString() === selectedProduct)
+          ?.price,
+        "30000",
+        0
+      )
+    ) *
+      discountPercent) /
+    100;
 
   const handleCheckDiscount = async () => {
     if (promoCode === "") {
@@ -1591,7 +1602,9 @@ const CreateOrderSingleSection = () => {
               </div>
               <div className="flex justify-between">
                 <span>Phí vận chuyển</span>
-                <span>+ {HELPER.formatVND("30000")}</span>
+                <span className="text-green-500">
+                  + {HELPER.formatVND("30000")}
+                </span>
               </div>
               <div className="flex justify-between font-base">
                 <span>Tạm tính</span>
@@ -1611,22 +1624,6 @@ const CreateOrderSingleSection = () => {
                 <Dialog>
                   <DialogTrigger asChild>
                     <div className="">
-                      {/* <input
-                        type="text"
-                        placeholder="Nhập mã khuyến mãi"
-                        className={`w-full border border-gray-300 rounded p-2 text-sm ${
-                          isValid === false
-                            ? "border-red-500"
-                            : isValid === true
-                            ? "border-green-500"
-                            : ""
-                        }`}
-                        value={promoCode}
-                        onChange={(e) => {
-                          setPromoCode(e.target.value);
-                        }}
-                        style={{ fontSize: "16px" }}
-                      /> */}
                       {!isValid ? (
                         <div className="text-white text-sm flex flex-row justify-center items-center gap-4 w-full mx-auto py-2 px-5 lg:py-4 bg-yellow-400 hover:bg-yellow-500 text-center rounded-md font-medium transition">
                           Nhập mã
@@ -1669,7 +1666,7 @@ const CreateOrderSingleSection = () => {
                     </DialogHeader>
                     <DialogClose>
                       <div
-                        className={`w-full px-5 py-2 mx-auto text-black bg-yellow-400 hover:bg-yellow-500 text-center rounded-md font-base cursor-pointer ${
+                        className={`w-full px-5 py-2 mx-auto text-white bg-yellow-400 hover:bg-yellow-500 text-center rounded-md font-semibold cursor-pointer ${
                           isChecking ? "opacity-50 cursor-not-allowed" : ""
                         }`}
                         onClick={!isChecking ? handleCheckDiscount : undefined}
@@ -1685,7 +1682,9 @@ const CreateOrderSingleSection = () => {
                 <div className="flex justify-between items-center pt-2">
                   <span>Giảm giá</span>
                   <div className="flex gap-2">
-                    <div className={`text-red-500`}>- {discountPercent}%</div>
+                    <div className={`text-red-500`}>
+                      - {HELPER.formatVND(String(discountPrice))}
+                    </div>
                   </div>
                 </div>
               )}

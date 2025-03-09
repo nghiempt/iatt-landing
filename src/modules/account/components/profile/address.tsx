@@ -298,60 +298,66 @@ export default function AccountAddress() {
       });
       return false;
     }
-
     return true;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    if (!validateForm()) return false;
-
     e.preventDefault();
+
+    if (!validateForm()) return;
     setLoading(true);
-    const areEqual =
-      formData.name === oldformData.name &&
-      formData.email === oldformData.email &&
-      formData.avatar === oldformData.avatar &&
-      formData.phone === oldformData.phone &&
-      formData.address === oldformData.address &&
-      formData.ward === oldformData.ward &&
-      formData.district === oldformData.district &&
-      formData.province === oldformData.province;
-    if (areEqual) {
-      toast({
-        title: "",
-        description: "Không có thay đổi nào được thực hiện!",
-        variant: "destructive",
-      });
+
+    try {
+      const areEqual =
+        formData.name === oldformData.name &&
+        formData.email === oldformData.email &&
+        formData.avatar === oldformData.avatar &&
+        formData.phone === oldformData.phone &&
+        formData.address === oldformData.address &&
+        formData.ward === oldformData.ward &&
+        formData.district === oldformData.district &&
+        formData.province === oldformData.province;
+      if (areEqual) {
+        toast({
+          title: "",
+          description: "Không có thay đổi nào được thực hiện!",
+          variant: "destructive",
+        });
+        setLoading(false);
+        return;
+      }
+      const selectedProvince = provinces.find(
+        (p) => p.code === formData.province
+      );
+      const selectedDistrict = districts.find(
+        (d) => d.code === formData.district
+      );
+      const selectedWard = wards.find((w) => w.code === formData.ward);
+      const formattedData = {
+        ...formData,
+        provinceName: selectedProvince?.name,
+        districtName: selectedDistrict?.name,
+        wardName: selectedWard?.name,
+      };
+      const response = await AccountService.updateAccount(
+        customerAccount?._id,
+        formattedData
+      );
+      if (response === false) {
+        toast({
+          title: "",
+          description: "Số điện thoại đã được sử dụng!",
+          variant: "destructive",
+        });
+        setLoading(false);
+      } else {
+        setLoading(false);
+        window.location.href = "/tai-khoan?tab=address";
+      }
+    } catch (error) {
+      console.error("Error submitting order:", error);
+    } finally {
       setLoading(false);
-      return;
-    }
-    const selectedProvince = provinces.find(
-      (p) => p.code === formData.province
-    );
-    const selectedDistrict = districts.find(
-      (d) => d.code === formData.district
-    );
-    const selectedWard = wards.find((w) => w.code === formData.ward);
-    const formattedData = {
-      ...formData,
-      provinceName: selectedProvince?.name,
-      districtName: selectedDistrict?.name,
-      wardName: selectedWard?.name,
-    };
-    const response = await AccountService.updateAccount(
-      customerAccount?._id,
-      formattedData
-    );
-    if (response === false) {
-      toast({
-        title: "",
-        description: "Số điện thoại đã được sử dụng!",
-        variant: "destructive",
-      });
-      setLoading(false);
-    } else {
-      setLoading(false);
-      window.location.href = "/tai-khoan?tab=address";
     }
   };
 

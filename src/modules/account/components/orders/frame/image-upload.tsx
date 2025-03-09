@@ -97,7 +97,7 @@ const ImageUpload = ({
             onClick={handleClick}
             onDragOver={handleDragOver}
             onDrop={handleDrop}
-            className="cursor-pointer border-2 border-dashed border-gray-300 p-4 flex flex-col items-center justify-center !w-full h-64 mb-4"
+            className="cursor-pointer border-2 border-dashed border-gray-300 p-4 flex flex-col items-center justify-center !w-full h-64 mb-0 rounded-lg"
             style={getContainerStyle()}
           >
             <div className="text-gray-500 flex flex-col items-center">

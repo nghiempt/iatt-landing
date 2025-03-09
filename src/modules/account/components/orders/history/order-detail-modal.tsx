@@ -33,6 +33,9 @@ const OrderDetailModal = ({ order, customerAccount }: any) => {
   const shippingFee = 30000;
   const total = Number(productPrice) + shippingFee;
   const [product, setProduct] = useState<Product | null>(null);
+  const discountPrice = Number(
+    (Number(productPrice) + shippingFee) * (order?.discount_price / 100)
+  );
 
   const init = async () => {
     const fetchProduct = async () => {
@@ -215,7 +218,9 @@ const OrderDetailModal = ({ order, customerAccount }: any) => {
               </div>
               <div className="flex justify-between py-2">
                 <div className="text-black px-0">Khuyến mãi</div>
-                <div className="text-red-500">{order?.discount_price}%</div>
+                <div className="text-red-500">
+                  {HELPER.formatVND(String(discountPrice))}
+                </div>
               </div>
             </div>
             <div className="px-0 py-4 border-b border-gray-200">
