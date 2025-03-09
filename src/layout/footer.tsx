@@ -5,9 +5,9 @@ import FacebookPageEmbed from "./facebook";
 import { useState } from "react";
 
 const Footer = () => {
-  const [toggle1, setToggle1] = useState(false);
-  const [toggle2, setToggle2] = useState(false);
-  const [toggle3, setToggle3] = useState(false);
+  const [toggle1, setToggle1] = useState(true);
+  const [toggle2, setToggle2] = useState(true);
+  const [toggle3, setToggle3] = useState(true);
 
   return (
     <footer className="w-full bg-[#F7F4EF] pt-12 pb-6 flex justify-center items-center">
@@ -28,52 +28,54 @@ const Footer = () => {
               </li>
             </ul>
           </div>
-          <div className="w-full">
-            <FacebookPageEmbed />
-          </div>
-          <div className="space-y-4">
-            <h3 className="text-md font-semibold text-gray-900">
-              THEO DÕI CHÚNG TÔI
-            </h3>
-            <div className="flex space-x-4">
-              <Link href="/" className="text-blue-600 hover:text-blue-700">
-                <Image
-                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/768px-Facebook_Logo_%282019%29.png"
-                  alt="alt"
-                  width={24}
-                  height={24}
-                />
-              </Link>
-              <Link href="/" className="text-gray-900 hover:text-gray-700">
-                <Image
-                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Icon_of_Zalo.svg/2048px-Icon_of_Zalo.svg.png"
-                  alt="alt"
-                  width={24}
-                  height={24}
-                />
-              </Link>
-              <Link href="/">
-                <Image
-                  src="https://banner2.cleanpng.com/20231123/xjc/transparent-tiktok-logo-black-and-white-logo-tiktok-app-minima-minimalist-black-and-white-tiktok-app-1711004158896.webp"
-                  alt="alt"
-                  width={24}
-                  height={24}
-                />
-              </Link>
-              <Link href="/">
-                <Image
-                  src="https://tiemquatiko.com/wp-content/uploads/2022/08/shopee-circle-logo-design-shopping-bag-13.png"
-                  alt="alt"
-                  width={24}
-                  height={24}
-                />
-              </Link>
+          <div className="flex flex-col space-y-4">
+            <div className="space-y-4">
+              <h3 className="text-md font-semibold text-gray-900">
+                THEO DÕI CHÚNG TÔI
+              </h3>
+              <div className="flex space-x-4">
+                <Link href="/" className="text-blue-600 hover:text-blue-700">
+                  <Image
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/768px-Facebook_Logo_%282019%29.png"
+                    alt="alt"
+                    width={24}
+                    height={24}
+                  />
+                </Link>
+                <Link href="/" className="text-gray-900 hover:text-gray-700">
+                  <Image
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Icon_of_Zalo.svg/2048px-Icon_of_Zalo.svg.png"
+                    alt="alt"
+                    width={24}
+                    height={24}
+                  />
+                </Link>
+                <Link href="/">
+                  <Image
+                    src="https://banner2.cleanpng.com/20231123/xjc/transparent-tiktok-logo-black-and-white-logo-tiktok-app-minima-minimalist-black-and-white-tiktok-app-1711004158896.webp"
+                    alt="alt"
+                    width={24}
+                    height={24}
+                  />
+                </Link>
+                <Link href="/">
+                  <Image
+                    src="https://tiemquatiko.com/wp-content/uploads/2022/08/shopee-circle-logo-design-shopping-bag-13.png"
+                    alt="alt"
+                    width={24}
+                    height={24}
+                  />
+                </Link>
+              </div>
+            </div>
+            <div className="w-full">
+              <FacebookPageEmbed />
             </div>
           </div>
           <div className="space-y-4">
             <h3
               onClick={() => setToggle1(!toggle1)}
-              className="text-md font-semibold text-gray-900 flex"
+              className="cursor-pointer text-md font-semibold text-gray-900 flex"
             >
               THÔNG TIN CHUNG{" "}
               <ChevronDown
@@ -84,7 +86,7 @@ const Footer = () => {
             </h3>
             {toggle1 && (
               <ul className="space-y-2">
-                <li>
+                {/* <li>
                   <Link href="/" className="text-gray-600 hover:text-gray-900">
                     Hỏi đáp
                   </Link>
@@ -103,10 +105,10 @@ const Footer = () => {
                   <Link href="/" className="text-gray-600 hover:text-gray-900">
                     Phương thức giao hàng COD
                   </Link>
-                </li>
+                </li> */}
                 <li>
                   <Link href="/" className="text-gray-600 hover:text-gray-900">
-                    Chính sách kiểm tra hàng hóa
+                    Giới thiệu
                   </Link>
                 </li>
                 <li>
@@ -116,12 +118,17 @@ const Footer = () => {
                 </li>
                 <li>
                   <Link href="/" className="text-gray-600 hover:text-gray-900">
-                    Điều khoản sử dụng
+                    Điều khoản giao hàng
                   </Link>
                 </li>
                 <li>
                   <Link href="/" className="text-gray-600 hover:text-gray-900">
                     Chính sách bảo mật
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/" className="text-gray-600 hover:text-gray-900">
+                    Chính sách thanh toán
                   </Link>
                 </li>
               </ul>
@@ -130,7 +137,7 @@ const Footer = () => {
           <div className="space-y-4">
             <h3
               onClick={() => setToggle2(!toggle2)}
-              className="text-md font-semibold text-gray-900 flex"
+              className="cursor-pointer text-md font-semibold text-gray-900 flex"
             >
               IN ẢNH TRỰC TUYẾN{" "}
               <ChevronDown
@@ -176,7 +183,7 @@ const Footer = () => {
                     Tin tức
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link href="/" className="text-gray-600 hover:text-gray-900">
                     Liên hệ với chúng tôi
                   </Link>
@@ -185,14 +192,14 @@ const Footer = () => {
                   <Link href="/" className="text-gray-600 hover:text-gray-900">
                     Vị trí cửa hàng
                   </Link>
-                </li>
+                </li> */}
               </ul>
             )}
           </div>
           <div className="space-y-4">
             <h3
               onClick={() => setToggle3(!toggle3)}
-              className="text-md font-semibold text-gray-900 flex"
+              className="cursor-pointer text-md font-semibold text-gray-900 flex"
             >
               CÁC TỈNH THÀNH{" "}
               <ChevronDown
@@ -215,7 +222,7 @@ const Footer = () => {
                 </li>
                 <li>
                   <Link href="/" className="text-gray-600 hover:text-gray-900">
-                    Hà Nội
+                    Cà Mau
                   </Link>
                 </li>
                 <li>
@@ -288,9 +295,8 @@ const Footer = () => {
             <h3 className="text-md font-semibold text-gray-900">
               CHỨNG CHỈ UY TÍN
             </h3>
-            <div className="flex flex-row lg:flex-col justify-start items-center gap-7 !m-0">
+            <div className="flex flex-row lg:flex-col justify-start items-center lg:items-start gap-7 !m-0">
               <Image
-                // src="https://www.dmca.com/img/dmca-website-logo-2022.png"
                 src="https://res.cloudinary.com/farmcode/image/upload/v1741450139/iatt/Untitled_design_1_qj4hfg.png"
                 alt="DMCA Protected"
                 width={128}
