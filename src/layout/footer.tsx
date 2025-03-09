@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import FacebookPageEmbed from "./facebook";
 import { useState } from "react";
+import { ROUTES } from "@/utils/route";
 
 const Footer = () => {
   const [toggle1, setToggle1] = useState(true);
@@ -107,27 +108,42 @@ const Footer = () => {
                   </Link>
                 </li> */}
                 <li>
-                  <Link href="/" className="text-gray-600 hover:text-gray-900">
+                  <Link
+                    href={`${ROUTES.ABOUT}?scrollTo=gt`}
+                    className="text-gray-600 hover:text-gray-900"
+                  >
                     Giới thiệu
                   </Link>
                 </li>
                 <li>
-                  <Link href="/" className="text-gray-600 hover:text-gray-900">
+                  <Link
+                    href={`${ROUTES.ABOUT}?scrollTo=dt`}
+                    className="text-gray-600 hover:text-gray-900"
+                  >
                     Chính sách đổi trả
                   </Link>
                 </li>
                 <li>
-                  <Link href="/" className="text-gray-600 hover:text-gray-900">
+                  <Link
+                    href={`${ROUTES.ABOUT}?scrollTo=gh`}
+                    className="text-gray-600 hover:text-gray-900"
+                  >
                     Điều khoản giao hàng
                   </Link>
                 </li>
                 <li>
-                  <Link href="/" className="text-gray-600 hover:text-gray-900">
+                  <Link
+                    href={`${ROUTES.ABOUT}?scrollTo=bm`}
+                    className="text-gray-600 hover:text-gray-900"
+                  >
                     Chính sách bảo mật
                   </Link>
                 </li>
                 <li>
-                  <Link href="/" className="text-gray-600 hover:text-gray-900">
+                  <Link
+                    href={`${ROUTES.ABOUT}?scrollTo=tt`}
+                    className="text-gray-600 hover:text-gray-900"
+                  >
                     Chính sách thanh toán
                   </Link>
                 </li>
@@ -149,37 +165,58 @@ const Footer = () => {
             {toggle2 && (
               <ul className="space-y-2">
                 <li>
-                  <Link href="/" className="text-gray-600 hover:text-gray-900">
+                  <Link
+                    href={`${ROUTES.HOME}`}
+                    className="text-gray-600 hover:text-gray-900"
+                  >
                     Trang chủ
                   </Link>
                 </li>
                 <li>
-                  <Link href="/" className="text-gray-600 hover:text-gray-900">
+                  <Link
+                    href={`${ROUTES.ABOUT}?scrollTo=gt`}
+                    className="text-gray-600 hover:text-gray-900"
+                  >
                     Về chúng tôi
                   </Link>
                 </li>
                 <li>
-                  <Link href="/" className="text-gray-600 hover:text-gray-900">
+                  <Link
+                    href={`${ROUTES.PLASTIC}?tag=Plastic`}
+                    className="text-gray-600 hover:text-gray-900"
+                  >
                     In ấn
                   </Link>
                 </li>
                 <li>
-                  <Link href="/" className="text-gray-600 hover:text-gray-900">
+                  <Link
+                    href={`${ROUTES.FRAME}?tag=Frame`}
+                    className="text-gray-600 hover:text-gray-900"
+                  >
                     Khung ảnh
                   </Link>
                 </li>
                 <li>
-                  <Link href="/" className="text-gray-600 hover:text-gray-900">
+                  <Link
+                    href={`${ROUTES.ALBUM}?tag=Album`}
+                    className="text-gray-600 hover:text-gray-900"
+                  >
                     Photobook
                   </Link>
                 </li>
                 <li>
-                  <Link href="/" className="text-gray-600 hover:text-gray-900">
+                  <Link
+                    href={`${ROUTES.PRICE}`}
+                    className="text-gray-600 hover:text-gray-900"
+                  >
                     Bảng giá
                   </Link>
                 </li>
                 <li>
-                  <Link href="/" className="text-gray-600 hover:text-gray-900">
+                  <Link
+                    href={`${ROUTES.BLOG}`}
+                    className="text-gray-600 hover:text-gray-900"
+                  >
                     Tin tức
                   </Link>
                 </li>

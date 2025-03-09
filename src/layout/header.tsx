@@ -112,7 +112,7 @@ export default function Header() {
               />
             </button>
           </div>
-          <Link href="/" className="flex items-center space-x-2">
+          <Link href={ROUTES.HOME} className="flex items-center space-x-2">
             <Image
               src={IMAGES.LOGO}
               alt="In Ảnh Trực Tuyến"

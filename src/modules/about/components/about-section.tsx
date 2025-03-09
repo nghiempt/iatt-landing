@@ -1,10 +1,12 @@
 import { ChevronDown } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 interface PolicySection {
   title: string;
   content: React.ReactNode;
+  scrollId: string;
 }
 
 interface ServiceCard {
@@ -14,9 +16,43 @@ interface ServiceCard {
 }
 
 const AboutSection = () => {
+  const searchParams = useSearchParams();
+  const tab = searchParams.get("scrollTo");
+
   const [expandedSections, setExpandedSections] = useState<{
     [key: string]: boolean;
   }>({ "Giới thiệu": true });
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  useEffect(() => {
+    if (tab) {
+      const sectionMap: { [key: string]: string } = {
+        gt: "Giới thiệu",
+        bm: "Chính sách bảo mật",
+        gh: "Chính sách giao hàng",
+        tt: "Chính sách thanh toán",
+        dt: "Chính sách đổi trả",
+      };
+
+      const sectionTitle = sectionMap[tab];
+      if (sectionTitle) {
+        setExpandedSections((prev) => ({
+          ...prev,
+          [sectionTitle]: true,
+        }));
+        setTimeout(() => {
+          scrollToSection(tab);
+        }, 100);
+      }
+    }
+  }, [tab]);
+
   const services: ServiceCard[] = [
     {
       title: "ALBUM CƯỚI, TIỆC",
@@ -301,11 +337,28 @@ const AboutSection = () => {
     {
       title: "Giới thiệu",
       content: introductionContent,
+      scrollId: "gt",
     },
-    { title: "Chính sách bảo mật", content: privacyContent },
-    { title: "Chính sách giao hàng", content: shippingContent },
-    { title: "Chính sách thanh toán", content: paymentContent },
-    { title: "Chính sách đổi trả", content: returnContent },
+    {
+      title: "Chính sách bảo mật",
+      content: privacyContent,
+      scrollId: "bm",
+    },
+    {
+      title: "Chính sách giao hàng",
+      content: shippingContent,
+      scrollId: "gh",
+    },
+    {
+      title: "Chính sách thanh toán",
+      content: paymentContent,
+      scrollId: "tt",
+    },
+    {
+      title: "Chính sách đổi trả",
+      content: returnContent,
+      scrollId: "dt",
+    },
   ];
 
   const toggleSection = (title: string) => {
@@ -321,6 +374,7 @@ const AboutSection = () => {
         {policies.map((policy) => (
           <div key={policy.title} className="">
             <button
+              id={policy.scrollId}
               onClick={() => toggleSection(policy.title)}
               className="w-full pt-4 pb-2 flex justify-start items-center text-left border-b border-gray-300"
             >
