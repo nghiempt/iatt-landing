@@ -100,7 +100,7 @@ export default function AboutClient() {
         </div>
       </div>
       <BannerSlider />
-      <div className="w-full container !px-1 lg:!px-7 pt-0 pb-10 lg:pt-10 lg:pb-10">
+      <div className="w-full container !px-1 lg:!px-7 pt-0 pb-10 lg:pt-10 lg:pb-14">
         <AboutSection />
       </div>
       <Footer />

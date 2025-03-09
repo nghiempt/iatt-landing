@@ -1093,8 +1093,8 @@ const CreateOrderSingleSection = () => {
               </Dialog>
             </div>
             {selectedProduct !== "Chon san pham" && (
-              <div className="flex flex-col lg:flex-row justify-evenly h-full lg:h-[340px]">
-                <div>
+              <div className="flex flex-col lg:flex-row justify-evenly lg:justify-between h-full lg:h-[260px] lg:mt-5">
+                <div className="flex justify-center items-center">
                   {!currentImage.startsWith("http") &&
                   selectedProduct !== "Chon san pham" &&
                   !uploadedFile ? (
@@ -1108,8 +1108,10 @@ const CreateOrderSingleSection = () => {
                   ) : (
                     <>
                       <div
-                        className={`relative w-full ${
-                          selectedSize === "40x20" ? "h-full" : "h-60"
+                        className={`relative ${
+                          selectedSize === "40x20"
+                            ? "w-full h-full lg:w-2/3 lg:h-2/3"
+                            : "w-full h-60"
                         }  flex items-center justify-center overflow-hidden rounded-md mt-3`}
                         style={getImageContainerStyle()}
                       >
@@ -1127,7 +1129,7 @@ const CreateOrderSingleSection = () => {
                           className={`object-cover ${
                             selectedSize === "40x20"
                               ? "w-full h-full"
-                              : "w-1/2 h-full"
+                              : "w-1/2 lg:w-full h-full"
                           } ${
                             selectedProduct !== "Chon san pham"
                               ? "border-8"
@@ -1584,8 +1586,6 @@ const CreateOrderSingleSection = () => {
                 </div>
               </>
             )}
-
-            {/* ORDER BUTTON  */}
           </div>
           {selectedProduct !== "Chon san pham" && (
             <div className="border-t pt-4 space-y-2">
@@ -1625,15 +1625,15 @@ const CreateOrderSingleSection = () => {
                   <DialogTrigger asChild>
                     <div className="">
                       {!isValid ? (
-                        <div className="text-white text-sm flex flex-row justify-center items-center gap-4 w-full mx-auto py-2 px-5 lg:py-4 bg-yellow-400 hover:bg-yellow-500 text-center rounded-md font-medium transition">
+                        <div className="cursor-pointer text-white text-sm flex flex-row justify-center items-center gap-4 w-full mx-auto py-2 px-5 lg:py-2 bg-yellow-400 hover:bg-yellow-500 text-center rounded-md font-medium transition">
                           Nhập mã
                         </div>
                       ) : (
                         <div className="flex flex-row gap-2">
-                          <div className="text-white text-sm flex flex-row justify-center items-center gap-4 mx-auto py-2 px-2 lg:py-4 bg-green-400 hover:bg-yellow-500 text-center rounded-md font-medium transition">
+                          <div className="text-white text-sm flex flex-row justify-center items-center gap-4 mx-auto py-2 px-2 lg:py-2 bg-green-400 hover:bg-yellow-500 text-center rounded-md font-medium transition">
                             Đã áp dụng mã
                           </div>
-                          <div className="text-white text-sm flex flex-row justify-center items-center gap-4 mx-auto py-2 px-2 lg:py-4 bg-yellow-400 hover:bg-yellow-500 text-center rounded-md font-medium transition">
+                          <div className="text-white text-sm flex flex-row justify-center items-center gap-4 mx-auto py-2 px-2 lg:py-2 bg-yellow-400 hover:bg-yellow-500 text-center rounded-md font-medium transition">
                             Đổi mã
                           </div>
                         </div>

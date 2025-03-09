@@ -118,7 +118,7 @@ export default function BlogDetailClient() {
         </span>
       </div>
       <Header />
-      <div className="container px-5 lg:px-8 pb-2 lg:pb-20 pt-2">
+      <div className="container px-5 lg:px-8 pb-2 lg:pb-14 pt-2">
         <div className="w-full pt-3 pb-4 lg:px-0 lg:pb-0 flex flex-col justify-center items-start">
           <nav className="flex items-center gap-2 text-sm text-gray-600 mb-2 lg:mb-0">
             <Link
@@ -140,7 +140,7 @@ export default function BlogDetailClient() {
             </p>
           </nav>
           <div className="w-full grid grid-cols-1 lg:grid-cols-12 items-start gap-3 lg:gap-20">
-            <div className="mt-0 lg:mt-3 pt-0 pb-4 z-10 lg:col-span-8 border-b border-gray-300">
+            <div className="mt-0 lg:mt-3 pt-0 pb-4 z-10 lg:col-span-8">
               <div className="text-sm lg:text-base mb-1">
                 <p>
                   Đăng bởi: {currentData?.author} -{" "}
@@ -156,12 +156,12 @@ export default function BlogDetailClient() {
                 <Image
                   src={currentData?.thumbnail || ""}
                   alt="Products Banner"
-                  className=" object-cover rounded-md"
+                  className="object-cover rounded-lg"
                   width={1000}
                   height={500}
                 />
               </div>
-              <div className="w-full mt-4 pt-3 z-10">
+              <div className="w-full mt-4 pt-3 z-10 text-justify">
                 <div
                   dangerouslySetInnerHTML={{ __html: currentData?.content }}
                 />

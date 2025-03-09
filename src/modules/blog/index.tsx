@@ -125,7 +125,7 @@ export default function BlogClient() {
         </span>
       </div>
       <Header />
-      <div className="container px-5 lg:px-8 pb-0 lg:pb-20 pt-2">
+      <div className="container px-5 lg:px-8 pb-0 lg:pb-14 pt-2">
         <div className="pt-3 pb-0 lg:pb-0 lg:px-0">
           <nav className="flex items-center gap-2 text-sm text-gray-600 mb-2">
             <Link
@@ -173,10 +173,10 @@ export default function BlogClient() {
                     height={200}
                     objectFit="cover"
                     priority
-                    className=""
+                    className="rounded-lg"
                   />
                 </div>
-                <div className="p-4 md:p-6 flex flex-col">
+                <div className="p-4 md:px-6 lg:p-0 flex flex-col">
                   <div>
                     <h2 className="text-xl font-semibold mb-2">
                       <a className="text-gray-800 hover:text-gray-600">

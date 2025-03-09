@@ -247,7 +247,7 @@ export default function ProductDetailClient() {
         </span>
       </div>
       <Header />
-      <div className="container px-5 lg:px-8 pb-5 lg:pb-20 pt-2">
+      <div className="container px-5 lg:px-8 pb-5 lg:pb-16 pt-2">
         {isLoading ? (
           <div className="col-span-2 text-center w-full flex justify-center items-center py-40">
             <Loader className="animate-spin" size={32} />
@@ -367,7 +367,7 @@ export default function ProductDetailClient() {
                       </div>
 
                       <div className="flex items-center space-x-4">
-                        <span className="w-1/4">Số lượng</span>
+                        <span className="w-1/4 lg:w-2/12">Số lượng</span>
                         <div className="flex rounded-sm">
                           <button
                             className="px-2 py-1 border border-gray-400 items-center"
@@ -406,7 +406,7 @@ export default function ProductDetailClient() {
                         </button>
                       </div>
                     </div>
-                    <div className="flex flex-col w-full lg:px-6 pt-7 pb-1 space-y-4">
+                    <div className="flex flex-col w-full lg:pr-6 lg:pl-0 pt-7 pb-1 space-y-4">
                       <h2 className="text-xl lg:text-2xl font-bold text-navy-700">
                         CHI TIẾT SẢN PHẨM
                       </h2>
@@ -422,7 +422,7 @@ export default function ProductDetailClient() {
                         </div>
                         <div className="flex justify-center relative">
                           {!expanded && (
-                            <div className="absolute bottom-[140%] left-0 right-0 h-20 bg-gradient-to-t from-gray-50 to-transparent pointer-events-none" />
+                            <div className="absolute bottom-[135%] left-0 right-0 h-20 bg-gradient-to-t from-gray-50 to-transparent pointer-events-none" />
                           )}
                           <button
                             className="text-black cursor-pointer font-semibold px-4 py-2 lg:py-4 lg:px-8 border border-gray-300 flex items-center gap-4 rounded-md"
@@ -462,7 +462,7 @@ export default function ProductDetailClient() {
               </div>
             </div>
             <div className="pt-4 pb-7 lg:pb-14 lg:pt-14 grid grid-cols-1 lg:grid-cols-12 gap-4">
-              <div className="hidden lg:flex flex-col w-full col-span-5">
+              <div className="hidden lg:flex flex-col w-full col-span-6">
                 <div className="flex items-center gap-2 mb-4">
                   <h2 className="text-xl font-bold">Đánh giá</h2>
                   <span className="text-gray-500">(4)</span>
@@ -474,15 +474,15 @@ export default function ProductDetailClient() {
                         <Image
                           src={review.avatar}
                           alt="Avatar"
-                          width={32}
-                          height={32}
-                          className="rounded-full"
+                          width={1000}
+                          height={1000}
+                          className="rounded-full w-9 h-9"
                         />
                         <div>
                           <div className="flex items-center gap-2">
                             {renderStars(review.rating)}
                           </div>
-                          <div className="text-sm text-gray-500">
+                          <div className="text-[12.5px] text-gray-600">
                             <span>{review.author}</span>
                             <span> , </span>
                             <span>{review.date}</span>
@@ -496,7 +496,7 @@ export default function ProductDetailClient() {
                   ))}
                 </div>
               </div>
-              <div className="col-span-12 lg:col-span-7 lg:pl-20 space-y-4">
+              <div className="col-span-12 lg:col-span-6 lg:pl-9 space-y-4">
                 <h2 className="text-xl lg:text-2xl font-bold text-navy-700">
                   MÔ TẢ SẢN PHẨM
                 </h2>
@@ -512,7 +512,7 @@ export default function ProductDetailClient() {
                   </div>
                   <div className="flex justify-center relative">
                     {!expanded1 && (
-                      <div className="absolute bottom-[140%] left-0 right-0 h-20 bg-gradient-to-t from-gray-50 to-transparent pointer-events-none" />
+                      <div className="absolute bottom-[135%] left-0 right-0 h-20 bg-gradient-to-t from-gray-50 to-transparent pointer-events-none" />
                     )}
                     <button
                       className="text-black cursor-pointer font-semibold px-4 py-2 lg:py-4 lg:px-8 border border-gray-300 flex items-center gap-4 rounded-md"

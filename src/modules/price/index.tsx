@@ -327,7 +327,7 @@ export default function PriceTable() {
         </span>
       </div>
       <Header />
-      <div className="container px-1 lg:px-8 pb-0 lg:pb-20 pt-2">
+      <div className="container px-1 lg:px-8 pb-0 lg:pb-10 pt-2">
         <div className="px-4 pt-3 pb-0 lg:pb-0 lg:px-0">
           <nav className="flex items-center gap-2 text-sm text-gray-600 mb-2">
             <Link href={`${ROUTES.HOME}`} className="hover:text-black text-md">

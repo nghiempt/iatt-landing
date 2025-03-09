@@ -197,7 +197,7 @@ export default function ProductClient() {
         </span>
       </div>
       <Header />
-      <div className="container px-5 lg:px-8 lg:pb-20 pt-3">
+      <div className="container px-5 lg:px-8 lg:pb-8 pt-3">
         <div className="pt-2 pb-5 px-0">
           <nav className="flex items-center gap-2 text-sm text-gray-600 mb-0">
             <Link
@@ -217,9 +217,9 @@ export default function ProductClient() {
           <h1 className="text-xl lg:text-3xl font-bold text-navy-900 mt-3">
             SẢN PHẨM CỦA CHÚNG TÔI
           </h1>
-          <div className="w-full grid grid-cols-1 space-y-2 lg:flex lg:flex-row justify-between items-center gap-4 pb-8 pt-3">
-            <div className="w-full lg:flex justify-start items-center gap-2 lg:gap-4 ">
-              <div className="w-full items-center text-black mb-2">
+          <div className="w-full grid grid-cols-1 space-y-2 lg:flex lg:flex-col justify-between items-center lg:items-start gap-4 pb-8 pt-3">
+            <div className="w-full lg:flex flex-col justify-start items-center lg:items-start gap-2 lg:gap-2">
+              <div className="w-full lg:w-20 items-center text-black mb-2 lg:mb-0">
                 Lọc theo:{" "}
               </div>
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 w-full">
@@ -246,14 +246,14 @@ export default function ProductClient() {
               </div>
             </div>
             <div
-              className="relative flex flex-col lg:flex-row justify-between items-start lg:items-center gap-2"
+              className="relative flex flex-col lg:flex-col justify-between items-start lg:items-start gap-2"
               ref={sortRef}
             >
               Sắp xếp theo giá:
               <Button
                 onClick={() => setOpenSort(!openSort)}
                 variant="outline"
-                className="w-full border border-gray-300 flex justify-between items-center gap-4"
+                className="w-full lg:w-[325px] border border-gray-300 flex justify-between items-center gap-4"
               >
                 <span>{selectedSortLabel}</span>
                 <ChevronDown className="w-4 h-4" />

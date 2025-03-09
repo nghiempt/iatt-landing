@@ -331,42 +331,43 @@ export default function OrderHistory({
                           />
                         </div>
                       </div>
+
                       <div className="w-full h-[1px] bg-gray-300 mb-4"></div>
+
                       <div className="flex flex-col lg:flex-row gap-3 lg:gap-0 items-center justify-center">
-                        <div className="flex flex-col gap-4 justify-center items-start">
-                          <div className="flex flex-row gap-4 items-center w-full h-full">
-                            <Image
-                              src={order?.image}
-                              alt={order?.product_name}
-                              width={1000}
-                              height={1000}
-                              className="object-contain border border-gray-300 w-40 h-40"
-                            />
-                            <div className="space-y-1 lg:w-96">
-                              <h3 className="text-base lg:text-xl font-medium">
-                                {order?.product_name}
-                              </h3>
-                              <p className="text-sm text-black">
-                                Phân loại:{" "}
-                                <span className="font-semibold">
-                                  {HELPER.renderCategory2(order?.product_price)}
-                                </span>
-                              </p>
-                              <p className="text-sm text-black">
-                                Kích cỡ:{" "}
-                                <span className="font-semibold">
-                                  {order?.size}
-                                </span>
-                              </p>
-                              <p className="text-sm text-black">
-                                Màu:{" "}
-                                <span className="font-semibold">
-                                  {HELPER.renderColor(order?.color)}
-                                </span>
-                              </p>
-                            </div>
+                        <div className="grid grid-cols-2 gap-4 items-start w-full h-full">
+                          <Image
+                            src={order?.image}
+                            alt={order?.product_name}
+                            width={1000}
+                            height={1000}
+                            className="object-contain w-full h-40"
+                          />
+                          <div className="space-y-1 lg:w-full">
+                            <h3 className="text-base lg:text-xl font-medium">
+                              {order?.product_name}
+                            </h3>
+                            <p className="text-sm text-black">
+                              Phân loại:{" "}
+                              <span className="font-semibold">
+                                {HELPER.renderCategory2(order?.product_price)}
+                              </span>
+                            </p>
+                            <p className="text-sm text-black">
+                              Kích cỡ:{" "}
+                              <span className="font-semibold">
+                                {order?.size}
+                              </span>
+                            </p>
+                            <p className="text-sm text-black">
+                              Màu:{" "}
+                              <span className="font-semibold">
+                                {HELPER.renderColor(order?.color)}
+                              </span>
+                            </p>
                           </div>
                         </div>
+
                         <div className="flex flex-row justify-between text-right space-y-2 w-full">
                           <div
                             className={`flex flex-row lg:items-end justify-between lg:flex-col gap-5 lg:gap-20 space-y-0 lg:space-y-4 w-full`}
@@ -421,19 +422,21 @@ export default function OrderHistory({
                               {order?.status === "cancelled" &&
                                 "Đã hủy đơn hàng"}
                             </div>
-                            <div className="flex flex-row justify-between items-center gap-4">
-                              <p className="text-xl lg:text-xl font-semibold">
-                                {HELPER.formatVND(order?.total)}
-                              </p>
-                            </div>
                           </div>
                         </div>
+                      </div>
+                      <div className="flex flex-row justify-between items-center gap-4 mt-4">
                         {order?.status === "waiting" && (
                           <CancelOrderModal
                             order={order}
                             customerAccount={customerAccount}
                           />
                         )}
+                        <div className="flex flex-row justify-between items-center gap-4">
+                          <p className="text-xl lg:text-xl font-semibold">
+                            {HELPER.formatVND(order?.total)}
+                          </p>
+                        </div>
                       </div>
                     </div>
                   ))
