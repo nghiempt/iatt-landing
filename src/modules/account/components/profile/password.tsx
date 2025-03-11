@@ -334,7 +334,7 @@ export default function AccountPassword() {
                         name="password"
                         value={formData.password}
                         onChange={handleInputChange}
-                        className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:border-none"
                         style={{ fontSize: "16px" }}
                       />
                     </div>
@@ -352,7 +352,7 @@ export default function AccountPassword() {
                         name="newPassword"
                         value={formData.newPassword}
                         onChange={handleInputChange}
-                        className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:border-none"
                         style={{ fontSize: "16px" }}
                       />
                     </div>
@@ -371,7 +371,7 @@ export default function AccountPassword() {
                         name="confirmPassword"
                         value={formData.confirmPassword}
                         onChange={handleInputChange}
-                        className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md focus:outline-none focus:border-none"
                         style={{ fontSize: "16px" }}
                       />
                     </div>
@@ -379,7 +379,7 @@ export default function AccountPassword() {
                   <div className="mt-8 flex justify-center items-center">
                     <Button
                       type="submit"
-                      className="w-full lg:w-64 py-2 px-4 mt-2 bg-[rgb(var(--primary-rgb))]  hover:bg-[rgb(var(--secondary-rgb))] text-white font-medium rounded-md transition-colors"
+                      className="w-full lg:w-64 py-2 px-4 mt-2 bg-[rgb(var(--primary-rgb))] hover:bg-[rgb(var(--secondary-rgb))] text-white font-medium rounded-md transition-colors"
                     >
                       Lưu thay đổi
                       {loading && <Loader className="animate-spin" size={48} />}

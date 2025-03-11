@@ -26,7 +26,7 @@ import { IMAGES } from "@/utils/image";
 import "../../../styles/helper.css";
 
 export default function ProductDetailClient() {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const { id } = useParams();
   const [data, setData] = useState<any | null>([] as any);
   const [currentData, setCurrentData] = useState<any | null>(null);
@@ -119,7 +119,6 @@ export default function ProductDetailClient() {
   };
 
   const init = async () => {
-    setIsLoading(true);
     const res = await ProductService.getAll();
     if (res && res.data.length > 0) {
       setData(res?.data);
@@ -365,7 +364,6 @@ export default function ProductDetailClient() {
                           {HELPER.formatVND(HELPER.upPrice(currentData?.price))}
                         </div>
                       </div>
-
                       <div className="flex items-center space-x-4">
                         <span className="w-1/4 lg:w-2/12">Số lượng</span>
                         <div className="flex rounded-sm">

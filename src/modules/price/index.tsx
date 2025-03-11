@@ -339,7 +339,7 @@ export default function PriceTable() {
             </Link>
           </nav>
           <div className="space-y-4">
-            <div className="space-y-10 mb-8">
+            <div className="space-y-10 mb-5 lg:mb-8">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 w-full">
                 <div className="grid grid-cols-1">
                   <div className="text-black font-bold text-xl lg:text-3xl pb-3 lg:pb-0">
@@ -372,7 +372,7 @@ export default function PriceTable() {
                                       alt=""
                                       width={1000}
                                       height={1000}
-                                      className="object-cover w-8 h-8 shrink-0"
+                                      className="object-cover w-8 h-8 shrink-0 border border-gray-200"
                                     />
                                     <p className="text-xs line-clamp-2">
                                       {
@@ -494,7 +494,7 @@ export default function PriceTable() {
                   </div> */}
                   <div className="flex justify-end items-center gap-2">
                     <span className="text-sm lg:text-base">Giá sản phẩm:</span>
-                    <span>
+                    <span className="font-semibold">
                       {selectedProduct === "Chon san pham"
                         ? HELPER.formatVND("0")
                         : HELPER.formatVND(

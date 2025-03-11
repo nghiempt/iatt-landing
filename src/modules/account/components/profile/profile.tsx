@@ -304,7 +304,7 @@ export default function AccountProfile() {
                         name="name"
                         value={formData.name}
                         onChange={handleInputChange}
-                        className="w-full py-2 pr-16 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        className="w-full py-2 pr-16 border border-gray-200 rounded-md focus:outline-none focus:border-none"
                         style={{ fontSize: "16px" }}
                       />
                     </div>
@@ -319,7 +319,7 @@ export default function AccountProfile() {
                         name="phone"
                         value={formData.phone}
                         onChange={handleInputChange}
-                        className="w-full px-3 py-2 pr-16 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        className="w-full px-3 py-2 pr-16 border border-gray-200 rounded-md focus:outline-none focus:border-none"
                         style={{ fontSize: "16px" }}
                       />
                     </div>

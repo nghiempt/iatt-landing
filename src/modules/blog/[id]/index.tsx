@@ -7,7 +7,7 @@ import { BlogService } from "@/services/blog";
 import { HELPER } from "@/utils/helper";
 import { IMAGES } from "@/utils/image";
 import { ROUTES } from "@/utils/route";
-import { Calendar, ChevronRight, PencilLine } from "lucide-react";
+import { Calendar, ChevronRight, Loader, PencilLine } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -19,6 +19,7 @@ export default function BlogDetailClient() {
   const [blogs, setBlogs] = useState([] as any);
   const [currentData, setCurrentData] = useState<any | null>(null);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const toggleContent = () => {
     setIsExpanded((prev) => !prev);
@@ -43,6 +44,7 @@ export default function BlogDetailClient() {
         (bg: Blog) => HELPER.getLastFourChars(bg._id) === id
       );
       setCurrentData(blog || null);
+      setIsLoading(false);
     }
   };
 
@@ -118,119 +120,125 @@ export default function BlogDetailClient() {
         </span>
       </div>
       <Header />
-      <div className="container px-5 lg:px-8 pb-2 lg:pb-14 pt-2">
-        <div className="w-full pt-3 pb-4 lg:px-0 lg:pb-0 flex flex-col justify-center items-start">
-          <nav className="flex items-center gap-2 text-sm text-gray-600 mb-2 lg:mb-0">
-            <Link
-              href={`${ROUTES.HOME}`}
-              className="hover:text-[rgb(var(--primary-rgb))] text-md"
-            >
-              Trang chủ
-            </Link>
-            <ChevronRight className="w-4 h-4" />
-            <Link
-              href={`${ROUTES.BLOG}`}
-              className="hover:text-[rgb(var(--primary-rgb))] text-md"
-            >
-              Tin Tức
-            </Link>
-            <ChevronRight className="w-4 h-4" />
-            <p className="hover:text-[rgb(var(--primary-rgb))] text-md truncate text-md">
-              {currentData?.title?.slice(0, 15)}...
-            </p>
-          </nav>
-          <div className="w-full grid grid-cols-1 lg:grid-cols-12 items-start gap-3 lg:gap-20">
-            <div className="mt-0 lg:mt-3 pt-0 pb-4 z-10 lg:col-span-8">
-              <div className="text-sm lg:text-base mb-1">
-                <p>
-                  Đăng bởi: {currentData?.author} -{" "}
-                  {HELPER.formatDate(currentData?.created_at)}
-                </p>
+      {isLoading ? (
+        <div className="w-full flex justify-center items-center py-40">
+          <Loader className="animate-spin" size={32} />
+        </div>
+      ) : (
+        <div className="container px-5 lg:px-8 pb-2 lg:pb-14 pt-2">
+          <div className="w-full pt-3 pb-4 lg:px-0 lg:pb-0 flex flex-col justify-center items-start">
+            <nav className="flex items-center gap-2 text-sm text-gray-600 mb-2 lg:mb-0">
+              <Link
+                href={`${ROUTES.HOME}`}
+                className="hover:text-[rgb(var(--primary-rgb))] text-md"
+              >
+                Trang chủ
+              </Link>
+              <ChevronRight className="w-4 h-4" />
+              <Link
+                href={`${ROUTES.BLOG}`}
+                className="hover:text-[rgb(var(--primary-rgb))] text-md"
+              >
+                Tin Tức
+              </Link>
+              <ChevronRight className="w-4 h-4" />
+              <p className="hover:text-[rgb(var(--primary-rgb))] text-md truncate text-md">
+                {currentData?.title?.slice(0, 15)}...
+              </p>
+            </nav>
+            <div className="w-full grid grid-cols-1 lg:grid-cols-12 items-start gap-3 lg:gap-20">
+              <div className="mt-0 lg:mt-3 pt-0 pb-4 z-10 lg:col-span-8">
+                <div className="text-sm lg:text-base mb-1">
+                  <p>
+                    Đăng bởi: {currentData?.author} -{" "}
+                    {HELPER.formatDate(currentData?.created_at)}
+                  </p>
+                </div>
+                <div>
+                  <h1 className="text-2xl lg:text-3xl font-bold text-navy-900 mb-3">
+                    {currentData?.title}
+                  </h1>
+                </div>
+                <div className="w-full h-full bg-pink-50 rounded-md mb-4">
+                  <Image
+                    src={currentData?.thumbnail || ""}
+                    alt="Products Banner"
+                    className="object-cover rounded-lg"
+                    width={1000}
+                    height={500}
+                  />
+                </div>
+                <div className="w-full mt-4 pt-3 z-10 text-justify">
+                  <div
+                    dangerouslySetInnerHTML={{ __html: currentData?.content }}
+                  />
+                </div>
               </div>
-              <div>
-                <h1 className="text-2xl lg:text-3xl font-bold text-navy-900 mb-3">
-                  {currentData?.title}
-                </h1>
-              </div>
-              <div className="w-full h-full bg-pink-50 rounded-md mb-4">
+              <div className="w-full bg-white rounded-lg lg:mt-10 lg:py-4 z-10 lg:col-span-4">
                 <Image
-                  src={currentData?.thumbnail || ""}
+                  src="https://s3-alpha-sig.figma.com/img/9f8e/17f8/0d6b3369d3a841ae41f699ffbe191bbf?Expires=1740960000&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=dQhpBYG6d3d0hXipXWeyelqAIhU6jhxM0dDJ5jdNIpq1ehjUS2X2RS1iSHWcQZkUGtYPmLgyX~Ouav~wFju4mF7fm7X80w~JbuRLZkp6Nx8h0nLiSwOYpsu7yvG2X~FdagZ4NzPv5ZI3DtL9nslmlcHPKDsx~lKEJcGA8Gbnn61scEtEIH7yZUi~pqiF7Wmb1vRYhplIeXHYUWOEWQG9Tr~x4WoOY3TVerdjniHI9vqxgErEwc97mMasvUmvLDYOPBQoOeHhkrn5f5f4hQN8mROTBokByXtyPjslx571PlmXdmwis7X8cL7tKqDRcZY09RQ6X0YEVRENBE9f5nYr8A__"
                   alt="Products Banner"
-                  className="object-cover rounded-lg"
-                  width={1000}
-                  height={500}
+                  className="hidden lg:flex w-[400px] h-[140px] object-cover rounded-md mb-10 lg:mb-0"
+                  width={400}
+                  height={140}
                 />
-              </div>
-              <div className="w-full mt-4 pt-3 z-10 text-justify">
-                <div
-                  dangerouslySetInnerHTML={{ __html: currentData?.content }}
-                />
-              </div>
-            </div>
-            <div className="w-full bg-white rounded-lg lg:mt-10 lg:py-4 z-10 lg:col-span-4">
-              <Image
-                src="https://s3-alpha-sig.figma.com/img/9f8e/17f8/0d6b3369d3a841ae41f699ffbe191bbf?Expires=1740960000&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=dQhpBYG6d3d0hXipXWeyelqAIhU6jhxM0dDJ5jdNIpq1ehjUS2X2RS1iSHWcQZkUGtYPmLgyX~Ouav~wFju4mF7fm7X80w~JbuRLZkp6Nx8h0nLiSwOYpsu7yvG2X~FdagZ4NzPv5ZI3DtL9nslmlcHPKDsx~lKEJcGA8Gbnn61scEtEIH7yZUi~pqiF7Wmb1vRYhplIeXHYUWOEWQG9Tr~x4WoOY3TVerdjniHI9vqxgErEwc97mMasvUmvLDYOPBQoOeHhkrn5f5f4hQN8mROTBokByXtyPjslx571PlmXdmwis7X8cL7tKqDRcZY09RQ6X0YEVRENBE9f5nYr8A__"
-                alt="Products Banner"
-                className="hidden lg:flex w-[400px] h-[140px] object-cover rounded-md mb-10 lg:mb-0"
-                width={400}
-                height={140}
-              />
-              <div className="font-semibold text-xl mb-4 mt-1">
-                BÀI VIẾT LIÊN QUAN
-              </div>
-              <div className="grid grid-flow-col grid-rows-4 gap-4">
-                {blogs
-                  ?.filter(
-                    (blog: any) => HELPER.getLastFourChars(blog?._id) !== id
-                  )
-                  ?.slice(0, 4)
-                  ?.map((blogs: Blog, index: any) => (
-                    <div key={index}>
-                      <Link
-                        href={`${ROUTES.BLOG}/${HELPER.getLastFourChars(
-                          blogs?._id
-                        )}?b=${HELPER.convertSpacesToDash(blogs?.title)}`}
-                      >
-                        <div className="grid grid-cols-12 gap-6">
-                          <div className="col-span-4">
-                            <Image
-                              className="h-[100px] object-cover rounded-lg"
-                              src={blogs?.thumbnail || ""}
-                              alt="image"
-                              width={400}
-                              height={200}
-                            />
-                          </div>
-                          <div className="flex flex-col justify-between col-span-8">
-                            <div className="">
-                              <p className="font-bold text-[15px] leading-5 line-clamp-2">
-                                {blogs?.title}
-                              </p>
+                <div className="font-semibold text-xl mb-4 mt-1">
+                  BÀI VIẾT LIÊN QUAN
+                </div>
+                <div className="grid grid-flow-col grid-rows-4 gap-4">
+                  {blogs
+                    ?.filter(
+                      (blog: any) => HELPER.getLastFourChars(blog?._id) !== id
+                    )
+                    ?.slice(0, 4)
+                    ?.map((blogs: Blog, index: any) => (
+                      <div key={index}>
+                        <Link
+                          href={`${ROUTES.BLOG}/${HELPER.getLastFourChars(
+                            blogs?._id
+                          )}?b=${HELPER.convertSpacesToDash(blogs?.title)}`}
+                        >
+                          <div className="grid grid-cols-12 gap-6">
+                            <div className="col-span-4">
+                              <Image
+                                className="h-[100px] object-cover rounded-lg"
+                                src={blogs?.thumbnail || ""}
+                                alt="image"
+                                width={400}
+                                height={200}
+                              />
                             </div>
-                            <div className="flex flex-col lg:flex-row items-start lg:items-center text-sm text-gray-500 gap-2 lg:gap-4">
-                              <div className="flex items-center gap-1">
-                                <Calendar className="w-4 h-4" />
-                                <span className="text-md ml-0.5">
-                                  {HELPER.formatDate(blogs?.created_at)}
-                                </span>
+                            <div className="flex flex-col justify-between col-span-8">
+                              <div className="">
+                                <p className="font-bold text-[15px] leading-5 line-clamp-2">
+                                  {blogs?.title}
+                                </p>
                               </div>
-                              <div className="flex items-center gap-1">
-                                <PencilLine className="w-4 h-4" />
-                                <span className="text-md ml-0.5">
-                                  {blogs?.author}
-                                </span>
+                              <div className="flex flex-col lg:flex-row items-start lg:items-center text-sm text-gray-500 gap-2 lg:gap-4">
+                                <div className="flex items-center gap-1">
+                                  <Calendar className="w-4 h-4" />
+                                  <span className="text-md ml-0.5">
+                                    {HELPER.formatDate(blogs?.created_at)}
+                                  </span>
+                                </div>
+                                <div className="flex items-center gap-1">
+                                  <PencilLine className="w-4 h-4" />
+                                  <span className="text-md ml-0.5">
+                                    {blogs?.author}
+                                  </span>
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      </Link>
-                    </div>
-                  ))}
+                        </Link>
+                      </div>
+                    ))}
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
       <Footer />
     </div>
   );

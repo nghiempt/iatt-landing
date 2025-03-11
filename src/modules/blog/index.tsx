@@ -145,99 +145,75 @@ export default function BlogClient() {
           <h1 className="text-xl lg:text-3xl font-bold text-navy-900 pb-3">
             BÀI VIẾT MỚI NHẤT
           </h1>
-          <Link
-            href={`${ROUTES.BLOG}/${HELPER.getLastFourChars(
-              featuredPost?._id
-            )}?b=${HELPER.convertSpacesToDash(featuredPost?.title)}`}
-          >
-            <Card className="cursor-pointer overflow-hidden mb-8">
-              {" "}
-              <div className="grid lg:hidden">
-                <GlobalComponent.BlogCard
-                  key={1}
-                  id={featuredPost?._id}
-                  image={featuredPost?.thumbnail}
-                  title={featuredPost?.title}
-                  excerpt={featuredPost?.excerpt}
-                  date={HELPER.formatDate(featuredPost?.created_at)}
-                  author={featuredPost?.author}
-                  isMain={true}
-                />
-              </div>
-              <div className="hidden lg:grid grid-cols-1 md:grid-cols-2 gap-6 bg-white rounded-lg overflow-hidden shadow-sm">
-                <div className="relative h-auto">
-                  <Image
-                    src={featuredPost?.thumbnail}
-                    alt={featuredPost?.title}
-                    width={1000}
-                    height={200}
-                    objectFit="cover"
-                    priority
-                    className="rounded-lg"
-                  />
-                </div>
-                <div className="p-4 md:px-6 lg:p-0 flex flex-col">
-                  <div>
-                    <h2 className="text-xl font-semibold mb-2">
-                      <a className="text-gray-800 hover:text-gray-600">
-                        {featuredPost?.title}
-                      </a>
-                    </h2>
-                    <p className="text-gray-600 mb-4 line-clamp-2 lg:line-clamp-none">
-                      {featuredPost?.excerpt}
-                    </p>
-                  </div>
-                  <div className="flex items-center text-sm text-gray-500">
-                    <Calendar className="w-4 h-4" />
-                    <span className="mr-3 ml-1">
-                      {HELPER.formatDate(featuredPost?.created_at)}
-                    </span>
-                    <PencilLine className="w-4 h-4" />
-                    <span className="ml-1">{featuredPost?.author}</span>
-                  </div>
-                </div>
-              </div>
-            </Card>
-          </Link>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {regularPosts.map((blog: any, index: any) => (
-              <Link
-                key={index}
-                href={`${ROUTES.BLOG}/${HELPER.getLastFourChars(
-                  blog?._id
-                )}?b=${HELPER.convertSpacesToDash(blog?.title)}`}
-              >
-                <GlobalComponent.BlogCard
-                  id={blog?._id}
-                  image={blog?.thumbnail}
-                  title={blog?.title}
-                  excerpt={blog?.excerpt}
-                  date={HELPER.formatDate(blog?.created_at)}
-                  author={blog?.author}
-                  isMain={true}
-                />
-              </Link>
-            ))}
-          </div>
-          <h1 className="text-xl lg:text-3xl font-bold text-navy-900 pt-8 pb-4">
-            TẤT CẢ BÀI VIẾT
-          </h1>
           {isLoading ? (
             <div className="w-full flex justify-center items-center py-40">
               <Loader className="animate-spin" size={32} />
             </div>
           ) : (
-            <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-x-6 lg:gap-y-2">
-              {blogs?.map((blog: any, index: any) => (
-                <Link
-                  key={index}
-                  href={`${ROUTES.BLOG}/${HELPER.getLastFourChars(
-                    blog?._id
-                  )}?b=${HELPER.convertSpacesToDash(blog?.title)}`}
-                >
-                  <div className="mb-6">
+            <>
+              <Link
+                href={`${ROUTES.BLOG}/${HELPER.getLastFourChars(
+                  featuredPost?._id
+                )}?b=${HELPER.convertSpacesToDash(featuredPost?.title)}`}
+              >
+                <Card className="cursor-pointer overflow-hidden mb-8">
+                  {" "}
+                  <div className="grid lg:hidden">
                     <GlobalComponent.BlogCard
-                      key={index}
+                      key={1}
+                      id={featuredPost?._id}
+                      image={featuredPost?.thumbnail}
+                      title={featuredPost?.title}
+                      excerpt={featuredPost?.excerpt}
+                      date={HELPER.formatDate(featuredPost?.created_at)}
+                      author={featuredPost?.author}
+                      isMain={true}
+                    />
+                  </div>
+                  <div className="hidden lg:grid grid-cols-1 md:grid-cols-2 gap-6 bg-white rounded-lg overflow-hidden shadow-sm">
+                    <div className="relative h-auto">
+                      <Image
+                        src={featuredPost?.thumbnail}
+                        alt={featuredPost?.title}
+                        width={1000}
+                        height={200}
+                        objectFit="cover"
+                        priority
+                        className="rounded-lg"
+                      />
+                    </div>
+                    <div className="p-4 md:px-6 lg:p-0 flex flex-col">
+                      <div>
+                        <h2 className="text-xl font-semibold mb-2">
+                          <a className="text-gray-800 hover:text-gray-600">
+                            {featuredPost?.title}
+                          </a>
+                        </h2>
+                        <p className="text-gray-600 mb-4 line-clamp-2 lg:line-clamp-none">
+                          {featuredPost?.excerpt}
+                        </p>
+                      </div>
+                      <div className="flex items-center text-sm text-gray-500">
+                        <Calendar className="w-4 h-4" />
+                        <span className="mr-3 ml-1">
+                          {HELPER.formatDate(featuredPost?.created_at)}
+                        </span>
+                        <PencilLine className="w-4 h-4" />
+                        <span className="ml-1">{featuredPost?.author}</span>
+                      </div>
+                    </div>
+                  </div>
+                </Card>
+              </Link>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {regularPosts.map((blog: any, index: any) => (
+                  <Link
+                    key={index}
+                    href={`${ROUTES.BLOG}/${HELPER.getLastFourChars(
+                      blog?._id
+                    )}?b=${HELPER.convertSpacesToDash(blog?.title)}`}
+                  >
+                    <GlobalComponent.BlogCard
                       id={blog?._id}
                       image={blog?.thumbnail}
                       title={blog?.title}
@@ -246,10 +222,37 @@ export default function BlogClient() {
                       author={blog?.author}
                       isMain={true}
                     />
-                  </div>
-                </Link>
-              ))}
-            </div>
+                  </Link>
+                ))}
+              </div>
+              <h1 className="text-xl lg:text-3xl font-bold text-navy-900 pt-8 pb-4">
+                TẤT CẢ BÀI VIẾT
+              </h1>
+
+              <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-x-6 lg:gap-y-2">
+                {blogs?.map((blog: any, index: any) => (
+                  <Link
+                    key={index}
+                    href={`${ROUTES.BLOG}/${HELPER.getLastFourChars(
+                      blog?._id
+                    )}?b=${HELPER.convertSpacesToDash(blog?.title)}`}
+                  >
+                    <div className="mb-6">
+                      <GlobalComponent.BlogCard
+                        key={index}
+                        id={blog?._id}
+                        image={blog?.thumbnail}
+                        title={blog?.title}
+                        excerpt={blog?.excerpt}
+                        date={HELPER.formatDate(blog?.created_at)}
+                        author={blog?.author}
+                        isMain={true}
+                      />
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </>
           )}
         </div>
       </div>

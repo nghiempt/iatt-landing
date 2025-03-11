@@ -83,7 +83,12 @@ const ImageUpload = ({
   };
 
   return (
-    <div className={cn("flex justify-center", className)}>
+    <div
+      className={cn(
+        "flex justify-center lg:!justify-start lg:items-start",
+        className
+      )}
+    >
       <input
         type="file"
         ref={fileInputRef}
@@ -92,7 +97,7 @@ const ImageUpload = ({
         className="hidden"
       />
       {!preview ? (
-        <>
+        <div className="flex justify-center  !w-full lg:!w-80">
           <div
             onClick={handleClick}
             onDragOver={handleDragOver}
@@ -121,7 +126,7 @@ const ImageUpload = ({
               <span className="text-xs mt-1">hoặc kéo thả ảnh vào đây</span>
             </div>
           </div>
-        </>
+        </div>
       ) : (
         <div
           className="relative group h-[340px] lg:h-full"

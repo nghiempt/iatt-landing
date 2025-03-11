@@ -39,32 +39,36 @@ const Footer = () => {
                   <Image
                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/768px-Facebook_Logo_%282019%29.png"
                     alt="alt"
-                    width={24}
-                    height={24}
+                    width={1000}
+                    height={1000}
+                    className="w-7 h-7 lg:w-9 lg:h-9"
                   />
                 </Link>
                 <Link href="/" className="text-gray-900 hover:text-gray-700">
                   <Image
                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Icon_of_Zalo.svg/2048px-Icon_of_Zalo.svg.png"
                     alt="alt"
-                    width={24}
-                    height={24}
+                    width={1000}
+                    height={1000}
+                    className="w-7 h-7 lg:w-9 lg:h-9"
                   />
                 </Link>
                 <Link href="/">
                   <Image
                     src="https://banner2.cleanpng.com/20231123/xjc/transparent-tiktok-logo-black-and-white-logo-tiktok-app-minima-minimalist-black-and-white-tiktok-app-1711004158896.webp"
                     alt="alt"
-                    width={24}
-                    height={24}
+                    width={1000}
+                    height={1000}
+                    className="w-7 h-7 lg:w-9 lg:h-9"
                   />
                 </Link>
                 <Link href="/">
                   <Image
                     src="https://tiemquatiko.com/wp-content/uploads/2022/08/shopee-circle-logo-design-shopping-bag-13.png"
                     alt="alt"
-                    width={24}
-                    height={24}
+                    width={1000}
+                    height={1000}
+                    className="w-7 h-7 lg:w-9 lg:h-9"
                   />
                 </Link>
               </div>

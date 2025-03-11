@@ -1014,7 +1014,7 @@ const CreateOrderSingleSection = () => {
             <h2 className="text-lg lg:text-xl font-medium mb-1">
               Thông tin sản phẩm
             </h2>
-            <div className="bg-gray-50 border border-gray-300 text-black rounded-lg block w-full my-1">
+            <div className="bg-gray-50 border border-gray-300 text-black rounded-lg block w-full mt-1 mb-2">
               <Dialog>
                 <DialogTrigger asChild>
                   <div className="cursor-pointer flex flex-row justify-between items-center gap-4 p-2 bg-white rounded-lg">
@@ -1098,7 +1098,7 @@ const CreateOrderSingleSection = () => {
                   {!currentImage.startsWith("http") &&
                   selectedProduct !== "Chon san pham" &&
                   !uploadedFile ? (
-                    <div className="mt-3 lg:mt-0">
+                    <div className="mt-3 lg:mt-0 w-full">
                       <ImageUpload
                         onImageChange={handleImageUpload}
                         selectedColor={selectedColor}
@@ -1581,7 +1581,7 @@ const CreateOrderSingleSection = () => {
                   </h2>
                   <textarea
                     placeholder="Ghi chú về đơn hàng (Nếu có)"
-                    className="w-full p-3 border border-gray-300 rounded h-24"
+                    className="w-full p-3 border border-gray-300 rounded h-24 focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
                   ></textarea>
                 </div>
               </>
@@ -1648,7 +1648,7 @@ const CreateOrderSingleSection = () => {
                           <input
                             type="text"
                             placeholder="Nhập mã khuyến mãi"
-                            className={`w-full border border-gray-300 rounded p-2 text-sm no-focus-ring ${
+                            className={`w-full border border-gray-300 rounded p-2 text-sm focus:border-black focus:outline-none focus:ring-0 focus:ring-black ${
                               isValid === false
                                 ? "border-none"
                                 : isValid === true
