@@ -620,7 +620,7 @@ export default function AccountAddress() {
                   <div className="mt-8 flex justify-center items-center">
                     <Button
                       type="submit"
-                      className="w-full lg:w-64 py-2 px-4 mt-2 bg-[rgb(var(--primary-rgb))]  hover:bg-[rgb(var(--secondary-rgb))] text-white font-medium rounded-md transition-colors"
+                      className="text-[16px] w-full lg:w-64 py-2 px-4 mt-2 bg-[rgb(var(--primary-rgb))]  hover:bg-[rgb(var(--secondary-rgb))] text-white font-medium rounded-md transition-colors"
                     >
                       Lưu thay đổi
                       {loading && <Loader className="animate-spin" size={48} />}

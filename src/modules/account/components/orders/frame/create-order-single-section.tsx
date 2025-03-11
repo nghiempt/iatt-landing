@@ -1161,7 +1161,7 @@ const CreateOrderSingleSection = () => {
                       className="flex justify-center items-center mt-5 lg:mt-0"
                       onClick={handleCheckChange}
                     >
-                      <div className="text-white flex flex-row justify-center items-center gap-4 w-full py-2 px-7 lg:py-4 bg-yellow-400 hover:bg-yellow-500 text-center rounded-md font-medium transition cursor-pointer">
+                      <div className="text-white flex flex-row justify-center items-center gap-4 w-full py-2 px-7 lg:py-4 bg-[rgb(var(--primary-rgb))] hover:bg-[rgb(var(--primary-rgb))] text-center rounded-md font-medium transition cursor-pointer">
                         Tùy chọn kích thước, màu sắc
                       </div>
                     </div>
@@ -1499,7 +1499,7 @@ const CreateOrderSingleSection = () => {
                       <div
                         className={`cursor-pointer w-5 h-5 rounded-full mr-2 ${
                           selectedPayment === "cash"
-                            ? "border border-gray-200 bg-yellow-500"
+                            ? "border border-gray-200 bg-[rgb(var(--primary-rgb))]"
                             : "border border-gray-200"
                         }`}
                       ></div>
@@ -1516,7 +1516,7 @@ const CreateOrderSingleSection = () => {
                           <div
                             className={`cursor-pointer w-5 h-5 rounded-full mr-2 ${
                               selectedPayment === "bank"
-                                ? "border border-gray-200 bg-yellow-500"
+                                ? "border border-gray-200 bg-[rgb(var(--primary-rgb))]"
                                 : "border border-gray-200"
                             }`}
                           ></div>
@@ -1625,7 +1625,7 @@ const CreateOrderSingleSection = () => {
                   <DialogTrigger asChild>
                     <div className="">
                       {!isValid ? (
-                        <div className="cursor-pointer text-white text-sm flex flex-row justify-center items-center gap-4 w-full mx-auto py-2 px-5 lg:py-2 bg-yellow-400 hover:bg-yellow-500 text-center rounded-md font-medium transition">
+                        <div className="cursor-pointer text-white text-sm flex flex-row justify-center items-center gap-4 w-full mx-auto py-2 px-5 lg:py-2 bg-[rgb(var(--primary-rgb))] hover:bg-[rgb(var(--primary-rgb))] text-center rounded-md font-medium transition">
                           Nhập mã
                         </div>
                       ) : (
@@ -1666,7 +1666,7 @@ const CreateOrderSingleSection = () => {
                     </DialogHeader>
                     <DialogClose>
                       <div
-                        className={`w-full px-5 py-2 mx-auto text-white bg-yellow-400 hover:bg-yellow-500 text-center rounded-md font-semibold cursor-pointer ${
+                        className={`w-full px-5 py-2 mx-auto text-white bg-[rgb(var(--primary-rgb))] hover:bg-[rgb(var(--primary-rgb))] text-center rounded-md font-medium cursor-pointer ${
                           isChecking ? "opacity-50 cursor-not-allowed" : ""
                         }`}
                         onClick={!isChecking ? handleCheckDiscount : undefined}
@@ -1711,7 +1711,7 @@ const CreateOrderSingleSection = () => {
           <div className="flex flex-row justify-between items-center mt-6">
             <button
               onClick={() => handleSubmit()}
-              className="text-white flex flex-row justify-center items-center gap-4 w-full mx-auto py-2 lg:py-4 bg-yellow-400 hover:bg-yellow-500 text-center rounded-md font-medium transition"
+              className="text-white flex flex-row justify-center items-center gap-4 w-full mx-auto py-2 lg:py-4 bg-[rgb(var(--primary-rgb))] hover:bg-[rgb(var(--primary-rgb))] text-center rounded-md font-medium transition"
             >
               {isLoading ? "Đang xử lí đơn hàng..." : "Đặt hàng"}
             </button>
