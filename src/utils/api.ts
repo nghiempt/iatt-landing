@@ -32,10 +32,18 @@ const ORDER = {
   DISCOUNT_CHECK: `${BASE_URL}/inanhtructuyen/discount/`,
 };
 
+const MOBILE = {
+  SMOOTH_SKIN: `${BASE_URL}/inanhtructuyen/helper/smooth-skin`,
+  REMOVE_BACKGROUND: `${BASE_URL}/inanhtructuyen/helper/background-remove`,
+  INCREASE_QUALITY: `${BASE_URL}/inanhtructuyen/helper/enhance`,
+  IMAGE_AI: `${BASE_URL}/inanhtructuyen/helper/image-ai`,
+};
+
 export const API = {
   AUTH,
   ACCOUNT,
   BLOG,
   PRODUCT,
   ORDER,
+  MOBILE,
 };

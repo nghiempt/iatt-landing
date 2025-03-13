@@ -10,4 +10,6 @@ export const ROUTES = {
   LOGIN: "/dang-nhap",
   REGISTER: "/dang-ky",
   ACCOUNT: "/tai-khoan",
+  APP_FRAME: "/app-frame",
+  APP_ALBUM: "/app-album",
 };

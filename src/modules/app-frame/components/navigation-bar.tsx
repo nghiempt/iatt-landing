@@ -1,78 +1,80 @@
 // components/NavigationBar.tsx
+import { IMAGES } from "@/utils/image";
+import { ROUTES } from "@/utils/route";
+import { Sparkles } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 interface NavItemProps {
   icon: React.ReactNode;
   label: string;
   active?: boolean;
+  path: string;
 }
 
-const NavItem: React.FC<NavItemProps> = ({ icon, label, active = false }) => {
+const NavItem: React.FC<NavItemProps> = ({
+  icon,
+  label,
+  active = false,
+  path,
+}) => {
   return (
-    <div className="flex flex-col items-center justify-center px-2">
-      <div className={`mb-1 ${active ? "text-black" : "text-gray-400"}`}>
-        {icon}
+    <Link href={path}>
+      <div className="flex flex-col items-center justify-center px-2">
+        <div className={`mb-1 ${active ? "text-black" : "text-gray-400"}`}>
+          {icon}
+        </div>
+        <span
+          className={`text-xs ${
+            active ? "text-black font-medium" : "text-gray-400"
+          }`}
+        >
+          {label}
+        </span>
       </div>
-      <span
-        className={`text-xs ${
-          active ? "text-black font-medium" : "text-gray-400"
-        }`}
-      >
-        {label}
-      </span>
-    </div>
+    </Link>
   );
 };
 
-const NavigationBar: React.FC = () => {
+interface NavigationBarProps {
+  action: string | null;
+}
+
+const NavigationBar: React.FC<NavigationBarProps> = ({ action }) => {
   return (
     <div className="w-full bg-white border-t border-gray-200 fixed bottom-0 left-0 right-0">
       <div className="flex justify-evenly items-center py-3">
         <NavItem
           icon={
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.5}
-                d="M10.5 6h3m-3 6h3m-3 6h3m4.5-12v12m0-12h-9m9 12h-9"
+            action === null ? (
+              <Image
+                src={IMAGES.FUNCTION_1_ACTION}
+                alt=""
+                width={1000}
+                height={1000}
+                className="w-5 h-5"
               />
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.5}
-                d="M18 6L6 18M6 6l12 12"
+            ) : (
+              <Image
+                src={IMAGES.FUNCTION_1}
+                alt=""
+                width={1000}
+                height={1000}
+                className="w-5 h-5"
               />
-            </svg>
+            )
           }
           label="Mịn da"
-          active={true}
+          active={action === null}
+          path={`${ROUTES.APP_FRAME}`}
         />
 
         <NavItem
-          icon={
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.5}
-                d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"
-              />
-            </svg>
-          }
+          icon={<Sparkles size={20} />}
           label="Chất lượng"
+          active={action === "cl"}
+          path={`${ROUTES.APP_FRAME}?function=cl`}
         />
 
         <NavItem
@@ -93,6 +95,8 @@ const NavigationBar: React.FC = () => {
             </svg>
           }
           label="Xoá phông"
+          active={action === "xp"}
+          path={`${ROUTES.APP_FRAME}?function=xp`}
         />
 
         <NavItem
@@ -113,6 +117,8 @@ const NavigationBar: React.FC = () => {
             </svg>
           }
           label="Tạo với AI"
+          active={action === "ai"}
+          path={`${ROUTES.APP_FRAME}?function=ai`}
         />
       </div>
     </div>

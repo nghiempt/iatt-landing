@@ -33,7 +33,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { DialogHeader } from "@/components/ui/dialog";
-import { Loader } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Cropper from "react-easy-crop";
 import { IMAGES } from "@/utils/image";

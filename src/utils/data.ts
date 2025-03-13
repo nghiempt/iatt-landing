@@ -45,7 +45,25 @@ const REVIEWS = [
   },
 ];
 
+const BACKGROUND = [
+  {
+    id: 1,
+    name: "Fuji",
+    url: "https://res.cloudinary.com/farmcode/image/upload/v1741887045/iatt/fuji-five-lakes-66c1c9_yufmzt.webp",
+  },
+  {
+    id: 2,
+    name: "Eiffel",
+    url: "https://res.cloudinary.com/farmcode/image/upload/v1741882899/iatt/eiffel_dqme1q.png",
+  },
+  {
+    id: 3,
+    name: "Golden Bridge",
+    url: "https://res.cloudinary.com/farmcode/image/upload/v1741887108/iatt/golden_zy4p2a.png",
+  },
+];
 export const DATA = {
   REVIEWS,
   CATEGORIES,
+  BACKGROUND,
 };
