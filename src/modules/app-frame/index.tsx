@@ -2,6 +2,7 @@
 
 import { Upload } from "lucide-react";
 import React from "react";
+import NavigationBar from "./components/navigation-bar";
 
 export default function AppFrameClient() {
   return (
@@ -16,7 +17,7 @@ export default function AppFrameClient() {
           </div>
         </main>
         <footer className="w-full bg-gray-800 text-white p-4 text-center">
-          <h1 className="text-xl font-bold">Bottom Bar</h1>
+          <NavigationBar />
         </footer>
       </div>
     </div>
