@@ -12,6 +12,7 @@ import { DATA } from "@/utils/data";
 import Image from "next/image";
 import ImageProcessing from "./components/image-processing";
 import ImageComposer from "./components/compile-image";
+import { IMAGES } from "@/utils/image";
 
 export default function AppFrameClient() {
   const searchParams = useSearchParams();
@@ -79,7 +80,9 @@ export default function AppFrameClient() {
       ]);
 
       let response;
-      if (tab === "cl") {
+      if (tab === null) {
+        response = await MobileService.smoothSkin(upload[0].secure_url);
+      } else if (tab === "cl") {
         response = await MobileService.increaseQuality(upload[0].secure_url);
       } else if (tab === "ai") {
         response = await MobileService.imageAI(upload[0].secure_url);
@@ -127,42 +130,57 @@ export default function AppFrameClient() {
           </div>
         </div>
       )}
-      <div className="w-full h-screen flex flex-col">
-        <header className="w-full bg-[#645bff] text-white p-2 text-center">
+      <Image
+        src={IMAGES.BACKGROUND_MOBILE}
+        alt=""
+        fill
+        priority
+        objectFit="cover"
+        className="opacity-50 h-screen w-full absolute top-0 left-0 z-0"
+      />
+      <div className="w-full h-screen flex flex-col z-10">
+        <header className="w-full text-white pt-3 p-2 text-center">
           <div className="flex flex-row justify-between items-center">
             <div>
-              <ChevronLeft />
+              <ChevronLeft color="black" />
             </div>
             <div className="flex flex-row justify-center items-center gap-3 ml-12">
-              <Undo2 />
+              <Undo2 color="black" />
               <RefreshCcw
+                color="black"
                 onClick={() => {
                   handleRefresh();
                   setRefresh(!refresh);
                 }}
               />
-              <Undo2 className="scale-x-[-1] z-0" />
+              <Undo2 color="black" className="scale-x-[-1] z-0" />
             </div>
-            <div className="bg-white text-black font-medium text-sm px-3 py-2 rounded-lg">
+            <div className="bg-[#645bff] text-white font-medium text-sm px-3 py-2 rounded-lg">
               Tiếp tục
             </div>
           </div>
         </header>
         {/* MIN DA  */}
         {!tab && (
-          <main className="w-full h-screen flex flex-col justify-between bg-gray-100 p-4 overflow-auto">
+          <main className="w-full h-screen flex flex-col justify-between p-4 overflow-auto">
             <ImageUploadMobile
               onImageChange={handleImageUpload}
-              title={"Chọn hình ảnh bạn muốn làm mịn"}
+              title={"Chọn hình ảnh bạn muốn tăng chất lượng"}
+              newImage={currentImage ?? undefined}
             />
-            <div className="font-medium bg-[#645bff] rounded-lg py-3 text-center text-white mb-10">
-              Bắt đầu làm mịn
+            <div
+              onClick={handleSubmit}
+              className={`bg-[#645bff] rounded-lg py-3 text-center text-white mb-10 ${
+                loading ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
+              }`}
+            >
+              {loading ? "Đang xử lý..." : "Bắt đầu làm mịn"}
             </div>
           </main>
         )}
         {/* CHAT LUONG  */}
         {tab === "cl" && (
-          <main className="w-full h-screen flex flex-col justify-between bg-gray-100 p-4 overflow-auto">
+          <main className="w-full h-screen flex flex-col justify-between p-4 overflow-auto">
             <ImageUploadMobile
               onImageChange={handleImageUpload}
               title={"Chọn hình ảnh bạn muốn tăng chất lượng"}
@@ -180,7 +198,7 @@ export default function AppFrameClient() {
         )}
         {/* XOA PHONG  */}
         {tab === "xp" && (
-          <main className="w-full h-screen flex flex-col justify-between bg-gray-100 p-4 overflow-auto">
+          <main className="w-full h-screen flex flex-col justify-between p-4 overflow-auto">
             {removeBackground && (
               <ImageComposer
                 foregroundImage={currentImage}
@@ -198,7 +216,7 @@ export default function AppFrameClient() {
               <div
                 className={`flex justify-center items-center w-14 h-full object-cover rounded-lg border-2 ${
                   selectedBackground === null
-                    ? "border-blue-500"
+                    ? "border-[#645bff]"
                     : "border-white"
                 } cursor-pointer`}
                 onClick={() => handleBackgroundSelect(null)}
@@ -219,7 +237,7 @@ export default function AppFrameClient() {
                     height={1000}
                     className={`w-14 h-full object-cover rounded-lg border-2 ${
                       selectedBackground === item.url
-                        ? "border-blue-500"
+                        ? "border-[#645bff]"
                         : "border-white"
                     }`}
                   />
@@ -238,7 +256,7 @@ export default function AppFrameClient() {
         )}
         {/* AI  */}
         {tab === "ai" && (
-          <main className="w-full h-screen flex flex-col justify-between bg-gray-100 p-4 overflow-auto">
+          <main className="w-full h-screen flex flex-col justify-between p-4 overflow-auto">
             <ImageUploadMobile
               onImageChange={handleImageUpload}
               title={"Chọn hình ảnh bạn muốn tạo với AI"}

@@ -43,7 +43,7 @@ interface NavigationBarProps {
 
 const NavigationBar: React.FC<NavigationBarProps> = ({ action }) => {
   return (
-    <div className="w-full bg-white border-t border-gray-200 fixed bottom-0 left-0 right-0">
+    <div className="w-full border-t border-gray-400 fixed bottom-0 left-0 right-0">
       <div className="flex justify-evenly items-center py-3">
         <NavItem
           icon={

@@ -1,5 +1,31 @@
 import { API } from "@/utils/api";
 
+const smoothSkin = async (image: string) => {
+  try {
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const payload = JSON.stringify({
+      image_url: image,
+      format: "JPG",
+    });
+
+    const response = await fetch(`${API.MOBILE.SMOOTH_SKIN}`, {
+      method: "POST",
+      headers: myHeaders,
+      body: payload,
+      redirect: "follow",
+    });
+    if (!response.ok) {
+      throw new Error(`Failed - Status: ${response.status}`);
+    }
+    return response.json();
+  } catch (error: any) {
+    console.error("========= Error Smooth Skin Check:", error);
+    return false;
+  }
+};
+
 const increaseQuality = async (image: string) => {
   try {
     const myHeaders = new Headers();
@@ -78,6 +104,7 @@ const removeBackground = async (image: string) => {
 };
 
 export const MobileService = {
+  smoothSkin,
   increaseQuality,
   imageAI,
   removeBackground,
