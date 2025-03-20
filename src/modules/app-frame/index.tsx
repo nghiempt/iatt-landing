@@ -119,7 +119,7 @@ export default function AppFrameClient() {
     <div className="relative w-full flex flex-col justify-center items-center">
       {/* PROCESSING  */}
       {loading && (
-        <div className="absolute top-0 left-0 right-0 bottom-0 z-10">
+        <div className="absolute top-0 left-0 right-0 bottom-0 z-20">
           <div className="w-full h-screen bg-black bg-opacity-50 flex flex-col gap-10 justify-center items-center">
             <div className="bg-white px-7 py-8 rounded-lg flex flex-col items-center gap-6">
               <ImageProcessing />

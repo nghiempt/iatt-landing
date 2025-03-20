@@ -128,13 +128,14 @@ const CreateOrderSingleSection = () => {
   const [wards, setWards] = React.useState<Ward[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const param = useSearchParams();
+  const frameImage = param.get("frameImage");
+  const [isFrameImageLoaded, setIsFrameImageLoaded] = useState(false);
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
   const [promoCode, setPromoCode] = useState("");
   const [currentImage, setCurrentImage] = React.useState("");
   const [products, setProducts] = useState([] as any);
   const [productsData, setProductsData] = useState({} as any);
   const [isLogin, setIsLogin] = useState(Cookies.get("isLogin"));
-  // const [orderNoLogin, setOrderNoLogin] = useState(false);
-  // const [orderNewAccount, setOrderNewAccount] = useState(false);
   const [selectedSize, setSelectedSize] = React.useState<string>("");
   const [customerAccount, setCustomerAccount] =
     useState<CustomerAccount | null>(null);
@@ -297,6 +298,36 @@ const CreateOrderSingleSection = () => {
     }
   };
 
+  useEffect(() => {
+    const loadFrameImage = async () => {
+      const frameImageParam = param.get("frameImage");
+      if (frameImageParam && !isFrameImageLoaded) {
+        try {
+          const response = await fetch(frameImageParam, { mode: "cors" });
+          if (!response.ok) throw new Error("Failed to fetch image");
+          const blob = await response.blob();
+          const objectUrl = URL.createObjectURL(blob);
+          const file = new File([blob], "frame-image.jpg", { type: blob.type });
+
+          setUploadedFile(file);
+          setOriginalImage(objectUrl);
+          setCurrentImage(objectUrl);
+          setIsFrameImageLoaded(true);
+          setIsImageLoaded(true);
+        } catch (error) {
+          console.error("Error loading frame image:", error);
+          toast({
+            title: "Error",
+            description: "Failed to load frame image from URL",
+            variant: "destructive",
+          });
+        }
+      }
+    };
+
+    loadFrameImage();
+  }, [param, isFrameImageLoaded]);
+
   const validateForm = () => {
     if (selectedProduct === "Chon san pham") {
       toast({
@@ -383,15 +414,6 @@ const CreateOrderSingleSection = () => {
       return false;
     }
 
-    // if (!isValid) {
-    //   toast({
-    //     title: "",
-    //     description:
-    //       "Vui lòng nhập đúng mã giảm giá hoặc không dùng mã giảm giá!",
-    //     variant: "destructive",
-    //   });
-    //   return false;
-    // }
     return true;
   };
 
@@ -402,6 +424,7 @@ const CreateOrderSingleSection = () => {
       setOriginalImage(originalUrl);
       setCurrentImage(originalUrl);
       setCroppedImage(null);
+      setIsImageLoaded(true);
     }
   };
 
@@ -569,10 +592,6 @@ const CreateOrderSingleSection = () => {
   }, [formData.province, formData.district, provinces, formData.ward]);
 
   useEffect(() => {
-    // if (emailCookie) {
-    //   init(emailCookie);
-    // }
-
     const fetchAccount = async () => {
       if (isLogin) {
         try {
@@ -682,24 +701,75 @@ const CreateOrderSingleSection = () => {
   const [zoom, setZoom] = useState(1);
   const [croppedImage, setCroppedImage] = useState<string | null>(null);
 
+  // const onCropComplete = useCallback(
+  //   async (croppedArea: any, croppedAreaPixels: any) => {
+  //     if (!uploadedFile) return;
+
+  //     try {
+  //       const canvas = document.createElement("canvas");
+  //       const ctx = canvas.getContext("2d");
+  //       const image = new window.Image();
+  //       image.src = originalImage || URL.createObjectURL(uploadedFile);
+
+  //       await new Promise((resolve) => {
+  //         image.onload = resolve;
+  //       });
+
+  //       canvas.width = croppedAreaPixels.width;
+  //       canvas.height = croppedAreaPixels.height;
+
+  //       ctx?.drawImage(
+  //         image,
+  //         croppedAreaPixels.x,
+  //         croppedAreaPixels.y,
+  //         croppedAreaPixels.width,
+  //         croppedAreaPixels.height,
+  //         0,
+  //         0,
+  //         croppedAreaPixels.width,
+  //         croppedAreaPixels.height
+  //       );
+
+  //       const croppedImageUrl = canvas.toDataURL("image/jpeg");
+  //       setCroppedImage(croppedImageUrl);
+  //     } catch (error) {
+  //       console.error("Error cropping image:", error);
+  //       toast({
+  //         title: "Lỗi",
+  //         description: "Không thể xử lý hình ảnh",
+  //         variant: "destructive",
+  //       });
+  //     }
+  //   },
+  //   [uploadedFile, originalImage]
+  // );
+
   const onCropComplete = useCallback(
     async (croppedArea: any, croppedAreaPixels: any) => {
-      if (!uploadedFile) return;
+      if (!originalImage && !uploadedFile) return;
 
       try {
         const canvas = document.createElement("canvas");
         const ctx = canvas.getContext("2d");
         const image = new window.Image();
-        image.src = originalImage || URL.createObjectURL(uploadedFile);
 
-        await new Promise((resolve) => {
+        image.src = originalImage || URL.createObjectURL(uploadedFile!);
+
+        if (image.src.startsWith("http")) {
+          image.crossOrigin = "anonymous";
+        }
+
+        await new Promise((resolve, reject) => {
           image.onload = resolve;
+          image.onerror = () => reject(new Error("Failed to load image"));
         });
 
         canvas.width = croppedAreaPixels.width;
         canvas.height = croppedAreaPixels.height;
 
-        ctx?.drawImage(
+        if (!ctx) throw new Error("Canvas context not available");
+
+        ctx.drawImage(
           image,
           croppedAreaPixels.x,
           croppedAreaPixels.y,
@@ -717,7 +787,7 @@ const CreateOrderSingleSection = () => {
         console.error("Error cropping image:", error);
         toast({
           title: "Lỗi",
-          description: "Không thể xử lý hình ảnh",
+          description: "Không thể xử lý hình ảnh ",
           variant: "destructive",
         });
       }
@@ -1094,9 +1164,7 @@ const CreateOrderSingleSection = () => {
             {selectedProduct !== "Chon san pham" && (
               <div className="flex flex-col lg:flex-row justify-evenly lg:justify-between h-full lg:h-[260px] lg:mt-5">
                 <div className="flex justify-center items-center">
-                  {!currentImage.startsWith("http") &&
-                  selectedProduct !== "Chon san pham" &&
-                  !uploadedFile ? (
+                  {!currentImage && !uploadedFile && !frameImage ? (
                     <div className="mt-3 lg:mt-0 w-full">
                       <ImageUpload
                         onImageChange={handleImageUpload}
@@ -1105,20 +1173,67 @@ const CreateOrderSingleSection = () => {
                       />
                     </div>
                   ) : (
+                    // <>
+                    //   <div
+                    //     className={`relative ${
+                    //       selectedSize === "40x20"
+                    //         ? "w-full h-full lg:w-2/3 lg:h-2/3"
+                    //         : "w-full h-60"
+                    //     }  flex items-center justify-center overflow-hidden rounded-md mt-3`}
+                    //     style={getImageContainerStyle()}
+                    //   >
+                    //     <Image
+                    //       src={
+                    //         croppedImage
+                    //           ? croppedImage
+                    //           : uploadedFile
+                    //           ? URL.createObjectURL(uploadedFile)
+                    //           : currentImage || IMAGES.LOGO
+                    //       }
+                    //       alt="Selected product image"
+                    //       width={1000}
+                    //       height={1000}
+                    //       className={`object-cover ${
+                    //         selectedSize === "40x20"
+                    //           ? "w-full h-full"
+                    //           : "w-1/2 lg:w-full h-full"
+                    //       } ${
+                    //         selectedProduct !== "Chon san pham"
+                    //           ? "border-8"
+                    //           : ""
+                    //       } ${
+                    //         selectedColor === "white"
+                    //           ? "border-gray-100"
+                    //           : selectedColor === "black"
+                    //           ? "border-black"
+                    //           : selectedColor === "gold"
+                    //           ? "border-yellow-400"
+                    //           : selectedColor === "silver"
+                    //           ? "border-gray-200"
+                    //           : selectedColor === "wood"
+                    //           ? "border-yellow-950"
+                    //           : "border-gray-200"
+                    //       } rounded-md`}
+                    //       onError={(e) => {
+                    //         e.currentTarget.src = IMAGES.LOGO;
+                    //       }}
+                    //     />
+                    //   </div>
+                    // </>
                     <>
                       <div
                         className={`relative ${
                           selectedSize === "40x20"
                             ? "w-full h-full lg:w-2/3 lg:h-2/3"
                             : "w-full h-60"
-                        }  flex items-center justify-center overflow-hidden rounded-md mt-3`}
+                        } flex items-center justify-center overflow-hidden rounded-md mt-3`}
                         style={getImageContainerStyle()}
                       >
                         <Image
                           src={
                             croppedImage
                               ? croppedImage
-                              : uploadedFile
+                              : uploadedFile && !frameImage
                               ? URL.createObjectURL(uploadedFile)
                               : currentImage || IMAGES.LOGO
                           }
