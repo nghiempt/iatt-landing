@@ -269,7 +269,7 @@ export default function OrderAlbumCreate() {
   }, [albumPriceCover, albumPriceCore, promoCode]);
 
   const validateForm = () => {
-    if (!uploadedFile) {
+    if (!uploadedFile && selectedCoverId === "2") {
       toast({
         title: "",
         description: "Vui lòng tải lên một hình ảnh!",
