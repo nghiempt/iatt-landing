@@ -9,21 +9,7 @@ import Link from "next/link";
 import Sidebar from "../../sidebar";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
-import { AccountService } from "@/services/account";
-import { OrderService } from "@/services/order";
 import { HELPER } from "@/utils/helper";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  DialogClose,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { useCopyToClipboard } from "usehooks-ts";
 import { toast } from "@/hooks/use-toast";
 import { IMAGES } from "@/utils/image";
@@ -49,6 +35,15 @@ export interface Order {
   created_at: string;
   total: string;
   status: string;
+  order_type: string;
+  cover_image: string;
+  pages: number;
+  album_data: string[];
+  album_cover: string;
+  album_core: string;
+  payment_method: string;
+  discount_code: string;
+  discount_price: number;
   product_id: string;
   product_price: string;
   image: string;
@@ -314,7 +309,9 @@ export default function OrderHistory({
                         <div className="text-sm lg:text-base flex flex-col lg:flex-row justify-between items-start lg:items-center lg:gap-16">
                           <span>
                             Mã đơn hàng: <br />
-                            <strong>#{order?._id?.slice(-6)}</strong>
+                            <strong className="uppercase">
+                              #{order?._id?.slice(-6)}
+                            </strong>
                           </span>
                           <span>
                             Ngày đặt hàng: <br />
@@ -331,17 +328,23 @@ export default function OrderHistory({
                           />
                         </div>
                       </div>
-
                       <div className="w-full h-[1px] bg-gray-300 mb-4"></div>
-
                       <div className="flex flex-col lg:flex-row gap-3 lg:gap-0 items-center justify-center">
                         <div className="grid grid-cols-2 gap-4 items-start w-full h-full">
                           <Image
-                            src={order?.image}
+                            src={
+                              order?.order_type === "album"
+                                ? order?.album_data[0]
+                                : order?.image
+                            }
                             alt={order?.product_name}
                             width={1000}
                             height={1000}
-                            className="object-contain w-full h-40"
+                            className={`${
+                              order?.order_type === "album"
+                                ? "object-cover"
+                                : "object-contain"
+                            } w-full h-40`}
                           />
                           <div className="space-y-1 lg:w-full">
                             <h3 className="text-base lg:text-xl font-medium">
@@ -350,7 +353,9 @@ export default function OrderHistory({
                             <p className="text-sm text-black">
                               Phân loại:{" "}
                               <span className="font-semibold">
-                                {HELPER.renderCategory2(order?.product_price)}
+                                {order?.order_type === "album"
+                                  ? "Album"
+                                  : "Khung ảnh"}
                               </span>
                             </p>
                             <p className="text-sm text-black">
@@ -359,12 +364,22 @@ export default function OrderHistory({
                                 {order?.size}
                               </span>
                             </p>
-                            <p className="text-sm text-black">
-                              Màu:{" "}
-                              <span className="font-semibold">
-                                {HELPER.renderColor(order?.color)}
-                              </span>
-                            </p>
+                            {order?.order_type === "frame" && (
+                              <p className="text-sm text-black">
+                                Màu:{" "}
+                                <span className="font-semibold">
+                                  {HELPER.renderColor(order?.color)}
+                                </span>
+                              </p>
+                            )}
+                            {order?.order_type === "album" && (
+                              <p className="text-sm text-black">
+                                Số trang:{" "}
+                                <span className="font-semibold">
+                                  {order?.pages}
+                                </span>
+                              </p>
+                            )}
                           </div>
                         </div>
 
@@ -408,7 +423,11 @@ export default function OrderHistory({
                                   order?.status === "cancelled"
                                     ? "bg-red-500 text-white"
                                     : ""
-                                } lg:py-2 py-2 rounded-sm flex items-center justify-center text-center w-1/2 lg:w-72`}
+                                } lg:py-2 py-2 rounded-sm flex items-center justify-center text-center ${
+                                order?.status === "cancelled"
+                                  ? "w-full"
+                                  : "w-1/2"
+                              } lg:w-72`}
                             >
                               {order?.status === "completed" && "Hoàn thành"}
                               {order?.status === "paid pending" &&
@@ -425,16 +444,34 @@ export default function OrderHistory({
                           </div>
                         </div>
                       </div>
-                      <div className="flex flex-row justify-between items-center gap-4 mt-4">
+                      <div
+                        className={`flex flex-row ${
+                          order?.status === "cancelled"
+                            ? "justify-end"
+                            : "justify-between"
+                        } items-center gap-4 mt-4`}
+                      >
                         {order?.status === "waiting" && (
                           <CancelOrderModal
                             order={order}
                             customerAccount={customerAccount}
                           />
                         )}
-                        <div className="flex flex-row justify-between items-center gap-4">
+                        <div
+                          className={`flex flex-row ${
+                            order?.status === "cancelled"
+                              ? "justify-end"
+                              : "justify-between"
+                          } items-center gap-4`}
+                        >
                           <p className="text-xl lg:text-xl font-semibold">
-                            {HELPER.formatVND(order?.total)}
+                            {HELPER.formatVND(
+                              String(
+                                order?.order_type === "frame"
+                                  ? order?.total
+                                  : Number(order?.total) - order?.discount_price
+                              )
+                            )}
                           </p>
                         </div>
                       </div>

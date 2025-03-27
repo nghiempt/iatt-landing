@@ -25,10 +25,13 @@ const BLOG = {
 
 const ORDER = {
   GET_ALL: `${BASE_URL}/inanhtructuyen/order/`,
-  GET_ORDER_BY_ID: `${BASE_URL}/inanhtructuyen/order/get-all`,
+  GET_ALL_ORDER_BY_ID: `${BASE_URL}/inanhtructuyen/order/get-all`,
+  GET_ORDER_BY_ID: `${BASE_URL}/inanhtructuyen/order`,
   UPDATE_ORDER: `${BASE_URL}/inanhtructuyen/order`,
   CREATE: `${BASE_URL}/inanhtructuyen/order/`,
   CREATE_NO_LOGIN: `${BASE_URL}/inanhtructuyen/order/no-login`,
+  CREATE_ALBUM: `${BASE_URL}/inanhtructuyen/order-album/`,
+  CREATE_ALBUM_NO_LOGIN: `${BASE_URL}/inanhtructuyen/order-album/no-login`,
   DISCOUNT_CHECK: `${BASE_URL}/inanhtructuyen/discount/`,
 };
 

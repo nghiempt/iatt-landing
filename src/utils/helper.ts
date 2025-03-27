@@ -73,6 +73,42 @@ const renderColor = (color: string) => {
   return result;
 };
 
+const renderAlbumCover = (color: string) => {
+  let result = "";
+  switch (color) {
+    case "bia-cung":
+      result = "Bìa cứng";
+      break;
+    case "bia-da":
+      result = "Bìa da";
+      break;
+    case "bia-goi":
+      result = "Bìa gói";
+      break;
+    default:
+      break;
+  }
+  return result;
+};
+
+const renderAlbumCore = (color: string) => {
+  let result = "";
+  switch (color) {
+    case "can-mang":
+      result = "Ruột cán màng";
+      break;
+    case "khong-can-mang":
+      result = "Ruột không cán màng";
+      break;
+    case "trang-guong":
+      result = "Ruột tráng gương";
+      break;
+    default:
+      break;
+  }
+  return result;
+};
+
 const calculateTotal = (money: string, ship: any, voucher: any) => {
   const number = Number(money);
   if (ship || voucher) {
@@ -114,4 +150,6 @@ export const HELPER = {
   renderColor,
   calculateTotal,
   calculateTotalNumber,
+  renderAlbumCover,
+  renderAlbumCore,
 };

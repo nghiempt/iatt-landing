@@ -31,7 +31,7 @@ interface Product {
 const OrderDetailModal = ({ order, customerAccount }: any) => {
   const [productPrice, setProductPrice] = useState<Number | 0>(0);
   const shippingFee = 30000;
-  const total = Number(productPrice) + shippingFee;
+  const totalFrame = Number(productPrice) + shippingFee;
   const [product, setProduct] = useState<Product | null>(null);
   const discountPrice = Number(
     (Number(productPrice) + shippingFee) * (order?.discount_price / 100)
@@ -84,7 +84,10 @@ const OrderDetailModal = ({ order, customerAccount }: any) => {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
-          <DialogTitle>Chi tiết đơn hàng #{order?._id?.slice(-6)}</DialogTitle>
+          <DialogTitle>
+            Chi tiết đơn hàng #
+            <span className="uppercase">{order?._id?.slice(-6)}</span>
+          </DialogTitle>
         </DialogHeader>
         <div className="flex items-center justify-center">
           <div className="bg-white rounded-lg w-full max-h-[70vh] overflow-y-auto scroll-bar-style">
@@ -142,39 +145,81 @@ const OrderDetailModal = ({ order, customerAccount }: any) => {
               </div>
             </div>
             <div className="px-0 py-4 border-b border-gray-200">
-              <div className="flex justify-center items-start gap-4">
+              <div className="flex flex-row justify-start items-start gap-4">
                 <div className="w-24 h-24 border border-gray-300 rounded">
                   <Image
-                    src={order?.image}
+                    src={
+                      order?.order_type === "album"
+                        ? order?.album_data[0]
+                        : order?.image
+                    }
                     alt="detail product"
                     width={1000}
                     height={1000}
-                    className="w-full h-full object-contain rounded"
+                    className={`${
+                      order?.order_type === "album"
+                        ? "object-cover"
+                        : "object-contain"
+                    } w-full h-full object-contain rounded`}
                   />
                 </div>
-                <div className="flex-1">
-                  <div className="text-sm text-gray-500">
-                    {order?.product_category}
-                  </div>
-                  <div className="text-xl font-medium mb-2">
-                    {order?.product_name}
-                  </div>
+                <div className="flex flex-col justify-start items-start">
+                  {order?.order_type === "frame" && (
+                    <>
+                      <div className="text-sm text-gray-500">
+                        {order?.product_category}
+                      </div>
+                      <div className="text-xl font-medium mb-2">
+                        {order?.product_name}
+                      </div>
+                    </>
+                  )}
                   <div className="font-base">
                     Phân loại:{" "}
                     <span className="font-semibold">
-                      {HELPER.renderCategory2(order?.product_price)}
+                      {order?.order_type === "album" ? "Album" : "Khung ảnh"}
                     </span>
                   </div>
                   <div className="text-black">
                     Kích thước:{" "}
                     <span className="font-semibold">{order?.size}</span>
                   </div>
-                  <div className="font-base ">
-                    Màu sắc:{" "}
-                    <span className="font-semibold">
-                      {HELPER.renderColor(order?.color)}
-                    </span>
-                  </div>
+                  {order?.order_type === "frame" && (
+                    <>
+                      <div className="font-base ">
+                        Màu:{" "}
+                        <span className="font-semibold">
+                          {HELPER.renderColor(order?.color)}
+                        </span>
+                      </div>
+                      <div className="font-base ">
+                        Loại khung:{" "}
+                        <span className="font-semibold">
+                          {HELPER.renderCategory2(order?.product_price)}
+                        </span>
+                      </div>
+                    </>
+                  )}
+                  {order?.order_type === "album" && (
+                    <>
+                      <div className="font-base ">
+                        Số trang:{" "}
+                        <span className="font-semibold">{order?.pages}</span>
+                      </div>
+                      <div className="font-base ">
+                        Bìa Album:{" "}
+                        <span className="font-semibold">
+                          {order?.album_cover}
+                        </span>
+                      </div>
+                      <div className="font-base ">
+                        Ruột Album:{" "}
+                        <span className="font-semibold">
+                          {order?.album_core}
+                        </span>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
@@ -203,7 +248,13 @@ const OrderDetailModal = ({ order, customerAccount }: any) => {
               <div className="flex justify-between py-2 border-b border-gray-200">
                 <div className="text-black px-0">Giá sản phẩm</div>
                 <div className="text-black">
-                  {HELPER.formatVND(String(product?.price))}
+                  {HELPER.formatVND(
+                    String(
+                      order?.order_type === "frame"
+                        ? product?.price
+                        : order?.album_price
+                    )
+                  )}
                 </div>
               </div>
               <div className="flex justify-between py-2 border-b border-gray-200">
@@ -213,13 +264,25 @@ const OrderDetailModal = ({ order, customerAccount }: any) => {
               <div className="flex justify-between py-2 border-b border-gray-200">
                 <div className="text-black px-0">Tạm tính</div>
                 <div className="text-black">
-                  {HELPER.formatVND(String(total))}
+                  {HELPER.formatVND(
+                    String(
+                      order?.order_type === "frame"
+                        ? totalFrame
+                        : order?.album_price + shippingFee
+                    )
+                  )}
                 </div>
               </div>
               <div className="flex justify-between py-2">
                 <div className="text-black px-0">Khuyến mãi</div>
                 <div className="text-red-500">
-                  {HELPER.formatVND(String(discountPrice))}
+                  {HELPER.formatVND(
+                    String(
+                      order?.order_type === "frame"
+                        ? discountPrice
+                        : order?.discount_price
+                    )
+                  )}
                 </div>
               </div>
             </div>
@@ -227,7 +290,13 @@ const OrderDetailModal = ({ order, customerAccount }: any) => {
               <div className="flex justify-between items-center">
                 <div className="text-lg font-base">Tổng đơn:</div>
                 <div className="text-xl font-bold">
-                  {HELPER.formatVND(String(order?.total))}
+                  {HELPER.formatVND(
+                    String(
+                      order?.order_type === "frame"
+                        ? order?.total
+                        : order?.total - order?.discount_price
+                    )
+                  )}
                 </div>
               </div>
             </div>

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import Header from "@/layout/header";
 import Footer from "@/layout/footer";
 import Link from "next/link";
-import { ChevronRight, Frame, Images } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { ROUTES } from "@/utils/route";
 import Image from "next/image";
 import Cookies from "js-cookie";
@@ -18,15 +18,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ProductService } from "@/services/product";
 import { toast } from "@/hooks/use-toast";
 import { UploadService } from "@/services/upload";
 import { OrderService } from "@/services/order";
 import { AccountService } from "@/services/account";
-import ImageUpload from "../frame/image-upload";
+import { useSearchParams } from "next/navigation";
 import { HELPER } from "@/utils/helper";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
@@ -72,32 +72,94 @@ export interface FormData extends UserData {
   district: number;
   province: number;
 }
+
+export interface CustomerAccount {
+  _id: string;
+  email: string;
+  password: string;
+  name: string;
+  phone: string;
+  avatar: string;
+  address: string;
+  ward: string;
+  district: string;
+  province: string;
+  role: string;
+  status: boolean;
+  created_at: string;
+  districtName: string;
+  provinceName: string;
+  wardName: string;
+}
+
+export interface FormDataOrder {
+  pages: string;
+  size: string;
+  album_data: any[];
+}
+
 export default function OrderAlbumCreate() {
-  const [uploadedFile, setUploadedFile] = React.useState<File | null>(null);
-  const [isPaper, setIsPaper] = React.useState(true);
-  const [paperType, setPaperType] = React.useState(1);
   const [openProvinces, setOpenProvinces] = useState(false);
   const [openDistrict, setOpenDistrict] = useState(false);
   const [openWard, setOpenWard] = useState(false);
   const [province, setProvince] = useState("");
   const [district, setDistrict] = useState("");
-  const [isLogin, setIsLogin] = useState(Cookies.get("isLogin"));
-  const [orderNoLogin, setOrderNoLogin] = useState(false);
-  const [products, setProducts] = useState([] as any);
-  const [productsData, setProductsData] = useState({} as any);
-  const [selectedPayment, setSelectedPayment] = React.useState<string>("cash");
   const [ward, setWard] = useState("");
-  const [promoCode, setPromoCode] = useState("");
   const [provinces, setProvinces] = React.useState<Province[]>([]);
   const [districts, setDistricts] = React.useState<District[]>([]);
   const [wards, setWards] = React.useState<Ward[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+
+  const pages = [
+    {
+      id: 1,
+      name: "can-mang",
+      price: 200000,
+    },
+    {
+      id: 2,
+      name: "khong-can-mang",
+      price: 100000,
+    },
+    {
+      id: 3,
+      name: "trang-guong",
+      price: 250000,
+    },
+  ];
+
+  const covers = [
+    {
+      id: 1,
+      name: "bia-goi",
+      price: 100000,
+    },
+    {
+      id: 2,
+      name: "bia-da",
+      price: 150000,
+    },
+    {
+      id: 3,
+      name: "bia-cung",
+      price: 120000,
+    },
+  ];
+
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [uploadedFile, setUploadedFile] = React.useState<File | null>(null);
   const [currentImage, setCurrentImage] = React.useState("");
-  const [selectedProduct, setSelectedProduct] =
-    React.useState<any>("Chon san pham");
-  const [selectedPage, setSelectedPage] = React.useState<any>("Chon loai ruot");
+  const [isPaper, setIsPaper] = React.useState(true);
+  const [paperType, setPaperType] = React.useState(1);
+  const [isLogin, setIsLogin] = useState(Cookies.get("isLogin"));
+  const [customerAccount, setCustomerAccount] =
+    useState<CustomerAccount | null>(null);
+  const [orderNoLogin, setOrderNoLogin] = useState(false);
+  const [selectedPayment, setSelectedPayment] = React.useState<string>("cash");
+  const [promoCode, setPromoCode] = useState("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [selectedCore, setSelectedCore] = React.useState<any>("chon-loai-ruot");
   const [selectedCover, setSelectedCover] =
-    React.useState<any>("Chon loai bia");
+    React.useState<any>("chon-loai-bia");
   const [formData, setFormData] = React.useState<FormData>({
     name: "",
     email: "",
@@ -108,53 +170,99 @@ export default function OrderAlbumCreate() {
     district: 0,
     province: 0,
   });
-  const pages = [
-    {
-      id: 1,
-      name: "Ruột cán màng",
-    },
-    {
-      id: 2,
-      name: "Ruột không cán màng",
-    },
-    {
-      id: 3,
-      name: "Ruột tráng gương",
-    },
-  ];
 
-  const covers = [
-    {
-      id: 1,
-      name: "Bìa gói",
-    },
-    {
-      id: 2,
-      name: "Bìa da",
-    },
-    {
-      id: 3,
-      name: "Bìa cứng",
-    },
-  ];
+  const [formDataOrder, setFormDataOrder] = React.useState<FormDataOrder>({
+    pages: "",
+    size: "",
+    album_data: [],
+  });
+  const param = useSearchParams();
+  const orderID = param.get("orderAlbumID");
+  const [albumPriceCover, setAlbumPriceCover] = React.useState(0);
+  const [albumPriceCore, setAlbumPriceCore] = React.useState(0);
+  const [totalPrice, setTotalPrice] = React.useState(0);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+  const handleCoreChange = (coreId: string) => {
+    const selectedCoreItem = pages.find((item) => String(item.id) === coreId);
+    setSelectedCore(selectedCoreItem ? selectedCoreItem.name : "");
 
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    const corePrice = selectedCoreItem ? selectedCoreItem.price : 0;
+    const coverItem = covers.find((item) => String(item.id) === selectedCover);
+
+    setAlbumPriceCore(corePrice);
   };
-  const validateForm = () => {
-    if (selectedProduct === "Chon san pham") {
+
+  const handleCoverChange = (coverId: string) => {
+    const selectedCoverItem = covers.find(
+      (item) => String(item.id) === coverId
+    );
+    setSelectedCover(selectedCoverItem ? selectedCoverItem.name : "");
+
+    const coverPrice = selectedCoverItem ? selectedCoverItem.price : 0;
+    const coreItem = pages.find((item) => String(item.id) === selectedCore);
+
+    setAlbumPriceCover(coverPrice);
+  };
+
+  const [isValid, setIsValid] = useState<boolean | null>(null);
+  const [isChecking, setIsChecking] = useState(false);
+  const [discountPercent, setDiscountPercent] = useState(0);
+  const discountPrice =
+    (Number(HELPER.calculateTotalNumber(String(totalPrice), "0", 0)) *
+      discountPercent) /
+    100;
+
+  const handleCheckDiscount = async () => {
+    if (promoCode === "") {
       toast({
         title: "",
-        description: "Vui lòng chọn một sản phẩm!",
+        description: "Vui lòng nhập mã giảm giá!",
         variant: "destructive",
       });
+      setIsValid(false);
+      setDiscountPercent(0);
       return false;
     }
+
+    try {
+      setIsChecking(true);
+      const valid = await OrderService.checkDiscount(promoCode);
+
+      if (valid?.data === "Discount code not found") {
+        setIsChecking(false);
+        setIsValid(false);
+        setDiscountPercent(0);
+        toast({
+          title: "",
+          description: "Mã giảm giá không tồn tại!",
+          variant: "destructive",
+        });
+        return false;
+      } else {
+        setIsValid(true);
+        setIsChecking(false);
+        setDiscountPercent(valid?.data?.percent);
+        toast({
+          title: "",
+          description: "Sử dụng mã giảm giá thành công!",
+          style: {
+            backgroundColor: "#22c55e",
+            color: "white",
+          },
+        });
+        return false;
+      }
+    } catch (error) {
+      console.error("Error checking discount:", error);
+    }
+  };
+
+  useEffect(() => {
+    const shippingFee = 30000;
+    setTotalPrice(albumPriceCover + albumPriceCore + shippingFee);
+  }, [albumPriceCover, albumPriceCore, promoCode]);
+
+  const validateForm = () => {
     if (!uploadedFile) {
       toast({
         title: "",
@@ -163,22 +271,6 @@ export default function OrderAlbumCreate() {
       });
       return false;
     }
-    // if (!selectedColor) {
-    //   toast({
-    //     title: "",
-    //     description: "Vui lòng chọn màu sắc!",
-    //     variant: "destructive",
-    //   });
-    //   return false;
-    // }
-    // if (!selectedSize) {
-    //   toast({
-    //     title: "",
-    //     description: "Vui lòng chọn kích thước!",
-    //     variant: "destructive",
-    //   });
-    //   return false;
-    // }
     if (!formData?.address) {
       toast({
         title: "",
@@ -228,7 +320,9 @@ export default function OrderAlbumCreate() {
   const handleSubmit = async () => {
     if (!validateForm()) return;
     setLoading(true);
+    let accountOrderLogin = false;
     try {
+      setIsLoading(true);
       const upload: any = await UploadService.uploadToCloudinary([
         uploadedFile,
       ]);
@@ -256,24 +350,27 @@ export default function OrderAlbumCreate() {
       };
 
       const orderData = {
-        product_id: selectedProduct,
-        image: upload[0]?.secure_url,
-        // color: selectedColor,
-        // size: selectedSize,
+        order_id: orderID,
+        order_type: "album",
+        cover_image: upload[0]?.secure_url || "",
+        album_cover: selectedCover || "",
+        album_core: selectedCore || "",
+        album_price: albumPriceCore + albumPriceCover,
         address: formData?.address || "",
         payment_method: selectedPayment || "",
-        total: products.find(
-          (pro: any) => pro._id.toString() === selectedProduct
-        )?.price,
+        discount_code: promoCode || "",
+        discount_price: discountPrice,
+        total: totalPrice,
       };
 
       let response;
       if (!isLogin) {
-        response = await OrderService.createOrder_no_login({
+        response = await OrderService.createOrderAlbum_no_login({
           account: commonAccountData,
           order: orderData,
         });
-        setOrderNoLogin(true);
+
+        accountOrderLogin = false;
         try {
           let data;
           if (/^\d+$/.test(response?.data?.phone)) {
@@ -287,13 +384,6 @@ export default function OrderAlbumCreate() {
               response?.data?.password
             );
           }
-
-          // if (response?.data?.isAccountExisted === true) {
-          //   setOrderNewAccount(false);
-          // } else {
-          //   setOrderNewAccount(true);
-          // }
-
           if (data?.message === "SUCCESS") {
             Cookies.set("isLogin", data?.data, { expires: 7 });
             Cookies.set("userLogin", data?.data, { expires: 7 });
@@ -301,6 +391,7 @@ export default function OrderAlbumCreate() {
           } else {
             throw new Error("Email hoặc mật khẩu chưa chính xác");
           }
+          setIsLoading(false);
         } catch (error) {
           console.error("========= Error Login:", error);
           toast({
@@ -308,33 +399,36 @@ export default function OrderAlbumCreate() {
             title: "Email hoặc mật khẩu chưa chính xác",
           });
         } finally {
-          // setIsLoading(false);
+          setIsLoading(false);
         }
       } else {
-        response = await OrderService.createOrder({
+        response = await OrderService.createOrderAlbum({
           account: { _id: isLogin, ...commonAccountData },
           order: orderData,
         });
-        setOrderNoLogin(false);
+
+        accountOrderLogin = true;
         if (response === false) {
           toast({
             title: "",
             description: "Số điện thoại đã được sử dụng!",
             variant: "destructive",
           });
+          setIsLoading(false);
           return;
         }
+        setIsLoading(false);
       }
 
       if (selectedPayment === "momo" && response?.data) {
         window.open(response.data, "_blank");
-        window.location.href = orderNoLogin
+        window.location.href = accountOrderLogin
           ? `${ROUTES.ACCOUNT}?tab=history`
           : response?.data?.isAccountExisted === true
           ? `${ROUTES.ACCOUNT}?tab=history`
           : `${ROUTES.ACCOUNT}?tab=history&orderNoLogin=true`;
       } else {
-        window.location.href = orderNoLogin
+        window.location.href = accountOrderLogin
           ? `${ROUTES.ACCOUNT}?tab=history`
           : response?.data?.isAccountExisted === true
           ? `${ROUTES.ACCOUNT}?tab=history`
@@ -352,22 +446,72 @@ export default function OrderAlbumCreate() {
     }
   };
 
-  useEffect(() => {
-    const fetchProductData = async () => {
-      if (!selectedProduct || selectedProduct === "Chon san pham") return;
-      try {
-        const res = await ProductService.getProductById(selectedProduct);
-        if (res && res.data) {
-          setProductsData(res.data);
-          // setSelectedColor(res.data.color[0]);
+  React.useEffect(() => {
+    if (formData.province) {
+      const selectedProvince = provinces.find(
+        (p) => p.code === formData.province
+      );
+
+      if (selectedProvince) {
+        setDistricts(selectedProvince.districts);
+        const selectedDistrict = selectedProvince.districts.find(
+          (d) => d.code === formData.district
+        );
+        setProvince(selectedProvince.name);
+        if (selectedDistrict) {
+          setDistrict(selectedDistrict.name);
+          setWards(selectedDistrict.wards);
+          const selectedWard = selectedDistrict.wards.find(
+            (w) => w.code === Number(formData.ward)
+          );
+          if (selectedWard) {
+            setWard(selectedWard.name);
+          }
         }
-      } catch (error) {
-        console.error("Error fetching product by ID:", error);
+      }
+    }
+  }, [formData.province, formData.district, provinces, formData.ward]);
+
+  useEffect(() => {
+    const fetchAccount = async () => {
+      if (isLogin) {
+        try {
+          const data = await AccountService.getAccountById(isLogin);
+          setCustomerAccount(data);
+          setFormData({
+            name: data?.name,
+            email: data?.email,
+            avatar: data?.avatar,
+            phone: data?.phone,
+            address: data?.address,
+            ward: data?.ward,
+            district: data?.district,
+            province: data?.province,
+          });
+        } catch (error) {
+          console.error("Error fetching account:", error);
+        }
       }
     };
 
-    fetchProductData();
-  }, [selectedProduct]);
+    const fetchOrder = async () => {
+      if (orderID) {
+        try {
+          const data = await OrderService.getOrderById(orderID);
+          setFormDataOrder({
+            pages: data?.pages,
+            size: data?.size,
+            album_data: data?.album_data,
+          });
+        } catch (error) {
+          console.error("Error fetching order:", error);
+        }
+      }
+    };
+
+    fetchAccount();
+    fetchOrder();
+  }, []);
 
   React.useEffect(() => {
     const fetchProvinces = async () => {
@@ -398,8 +542,8 @@ export default function OrderAlbumCreate() {
         ward: 0,
       }));
       setProvince(selectedProvince.name);
-      setDistrict("Vui lòng chọn quận/huyện");
-      setWard("Vui lòng chọn phường/xã");
+      setDistrict("Vui lòng chọn Quận/Huyện");
+      setWard("Vui lòng chọn Phường/Xã");
       setOpenProvinces(false);
     } else {
       setDistricts([]);
@@ -419,7 +563,7 @@ export default function OrderAlbumCreate() {
         ward: 0,
       }));
       setDistrict(selectedDistrict.name);
-      setWard("Vui lòng chọn phường/xã");
+      setWard("Vui lòng chọn Phường/Xã");
       setOpenDistrict(false);
     } else {
       setWards([]);
@@ -438,6 +582,15 @@ export default function OrderAlbumCreate() {
       setWard(selectedWard.name);
       setOpenWard(false);
     }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   return (
@@ -463,9 +616,9 @@ export default function OrderAlbumCreate() {
               <div className="hidden lg:grid w-full h-full md:w-1/2">
                 <div>
                   <h2 className="text-lg lg:text-xl font-medium mb-4">
-                    Thông tin khách hàng k
+                    Thông tin khách hàng
                   </h2>
-                  <div className="mb-4 ml-5">
+                  <div className="mb-4">
                     <Label htmlFor="name" className="text-gray-600 ">
                       Họ và tên:
                     </Label>
@@ -478,7 +631,7 @@ export default function OrderAlbumCreate() {
                       className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md"
                     />
                   </div>
-                  <div className="mb-4 ml-5">
+                  <div className="mb-4">
                     <Label htmlFor="email" className="text-gray-600">
                       Email:
                     </Label>
@@ -491,7 +644,7 @@ export default function OrderAlbumCreate() {
                       className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md"
                     />
                   </div>
-                  <div className="mb-4 ml-5">
+                  <div className="mb-4">
                     <Label htmlFor="phone" className="text-gray-600">
                       Số điện thoại:
                     </Label>
@@ -508,7 +661,7 @@ export default function OrderAlbumCreate() {
                   <h2 className="text-lg lg:text-xl font-medium mb-4">
                     Địa chỉ nhận hàng
                   </h2>
-                  <div className="grid grid-cols-2 gap-4 mb-4 ml-5">
+                  <div className="grid grid-cols-2 gap-4 mb-4">
                     <div>
                       <Label htmlFor="province" className="text-gray-600">
                         Tỉnh/Thành phố:
@@ -558,7 +711,7 @@ export default function OrderAlbumCreate() {
                       </Select>
                     </div>
                   </div>
-                  <div className="mb-4 ml-5">
+                  <div className="mb-4">
                     <Label htmlFor="ward" className="text-gray-600">
                       Phường/Xã:
                     </Label>
@@ -579,7 +732,7 @@ export default function OrderAlbumCreate() {
                       </SelectContent>
                     </Select>
                   </div>
-                  <div className="mb-4 ml-5">
+                  <div className="mb-4">
                     <Label htmlFor="address" className="text-gray-600">
                       Số nhà, tên đường:
                     </Label>
@@ -592,186 +745,114 @@ export default function OrderAlbumCreate() {
                     />
                   </div>
                 </div>
-                {/* {selectedProduct !== "Chon san pham" && ( */}
-                <>
-                  <div>
-                    <h2 className="text-lg lg:text-xl font-medium mb-4">
-                      Tùy chọn thanh toán
-                    </h2>
-                    <div className="border border-gray-300 rounded divide-y ml-5">
-                      <div
-                        onClick={() => setSelectedPayment("cash")}
-                        className=" cursor-pointer p-4 flex items-center"
-                      >
-                        <input
-                          type="radio"
-                          id="cash"
-                          name="payment"
-                          className="mr-2 w-4 h-4 accent-yellow-500"
-                          checked={selectedPayment === "cash"}
-                        />
-                        <label htmlFor="cash" className="ml-2">
-                          Thanh toán khi nhận hàng
-                        </label>
-                      </div>
-                      <div
-                        onClick={() => setSelectedPayment("bank")}
-                        className="cursor-pointer p-4 items-center"
-                      >
-                        <div className="flex items-center">
-                          <input
-                            type="radio"
-                            id="bank"
-                            name="payment"
-                            className="mr-2 w-4 h-4 accent-yellow-500"
-                            checked={selectedPayment === "bank"}
-                          />
-                          <label htmlFor="bank" className="ml-2">
-                            Thanh toán qua chuyển khoản ngân hàng
-                          </label>
-                        </div>
-
-                        {selectedPayment === "bank" && (
-                          <div className="w-full flex flex-row justify-center items-center gap-4 mt-4">
-                            <Image
-                              src="https://docs.lightburnsoftware.com/legacy/img/QRCode/ExampleCode.png"
-                              alt="QR code"
-                              width={100}
-                              height={100}
-                            />
-                            <div className="flex flex-col gap-1">
-                              <strong>NGUYEN VAN A</strong>
-                              <span>ABC BANK</span>
-                              <span>11223344556677</span>
-                            </div>
+                {selectedCore !== "chon-loai-ruot" &&
+                  selectedCover !== "chon-loai-bia" && (
+                    <>
+                      <div>
+                        <h2 className="text-lg lg:text-xl font-medium mb-4">
+                          Tùy chọn thanh toán
+                        </h2>
+                        <div className="border border-gray-300 rounded divide-y">
+                          <div
+                            onClick={() => setSelectedPayment("cash")}
+                            className="cursor-pointer p-4 flex items-center"
+                          >
+                            <div
+                              className={`cursor-pointer w-5 h-5 rounded-full mr-2 ${
+                                selectedPayment === "cash"
+                                  ? "border border-gray-200 bg-yellow-500"
+                                  : "border border-gray-200"
+                              }`}
+                            ></div>
+                            <label
+                              htmlFor="cash"
+                              className="cursor-pointer ml-2"
+                            >
+                              Thanh toán khi nhận hàng
+                            </label>
                           </div>
-                        )}
+                          <div
+                            onClick={() => setSelectedPayment("bank")}
+                            className="cursor-pointer p-4 items-center"
+                          >
+                            <div className="cursor-pointer flex items-center">
+                              <div
+                                className={`cursor-pointer w-5 h-5 rounded-full mr-2 ${
+                                  selectedPayment === "bank"
+                                    ? "border border-gray-200 bg-yellow-500"
+                                    : "border border-gray-200"
+                                }`}
+                              ></div>
+
+                              <label
+                                htmlFor="bank"
+                                className="cursor-pointer ml-2"
+                              >
+                                Thanh toán qua chuyển khoản ngân hàng
+                              </label>
+                            </div>
+                            {selectedPayment === "bank" && (
+                              <div className="w-full flex flex-row justify-center items-center gap-4 mt-4">
+                                <Image
+                                  src="https://docs.lightburnsoftware.com/legacy/img/QRCode/ExampleCode.png"
+                                  alt="QR code"
+                                  width={100}
+                                  height={100}
+                                />
+                                <div className="flex flex-col gap-1">
+                                  <strong>NGUYEN VAN A</strong>
+                                  <span>ABC BANK</span>
+                                  <span>11223344556677</span>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        </div>
                       </div>
-                      {/* <div
-                    onClick={() => setSelectedPayment("momo")}
-                    className=" cursor-pointer p-4 flex items-center"
-                  >
-                    <input
-                      type="radio"
-                      id="momo"
-                      name="payment"
-                      className="mr-2 w-4 h-4 accent-yellow-500"
-                      checked={selectedPayment === "momo"}
-                    />
-                    <label htmlFor="momo" className="ml-2">
-                      Thanh toán qua MOMO
-                    </label>
-                  </div> */}
-                      {/* <div
-                    onClick={() => setSelectedPayment("vnpay")}
-                    className="p-4 flex items-center"
-                  >
-                    <input
-                      type="radio"
-                      id="vnpay"
-                      name="payment"
-                      className="mr-2 w-4 h-4 accent-yellow-500"
-                      checked={selectedPayment === "vnpay"}
-                    />
-                    <label htmlFor="vnpay" className="ml-2">
-                      Thanh toán qua VNPay
-                    </label>
-                  </div> */}
-                    </div>
-                  </div>
-                  <div>
-                    <h2 className="text-sm font-medium mb-2">
-                      Thêm ghi chú cho đơn hàng
-                    </h2>
-                    <textarea
-                      placeholder="Ghi chú về đơn hàng (Nếu có)"
-                      className="w-full p-3 border border-gray-300 rounded h-24 ml-5 mx-10"
-                    ></textarea>
-                  </div>
-                </>
-                {/* )} */}
+                      <div>
+                        <h2 className="text-sm font-medium mb-2 mt-4">
+                          Thêm ghi chú cho đơn hàng
+                        </h2>
+                        <textarea
+                          placeholder="Ghi chú về đơn hàng (Nếu có)"
+                          className="w-full p-3 border border-gray-300 rounded h-24 ml-0 mx-10"
+                        ></textarea>
+                      </div>
+                    </>
+                  )}
               </div>
               <div className="w-full lg:w-1/2 space-y-6">
                 <div>
                   <h2 className="text-lg lg:text-xl font-medium mb-4">
-                    Thông tin sản phẩm
+                    Thông tin Album
                   </h2>
-                  {/* <div className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full my-4">
-                    <Select
-                      value={selectedProduct}
-                      onValueChange={setSelectedProduct}
-                    >
-                      <SelectTrigger>
-                        {selectedProduct === "Chon san pham" ? "Chọn sản phẩm" : ""}
-                        <SelectValue placeholder="Chọn sản phẩm" />
-                      </SelectTrigger>
-
-                      <SelectContent className="">
-                        {products?.map((item: any, index: any) => (
-                          <SelectItem
-                            className="text-xs"
-                            key={index}
-                            value={String(item?._id)}
-                          >
-                            {item?.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div> */}
                   <div className="space-y-4">
                     <div className="flex flex-col justify-center items-start">
                       <span>
-                        Mã đơn hàng: <strong>FWB12546800</strong>
+                        Mã đơn hàng:{" "}
+                        <strong className="uppercase">
+                          {orderID?.slice(-6)}
+                        </strong>
                       </span>
                       <span>
-                        Kích thước: <strong>Vuông 25x25</strong>
+                        Kích thước: <strong>{formDataOrder?.size}</strong>
                       </span>
                       <span>
-                        Tổng số trang: <strong>10</strong>
+                        Tổng số trang: <strong>{formDataOrder?.pages}</strong>
                       </span>
                     </div>
                     <div className="w-full flex flex-col justify-center items-center ">
-                      {/* <div className="w-full grid grid-cols-2 justify-center items-center gap-4">
-                        <div
-                          onClick={() => {
-                            setPaperType(1);
-                            setIsPaper(true);
-                          }}
-                          className={`${paperType === 1
-                            ? "border-orange-600 text-orange-600 font-bold bg-orange-50"
-                            : ""
-                            } border rounded-md py-4 flex justify-center items-center`}
-                        >
-                          Bìa gói
-                        </div>
-                        <div
-                          onClick={() => {
-                            setPaperType(2);
-                            setIsPaper(false);
-                          }}
-                          className={`${paperType === 2
-                            ? "border-orange-600 text-orange-600 font-bold bg-orange-50"
-                            : ""
-                            } border rounded-md py-4 flex justify-center items-center`}
-                        >
-                          Bìa da
-                        </div>
-
-                      </div> */}
-
                       <div className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full">
                         <Select
                           value={selectedCover}
-                          onValueChange={setSelectedCover}
+                          onValueChange={handleCoverChange}
                         >
                           <SelectTrigger>
-                            {selectedCover === "Chon loai bia"
+                            {selectedCover === "chon-loai-bia"
                               ? "Chọn loại bìa"
                               : ""}
                             <SelectValue placeholder="Chọn loại bìa" />
                           </SelectTrigger>
-
                           <SelectContent className="">
                             {covers?.map((item: any, index: any) => (
                               <SelectItem
@@ -779,20 +860,19 @@ export default function OrderAlbumCreate() {
                                 key={index}
                                 value={String(item?.id)}
                               >
-                                {item?.name}
+                                {HELPER.renderAlbumCover(item?.name)}
                               </SelectItem>
                             ))}
                           </SelectContent>
                         </Select>
                       </div>
-
                       <div className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full my-4">
                         <Select
-                          value={selectedPage}
-                          onValueChange={setSelectedPage}
+                          value={selectedCore}
+                          onValueChange={handleCoreChange}
                         >
                           <SelectTrigger>
-                            {selectedPage === "Chon loai ruot"
+                            {selectedCore === "chon-loai-ruot"
                               ? "Chọn loại ruột"
                               : ""}
                             <SelectValue placeholder="Chọn loại ruột" />
@@ -805,13 +885,13 @@ export default function OrderAlbumCreate() {
                                 key={index}
                                 value={String(item?.id)}
                               >
-                                {item?.name}
+                                {HELPER.renderAlbumCore(item?.name)}
                               </SelectItem>
                             ))}
                           </SelectContent>
                         </Select>
                       </div>
-                      {isPaper && (
+                      {selectedCover === "2" && (
                         <div className="w-full">
                           <ImageUploadAlbum onImageChange={setUploadedFile} />
                         </div>
@@ -819,10 +899,11 @@ export default function OrderAlbumCreate() {
                     </div>
                   </div>
                 </div>
-                <div className=" lg:hidden w-full md:w-1/2 space-y-6">
+                {/* MOBILE  */}
+                <div className="lg:hidden w-full md:w-1/2 space-y-6">
                   <div>
                     <h2 className="text-lg lg:text-xl font-medium mb-4">
-                      Thông tin khách hàng k
+                      Thông tin khách hàng
                     </h2>
                     <div className="mb-4">
                       <Label htmlFor="name" className="text-gray-600 ">
@@ -1003,104 +1084,85 @@ export default function OrderAlbumCreate() {
                       />
                     </div>
                   </div>
-                  {/* {selectedProduct !== "Chon san pham" && ( */}
-                  <>
-                    <div>
-                      <h2 className="text-lg lg:text-xl font-medium mb-4">
-                        Tùy chọn thanh toán
-                      </h2>
-                      <div className="border border-gray-300 rounded divide-y">
-                        <div
-                          onClick={() => setSelectedPayment("cash")}
-                          className=" cursor-pointer p-4 flex items-center"
-                        >
-                          <input
-                            type="radio"
-                            id="cod"
-                            name="payment"
-                            className="mr-2 w-4 h-4 accent-yellow-500"
-                            checked={selectedPayment === "cash"}
-                          />
-                          <label htmlFor="cod" className="ml-2">
-                            Thanh toán khi nhận hàng
-                          </label>
-                        </div>
-                        <div
-                          onClick={() => setSelectedPayment("bank")}
-                          className=" cursor-pointer p-4 items-center"
-                        >
-                          <div className="flex items-center">
-                            <input
-                              type="radio"
-                              id="bank"
-                              name="payment"
-                              className="mr-2 w-4 h-4 accent-yellow-500"
-                              checked={selectedPayment === "bank"}
-                            />
-                            <label htmlFor="bank" className="ml-2">
-                              Thanh toán qua chuyển khoản ngân hàng
-                            </label>
-                          </div>
-
-                          {selectedPayment === "bank" && (
-                            <div className="w-full flex flex-row justify-center items-center gap-4 mt-4">
-                              <Image
-                                src="https://docs.lightburnsoftware.com/legacy/img/QRCode/ExampleCode.png"
-                                alt="QR code"
-                                width={100}
-                                height={100}
-                              />
-                              <div className="flex flex-col gap-1">
-                                <strong>NGUYEN VAN A</strong>
-                                <span>ABC BANK</span>
-                                <span>11223344556677</span>
+                  {/* MOBILE  */}
+                  {selectedCore !== "chon-loai-ruot" &&
+                    selectedCover !== "chon-loai-bia" && (
+                      <>
+                        <div>
+                          <h2 className="text-lg lg:text-xl font-medium mb-4">
+                            Tùy chọn thanh toán
+                          </h2>
+                          <div className="border border-gray-300 rounded divide-y">
+                            <div
+                              onClick={() => setSelectedPayment("cash")}
+                              className="cursor-pointer p-4 flex items-center"
+                            >
+                              <div className="cursor-pointer grid grid-cols-12 items-center">
+                                <div
+                                  className={`col-span-1 cursor-pointer w-5 h-5 rounded-full mr-2 ${
+                                    selectedPayment === "cash"
+                                      ? "border border-gray-200 bg-yellow-500"
+                                      : "border border-gray-200"
+                                  }`}
+                                ></div>
+                                <label
+                                  htmlFor="cash"
+                                  className="col-span-11 cursor-pointer ml-2"
+                                >
+                                  Thanh toán khi nhận hàng
+                                </label>
                               </div>
                             </div>
-                          )}
+                            <div
+                              onClick={() => setSelectedPayment("bank")}
+                              className="cursor-pointer p-4 items-center"
+                            >
+                              <div className="cursor-pointer grid grid-cols-12 items-center">
+                                <div
+                                  className={`col-span-1 cursor-pointer w-5 h-5 rounded-full mr-2 ${
+                                    selectedPayment === "bank"
+                                      ? "border border-gray-200 bg-yellow-500"
+                                      : "border border-gray-200"
+                                  }`}
+                                ></div>
+
+                                <label
+                                  htmlFor="bank"
+                                  className="col-span-11 cursor-pointer ml-2"
+                                >
+                                  Thanh toán qua chuyển khoản ngân hàng
+                                </label>
+                              </div>
+
+                              {selectedPayment === "bank" && (
+                                <div className="w-full flex flex-row justify-center items-center gap-4 mt-4">
+                                  <Image
+                                    src="https://docs.lightburnsoftware.com/legacy/img/QRCode/ExampleCode.png"
+                                    alt="QR code"
+                                    width={100}
+                                    height={100}
+                                  />
+                                  <div className="flex flex-col gap-1">
+                                    <strong>NGUYEN VAN A</strong>
+                                    <span>ABC BANK</span>
+                                    <span>11223344556677</span>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          </div>
                         </div>
-                        {/* <div
-                      onClick={() => setSelectedPayment("momo")}
-                      className=" cursor-pointer p-4 flex items-center"
-                    >
-                      <input
-                        type="radio"
-                        id="momo"
-                        name="payment"
-                        className="mr-2 w-4 h-4 accent-yellow-500"
-                        checked={selectedPayment === "momo"}
-                      />
-                      <label htmlFor="momo" className="ml-2">
-                        Thanh toán qua MOMO
-                      </label>
-                    </div> */}
-                        {/* <div
-                      onClick={() => setSelectedPayment("vnpay")}
-                      className="p-4 flex items-center"
-                    >
-                      <input
-                        type="radio"
-                        id="vnpay"
-                        name="payment"
-                        className="mr-2 w-4 h-4 accent-yellow-500"
-                        checked={selectedPayment === "vnpay"}
-                      />
-                      <label htmlFor="vnpay" className="ml-2">
-                        Thanh toán qua VNPay
-                      </label>
-                    </div> */}
-                      </div>
-                    </div>
-                    <div>
-                      <h2 className="text-sm font-medium mb-2">
-                        Thêm ghi chú cho đơn hàng
-                      </h2>
-                      <textarea
-                        placeholder="Ghi chú về đơn hàng (Nếu có)"
-                        className="w-full p-3 border border-gray-300 rounded h-24"
-                      ></textarea>
-                    </div>
-                  </>
-                  {/* )} */}
+                        <div>
+                          <h2 className="text-sm font-medium mb-2">
+                            Thêm ghi chú cho đơn hàng
+                          </h2>
+                          <textarea
+                            placeholder="Ghi chú về đơn hàng (Nếu có)"
+                            className="w-full p-3 border border-gray-300 rounded h-24 ml-0 mx-10"
+                          ></textarea>
+                        </div>
+                      </>
+                    )}
                   <p className="text-sm text-gray-600">
                     Bằng cách tiến hành mua hàng, bạn đã đồng ý với các điều
                     khoản và chính sách của chúng tôi.
@@ -1108,396 +1170,139 @@ export default function OrderAlbumCreate() {
 
                   {/* ORDER BUTTON  */}
                 </div>
-                {/* {selectedProduct !== "Chon san pham" && ( */}
-                <div className="border-t pt-4 space-y-2">
-                  <div className="flex justify-between">
-                    <span>Giá sản phẩm</span>
-                    <span>
-                      {/* {selectedProduct &&
-                          HELPER.formatVND(
-                            products.find(
-                              (pro: any) => pro._id.toString() === selectedProduct
-                            )?.price
-                          )} */}
-                      100.000đ
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Phí vận chuyển</span>
-                    <span>{HELPER.formatVND("30000")}</span>
-                  </div>
-                  <div className="flex justify-between font-medium">
-                    <span>Tạm tính</span>
-                    <span>
-                      {/* {selectedProduct &&
-                          HELPER.calculateTotal(
-                            products.find(
-                              (pro: any) => pro._id.toString() === selectedProduct
-                            )?.price,
-                            "30000",
-                            "0"
-                          )} */}
-                      30.000đ
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center pt-2">
-                    <span>Khuyến mãi</span>
-                    <div className="flex gap-2">
-                      <input
-                        type="text"
-                        placeholder="Nhập mã khuyến mãi"
-                        className="border border-gray-300 rounded p-2 text-sm"
-                        value={promoCode}
-                        onChange={(e) => setPromoCode(e.target.value)}
-                      />
-                    </div>
-                  </div>
-                  <div className="flex justify-between font-bold text-xl pt-4">
-                    <span>Tổng</span>
-                    <span>
-                      {/* {selectedProduct &&
-                          HELPER.calculateTotal(
-                            products.find(
-                              (pro: any) => pro._id.toString() === selectedProduct
-                            )?.price,
-                            "30000",
-                            "0"
-                          )} */}
-                      130.000đ
-                    </span>
-                  </div>
-                </div>
-                {/* )} */}
-                <p className="text-sm text-gray-600">
-                  Bằng cách tiến hành mua hàng, bạn đã đồng ý với các điều khoản
-                  và chính sách của chúng tôi.
-                </p>
-                <div className="flex flex-row justify-between items-center mt-6">
-                  <Link
-                    href={`${ROUTES.HOME}`}
-                    className="flex items-center text-gray-600"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-4 w-4 mr-1"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M15 19l-7-7 7-7"
-                      />
-                    </svg>
-                    Quay lại Giỏ hàng
-                  </Link>
-                  <button
-                    onClick={() => handleSubmit()}
-                    className="w-2/5 lg:w-1/2 py-2 lg:py-4 bg-yellow-400 hover:bg-yellow-500 text-center rounded-md font-medium transition"
-                  >
-                    Đặt hàng
-                  </button>
-                </div>
+                {selectedCore !== "chon-loai-ruot" &&
+                  selectedCover !== "chon-loai-bia" && (
+                    <>
+                      <div className="border-t pt-4 space-y-2">
+                        <div className="flex justify-between">
+                          <span>Giá bìa Album</span>
+                          <span>
+                            {HELPER.formatVND(String(albumPriceCover))}
+                          </span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>Giá ruột Album</span>
+                          <span>
+                            {HELPER.formatVND(String(albumPriceCore))}
+                          </span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>Phí vận chuyển</span>
+                          <span>{HELPER.formatVND("30000")}</span>
+                        </div>
+                        <div className="flex justify-between font-medium">
+                          <span>Tạm tính</span>
+                          <span>
+                            {HELPER.formatVND(
+                              String(albumPriceCover + albumPriceCore + 30000)
+                            )}
+                          </span>
+                        </div>
+                        <div className="flex justify-between items-center pt-2">
+                          <span>Khuyến mãi</span>
+                          <Dialog>
+                            <DialogTrigger asChild>
+                              <div className="">
+                                {!isValid ? (
+                                  <div className="cursor-pointer text-white text-sm flex flex-row justify-center items-center gap-4 w-full mx-auto py-2 px-5 lg:py-2 bg-[rgb(var(--primary-rgb))] hover:bg-[rgb(var(--primary-rgb))] text-center rounded-md font-medium transition">
+                                    Nhập mã
+                                  </div>
+                                ) : (
+                                  <div className="flex flex-row gap-2">
+                                    <div className="text-white text-sm flex flex-row justify-center items-center gap-4 mx-auto py-2 px-2 lg:py-2 bg-green-400 hover:bg-yellow-500 text-center rounded-md font-medium transition">
+                                      Đã áp dụng mã
+                                    </div>
+                                    <div className="text-white text-sm flex flex-row justify-center items-center gap-4 mx-auto py-2 px-2 lg:py-2 bg-yellow-400 hover:bg-yellow-500 text-center rounded-md font-medium transition">
+                                      Đổi mã
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            </DialogTrigger>
+                            <DialogContent className="-translate-y-52">
+                              <DialogHeader>
+                                <DialogTitle>
+                                  Vui lòng nhập mã giảm giá
+                                </DialogTitle>
+                                <DialogDescription className="max-h-96 overflow-y-auto">
+                                  <div className="flex flex-col justify-center items-center gap-2 mt-5">
+                                    <input
+                                      type="text"
+                                      placeholder="Nhập mã khuyến mãi"
+                                      className={`w-full border border-gray-300 rounded p-2 text-sm focus:border-black focus:outline-none focus:ring-0 focus:ring-black ${
+                                        isValid === false
+                                          ? "border-none"
+                                          : isValid === true
+                                          ? "border-none"
+                                          : ""
+                                      }`}
+                                      value={promoCode}
+                                      onChange={(e) => {
+                                        setPromoCode(e.target.value);
+                                      }}
+                                      style={{ fontSize: "16px" }}
+                                    />
+                                  </div>
+                                </DialogDescription>
+                              </DialogHeader>
+                              <DialogClose>
+                                <div
+                                  className={`w-full px-5 py-2 mx-auto text-white bg-[rgb(var(--primary-rgb))] hover:bg-[rgb(var(--primary-rgb))] text-center rounded-md font-medium cursor-pointer ${
+                                    isChecking
+                                      ? "opacity-50 cursor-not-allowed"
+                                      : ""
+                                  }`}
+                                  onClick={
+                                    !isChecking
+                                      ? handleCheckDiscount
+                                      : undefined
+                                  }
+                                >
+                                  {isChecking ? "Đang kiểm tra..." : "Dùng mã"}
+                                </div>
+                              </DialogClose>
+                            </DialogContent>
+                          </Dialog>
+                        </div>
+
+                        {isValid && (
+                          <div className="flex justify-between items-center pt-2">
+                            <span>Giảm giá</span>
+                            <div className="flex gap-2">
+                              <div className={`text-red-500`}>
+                                - {HELPER.formatVND(String(discountPrice))}
+                              </div>
+                            </div>
+                          </div>
+                        )}
+
+                        <div className="flex justify-between font-bold text-xl pt-4">
+                          <span>Tổng</span>
+                          <span>
+                            {HELPER.formatVND(
+                              String(totalPrice - discountPrice)
+                            )}
+                          </span>
+                        </div>
+                      </div>
+
+                      <p className="text-sm text-gray-600">
+                        Bằng cách tiến hành mua hàng, bạn đã đồng ý với các điều
+                        khoản và chính sách của chúng tôi.
+                      </p>
+                      <div className="flex flex-row justify-between items-center mt-6 w-full">
+                        <button
+                          onClick={() => handleSubmit()}
+                          className="w-full py-2 lg:py-4 bg-[rgb(var(--primary-rgb))] hover:bg-[rgb(var(--primary-rgb))] text-center text-white rounded-md font-medium transition"
+                        >
+                          {isLoading ? "Đang xử lí đơn hàng..." : "Đặt hàng"}
+                        </button>
+                      </div>
+                    </>
+                  )}
               </div>
             </div>
           </div>
-
-          {/* <section className="bg-white antialiased">
-            <form action="#" className="">
-              <div className="w-full grid grid-cols-2 gap-4 justify-center items-center">
-                <Link
-                  href={"/tai-khoan?tab=order-single"}
-                  className="text-white font-semibold py-2 rounded-md flex justify-center items-center bg-gradient-to-br from-gray-400 to-gray-300 after:mx-2 after:text-gray-200 dark:after:text-gray-500 sm:after:hidden"
-                >
-                  <Frame width={16} height={16} className="mr-2" />
-                  Hình đơn
-                </Link>
-                <Link
-                  href={"/tai-khoan?tab=order-album"}
-                  className="text-white font-semibold py-2 rounded-md flex justify-center items-center bg-gradient-to-r from-pink-500 to-orange-400 after:mx-2 after:text-gray-200 dark:after:text-gray-500 sm:after:hidden"
-                >
-                  <Images width={16} height={16} className="mr-2" />
-                  Album
-                </Link>
-              </div>
-              <div className="mt-6 sm:mt-8 lg:flex lg:items-start lg:gap-12 xl:gap-16">
-                <div className="min-w-0 flex-1 space-y-8">
-                  <div className="space-y-4">
-                    <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-                      Thông tin sản phẩm
-                    </h2>
-                    <div className="flex flex-col justify-center items-start">
-                      <span>
-                        Mã đơn hàng: <strong>FWB12546800</strong>
-                      </span>
-                      <span>
-                        Kích thước: <strong>Vuông 25x25</strong>
-                      </span>
-                      <span>
-                        Tổng số trang: <strong>10</strong>
-                      </span>
-                    </div>
-                    <div className="w-full flex flex-col justify-center items-center gap-4">
-                      <div className="w-full grid grid-cols-2 justify-center items-center gap-4">
-                        <div
-                          onClick={() => {
-                            setPaperType(1);
-                            setIsPaper(true);
-                          }}
-                          className={`${
-                            paperType === 1
-                              ? "border-orange-600 text-orange-600 font-bold bg-orange-50"
-                              : ""
-                          } border rounded-md py-4 flex justify-center items-center`}
-                        >
-                          Bìa gói
-                        </div>
-                        <div
-                          onClick={() => {
-                            setPaperType(2);
-                            setIsPaper(false);
-                          }}
-                          className={`${
-                            paperType === 2
-                              ? "border-orange-600 text-orange-600 font-bold bg-orange-50"
-                              : ""
-                          } border rounded-md py-4 flex justify-center items-center`}
-                        >
-                          Bìa da
-                        </div>
-                      </div>
-                      {isPaper && (
-                        <div className="w-full">
-                          <ImageUploadAlbum onImageChange={setUploadedFile} />
-                        </div>
-                      )}
-                      <select
-                        id="countries"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                      >
-                        <option>Ruột cán màng</option>
-                        <option>Ruột không cán màng</option>
-                        <option>Ruột tráng gương</option>
-                      </select>
-                    </div>
-                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                      <h3 className="mt-4 text-xl font-semibold text-gray-900 dark:text-white">
-                        Thông tin cá nhân
-                      </h3>
-                      <div>
-                        <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
-                          Tên*
-                        </label>
-                        <input
-                          type="text"
-                          value="Phạm Thanh Nghiêm"
-                          className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
-                          placeholder=""
-                          required
-                        />
-                      </div>
-                      <div>
-                        <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
-                          Địa chỉ*
-                        </label>
-                        <input
-                          type="email"
-                          value="332/8 Phan Văn Trị, P11, Bình Thạnh, HCM"
-                          className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
-                          placeholder=""
-                          required
-                        />
-                      </div>
-                      <div>
-                        <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
-                          Số điện thoại*{" "}
-                        </label>
-                        <input
-                          type="text"
-                          value="0911558539"
-                          className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
-                          placeholder=""
-                          required
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="space-y-4">
-                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-                      Thanh toán
-                    </h3>
-                    <div className="grid grid-cols-1 gap-4">
-                      <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
-                        <div className="flex items-start">
-                          <div className="flex h-5 items-center">
-                            <input
-                              type="radio"
-                              name="payment-method"
-                              value=""
-                              className="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600"
-                              checked
-                            />
-                          </div>
-                          <div className="ms-4 text-sm">
-                            <label className="font-medium leading-none text-gray-900 dark:text-white flex justify-start items-center gap-2">
-                              <Image
-                                src="https://cdn-icons-png.flaticon.com/128/10499/10499979.png"
-                                alt="money"
-                                width={20}
-                                height={20}
-                                priority
-                              />
-                              Tiền mặt (COD)
-                            </label>
-                            <p className="mt-1 text-xs font-normal text-gray-500 dark:text-gray-400">
-                              Thanh toán khi nhận hàng
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
-                        <div className="flex items-start">
-                          <div className="flex h-5 items-center">
-                            <input
-                              type="radio"
-                              name="payment-method"
-                              value=""
-                              className="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600"
-                              checked
-                            />
-                          </div>
-                          <div className="ms-4 text-sm">
-                            <label className="font-medium leading-none text-gray-900 dark:text-white flex justify-start items-center gap-2">
-                              <Image
-                                src="https://cdn-icons-png.flaticon.com/128/8983/8983163.png"
-                                alt="money"
-                                width={20}
-                                height={20}
-                                priority
-                              />
-                              Ngân hàng
-                            </label>
-                            <p className="mt-1 text-xs font-normal text-gray-500 dark:text-gray-400">
-                              Quét QR để thanh toán
-                            </p>
-                          </div>
-                        </div>
-                        <div className="w-full flex justify-center items-center gap-4 mt-4">
-                          <Image
-                            src="https://docs.lightburnsoftware.com/legacy/img/QRCode/ExampleCode.png"
-                            alt="QR code"
-                            width={100}
-                            height={100}
-                            priority
-                          />
-                          <div className="flex flex-col gap-1">
-                            <strong>NGUYEN VAN A</strong>
-                            <span>ABC BANK</span>
-                            <span>11223344556677</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
-                        <div className="flex items-start">
-                          <div className="flex h-5 items-center">
-                            <input
-                              type="radio"
-                              name="payment-method"
-                              value=""
-                              className="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600"
-                              checked
-                            />
-                          </div>
-                          <div className="ms-4 text-sm">
-                            <label className="font-medium leading-none text-gray-900 dark:text-white flex justify-start items-center gap-2">
-                              <Image
-                                src="https://cdn.haitrieu.com/wp-content/uploads/2022/10/Logo-MoMo-Square.png"
-                                alt="money"
-                                width={18}
-                                height={18}
-                                priority
-                              />
-                              Momo
-                            </label>
-                            <p className="mt-1 text-xs font-normal text-gray-500 dark:text-gray-400">
-                              Thanh toán qua app Momo
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="mt-6 w-full space-y-6 sm:mt-8 lg:mt-0 lg:max-w-xs xl:max-w-md">
-                  <div className="flow-root">
-                    <div className="-my-3 divide-y divide-gray-200 dark:divide-gray-800">
-                      <dl className="flex items-center justify-between gap-4 py-3">
-                        <dt className="text-base font-normal text-gray-500 dark:text-gray-400">
-                          Giá sản phẩm
-                        </dt>
-                        <dd className="text-base font-medium text-gray-900 dark:text-white">
-                          129.000 VND
-                        </dd>
-                      </dl>
-                      <dl className="flex items-center justify-between gap-4 py-3">
-                        <dt className="text-base font-normal text-gray-500 dark:text-gray-400">
-                          Khuyến mãi
-                        </dt>
-                        <dd className="text-base font-medium text-green-500">
-                          0 VND
-                        </dd>
-                      </dl>
-                      <dl className="flex items-center justify-between gap-4 py-3">
-                        <dt className="text-base font-normal text-gray-500 dark:text-gray-400">
-                          Thuế VAT
-                        </dt>
-                        <dd className="text-base font-medium text-gray-900 dark:text-white">
-                          0 VND
-                        </dd>
-                      </dl>
-                      <dl className="flex items-center justify-between gap-4 py-3">
-                        <dt className="text-base font-normal text-gray-500 dark:text-gray-400">
-                          Vận chuyển
-                        </dt>
-                        <dd className="text-base font-medium text-gray-900 dark:text-white">
-                          0 VND
-                        </dd>
-                      </dl>
-                      <dl className="flex items-center justify-between gap-4 py-3">
-                        <dt className="text-base font-bold text-gray-900 dark:text-white">
-                          Tổng
-                        </dt>
-                        <dd className="text-base font-bold text-gray-900 dark:text-white">
-                          129.000 VND
-                        </dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="space-y-3">
-                    <button
-                      type="submit"
-                      className="flex w-full font-bold items-center justify-center rounded-lg bg-[rgb(var(--quaternary-rgb))] border border-[rgb(var(--primary-rgb))] px-5 py-4 text-sm text-[rgb(var(--primary-rgb))] focus:outline-none focus:ring-4  focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                    >
-                      ĐẶT HÀNG NGAY
-                    </button>
-                    <p className="text-sm font-normal text-gray-500 dark:text-gray-400">
-                      Bạn đã chấp nhận các điều khoản và chính sách của chúng
-                      tôi.{" "}
-                      <a
-                        href="#"
-                        title=""
-                        className="font-medium text-primary-700 underline hover:no-underline dark:text-primary-500"
-                      >
-                        Chính sách bảo mật
-                      </a>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </form>
-          </section> */}
         </div>
       </div>
       <Footer />

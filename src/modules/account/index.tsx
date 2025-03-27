@@ -89,19 +89,7 @@ interface Product {
   created_at: Date;
 }
 
-export interface Order {
-  _id: string;
-  created_at: string;
-  total: string;
-  status: string;
-  product_id: string;
-  product_price: string;
-  image: string;
-  size: string;
-  color: string;
-  product_name: string;
-  product_category: string;
-}
+import { Order } from "./components/orders/history/history";
 
 export default function AccountClient() {
   const isLogin = Cookies.get("isLogin");
@@ -120,7 +108,7 @@ export default function AccountClient() {
     try {
       const [accountData, ordersData] = await Promise.all([
         AccountService.getAccountById(loginId),
-        OrderService.getOrderById(loginId),
+        OrderService.getAllOrderById(loginId),
       ]);
 
       setCustomerAccount(accountData || null);

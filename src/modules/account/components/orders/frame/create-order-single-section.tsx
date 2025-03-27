@@ -463,6 +463,7 @@ const CreateOrderSingleSection = () => {
       const orderData = {
         product_id: selectedProduct,
         image: upload[0]?.secure_url,
+        order_type: "frame",
         color: confirmColor,
         size: confirmSize,
         address: formData?.address || "",
@@ -700,49 +701,6 @@ const CreateOrderSingleSection = () => {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedImage, setCroppedImage] = useState<string | null>(null);
-
-  // const onCropComplete = useCallback(
-  //   async (croppedArea: any, croppedAreaPixels: any) => {
-  //     if (!uploadedFile) return;
-
-  //     try {
-  //       const canvas = document.createElement("canvas");
-  //       const ctx = canvas.getContext("2d");
-  //       const image = new window.Image();
-  //       image.src = originalImage || URL.createObjectURL(uploadedFile);
-
-  //       await new Promise((resolve) => {
-  //         image.onload = resolve;
-  //       });
-
-  //       canvas.width = croppedAreaPixels.width;
-  //       canvas.height = croppedAreaPixels.height;
-
-  //       ctx?.drawImage(
-  //         image,
-  //         croppedAreaPixels.x,
-  //         croppedAreaPixels.y,
-  //         croppedAreaPixels.width,
-  //         croppedAreaPixels.height,
-  //         0,
-  //         0,
-  //         croppedAreaPixels.width,
-  //         croppedAreaPixels.height
-  //       );
-
-  //       const croppedImageUrl = canvas.toDataURL("image/jpeg");
-  //       setCroppedImage(croppedImageUrl);
-  //     } catch (error) {
-  //       console.error("Error cropping image:", error);
-  //       toast({
-  //         title: "Lỗi",
-  //         description: "Không thể xử lý hình ảnh",
-  //         variant: "destructive",
-  //       });
-  //     }
-  //   },
-  //   [uploadedFile, originalImage]
-  // );
 
   const onCropComplete = useCallback(
     async (croppedArea: any, croppedAreaPixels: any) => {

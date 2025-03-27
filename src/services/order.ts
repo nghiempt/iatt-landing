@@ -59,6 +59,49 @@ const createOrder_no_login = async (payload: any) => {
   }
 };
 
+const createOrderAlbum = async (payload: any) => {
+  try {
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    const response = await fetch(API.ORDER.CREATE_ALBUM, {
+      method: "POST",
+      headers: myHeaders,
+      body: JSON.stringify(payload),
+      redirect: "follow",
+    });
+    if (!response.ok) {
+      throw new Error(`Failed - Status: ${response.status}`);
+    }
+    const data = await response.json();
+
+    return data;
+  } catch (error: any) {
+    console.error("========= Error Create Order Album:", error);
+    return false;
+  }
+};
+
+const createOrderAlbum_no_login = async (payload: any) => {
+  try {
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    const response = await fetch(API.ORDER.CREATE_ALBUM_NO_LOGIN, {
+      method: "POST",
+      headers: myHeaders,
+      body: JSON.stringify(payload),
+      redirect: "follow",
+    });
+    if (!response.ok) {
+      throw new Error(`Failed - Status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error: any) {
+    console.error("========= Error Create Order Album:", error);
+    return false;
+  }
+};
+
 const updateOrder = async (id: any, payload: any) => {
   try {
     const myHeaders = new Headers();
@@ -76,6 +119,28 @@ const updateOrder = async (id: any, payload: any) => {
   } catch (error: any) {
     console.error("========= Error Update Blog:", error);
     return false;
+  }
+};
+
+const getAllOrderById = async (id: string) => {
+  try {
+    const response = await fetch(`${API.ORDER.GET_ALL_ORDER_BY_ID}/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      console.error(`Login failed - Status: ${response.status}`);
+      throw new Error(`Get Account Failed - Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data.data;
+  } catch (error) {
+    console.error("========= Error Get Order By Account Id:", error);
+    throw error;
   }
 };
 
@@ -132,6 +197,9 @@ export const OrderService = {
   getAll,
   createOrder,
   createOrder_no_login,
+  createOrderAlbum,
+  createOrderAlbum_no_login,
+  getAllOrderById,
   getOrderById,
   updateOrder,
   checkDiscount,
