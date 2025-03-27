@@ -160,6 +160,10 @@ export default function OrderAlbumCreate() {
   const [selectedCore, setSelectedCore] = React.useState<any>("chon-loai-ruot");
   const [selectedCover, setSelectedCover] =
     React.useState<any>("chon-loai-bia");
+  const [selectedCoreId, setSelectedCoreId] =
+    React.useState<any>("chon-loai-ruot");
+  const [selectedCoverId, setSelectedCoverId] =
+    React.useState<any>("chon-loai-bia");
   const [formData, setFormData] = React.useState<FormData>({
     name: "",
     email: "",
@@ -184,6 +188,7 @@ export default function OrderAlbumCreate() {
 
   const handleCoreChange = (coreId: string) => {
     const selectedCoreItem = pages.find((item) => String(item.id) === coreId);
+    setSelectedCoreId(coreId);
     setSelectedCore(selectedCoreItem ? selectedCoreItem.name : "");
 
     const corePrice = selectedCoreItem ? selectedCoreItem.price : 0;
@@ -196,6 +201,7 @@ export default function OrderAlbumCreate() {
     const selectedCoverItem = covers.find(
       (item) => String(item.id) === coverId
     );
+    setSelectedCoverId(coverId);
     setSelectedCover(selectedCoverItem ? selectedCoverItem.name : "");
 
     const coverPrice = selectedCoverItem ? selectedCoverItem.price : 0;
@@ -844,11 +850,11 @@ export default function OrderAlbumCreate() {
                     <div className="w-full flex flex-col justify-center items-center ">
                       <div className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full">
                         <Select
-                          value={selectedCover}
+                          value={selectedCoverId}
                           onValueChange={handleCoverChange}
                         >
                           <SelectTrigger>
-                            {selectedCover === "chon-loai-bia"
+                            {selectedCoverId === "chon-loai-bia"
                               ? "Chọn loại bìa"
                               : ""}
                             <SelectValue placeholder="Chọn loại bìa" />
@@ -868,11 +874,11 @@ export default function OrderAlbumCreate() {
                       </div>
                       <div className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full my-4">
                         <Select
-                          value={selectedCore}
+                          value={selectedCoreId}
                           onValueChange={handleCoreChange}
                         >
                           <SelectTrigger>
-                            {selectedCore === "chon-loai-ruot"
+                            {selectedCoreId === "chon-loai-ruot"
                               ? "Chọn loại ruột"
                               : ""}
                             <SelectValue placeholder="Chọn loại ruột" />
@@ -891,7 +897,7 @@ export default function OrderAlbumCreate() {
                           </SelectContent>
                         </Select>
                       </div>
-                      {selectedCover === "2" && (
+                      {selectedCoverId === "2" && (
                         <div className="w-full">
                           <ImageUploadAlbum onImageChange={setUploadedFile} />
                         </div>
