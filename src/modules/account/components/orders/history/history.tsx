@@ -426,7 +426,7 @@ export default function OrderHistory({
                                 } lg:py-2 py-2 rounded-sm flex items-center justify-center text-center ${
                                 order?.status === "cancelled"
                                   ? "w-full"
-                                  : "w-1/2"
+                                  : "w-full"
                               } lg:w-72`}
                             >
                               {order?.status === "completed" && "Hoàn thành"}
@@ -457,23 +457,16 @@ export default function OrderHistory({
                             customerAccount={customerAccount}
                           />
                         )}
-                        <div
-                          className={`flex flex-row ${
-                            order?.status === "cancelled"
-                              ? "justify-end"
-                              : "justify-between"
-                          } items-center gap-4`}
-                        >
-                          <p className="text-xl lg:text-xl font-semibold">
-                            {HELPER.formatVND(
-                              String(
-                                order?.order_type === "frame"
-                                  ? order?.total
-                                  : Number(order?.total) - order?.discount_price
-                              )
-                            )}
-                          </p>
-                        </div>
+                        <div></div>
+                        <p className="text-xl lg:text-xl font-semibold">
+                          {HELPER.formatVND(
+                            String(
+                              order?.order_type === "frame"
+                                ? order?.total
+                                : Number(order?.total) - order?.discount_price
+                            )
+                          )}
+                        </p>
                       </div>
                     </div>
                   ))
