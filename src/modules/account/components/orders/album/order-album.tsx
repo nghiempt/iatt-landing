@@ -601,9 +601,15 @@ export default function OrderAlbumCreate() {
 
   return (
     <div className="w-full">
+      <div className="flex flex-col justify-center items-center w-full bg-[#F0F0F0] py-1 text-center text-[#A98F57] text-sm font-semibold">
+        <span className="text-md font-light">Các phong cách</span>
+        <span className="text-lg font-semibold">
+          THIẾT KẾ ALBUM CƯỚI HOT NHẤT
+        </span>
+      </div>
       <Header />
-      <div className="container px-5 lg:px-8 pb-6 pt-2">
-        <nav className="flex items-center gap-2 text-sm text-gray-600 mb-6">
+      <div className="container px-5 lg:px-8 pb-6 pt-5">
+        <nav className="flex items-center gap-2 text-sm text-gray-600 pb-2">
           <Link href={`${ROUTES.HOME}`} className="hover:text-black">
             Trang chủ
           </Link>
@@ -613,7 +619,7 @@ export default function OrderAlbumCreate() {
           </Link>
           <ChevronRight className="w-4 h-4" />
           <Link href={`${ROUTES.ACCOUNT}`} className="hover:text-black">
-            Tạo đơn hàng
+            Tạo đơn hàng Album
           </Link>
         </nav>
         <div className="">
@@ -625,7 +631,7 @@ export default function OrderAlbumCreate() {
                     Thông tin khách hàng
                   </h2>
                   <div className="mb-4">
-                    <Label htmlFor="name" className="text-gray-600 ">
+                    <Label htmlFor="name" className="text-black">
                       Họ và tên:
                     </Label>
                     <Input
@@ -634,24 +640,11 @@ export default function OrderAlbumCreate() {
                       name="name"
                       value={formData.name}
                       onChange={handleInputChange}
-                      className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md"
+                      className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md mt-1"
                     />
                   </div>
                   <div className="mb-4">
-                    <Label htmlFor="email" className="text-gray-600">
-                      Email:
-                    </Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      disabled={true}
-                      className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md"
-                    />
-                  </div>
-                  <div className="mb-4">
-                    <Label htmlFor="phone" className="text-gray-600">
+                    <Label htmlFor="phone" className="text-black">
                       Số điện thoại:
                     </Label>
                     <Input
@@ -659,7 +652,7 @@ export default function OrderAlbumCreate() {
                       name="phone"
                       value={formData.phone}
                       onChange={handleInputChange}
-                      className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md"
+                      className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md mt-1"
                     />
                   </div>
                 </div>
@@ -669,7 +662,7 @@ export default function OrderAlbumCreate() {
                   </h2>
                   <div className="grid grid-cols-2 gap-4 mb-4">
                     <div>
-                      <Label htmlFor="province" className="text-gray-600">
+                      <Label htmlFor="province" className="text-black">
                         Tỉnh/Thành phố:
                       </Label>
                       <Select
@@ -677,7 +670,7 @@ export default function OrderAlbumCreate() {
                         onValueChange={handleProvinceChange}
                         disabled={loading}
                       >
-                        <SelectTrigger>
+                        <SelectTrigger className="mt-1">
                           <SelectValue placeholder="Chọn tỉnh/thành phố" />
                         </SelectTrigger>
                         <SelectContent>
@@ -693,7 +686,7 @@ export default function OrderAlbumCreate() {
                       </Select>
                     </div>
                     <div>
-                      <Label htmlFor="district" className="text-gray-600">
+                      <Label htmlFor="district" className="text-black">
                         Quận/Huyện:
                       </Label>
                       <Select
@@ -701,7 +694,7 @@ export default function OrderAlbumCreate() {
                         onValueChange={handleDistrictChange}
                         disabled={!formData.province || loading}
                       >
-                        <SelectTrigger>
+                        <SelectTrigger className="mt-1">
                           <SelectValue placeholder="Chọn quận/huyện" />
                         </SelectTrigger>
                         <SelectContent>
@@ -718,7 +711,7 @@ export default function OrderAlbumCreate() {
                     </div>
                   </div>
                   <div className="mb-4">
-                    <Label htmlFor="ward" className="text-gray-600">
+                    <Label htmlFor="ward" className="text-black">
                       Phường/Xã:
                     </Label>
                     <Select
@@ -726,7 +719,7 @@ export default function OrderAlbumCreate() {
                       onValueChange={handleWardChange}
                       disabled={!formData.district || loading}
                     >
-                      <SelectTrigger>
+                      <SelectTrigger className="mt-1">
                         <SelectValue placeholder="Chọn phường/xã" />
                       </SelectTrigger>
                       <SelectContent>
@@ -739,10 +732,11 @@ export default function OrderAlbumCreate() {
                     </Select>
                   </div>
                   <div className="mb-4">
-                    <Label htmlFor="address" className="text-gray-600">
+                    <Label htmlFor="address" className="text-black">
                       Số nhà, tên đường:
                     </Label>
                     <Input
+                      className="mt-1"
                       id="address"
                       name="address"
                       placeholder="Ví dụ: 123 Đường ABC"
@@ -816,12 +810,12 @@ export default function OrderAlbumCreate() {
                         </div>
                       </div>
                       <div>
-                        <h2 className="text-sm font-medium mb-2 mt-4">
+                        <h2 className="text-black text-sm font-medium mb-2 mt-4">
                           Thêm ghi chú cho đơn hàng
                         </h2>
                         <textarea
                           placeholder="Ghi chú về đơn hàng (Nếu có)"
-                          className="w-full p-3 border border-gray-300 rounded h-24 ml-0 mx-10"
+                          className="w-full p-3 border border-gray-300 rounded h-24 ml-0"
                         ></textarea>
                       </div>
                     </>
@@ -897,11 +891,12 @@ export default function OrderAlbumCreate() {
                           </SelectContent>
                         </Select>
                       </div>
-                      {selectedCoverId === "2" && (
-                        <div className="w-full">
-                          <ImageUploadAlbum onImageChange={setUploadedFile} />
-                        </div>
-                      )}
+                      {selectedCore !== "chon-loai-ruot" &&
+                        selectedCoverId === "2" && (
+                          <div className="w-full">
+                            <ImageUploadAlbum onImageChange={setUploadedFile} />
+                          </div>
+                        )}
                     </div>
                   </div>
                 </div>
@@ -912,7 +907,7 @@ export default function OrderAlbumCreate() {
                       Thông tin khách hàng
                     </h2>
                     <div className="mb-4">
-                      <Label htmlFor="name" className="text-gray-600 ">
+                      <Label htmlFor="name" className="text-black ">
                         Họ và tên:
                       </Label>
                       <Input
@@ -925,21 +920,9 @@ export default function OrderAlbumCreate() {
                         style={{ fontSize: "16px" }}
                       />
                     </div>
+
                     <div className="mb-4">
-                      <Label htmlFor="email" className="text-gray-600">
-                        Email:
-                      </Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        disabled={true}
-                        className="w-full px-3 py-2 pr-16 border border-gray-300 rounded-md"
-                      />
-                    </div>
-                    <div className="mb-4">
-                      <Label htmlFor="phone" className="text-gray-600">
+                      <Label htmlFor="phone" className="text-black">
                         Số điện thoại:
                       </Label>
                       <Input
@@ -958,7 +941,7 @@ export default function OrderAlbumCreate() {
                     </h2>
                     <div className="grid grid-cols-1 gap-4 mb-4">
                       <div>
-                        <Label htmlFor="province" className="text-gray-600">
+                        <Label htmlFor="province" className="text-black">
                           Tỉnh/Thành phố:
                         </Label>
                         <Dialog
@@ -998,7 +981,7 @@ export default function OrderAlbumCreate() {
                         </Dialog>
                       </div>
                       <div>
-                        <Label htmlFor="district" className="text-gray-600">
+                        <Label htmlFor="district" className="text-black">
                           Quận/Huyện:
                         </Label>
                         <Dialog
@@ -1041,7 +1024,7 @@ export default function OrderAlbumCreate() {
                       </div>
                     </div>
                     <div className="mb-4">
-                      <Label htmlFor="ward" className="text-gray-600">
+                      <Label htmlFor="ward" className="text-black">
                         Phường/Xã:
                       </Label>
                       <Dialog open={openWard} onOpenChange={setOpenWard}>
@@ -1076,7 +1059,7 @@ export default function OrderAlbumCreate() {
                       </Dialog>
                     </div>
                     <div className="mb-4">
-                      <Label htmlFor="address" className="text-gray-600">
+                      <Label htmlFor="address" className="text-black">
                         Số nhà, tên đường:
                       </Label>
                       <Input
@@ -1159,17 +1142,17 @@ export default function OrderAlbumCreate() {
                           </div>
                         </div>
                         <div>
-                          <h2 className="text-sm font-medium mb-2">
+                          <h2 className="text-black text-sm font-medium mb-2">
                             Thêm ghi chú cho đơn hàng
                           </h2>
                           <textarea
                             placeholder="Ghi chú về đơn hàng (Nếu có)"
-                            className="w-full p-3 border border-gray-300 rounded h-24 ml-0 mx-10"
+                            className="w-full p-3 border border-gray-300 rounded h-24 ml-0"
                           ></textarea>
                         </div>
                       </>
                     )}
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-black">
                     Bằng cách tiến hành mua hàng, bạn đã đồng ý với các điều
                     khoản và chính sách của chúng tôi.
                   </p>
@@ -1292,7 +1275,7 @@ export default function OrderAlbumCreate() {
                         </div>
                       </div>
 
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-black">
                         Bằng cách tiến hành mua hàng, bạn đã đồng ý với các điều
                         khoản và chính sách của chúng tôi.
                       </p>

@@ -100,7 +100,7 @@ export default function CreateOrderSingle() {
               href={`${ROUTES.ABOUT}`}
               className="hover:text-[rgb(var(--primary-rgb))] text-md"
             >
-              Tạo đơn hàng
+              Tạo đơn hàng Khung Ảnh
             </Link>
           </nav>
         </div>
