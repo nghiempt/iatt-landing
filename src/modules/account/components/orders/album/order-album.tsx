@@ -147,13 +147,9 @@ export default function OrderAlbumCreate() {
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [uploadedFile, setUploadedFile] = React.useState<File | null>(null);
-  const [currentImage, setCurrentImage] = React.useState("");
-  const [isPaper, setIsPaper] = React.useState(true);
-  const [paperType, setPaperType] = React.useState(1);
   const [isLogin, setIsLogin] = useState(Cookies.get("isLogin"));
   const [customerAccount, setCustomerAccount] =
     useState<CustomerAccount | null>(null);
-  const [orderNoLogin, setOrderNoLogin] = useState(false);
   const [selectedPayment, setSelectedPayment] = React.useState<string>("cash");
   const [promoCode, setPromoCode] = useState("");
   const [loading, setLoading] = useState<boolean>(false);
@@ -192,8 +188,6 @@ export default function OrderAlbumCreate() {
     setSelectedCore(selectedCoreItem ? selectedCoreItem.name : "");
 
     const corePrice = selectedCoreItem ? selectedCoreItem.price : 0;
-    const coverItem = covers.find((item) => String(item.id) === selectedCover);
-
     setAlbumPriceCore(corePrice);
   };
 
@@ -205,8 +199,6 @@ export default function OrderAlbumCreate() {
     setSelectedCover(selectedCoverItem ? selectedCoverItem.name : "");
 
     const coverPrice = selectedCoverItem ? selectedCoverItem.price : 0;
-    const coreItem = pages.find((item) => String(item.id) === selectedCore);
-
     setAlbumPriceCover(coverPrice);
   };
 

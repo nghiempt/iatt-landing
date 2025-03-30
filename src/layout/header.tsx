@@ -267,12 +267,14 @@ export default function Header() {
                     </DropdownMenu>
                   </Dropdown>
                 </div>
-                <Image
-                  src={IMAGES.CART}
-                  alt="In Ảnh Trực Tuyến"
-                  width={32}
-                  height={32}
-                />
+                <Link href={`${ROUTES.ACCOUNT}?tab=history`}>
+                  <Image
+                    src={IMAGES.CART}
+                    alt="In Ảnh Trực Tuyến"
+                    width={32}
+                    height={32}
+                  />
+                </Link>
               </>
             ) : (
               <>
@@ -283,12 +285,12 @@ export default function Header() {
                   <span className="text-gray-300">|</span>
                   <Button variant="ghost">Đăng ký</Button>
                 </div>
-                <Image
+                {/* <Image
                   src={IMAGES.CART}
                   alt="In Ảnh Trực Tuyến"
                   width={32}
                   height={32}
-                />
+                /> */}
                 <div>
                   <Link
                     href="#"

@@ -265,7 +265,6 @@ const CreateOrderSingleSection = () => {
         const res = await ProductService.getProductById(selectedProduct);
         if (res && res.data) {
           setProductsData(res.data);
-          // setSelectedColor(res.data.color[0]);
         }
       } catch (error) {
         console.error("Error fetching product by ID:", error);
@@ -484,7 +483,6 @@ const CreateOrderSingleSection = () => {
           account: commonAccountData,
           order: orderData,
         });
-        // setOrderNoLogin(true);
         accountOrderLogin = false;
         try {
           let data;
@@ -499,11 +497,6 @@ const CreateOrderSingleSection = () => {
               response?.data?.password
             );
           }
-          // if (response?.data?.isAccountExisted === true) {
-          //   setOrderNewAccount(false);
-          // } else {
-          //   setOrderNewAccount(true);
-          // }
           if (data?.message === "SUCCESS") {
             Cookies.set("isLogin", data?.data, { expires: 7 });
             Cookies.set("userLogin", data?.data, { expires: 7 });
@@ -526,7 +519,6 @@ const CreateOrderSingleSection = () => {
           account: { _id: isLogin, ...commonAccountData },
           order: orderData,
         });
-        // setOrderNoLogin(false);
         accountOrderLogin = true;
         if (response === false) {
           toast({
@@ -1131,53 +1123,6 @@ const CreateOrderSingleSection = () => {
                       />
                     </div>
                   ) : (
-                    // <>
-                    //   <div
-                    //     className={`relative ${
-                    //       selectedSize === "40x20"
-                    //         ? "w-full h-full lg:w-2/3 lg:h-2/3"
-                    //         : "w-full h-60"
-                    //     }  flex items-center justify-center overflow-hidden rounded-md mt-3`}
-                    //     style={getImageContainerStyle()}
-                    //   >
-                    //     <Image
-                    //       src={
-                    //         croppedImage
-                    //           ? croppedImage
-                    //           : uploadedFile
-                    //           ? URL.createObjectURL(uploadedFile)
-                    //           : currentImage || IMAGES.LOGO
-                    //       }
-                    //       alt="Selected product image"
-                    //       width={1000}
-                    //       height={1000}
-                    //       className={`object-cover ${
-                    //         selectedSize === "40x20"
-                    //           ? "w-full h-full"
-                    //           : "w-1/2 lg:w-full h-full"
-                    //       } ${
-                    //         selectedProduct !== "Chon san pham"
-                    //           ? "border-8"
-                    //           : ""
-                    //       } ${
-                    //         selectedColor === "white"
-                    //           ? "border-gray-100"
-                    //           : selectedColor === "black"
-                    //           ? "border-black"
-                    //           : selectedColor === "gold"
-                    //           ? "border-yellow-400"
-                    //           : selectedColor === "silver"
-                    //           ? "border-gray-200"
-                    //           : selectedColor === "wood"
-                    //           ? "border-yellow-950"
-                    //           : "border-gray-200"
-                    //       } rounded-md`}
-                    //       onError={(e) => {
-                    //         e.currentTarget.src = IMAGES.LOGO;
-                    //       }}
-                    //     />
-                    //   </div>
-                    // </>
                     <>
                       <div
                         className={`relative ${
