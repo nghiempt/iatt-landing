@@ -290,8 +290,8 @@ export default function ProductDetailClient() {
                               src={proImg}
                               alt="Product Image"
                               className="object-cover rounded-sm border border-gray-200"
-                              fill
-                              priority
+                              width={1000}
+                              height={1000}
                             />
                           </div>
                         </SwiperSlide>
@@ -327,7 +327,7 @@ export default function ProductDetailClient() {
                           <SwiperSlide key={index}>
                             <div
                               key={index}
-                              className={`w-full h-28 rounded-sm overflow-hidden cursor-pointer relative transition-all duration-300 ${
+                              className={`w-full h-full rounded-sm overflow-hidden cursor-pointer relative transition-all duration-300 ${
                                 activeSlide === index
                                   ? "border-[#6B3410]  border-2"
                                   : "border-transparent"
@@ -338,7 +338,8 @@ export default function ProductDetailClient() {
                                 src={proImg}
                                 alt={`variant ${index + 1}`}
                                 className="object-cover border border-gray-200"
-                                layout="fill"
+                                width={1000}
+                                height={1000}
                               />
                             </div>
                           </SwiperSlide>
