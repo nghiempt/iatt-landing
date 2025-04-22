@@ -507,7 +507,7 @@ export default function PriceTable() {
                   </div>
                 </div>
                 <Image
-                  src="https://s3-alpha-sig.figma.com/img/7479/3b7c/552593d478f203548cca72b01b50b862?Expires=1741564800&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=bQ5JxELqv2CgiAetbE-cxqZ6X3n3N~EWsuA4CWnttGkYIUWJl9H7iUg985vn4zCnMtdOfx0FUJVLPLIA3syaNI6WpSPnO0q8dV6DEAF8upH2qSPE2oLCOtqPeNQmZYkEUPGxd4ULGa0whwGNVC2IARSIM1Oow0yVl6GWkCaq7WjKMWw8z004M4hPManBarNEk98Y8cL7sVCafJKk5NXYte2-64qeKaan2xhJF16NFfNjzUd~RxKSuzAoHE5yj1AtlzohK-SrTRM6vcVGYcgD902vgpNgmYt99Z1Kmgm2-tARp3qPc66D1dxxG-WHOCXV~Zn25aY9j~vkfXxxQfe1PQ__"
+                  src="https://res.cloudinary.com/farmcode/image/upload/v1745333847/iatt/74793b7c552593d478f203548cca72b01b50b862_kk2a1b.png"
                   alt="price-banner"
                   className="hidden lg:flex mx-auto w-4/5 h-full object-contain"
                   width={1000}
