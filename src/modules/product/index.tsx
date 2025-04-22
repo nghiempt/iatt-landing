@@ -55,17 +55,16 @@ export default function ProductClient() {
       : products.filter((item: Product) => item.category === selectedCate);
 
   const filteredDataSort = filteredData.sort((a: any, b: any) => {
-    const priceA = parseInt(a.price.replace(/[^0-9]+/g, ""));
-    const priceB = parseInt(b.price.replace(/[^0-9]+/g, ""));
-
-    if (selectedSort === 0) {
-      return 0;
-    } else if (selectedSort === 1) {
-      return priceA - priceB;
-    } else if (selectedSort === 2) {
-      return priceB - priceA;
-    }
-    return 0;
+    // const priceA = parseInt(a.price.replace(/[^0-9]+/g, ""));
+    // const priceB = parseInt(b.price.replace(/[^0-9]+/g, ""));
+    // if (selectedSort === 0) {
+    //   return 0;
+    // } else if (selectedSort === 1) {
+    //   return priceA - priceB;
+    // } else if (selectedSort === 2) {
+    //   return priceB - priceA;
+    // }
+    // return 0;
   });
   const sortOptions = [
     { label: "Mặc Định", sort: 0 },
@@ -296,7 +295,7 @@ export default function ProductClient() {
                     <GlobalComponent.ProductCardMobile
                       image={data?.thumbnail}
                       title={data?.name}
-                      price={data?.price}
+                      price={data?.product_option[0]?.price}
                     />
                   </Link>
                 </div>

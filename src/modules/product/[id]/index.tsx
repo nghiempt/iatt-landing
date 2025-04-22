@@ -36,13 +36,16 @@ export default function ProductDetailClient() {
   const [swiperInstance, setSwiperInstance] = useState<any>(null);
   const [isExpanded, setIsExpanded] = useState(false);
   const [quantity, setQuantity] = useState(1);
+  const [sizesAndPrices, setSizesAndPrices] = useState<
+    { size: string; price: string }[]
+  >([{ size: "", price: "" }]);
 
   interface Product {
     _id: string;
     name: string;
     description: string;
     introduction: string;
-    price: string;
+    product_option: Array<{ size: string; price: string }>;
     thumbnail: string;
     category: string;
     sold: number;
@@ -364,6 +367,18 @@ export default function ProductDetailClient() {
                         <div className="text-md lg:text-xl font-normal line-through text-brown-700">
                           {HELPER.formatVND(HELPER.upPrice(currentData?.price))}
                         </div>
+                      </div>
+                      <div className="flex justify-start items-center gap-4">
+                        {data?.product_option?.map(
+                          (option: any, index: number) => (
+                            <div
+                              key={index}
+                              className="text-2xl lg:text-3xl font-medium text-brown-700"
+                            >
+                              {option?.size}
+                            </div>
+                          )
+                        )}
                       </div>
                       <div className="flex items-center space-x-4">
                         <span className="w-1/4 lg:w-2/12">Số lượng</span>
