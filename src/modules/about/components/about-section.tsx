@@ -59,21 +59,21 @@ const AboutSection = () => {
       description:
         "Biến từng tấm ảnh cưới thành một câu chuyện đầy riêng tư và ý nghĩa. Với đa dạng mẫu mã được tối ưu theo phong cách riêng của bạn – từ hiện đại, vintage, phong cách Hàn Quốc đến sự hòa quyện với thiên nhiên, chúng tôi mang đến những thiết kế album độc đáo, tinh tế. Đặc biệt, chất lượng hình ảnh luôn sắc nét, chống trầy xước, giúp bạn lưu giữ kỷ niệm một cách hoàn hảo.",
       imageSrc:
-        "https://s3-alpha-sig.figma.com/img/d4eb/9c49/c1f92fba641ceff562e7014c157e33e4?Expires=1740960000&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=ka1IYClYtvz3V5CTMzO0x3H9ts9HGeaJQ3fA9ZNSHbn8j0rqHUSWL0292MHrSyQb7ZzFD9fwSTNQLzHE2CCDwlQVYvZ8ExBazeA~SOvSEOlQwjgT8AOBVD7SwTSIQKJGcJYjynF2gymRk9iha79Rcbz~gcdRYYNfWuCClzFeO8U6-JHrTYI5mCCNctdDH4UFxwakKrVgnnJhepncTUBzXqzTCklHk0Q8MBxS5ngF5UHz5V5Frq~MklThg6SE7WCzEKAR1zsniJ~-c9tPV2HRrl6I4GoZ5YhSu3CFgHfTqFT2KabVZeXGJm1kUVrXJNaBC~6zdY5DwdfkZEhkl35hNA__",
+        "https://res.cloudinary.com/farmcode/image/upload/v1745334263/iatt/d4eb9c49c1f92fba641ceff562e7014c157e33e4_nkvglk.jpg",
     },
     {
       title: "ẢNH ÉP GỖ KHUNG VIỀN",
       description:
         "Mang đến sự lựa chọn hoàn hảo cho ảnh cưới và tiệc với thiết kế hiện đại, phù hợp mọi không gian trang trí. Bộ sưu tập đa dạng, mẫu mã mới bắt khung viền Titan sang trọng, Khung gỗ cổ điển, khung viền Hàn Quốc... hiện đại tinh tế. Từng sản phẩm đều được thiết kế để tôn lên vẻ đẹp của khoảnh khắc và hòa quyện với mọi bối cảnh trang trí.",
       imageSrc:
-        "https://s3-alpha-sig.figma.com/img/0173/6e47/0d602ea6302b6216b03cb46206a4e87e?Expires=1740960000&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=FrTT-QplEMhWP1kjvue7fHc8RaaVoF1EUi4igEBgzZA5F1K8cm47xg6qyMNGaQE34otw3aqaVxE0MqmAza1yKdiUAFCVZTSzvRWhCWbFA7JR7XVyTkYuWYjMoMFTg3nPLsjTdUv440GpCOonKO0T3wCwkf30jXfue5u9fIubY7R6YsbNu~S6gfE2iVibh5ADeHPuY4kcAyLWFZGBZKkem16xQtgIXc2rsXENbyHvJOJEj1dhaKF11QOaCVfQRkp6WDhVVKPDWQAgF-ixxk~3SyY1lgO5NiWQ0cavpI3uyW5AqFkuCsNwGmTNNA2dprrgGrUfj2l2rEeyBJvXND1IWQ__",
+        "https://res.cloudinary.com/farmcode/image/upload/v1745334309/iatt/01736e470d602ea6302b6216b03cb46206a4e87e_uho8e6.jpg",
     },
     {
       title: "ẢNH ÉP PLASTIC, LỤA",
       description:
         "Lưu giữ trọn vẹn vẻ đẹp thời gian với dịch vụ in ảnh ép Plastic và Lụa. Ảnh được in bằng máy in chất lượng, đảm bảo độ sắc nét tuyệt đối và màu sắc bền đẹp trên 10 năm. Từng sản phẩm đều được in ấn tỉ mỉ, mang đến sự hài lòng tối đa và trở thành món quà ý nghĩa để lưu giữ những kỷ niệm của bạn.",
       imageSrc:
-        "https://s3-alpha-sig.figma.com/img/5ecd/4f30/190e30f2678eadaebfb8b81adc635251?Expires=1740960000&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=Ffim5jo0Wq70zfm8bQC0pIwEnhpqzbHqYqi0YQ3lqYvKE4N18xzSj~PvyP6Vt799nnZFDYds710dRdFswoTRWIJ8Fpe0sA9jCdAUCMgd4wy-XwDclN9j0qtRmH8xnS10kr24bpOpahAFn2BO-4wrO7W~wcNnuezYVkkGvzYPJAUo2ozmpE1xr8NC1gr-o54KGViaYAarjkqtB70ULmbKedfTBpfBdONcrfSj6nv-5UUH1pSfzlD1blSGTVyXE-~fjRugqSjQJ3pakzFn6Hvq1PU4CXxuXA0hJfvbJ2v714bGB6TAwBeu0IRHapllSz86kjcme336BiqK-kHNpJKcEw__",
+        "https://res.cloudinary.com/farmcode/image/upload/v1745334351/iatt/5ecd4f30190e30f2678eadaebfb8b81adc635251_qgyzy5.jpg",
     },
   ];
 
