@@ -182,7 +182,7 @@ export default function BlogDetailClient() {
                   width={400}
                   height={140}
                 />
-                <div className="font-semibold text-xl mb-4 mt-1">
+                <div className="font-semibold text-xl mb-4 mt-1 lg:mt-10">
                   BÀI VIẾT LIÊN QUAN
                 </div>
                 <div className="grid grid-flow-col grid-rows-4 gap-4">

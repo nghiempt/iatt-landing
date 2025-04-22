@@ -55,17 +55,19 @@ export default function ProductClient() {
       : products.filter((item: Product) => item.category === selectedCate);
 
   const filteredDataSort = filteredData.sort((a: any, b: any) => {
-    // const priceA = parseInt(a.price.replace(/[^0-9]+/g, ""));
-    // const priceB = parseInt(b.price.replace(/[^0-9]+/g, ""));
-    // if (selectedSort === 0) {
-    //   return 0;
-    // } else if (selectedSort === 1) {
-    //   return priceA - priceB;
-    // } else if (selectedSort === 2) {
-    //   return priceB - priceA;
-    // }
-    // return 0;
+    const priceA = parseInt(a.product_option[0]?.price || "0");
+    const priceB = parseInt(b.product_option[0]?.price || "0");
+
+    if (selectedSort === 0) {
+      return 0;
+    } else if (selectedSort === 1) {
+      return priceA - priceB;
+    } else if (selectedSort === 2) {
+      return priceB - priceA;
+    }
+    return 0;
   });
+
   const sortOptions = [
     { label: "Mặc Định", sort: 0 },
     { label: "Giá Thấp Đến Cao", sort: 1 },
@@ -258,7 +260,7 @@ export default function ProductClient() {
                 <ChevronDown className="w-4 h-4" />
               </Button>
               {openSort && (
-                <div className="absolute top-20 left-0 lg:top-12 lg:left-auto lg:right-0 w-56 bg-white shadow-md border border-gray-100 z-10 transition-opacity duration-300 ease-in-out">
+                <div className="absolute top-20 left-0 lg:top-[100%] lg:left-auto lg:right-0 w-56 bg-white shadow-md border border-gray-100 z-10 transition-opacity duration-300 ease-in-out">
                   <div className="flex flex-col space-y-2 py-2">
                     {sortOptions.map(({ label, sort }) =>
                       selectedSort === sort ? (

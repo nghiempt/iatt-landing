@@ -41,7 +41,7 @@ const ProductSectionMobile: React.FC<ProductSectionMobileProps> = ({
             <GlobalComponent.ProductCardMobile
               image={product?.thumbnail}
               title={product?.name}
-              price={product?.price}
+              price={product?.product_option[0]?.price}
             />
           </Link>
         ))}

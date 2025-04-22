@@ -32,7 +32,7 @@ const ORDER = {
   CREATE_NO_LOGIN: `${BASE_URL}/inanhtructuyen/order/no-login`,
   CREATE_ALBUM: `${BASE_URL}/inanhtructuyen/order-album/`,
   CREATE_ALBUM_NO_LOGIN: `${BASE_URL}/inanhtructuyen/order-album/no-login`,
-  DISCOUNT_CHECK: `${BASE_URL}/inanhtructuyen/discount/`,
+  DISCOUNT_CHECK: `${BASE_URL}/inanhtructuyen/discount`,
 };
 
 const MOBILE = {

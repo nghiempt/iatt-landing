@@ -205,7 +205,7 @@ const CreateOrderSingleSection = () => {
     (Number(
       HELPER.calculateTotalNumber(
         products.find((pro: any) => pro._id.toString() === selectedProduct)
-          ?.price,
+          ?.product_option[0]?.price,
         "30000",
         0
       )
@@ -1613,7 +1613,7 @@ const CreateOrderSingleSection = () => {
                     HELPER.formatVND(
                       products.find(
                         (pro: any) => pro._id.toString() === selectedProduct
-                      )?.price
+                      )?.product_option[0]?.price
                     )}
                 </span>
               </div>
@@ -1630,7 +1630,7 @@ const CreateOrderSingleSection = () => {
                     HELPER.calculateTotal(
                       products.find(
                         (pro: any) => pro._id.toString() === selectedProduct
-                      )?.price,
+                      )?.product_option[0]?.price,
                       "30000",
                       "0"
                     )}
@@ -1647,10 +1647,10 @@ const CreateOrderSingleSection = () => {
                         </div>
                       ) : (
                         <div className="flex flex-row gap-2">
-                          <div className="text-white text-sm flex flex-row justify-center items-center gap-4 mx-auto py-2 px-2 lg:py-2 bg-green-400 hover:bg-yellow-500 text-center rounded-md font-medium transition">
+                          <div className="cursor-pointer text-white text-sm flex flex-row justify-center items-center gap-4 mx-auto py-2 px-2 lg:py-2 bg-green-400 hover:bg-yellow-500 text-center rounded-md font-medium transition">
                             Đã áp dụng mã
                           </div>
-                          <div className="text-white text-sm flex flex-row justify-center items-center gap-4 mx-auto py-2 px-2 lg:py-2 bg-yellow-400 hover:bg-yellow-500 text-center rounded-md font-medium transition">
+                          <div className="cursor-pointer text-white text-sm flex flex-row justify-center items-center gap-4 mx-auto py-2 px-2 lg:py-2 bg-yellow-400 hover:bg-yellow-500 text-center rounded-md font-medium transition">
                             Đổi mã
                           </div>
                         </div>
@@ -1713,7 +1713,7 @@ const CreateOrderSingleSection = () => {
                     HELPER.calculateTotal(
                       products.find(
                         (pro: any) => pro._id.toString() === selectedProduct
-                      )?.price,
+                      )?.product_option[0]?.price,
                       "30000",
                       discountPercent
                     )}

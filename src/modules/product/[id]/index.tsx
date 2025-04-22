@@ -36,9 +36,7 @@ export default function ProductDetailClient() {
   const [swiperInstance, setSwiperInstance] = useState<any>(null);
   const [isExpanded, setIsExpanded] = useState(false);
   const [quantity, setQuantity] = useState(1);
-  const [sizesAndPrices, setSizesAndPrices] = useState<
-    { size: string; price: string }[]
-  >([{ size: "", price: "" }]);
+  const [selectedSize, setSelectedSize] = useState<string>("");
 
   interface Product {
     _id: string;
@@ -129,6 +127,9 @@ export default function ProductDetailClient() {
         (pro: Product) => HELPER.getLastFourChars(pro._id).toString() === id
       );
       setCurrentData(product || null);
+      if (product?.product_option?.length > 0) {
+        setSelectedSize(product.product_option[0].size);
+      }
     }
     setIsLoading(false);
   };
@@ -143,6 +144,17 @@ export default function ProductDetailClient() {
     } else if (type === "decrease" && quantity > 1) {
       setQuantity((prev) => prev - 1);
     }
+  };
+
+  const handleSizeSelect = (size: string) => {
+    setSelectedSize(size);
+  };
+
+  const getCurrentPrice = () => {
+    const selectedOption = currentData?.product_option?.find(
+      (option: any) => option.size === selectedSize
+    );
+    return selectedOption ? selectedOption.price : currentData?.price || "0";
   };
 
   const handleSwiper = (swiper: any) => {
@@ -362,21 +374,26 @@ export default function ProductDetailClient() {
                       </h1>
                       <div className="flex justify-start items-center gap-4">
                         <div className="text-2xl lg:text-3xl font-medium text-brown-700">
-                          {HELPER.formatVND(currentData?.price)}
+                          {HELPER.formatVND(getCurrentPrice())}
                         </div>
                         <div className="text-md lg:text-xl font-normal line-through text-brown-700">
-                          {HELPER.formatVND(HELPER.upPrice(currentData?.price))}
+                          {HELPER.formatVND(HELPER.upPrice(getCurrentPrice()))}
                         </div>
                       </div>
-                      <div className="flex justify-start items-center gap-4">
-                        {data?.product_option?.map(
+                      <div className="grid grid-cols-4 gap-4 w-3/4">
+                        {currentData?.product_option?.map(
                           (option: any, index: number) => (
-                            <div
+                            <button
                               key={index}
-                              className="text-2xl lg:text-3xl font-medium text-brown-700"
+                              className={`h-10 text-sm lg:text-base font-base border rounded-md flex items-center justify-center py-2 cursor-pointer transition-all duration-300 ${
+                                selectedSize === option.size
+                                  ? "border-[#6B3410] border-2 bg-orange-50"
+                                  : "border-gray-300"
+                              }`}
+                              onClick={() => handleSizeSelect(option.size)}
                             >
-                              {option?.size}
-                            </div>
+                              <div className="flex">{option.size}</div>
+                            </button>
                           )
                         )}
                       </div>
@@ -631,7 +648,7 @@ export default function ProductDetailClient() {
                       <GlobalComponent.ProductCardMobile
                         image={product?.thumbnail}
                         title={product?.name}
-                        price={product?.price}
+                        price={product?.product_option[0]?.price}
                         sold={product?.sold}
                       />
                     </Link>
