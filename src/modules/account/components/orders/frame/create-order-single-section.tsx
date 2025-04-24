@@ -112,6 +112,12 @@ export interface CustomerAccount {
   wardName: string;
 }
 
+interface SizeOption {
+  id: string;
+  label: string;
+  dimensions: { width: number; height: number };
+}
+
 const CreateOrderSingleSection = () => {
   // ADDRESS
   const [openProvinces, setOpenProvinces] = useState(false);
@@ -159,6 +165,28 @@ const CreateOrderSingleSection = () => {
     province: 0,
   });
 
+  const [sizeOptions, setSizeOptions] = useState<SizeOption[]>([]);
+
+  useEffect(() => {
+    if (productsData?.product_option?.length > 0) {
+      const dynamicSizeOptions = productsData.product_option.map(
+        (option: { size: string; price: string }) => {
+          const [width, height] = option.size
+            .split("x")
+            .map((dim) => Number(dim) * 10);
+          return {
+            id: option.size,
+            label: option.size,
+            dimensions: { width, height },
+          };
+        }
+      );
+      setSizeOptions(dynamicSizeOptions);
+    } else {
+      setSizeOptions([]);
+    }
+  }, [productsData]);
+
   const colorOptions: ColorOption[] = [
     {
       id: "white",
@@ -192,24 +220,19 @@ const CreateOrderSingleSection = () => {
     },
   ];
 
-  const sizeOptions: SizeOption[] = [
-    { id: "15x21", label: "15x21", dimensions: { width: 150, height: 210 } },
-    { id: "20x30", label: "20x30", dimensions: { width: 200, height: 300 } },
-    { id: "40x20", label: "40x20", dimensions: { width: 400, height: 200 } },
-  ];
+  const selectedProductData = products.find(
+    (pro: any) => pro._id.toString() === selectedProduct
+  );
+  const selectedOption = selectedProductData?.product_option?.find(
+    (option: any) => option.size === selectedSize
+  );
+  const productPrice = selectedOption?.price || "0";
 
   const [isValid, setIsValid] = useState<boolean | null>(null);
   const [isChecking, setIsChecking] = useState(false);
   const [discountPercent, setDiscountPercent] = useState(0);
   const discountPrice =
-    (Number(
-      HELPER.calculateTotalNumber(
-        products.find((pro: any) => pro._id.toString() === selectedProduct)
-          ?.product_option[0]?.price,
-        "30000",
-        0
-      )
-    ) *
+    (Number(HELPER.calculateTotalNumber(productPrice, "30000", 0)) *
       discountPercent) /
     100;
 
@@ -464,14 +487,14 @@ const CreateOrderSingleSection = () => {
         image: upload[0]?.secure_url,
         order_type: "frame",
         color: confirmColor,
-        size: confirmSize,
+        size:
+          sizeOptions.find((option) => option.id === selectedSize)?.label || "",
         address: formData?.address || "",
         payment_method: selectedPayment || "",
         discount_code: promoCode || "",
         discount_price: discountPercent || 0,
         total: HELPER.calculateTotalNumber(
-          products.find((pro: any) => pro._id.toString() === selectedProduct)
-            ?.price,
+          selectedOption?.price || "0",
           "30000",
           discountPercent
         ),
@@ -479,6 +502,11 @@ const CreateOrderSingleSection = () => {
 
       let response;
       if (!isLogin) {
+        console.log("Non-logged-in Order Data:", {
+          account: commonAccountData,
+          order: orderData,
+        });
+
         response = await OrderService.createOrder_no_login({
           account: commonAccountData,
           order: orderData,
@@ -515,10 +543,16 @@ const CreateOrderSingleSection = () => {
           setIsLoading(false);
         }
       } else {
+        console.log("Logged-in Order Data:", {
+          account: { _id: isLogin, ...commonAccountData },
+          order: orderData,
+        });
+
         response = await OrderService.createOrder({
           account: { _id: isLogin, ...commonAccountData },
           order: orderData,
         });
+
         accountOrderLogin = true;
         if (response === false) {
           toast({
@@ -780,16 +814,11 @@ const CreateOrderSingleSection = () => {
   };
 
   const getAspectRatio = (sizeId: string) => {
-    switch (sizeId) {
-      case "15x21":
-        return 5 / 7;
-      case "20x30":
-        return 2 / 3;
-      case "40x20":
-        return 2 / 1;
-      default:
-        return 2 / 1;
+    const sizeOption = sizeOptions.find((option) => option.id === sizeId);
+    if (sizeOption) {
+      return sizeOption.dimensions.width / sizeOption.dimensions.height;
     }
+    return 2 / 1; // Default aspect ratio if size not found
   };
 
   return (
@@ -1184,7 +1213,7 @@ const CreateOrderSingleSection = () => {
                     </div>
                   </DialogTrigger>
                   <DialogContent
-                    className="sm:max-w-[1000px] max-h-[48rem] overflow-y-auto"
+                    className="sm:max-w-[1200px] max-h-[48rem] overflow-y-auto"
                     onOpenAutoFocus={(e) => e.preventDefault()}
                   >
                     <DialogHeader>
@@ -1231,16 +1260,16 @@ const CreateOrderSingleSection = () => {
                               onZoomChange={setZoom}
                             />
                           </div>
-                          <div className="flex flex-col gap-0">
+                          <div className="flex flex-col gap-0 w-1/2">
                             <div>
                               <h2 className="text-lg lg:text-xl font-medium mb-2">
                                 Kích thước khung ảnh:
                               </h2>
-                              <div className="flex gap-4 mb-4">
+                              <div className="grid grid-cols-4 gap-4 mb-4">
                                 {sizeOptions.map((size) => (
                                   <button
                                     key={size.id}
-                                    className={`border px-4 py-2 rounded-md ${
+                                    className={`border w-20 px-0 py-2 rounded-md ${
                                       selectedSize === size.id
                                         ? "border-yellow-500 bg-yellow-50"
                                         : "border-gray-300"
@@ -1608,14 +1637,7 @@ const CreateOrderSingleSection = () => {
             <div className="border-t pt-4 space-y-2">
               <div className="flex justify-between">
                 <span>Giá sản phẩm</span>
-                <span>
-                  {selectedProduct &&
-                    HELPER.formatVND(
-                      products.find(
-                        (pro: any) => pro._id.toString() === selectedProduct
-                      )?.product_option[0]?.price
-                    )}
-                </span>
+                <span>{selectedProduct && HELPER.formatVND(productPrice)}</span>
               </div>
               <div className="flex justify-between">
                 <span>Phí vận chuyển</span>
@@ -1627,13 +1649,7 @@ const CreateOrderSingleSection = () => {
                 <span>Tạm tính</span>
                 <span>
                   {selectedProduct &&
-                    HELPER.calculateTotal(
-                      products.find(
-                        (pro: any) => pro._id.toString() === selectedProduct
-                      )?.product_option[0]?.price,
-                      "30000",
-                      "0"
-                    )}
+                    HELPER.calculateTotal(productPrice, "30000", "0")}
                 </span>
               </div>
               <div className="flex justify-between items-center pt-2">
@@ -1711,9 +1727,7 @@ const CreateOrderSingleSection = () => {
                 <span>
                   {selectedProduct &&
                     HELPER.calculateTotal(
-                      products.find(
-                        (pro: any) => pro._id.toString() === selectedProduct
-                      )?.product_option[0]?.price,
+                      productPrice,
                       "30000",
                       discountPercent
                     )}

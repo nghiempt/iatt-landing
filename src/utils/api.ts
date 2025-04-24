@@ -8,7 +8,7 @@ const AUTH = {
 };
 
 const ACCOUNT = {
-  GET_ALL: `${BASE_URL}/inanhtructuyen/account/`,
+  GET_ALL: `${BASE_URL}/inanhtructuyen/account`,
   GET_ACCOUNT_BY_ID: `${BASE_URL}/inanhtructuyen/account`,
   UPDATE: `${BASE_URL}/inanhtructuyen/account/update`,
   CHANGE_PASSWORD: `${BASE_URL}/inanhtructuyen/account/change-password`,
@@ -24,13 +24,13 @@ const BLOG = {
 };
 
 const ORDER = {
-  GET_ALL: `${BASE_URL}/inanhtructuyen/order/`,
+  GET_ALL: `${BASE_URL}/inanhtructuyen/order`,
   GET_ALL_ORDER_BY_ID: `${BASE_URL}/inanhtructuyen/order/get-all`,
   GET_ORDER_BY_ID: `${BASE_URL}/inanhtructuyen/order`,
   UPDATE_ORDER: `${BASE_URL}/inanhtructuyen/order`,
-  CREATE: `${BASE_URL}/inanhtructuyen/order/`,
+  CREATE: `${BASE_URL}/inanhtructuyen/order`,
   CREATE_NO_LOGIN: `${BASE_URL}/inanhtructuyen/order/no-login`,
-  CREATE_ALBUM: `${BASE_URL}/inanhtructuyen/order-album/`,
+  CREATE_ALBUM: `${BASE_URL}/inanhtructuyen/order-album`,
   CREATE_ALBUM_NO_LOGIN: `${BASE_URL}/inanhtructuyen/order-album/no-login`,
   DISCOUNT_CHECK: `${BASE_URL}/inanhtructuyen/discount`,
 };

@@ -16,6 +16,23 @@ import { IMAGES } from "@/utils/image";
 
 interface Product {
   _id: string;
+  product_id: string;
+  account_id: string;
+  image: string;
+  size: string;
+  districtName: string;
+  provinceName: string;
+  wardName: string;
+  address: string;
+  payment_method: string;
+  discount_code: string;
+  discount_price: string;
+  total: number;
+  status: string;
+  date_completed: string;
+  product_name: string;
+  product_price: string;
+  order_type: string;
   name: string;
   description: string;
   introduction: string;
@@ -42,7 +59,14 @@ const OrderDetailModal = ({ order, customerAccount }: any) => {
       try {
         const data = await ProductService.getProductById(order?.product_id);
         setProduct(data.data);
-        setProductPrice(data.data.price);
+
+        // Find the price based on order.size in product_option
+        const matchedOption = data.data.product_option.find(
+          (option: { size: string; price: string }) =>
+            option.size === order?.size
+        );
+        const price = matchedOption ? parseInt(matchedOption.price) : 0;
+        setProductPrice(price);
       } catch (error) {
         console.error("Error fetching product:", error);
       }
@@ -251,7 +275,7 @@ const OrderDetailModal = ({ order, customerAccount }: any) => {
                   {HELPER.formatVND(
                     String(
                       order?.order_type === "frame"
-                        ? product?.price
+                        ? productPrice
                         : order?.album_price
                     )
                   )}
@@ -268,7 +292,7 @@ const OrderDetailModal = ({ order, customerAccount }: any) => {
                     String(
                       order?.order_type === "frame"
                         ? totalFrame
-                        : order?.album_price + shippingFee
+                        : Number(order?.album_price) + shippingFee
                     )
                   )}
                 </div>
