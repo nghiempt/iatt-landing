@@ -370,7 +370,7 @@ const AboutSection = () => {
 
   return (
     <div className="bg-white">
-      <div className="px-4 pt-4 lg:pb-0 lg:px-0">
+      <div className="px-4 pt-0 lg:pt-4 lg:pb-0 lg:px-0">
         {policies.map((policy) => (
           <div key={policy.title} className="">
             <button

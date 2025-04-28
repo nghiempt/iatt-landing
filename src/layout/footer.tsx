@@ -12,7 +12,7 @@ const Footer = () => {
 
   return (
     <footer className="w-full bg-[#F7F4EF] pt-12 pb-6 flex justify-center items-center">
-      <div className="container !px-5 lg:!px-0 !mx-0">
+      <div className="container !px-5 lg:!px-6 !mx-0">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 lg:gap-10">
           <div className="space-y-4">
             <h3 className="text-md font-semibold text-gray-900">
